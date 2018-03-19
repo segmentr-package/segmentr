@@ -1,0 +1,56 @@
+# Function to calculate maximum loglikehood of a discrete multivariate distribution.
+# Each *row* corresponds to a single observation.
+
+multivariate <- function(X)
+{
+	ip <- table( apply(as.matrix(X),1,paste0,collapse="") )
+	n <- nrow(X)
+	pip <- ip/sum(ip)
+	loglik <-  sum( ip*log(pip) )
+	df <- length(pip)
+	# tt <- table(as.data.frame(X))
+	# ptt <- tt/nrow(X)
+	# multivariate <-  sum( tt[tt>0]*log(ptt[ptt>0]) )
+	c(loglik,df)
+}
+
+
+# Function that implements the dynamic programming algorithm
+
+r_segment <- function(x,segmax=ncol(x),loglikfun=multivariate,c1=1)
+{
+	m <- ncol(x)
+	n <- nrow(x)
+#	alf <- length(levels(factor(x)))
+	z <- matrix(ncol=m,nrow=segmax)
+	r <- matrix(ncol=m,nrow=segmax-1)
+	for(i in 1:m){
+		w <- loglikfun( as.matrix(x[,1:i]) )
+		z[1,i] <- w[1] + c1*sqrt(n)# - c2*(w[2]-1)
+	}
+	for(k in 2:segmax){
+		for(i in k:m){
+			q <- c()
+			for(j in (k-1):(i-1)){
+				w <- loglikfun( as.matrix(x[,(j+1):i]) )
+				q <- append(q, z[k-1,j] + w[1] + c1*sqrt(n))# - c2*(w[2]-1) )
+			}
+			z[k,i] <- max(q)
+			r[k-1,i] <- which.max(q) + k - 2
+		}
+	}
+#	print(z[,m])
+	segshat <- which.max(z[,m])
+	if (segshat > 1){
+		segs <- r[segshat-1,m]
+		if( segshat > 2 ) for(k in (segshat-1):2) segs <- c(r[k-1,segs[1]],segs)
+	}
+	else segs <- c()
+	segs
+}
+
+segment <- function(x, loglikfun=multivariate)
+{
+  segment_base(x, loglikfun) + 2
+}
+
