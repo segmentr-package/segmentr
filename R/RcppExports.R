@@ -5,7 +5,11 @@ rcpp_hello <- function() {
     .Call('_segmentr_rcpp_hello', PACKAGE = 'segmentr')
 }
 
-segment_base <- function(x, loglikfun) {
-    .Call('_segmentr_segment_base', PACKAGE = 'segmentr', x, loglikfun)
+multivariate <- function(x) {
+    .Call('_segmentr_multivariate', PACKAGE = 'segmentr', x)
+}
+
+segment_base <- function(x, loglikmethod, r_loglikfun) {
+    .Call('_segmentr_segment_base', PACKAGE = 'segmentr', x, loglikmethod, r_loglikfun)
 }
 

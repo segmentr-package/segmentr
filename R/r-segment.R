@@ -1,16 +1,14 @@
 # Function to calculate maximum loglikehood of a discrete multivariate distribution.
 # Each *row* corresponds to a single observation.
 
-multivariate <- function(X)
+#' @example
+r_multivariate <- function(X)
 {
 	ip <- table( apply(as.matrix(X),1,paste0,collapse="") )
 	n <- nrow(X)
 	pip <- ip/sum(ip)
 	loglik <-  sum( ip*log(pip) )
 	df <- length(pip)
-	# tt <- table(as.data.frame(X))
-	# ptt <- tt/nrow(X)
-	# multivariate <-  sum( tt[tt>0]*log(ptt[ptt>0]) )
 	c(loglik,df)
 }
 
@@ -18,7 +16,7 @@ multivariate <- function(X)
 # Function that implements the dynamic programming algorithm
 
 #' @export
-r_segment <- function(x,segmax=ncol(x),loglikfun=multivariate,c1=1)
+r_segment <- function(x,segmax=ncol(x),loglikfun=r_multivariate,c1=1)
 {
 	m <- ncol(x)
 	n <- nrow(x)
@@ -51,8 +49,14 @@ r_segment <- function(x,segmax=ncol(x),loglikfun=multivariate,c1=1)
 }
 
 #' @export
-segment <- function(x, loglikfun=multivariate)
+segment <- function(x, loglikfun="multivariate")
 {
-  segment_base(x, loglikfun) + 2
+  if (loglikfun %in% c("multivariate")) {
+    segment_base(x, loglikfun, identity) + 2
+  } else if (typeof(loglikfun) == "closure") {
+    segment_base(x, "r_function", loglikfun) + 2
+  } else {
+    stop("invalid loglikfun")
+  }
 }
 

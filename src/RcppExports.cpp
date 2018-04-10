@@ -15,22 +15,35 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// segment_base
-std::vector<int> segment_base(NumericMatrix x, Function loglikfun);
-RcppExport SEXP _segmentr_segment_base(SEXP xSEXP, SEXP loglikfunSEXP) {
+// multivariate
+NumericVector multivariate(NumericMatrix x);
+RcppExport SEXP _segmentr_multivariate(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    Rcpp::traits::input_parameter< Function >::type loglikfun(loglikfunSEXP);
-    rcpp_result_gen = Rcpp::wrap(segment_base(x, loglikfun));
+    rcpp_result_gen = Rcpp::wrap(multivariate(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// segment_base
+std::vector<int> segment_base(NumericMatrix x, std::string loglikmethod, Function r_loglikfun);
+RcppExport SEXP _segmentr_segment_base(SEXP xSEXP, SEXP loglikmethodSEXP, SEXP r_loglikfunSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< std::string >::type loglikmethod(loglikmethodSEXP);
+    Rcpp::traits::input_parameter< Function >::type r_loglikfun(r_loglikfunSEXP);
+    rcpp_result_gen = Rcpp::wrap(segment_base(x, loglikmethod, r_loglikfun));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
     {"_segmentr_rcpp_hello", (DL_FUNC) &_segmentr_rcpp_hello, 0},
-    {"_segmentr_segment_base", (DL_FUNC) &_segmentr_segment_base, 2},
+    {"_segmentr_multivariate", (DL_FUNC) &_segmentr_multivariate, 1},
+    {"_segmentr_segment_base", (DL_FUNC) &_segmentr_segment_base, 3},
     {NULL, NULL, 0}
 };
 
