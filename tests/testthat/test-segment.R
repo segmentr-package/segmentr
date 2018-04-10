@@ -28,11 +28,11 @@ simulate3.2 = function(N)
 test_that("correctly identify independent points", {
   set.seed(123)
   data <- simulate2.1(1000)
-  points <- segment(data)
+  points <- segment(data, alf=2)
   expect_equal(points, c(5, 10))
 
 
   data <- simulate3.2(1000)
-  points <- segment(data)
-  expect_equal(points, c(10))
+  points <- segment(data, alf=3)
+  expect_equal(points, c(5, 10))
 })
