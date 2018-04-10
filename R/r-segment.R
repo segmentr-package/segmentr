@@ -16,7 +16,7 @@ r_multivariate <- function(X)
 # Function that implements the dynamic programming algorithm
 
 #' @export
-r_segment <- function(x,segmax=ncol(x),loglikfun=multivariate,c1=1)
+segment <- function(x,segmax=ncol(x),loglikfun=multivariate,c1=1)
 {
 	m <- ncol(x)
 	n <- nrow(x)
@@ -46,18 +46,6 @@ r_segment <- function(x,segmax=ncol(x),loglikfun=multivariate,c1=1)
 	}
 	else segs <- c()
 	segs
-}
-
-#' @export
-segment <- function(x, loglikfun="multivariate")
-{
-  if (loglikfun %in% c("multivariate")) {
-    segment_base(x, loglikfun, identity) + 2
-  } else if (typeof(loglikfun) == "closure") {
-    segment_base(x, "r_function", loglikfun) + 2
-  } else {
-    stop("invalid loglikfun")
-  }
 }
 
 #' @export

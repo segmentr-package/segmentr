@@ -28,20 +28,9 @@ simulate3.2 = function(N)
 test_that("correctly identify independent points", {
   set.seed(123)
   data <- simulate2.1(1000)
-  points <- r_segment(data)
-  expect_equal(points, c(5, 10))
-
-
-  data <- simulate3.2(1000)
-  points <- r_segment(data)
-  expect_equal(points, c(10))
-})
-
-test_that("native code returns the same results", {
-  set.seed(123)
-  data <- simulate2.1(1000)
   points <- segment(data)
   expect_equal(points, c(5, 10))
+
 
   data <- simulate3.2(1000)
   points <- segment(data)

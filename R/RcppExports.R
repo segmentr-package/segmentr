@@ -9,7 +9,3 @@ multivariate <- function(x) {
     .Call('_segmentr_multivariate', PACKAGE = 'segmentr', x)
 }
 
-segment_base <- function(x, loglikmethod, r_loglikfun) {
-    .Call('_segmentr_segment_base', PACKAGE = 'segmentr', x, loglikmethod, r_loglikfun)
-}
-
