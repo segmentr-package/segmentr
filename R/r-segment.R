@@ -16,7 +16,7 @@ r_multivariate <- function(X)
 # Function that implements the dynamic programming algorithm
 
 #' @export
-r_segment <- function(x,segmax=ncol(x),loglikfun=r_multivariate,c1=1)
+r_segment <- function(x,segmax=ncol(x),loglikfun=multivariate,c1=1)
 {
 	m <- ncol(x)
 	n <- nrow(x)
