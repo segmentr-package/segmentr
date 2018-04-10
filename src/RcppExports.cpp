@@ -16,7 +16,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // multivariate
-NumericVector multivariate(NumericMatrix x);
+double multivariate(NumericMatrix x);
 RcppExport SEXP _segmentr_multivariate(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

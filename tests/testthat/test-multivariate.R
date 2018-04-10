@@ -17,8 +17,8 @@ test_that("correctly calculates multivariate", {
   data <- simulate2.1(1000)
 
   points <- r_multivariate(data)
-  expect_equal(points, c(-4121.265, 64.0), tolerance=0.1)
+  expect_equal(points, -4121.265, tolerance=0.1)
 
   points <- multivariate(data)
-  expect_equal(points, c(-4121.265, 64.0), tolerance=0.1)
+  expect_equal(points, -4121.265, tolerance=0.1)
 })

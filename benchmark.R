@@ -13,10 +13,13 @@ simulate2.1 = function(N)
 }
 
 set.seed(123)
-data <- simulate2.1(1000)
+data <- simulate2.1(5000)
 
 microbenchmark(
-  r_segment(data),
-  segment(data),
+  r_segment(data, loglikfun = multivariate),
+  r_segment(data, loglikfun = r_multivariate),
+  segment(data, loglikfun = "multivariate"),
+  hieralg(data, loglikfun = multivariate),
+  hieralg(data, loglikfun = r_multivariate),
   times = 5
 )

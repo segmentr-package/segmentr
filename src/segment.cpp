@@ -22,7 +22,7 @@ struct compareByRows {
 typedef std::map<NumericMatrix::Row, int, compareByRows> rowComparisonMap;
 
 // [[Rcpp::export]]
-NumericVector multivariate(NumericMatrix x) {
+double multivariate(NumericMatrix x) {
   rowComparisonMap myMap;
 
   for (int i = 0; i < x.nrow(); i++) {
@@ -40,15 +40,16 @@ NumericVector multivariate(NumericMatrix x) {
   NumericVector partial_probs = values / sum(values);
   double loglik = sum(values * log(partial_probs));
   int df = values.size();
-  return NumericVector::create(loglik, df);
+  return loglik;
 }
 
-inline NumericVector call_loglikfun(std::string loglikmethod, Function r_loglikfun, NumericMatrix x) {
+inline double call_loglikfun(std::string loglikmethod, Function r_loglikfun, NumericMatrix x) {
   if(loglikmethod == "multivariate") {
     return multivariate(x);
   }
 
-  return r_loglikfun(x);
+  NumericVector ret = r_loglikfun(x);
+  return ret[0];
 }
 
 // [[Rcpp::export]]
@@ -61,16 +62,16 @@ std::vector<int> segment_base(NumericMatrix x, std::string loglikmethod, Functio
 	NumericMatrix r(segmax - 1, m);
 
 	for (int i = 0; i < m; i++) {
-	  NumericVector w = call_loglikfun(loglikmethod, r_loglikfun, x(_, Range(0, i)));
-	  z(0, i) = w[0] + 1.0 * c1 * sqrt(n);
+	  double loglik = call_loglikfun(loglikmethod, r_loglikfun, x(_, Range(0, i)));
+	  z(0, i) = loglik + 1.0 * c1 * sqrt(n);
 	}
 
 	for (int k = 1; k < segmax; k++) {
 	  for (int i = k; i < m; i++) {
       std::vector<double> q;
 	    for (int j = k - 1; j <= i - 1; j++) {
-	      NumericVector w = call_loglikfun(loglikmethod, r_loglikfun, x(_, Range(j + 1, i)));
-	      q.push_back(z(k - 1, j) + w[0] + 1.0 * c1 * sqrt(n));
+	      double loglik = call_loglikfun(loglikmethod, r_loglikfun, x(_, Range(j + 1, i)));
+	      q.push_back(z(k - 1, j) + loglik + 1.0 * c1 * sqrt(n));
 	    }
 
 

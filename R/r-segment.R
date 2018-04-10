@@ -9,7 +9,7 @@ r_multivariate <- function(X)
 	pip <- ip/sum(ip)
 	loglik <-  sum( ip*log(pip) )
 	df <- length(pip)
-	c(loglik,df)
+	loglik
 }
 
 
@@ -60,3 +60,28 @@ segment <- function(x, loglikfun="multivariate")
   }
 }
 
+#' @export
+hieralg <- function(x,ini=1,loglikfun=multivariate,c=1)
+{
+  m <- ncol(x)
+  n <- nrow(x)
+  #	alf <- length(levels(factor(x)))
+  z <- c()
+  if(m>1){
+    for(i in 1:(m-1))
+      z <- c(z,loglikfun(as.matrix(x[,1:i]))[1]
+             + loglikfun(as.matrix(x[,(i+1):m]))[1] + 2*c*sqrt(n))
+  }
+  z <- c(z,loglikfun(as.matrix(x))[1] + c*sqrt(n)	)
+  k <- which.max(z)
+  segs <- c()
+  if( k < m ){
+    segs <- k+ini-1
+    k1 <- hieralg(as.matrix(x[,1:k]),ini,loglikfun,c)
+    if(length(k1) > 0) segs <- union(segs,k1)
+    k2 <- hieralg(as.matrix(x[,(k+1):m]),ini=ini+k,loglikfun,c)
+    if(length(k2) > 0) segs <- union(segs,k2)
+  }
+  if (length(segs) > 0) segs <- sort(segs)
+  segs
+}
