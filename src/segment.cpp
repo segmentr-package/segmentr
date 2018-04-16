@@ -22,7 +22,7 @@ struct compareByRows {
 typedef std::map<NumericMatrix::Row, int, compareByRows> rowComparisonMap;
 
 // [[Rcpp::export]]
-double multivariate(NumericMatrix x) {
+double cpp_multivariate(NumericMatrix x) {
   rowComparisonMap myMap;
 
   for (int i = 0; i < x.nrow(); i++) {

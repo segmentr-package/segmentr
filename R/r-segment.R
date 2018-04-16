@@ -1,15 +1,33 @@
 # Function to calculate maximum loglikehood of a discrete multivariate distribution.
 # Each *row* corresponds to a single observation.
 
-#' @example
-r_multivariate <- function(X)
+#' @export
+r_multivariate <- function(X, na.omit=TRUE)
 {
+  X <- as.matrix(X)
+
+  if (na.omit) {
+    X <- na.omit(X)
+  }
+
   ip <- table( apply(as.matrix(X),1,paste0,collapse="") )
   n <- nrow(X)
   pip <- ip/sum(ip)
   loglik <-  sum( ip*log(pip) )
   df <- length(pip)
   loglik
+}
+
+#' @export
+multivariate <- function(X, na.omit=TRUE)
+{
+  X <- as.matrix(X)
+
+  if (na.omit) {
+    X <- na.omit(X)
+  }
+
+  cpp_multivariate(X)
 }
 
 

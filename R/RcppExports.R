@@ -5,7 +5,7 @@ rcpp_hello <- function() {
     .Call('_segmentr_rcpp_hello', PACKAGE = 'segmentr')
 }
 
-multivariate <- function(x) {
-    .Call('_segmentr_multivariate', PACKAGE = 'segmentr', x)
+cpp_multivariate <- function(x) {
+    .Call('_segmentr_cpp_multivariate', PACKAGE = 'segmentr', x)
 }
 

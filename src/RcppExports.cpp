@@ -15,21 +15,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// multivariate
-double multivariate(NumericMatrix x);
-RcppExport SEXP _segmentr_multivariate(SEXP xSEXP) {
+// cpp_multivariate
+double cpp_multivariate(NumericMatrix x);
+RcppExport SEXP _segmentr_cpp_multivariate(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(multivariate(x));
+    rcpp_result_gen = Rcpp::wrap(cpp_multivariate(x));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
     {"_segmentr_rcpp_hello", (DL_FUNC) &_segmentr_rcpp_hello, 0},
-    {"_segmentr_multivariate", (DL_FUNC) &_segmentr_multivariate, 1},
+    {"_segmentr_cpp_multivariate", (DL_FUNC) &_segmentr_cpp_multivariate, 1},
     {NULL, NULL, 0}
 };
 
