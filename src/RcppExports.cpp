@@ -5,16 +5,6 @@
 
 using namespace Rcpp;
 
-// rcpp_hello
-List rcpp_hello();
-RcppExport SEXP _segmentr_rcpp_hello() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello());
-    return rcpp_result_gen;
-END_RCPP
-}
 // cpp_multivariate
 double cpp_multivariate(NumericMatrix x);
 RcppExport SEXP _segmentr_cpp_multivariate(SEXP xSEXP) {
@@ -28,7 +18,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_segmentr_rcpp_hello", (DL_FUNC) &_segmentr_rcpp_hello, 0},
     {"_segmentr_cpp_multivariate", (DL_FUNC) &_segmentr_cpp_multivariate, 1},
     {NULL, NULL, 0}
 };
