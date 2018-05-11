@@ -30,7 +30,7 @@ multivariate <- function(X, na_action=na.omit)
 # Function that implements the dynamic programming algorithm
 
 #' @export
-segment <- function(x,segmax=ncol(x),loglikfun=multivariate,alf=2,c1=0.5,c2=0.5)
+segment <- function(x,segmax=ncol(x),loglikfun=multivariate, penality = function(x) 0)
 {
   m <- ncol(x)
   n <- nrow(x)
@@ -38,20 +38,20 @@ segment <- function(x,segmax=ncol(x),loglikfun=multivariate,alf=2,c1=0.5,c2=0.5)
   r <- matrix(ncol=m,nrow=segmax-1)
   for(i in 1:m){
     w <- loglikfun( as.matrix(x[,1:i]) )
-    z[1,i] <- w - c1*alf^i*log(n)
+    z[1,i] <- w - penality(x[, 1:i, drop=FALSE])
   }
   for(k in 2:segmax){
     for(i in k:m){
       q <- c()
       for(j in (k-1):(i-1)){
-        w <- loglikfun( as.matrix(x[,(j+1):i]) )
-        q <- append(q, z[k-1,j] + w - c1*alf^(i-j)*log(n))
+        w <- loglikfun( as.matrix(x[,(j+1):i, drop=FALSE]) )
+        q <- c(q, z[k-1,j] + w - penality(x[, (j+1):i, drop=FALSE]))
       }
       z[k,i] <- max(q)
       r[k-1,i] <- which.max(q) + k - 2
     }
   }
-  bic <- z[,m] + c2*(1:segmax)*log(n)
+  bic <- z[,m]
   segshat <- which.max(bic)
   if (segshat > 1){
     segs <- r[segshat-1,m]
