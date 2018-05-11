@@ -19,14 +19,10 @@ r_multivariate <- function(X, na.omit=TRUE)
 }
 
 #' @export
-multivariate <- function(X, na.omit=TRUE)
+multivariate <- function(X, na_action=na.omit)
 {
   X <- as.matrix(X)
-
-  if (na.omit) {
-    X <- na.omit(X)
-  }
-
+  X <- na_action(X)
   cpp_multivariate(X)
 }
 
