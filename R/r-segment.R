@@ -1,8 +1,12 @@
-# Function to calculate maximum loglikehood of a discrete multivariate distribution.
-# Each *row* corresponds to a single observation.
-
+#' Estimated Discrete Maximum Likelihood implemented in R, used to benchmark
+#' agaisnt the Rcpp implementation.
+#'
+#' @param X a matrix to estimate the multivariate of. Each row is considered
+#'   to be an observation, and each column is considered to be a different
+#'   variable.
+#' @param na.omit If true, omits na from the dataset.
+#' @return the estimate of the Discrite Maximum Likelyhood for the dataframe provided.
 #' @export
-#' @
 r_multivariate <- function(X, na.omit=TRUE)
 {
   X <- as.matrix(X)
@@ -19,6 +23,13 @@ r_multivariate <- function(X, na.omit=TRUE)
   loglik
 }
 
+#' Efficient Discrete Maximum Likelihood estimation function.
+#'
+#' @param X a matrix to estimate the multivariate of. Each row is considered
+#'   to be an observation, and each column is considered to be a different
+#'   variable.
+#' @param na_action A function that is applied to the `X` parameter. Defaults to `na.omit` function.
+#' @return the estimate of the Discrite Maximum Likelyhood for the dataframe provided.
 #' @export
 multivariate <- function(X, na_action=na.omit)
 {
@@ -28,8 +39,18 @@ multivariate <- function(X, na_action=na.omit)
 }
 
 
-# Function that implements the dynamic programming algorithm
-
+#' Function that implements the dynamic programming algorithm, with the intent
+#' of finding points of independent segments for which the log likelihood
+#' function is maximized.
+#'
+#' @param x A matrix for which we wish to estimate the independent segments of.
+#' @param loglikfun log likelihood estimation funciton, which will be applied to
+#'   all possible combinations of segments. Because it's executed many times,
+#'   it's likely to be the slow part of the function execution, so it's advised
+#'   that this function should have a performant, native implementation.
+#'   Defaults to a performant `multivariate` estimation.
+#' @param penalty a function that determines the penalty for the segment. It's
+#'   called with the segment being analysed as it's only parameter.
 #' @export
 segment <- function(x,segmax=ncol(x),loglikfun=multivariate, penality = function(x) 0)
 {
@@ -62,6 +83,25 @@ segment <- function(x,segmax=ncol(x),loglikfun=multivariate, penality = function
   segs
 }
 
+#' Hierarchical implementation of the `segment` function. It simplifies the
+#' comparisons to be made assuming the data is hierarchical, i.e. a segment
+#' found in a first trial is assumed to contain only segments independent of the
+#' rest of the data. This algorithm usually runs very fast, but is known to
+#' yield less accurate results, possibly now finding all the correct segment
+#' break points at their correct locaitons.
+#'
+#' @param x A matrix for which we wish to estimate the independent segments of.
+#' @param loglikfun log likelihood estimation funciton, which will be applied to
+#'   all possible combinations of segments. Because it's executed many times,
+#'   it's likely to be the slow part of the function execution, so it's advised
+#'   that this function should have a performant, native implementation.
+#'   Defaults to a performant `multivariate` estimation.
+#' @param penalty a function that determines the penalty for the segment. It's
+#'   called with the segment being analysed as it's only parameter.
+#' @param ini a initial value.
+#' @param alf the length of the alphabes used in the data.
+#' @param c1 first constant penalty
+#' @param c2 second constant penalty
 #' @export
 hieralg <- function(x,ini=1,loglikfun=multivariate,alf=2,c1=0.5,c2=0.5)
 {
