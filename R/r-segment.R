@@ -2,6 +2,7 @@
 # Each *row* corresponds to a single observation.
 
 #' @export
+#' @
 r_multivariate <- function(X, na.omit=TRUE)
 {
   X <- as.matrix(X)
