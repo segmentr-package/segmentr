@@ -114,30 +114,38 @@ segment <- function(data, max_segments=ncol(data), log_likelihood=multivariate, 
 #'   Defaults to a performant `multivariate` estimation.
 #' @param penalty a function that determines the penalty for the segment. It's
 #'   called with the segment being analysed as it's only parameter.
-#' @param ini a initial value.
-#' @param alf the length of the alphabes used in the data.
-#' @param c1 first constant penalty
-#' @param c2 second constant penalty
+#' @param initial_position a initial position for the recursive algorithm.
 #' @export
-hieralg <- function(x,ini=1,loglikfun=multivariate,alf=2,c1=0.5,c2=0.5)
+hieralg <- function(x,initial_position=1,log_likelihood=multivariate,penalty = function(x) 0)
 {
-  m <- ncol(as.matrix(x))
-  n <- nrow(as.matrix(x))
+  m <- ncol(x)
   z <- c()
   if(m>1){
-    for(i in 1:(m-1))
-      z <- c(z,loglikfun(as.matrix(x[,1:i]))[1] - c1*alf^i*log(n)
-             + loglikfun(as.matrix(x[,(i+1):m]))[1] - c1*alf^(m-i)*log(n)) + c2*log(n)
+    for(i in 1:(m-1)) {
+      seg_left <- slice_segment(x, 1, i)
+      seg_right <- slice_segment(x, i + 1, m)
+      z <- c(z,log_likelihood(seg_left) - penalty(seg_left)
+             + log_likelihood(seg_right) - penalty(seg_right))
+   }
   }
-  z <- c(z,loglikfun(as.matrix(x))[1] - c1*alf^m*log(n))
+  z <- c(z, log_likelihood(x) - penalty(x))
   k <- which.max(z)
   segs <- c()
   if( k < m ){
-    segs <- k+ini-1
-    k1 <- hieralg(as.matrix(x[,1:k]),ini,loglikfun,alf,c1,c2)
-    if(length(k1) > 0) segs <- union(segs,k1)
-    k2 <- hieralg(as.matrix(x[,(k+1):m]),ini=ini+k,loglikfun,alf,c1,c2)
-    if(length(k2) > 0) segs <- union(segs,k2)
+    segs <- k+initial_position-1
+    segment_left <- slice_segment(x, 1, k)
+    k1 <- hieralg(segment_left,initial_position,log_likelihood,penalty)
+
+    if(length(k1) > 0) {
+      segs <- union(segs,k1)
+    }
+
+    segment_right <- slice_segment(x, k + 1, m)
+    k2 <- hieralg(segment_right,initial_position=initial_position+k,log_likelihood, penalty)
+
+    if(length(k2) > 0) {
+      segs <- union(segs,k2)
+    }
   }
   if (length(segs) > 0) segs <- sort(segs)
   segs

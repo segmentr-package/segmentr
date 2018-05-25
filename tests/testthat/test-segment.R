@@ -28,7 +28,7 @@ simulate3.2 = function(N)
 test_that("correctly identify independent points", {
   set.seed(123)
   data <- simulate2.1(1000)
-  points <- segment(data, penalty = function(X) (2 ^ ncol(X)) * log(nrow(X)))
+  points <- segment(data, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)))
   expect_equal(points, c(5, 10))
 
 
