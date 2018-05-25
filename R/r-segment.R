@@ -1,3 +1,5 @@
+slice_segment <- function (data, start, end) data[, start:end, drop=FALSE]
+
 #' Estimated Discrete Maximum Likelihood implemented in R, used to benchmark
 #' agaisnt the Rcpp implementation.
 #'
@@ -43,8 +45,10 @@ multivariate <- function(X, na_action=na.omit)
 #' of finding points of independent segments for which the log likelihood
 #' function is maximized.
 #'
-#' @param x A matrix for which we wish to estimate the independent segments of.
-#' @param loglikfun log likelihood estimation funciton, which will be applied to
+#' @param data A matrix for which we wish to estimate the independent segments of.
+#' @param max_segments the max number of segments allowed to be found. Defaults
+#'   to the number of columns in `x`.
+#' @param log_likelihood log likelihood estimation funciton, which will be applied to
 #'   all possible combinations of segments. Because it's executed many times,
 #'   it's likely to be the slow part of the function execution, so it's advised
 #'   that this function should have a performant, native implementation.
@@ -52,35 +56,47 @@ multivariate <- function(X, na_action=na.omit)
 #' @param penalty a function that determines the penalty for the segment. It's
 #'   called with the segment being analysed as it's only parameter.
 #' @export
-segment <- function(x,segmax=ncol(x),loglikfun=multivariate, penality = function(x) 0)
+segment <- function(data, max_segments=ncol(data), log_likelihood=multivariate, penalty = function(data) 0)
 {
-  m <- ncol(x)
-  n <- nrow(x)
-  z <- matrix(ncol=m,nrow=segmax)
-  r <- matrix(ncol=m,nrow=segmax-1)
-  for(i in 1:m){
-    w <- loglikfun( as.matrix(x[,1:i]) )
-    z[1,i] <- w - penality(x[, 1:i, drop=FALSE])
+  num_variables <- ncol(data)
+  segment_likelihoods <- matrix(nrow=max_segments, ncol=num_variables)
+  max_likehood_pos <- matrix(nrow=max_segments - 1, ncol=num_variables)
+
+  for(seg_end in 1:num_variables){
+    segment = slice_segment(data, 1, seg_end)
+    segment_likelihoods[1, seg_end] <- log_likelihood(segment) - penalty(segment)
   }
-  for(k in 2:segmax){
-    for(i in k:m){
-      q <- c()
-      for(j in (k-1):(i-1)){
-        w <- loglikfun( as.matrix(x[,(j+1):i, drop=FALSE]) )
-        q <- c(q, z[k-1,j] + w - penality(x[, (j+1):i, drop=FALSE]))
+
+  for(seg_start in 2:max_segments){
+    for(seg_end in seg_start:num_variables){
+      segment_likelihood <- function(preceding_likelihood, index) {
+        segment <- slice_segment(data, index, seg_end)
+        preceding_likelihood + log_likelihood(segment) - penalty(segment)
       }
-      z[k,i] <- max(q)
-      r[k-1,i] <- which.max(q) + k - 2
+
+      indices <- seg_start:seg_end
+      previous_likelihoods <- segment_likelihoods[seg_start - 1, indices - 1]
+
+      segment_tries <- mapply(segment_likelihood, previous_likelihoods, indices)
+
+      segment_likelihoods[seg_start, seg_end] <- max(segment_tries)
+      max_likehood_pos[seg_start - 1, seg_end] <- which.max(segment_tries) + seg_start - 2
     }
   }
-  bic <- z[,m]
-  segshat <- which.max(bic)
-  if (segshat > 1){
-    segs <- r[segshat-1,m]
-    if( segshat > 2 ) for(k in (segshat-1):2) segs <- c(r[k-1,segs[1]],segs)
+
+  last_break_pos <- which.max(segment_likelihoods[,num_variables])
+
+  if (last_break_pos <= 1) {
+    return(c())
   }
-  else segs <- c()
-  segs
+
+  break_positions <- c(num_variables)
+
+  for(break_pos in last_break_pos:2) {
+    break_positions <- c(max_likehood_pos[break_pos - 1, break_positions[1]], break_positions)
+  }
+
+  break_positions <- head(break_positions, n=-1)
 }
 
 #' Hierarchical implementation of the `segment` function. It simplifies the

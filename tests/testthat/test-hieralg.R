@@ -1,4 +1,4 @@
-context("segment")
+context("hieralg")
 
 simulate2.1 = function(N)
 {
