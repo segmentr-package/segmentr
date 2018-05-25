@@ -6,13 +6,16 @@
 of finding points of independent segments for which the log likelihood
 function is maximized.}
 \usage{
-segment(x, segmax = ncol(x), loglikfun = multivariate,
-  penality = function(x) 0)
+segment(data, max_segments = ncol(data), log_likelihood = multivariate,
+  penalty = function(data) 0)
 }
 \arguments{
-\item{x}{A matrix for which we wish to estimate the independent segments of.}
+\item{data}{A matrix for which we wish to estimate the independent segments of.}
 
-\item{loglikfun}{log likelihood estimation funciton, which will be applied to
+\item{max_segments}{the max number of segments allowed to be found. Defaults
+to the number of columns in `x`.}
+
+\item{log_likelihood}{log likelihood estimation funciton, which will be applied to
 all possible combinations of segments. Because it's executed many times,
 it's likely to be the slow part of the function execution, so it's advised
 that this function should have a performant, native implementation.

@@ -9,28 +9,22 @@ rest of the data. This algorithm usually runs very fast, but is known to
 yield less accurate results, possibly now finding all the correct segment
 break points at their correct locaitons.}
 \usage{
-hieralg(x, ini = 1, loglikfun = multivariate, alf = 2, c1 = 0.5,
-  c2 = 0.5)
+hieralg(x, initial_position = 1, log_likelihood = multivariate,
+  penalty = function(x) 0)
 }
 \arguments{
 \item{x}{A matrix for which we wish to estimate the independent segments of.}
 
-\item{ini}{a initial value.}
+\item{initial_position}{a initial position for the recursive algorithm.}
+
+\item{penalty}{a function that determines the penalty for the segment. It's
+called with the segment being analysed as it's only parameter.}
 
 \item{loglikfun}{log likelihood estimation funciton, which will be applied to
 all possible combinations of segments. Because it's executed many times,
 it's likely to be the slow part of the function execution, so it's advised
 that this function should have a performant, native implementation.
 Defaults to a performant `multivariate` estimation.}
-
-\item{alf}{the length of the alphabes used in the data.}
-
-\item{c1}{first constant penalty}
-
-\item{c2}{second constant penalty}
-
-\item{penalty}{a function that determines the penalty for the segment. It's
-called with the segment being analysed as it's only parameter.}
 }
 \description{
 Hierarchical implementation of the `segment` function. It simplifies the
