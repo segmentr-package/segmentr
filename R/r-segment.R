@@ -116,10 +116,11 @@ segment <- function(data, max_segments=ncol(data), log_likelihood=multivariate, 
 #'   called with the segment being analysed as it's only parameter.
 #' @param initial_position a initial position for the recursive algorithm.
 #' @export
-hieralg <- function(x,initial_position=1,log_likelihood=multivariate,penalty = function(x) 0)
+hieralg <- function(x, initial_position=1, log_likelihood=multivariate, penalty = function(x) 0)
 {
   num_variables <- ncol(x)
   segment_likelihoods <- numeric(num_variables)
+
   if(num_variables > 1){
     for(i in 1:(num_variables - 1)) {
       seg_left <- slice_segment(x, 1, i)
@@ -129,6 +130,7 @@ hieralg <- function(x,initial_position=1,log_likelihood=multivariate,penalty = f
       segment_likelihoods[i] <- likelihood_left + likelihood_right
     }
   }
+
   segment_likelihoods[num_variables] <- log_likelihood(x) - penalty(x)
   current_position <- which.max(segment_likelihoods)
 
