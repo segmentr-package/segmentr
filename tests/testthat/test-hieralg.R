@@ -31,7 +31,6 @@ test_that("identifies points differently, if we take into account the different 
   points <- hieralg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)))
   expect_equal(points, c(5, 10))
 
-
   data <- simulate3.2(5000)
   points <- hieralg(data, penalty = function(X) (0.2* 3 ^ ncol(X)) * log(nrow(X)))
   expect_equal(points, c(7, 10))

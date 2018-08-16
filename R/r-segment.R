@@ -107,7 +107,7 @@ segment <- function(data, max_segments=ncol(data), log_likelihood=multivariate, 
 #' break points at their correct locaitons.
 #'
 #' @param x A matrix for which we wish to estimate the independent segments of.
-#' @param loglikfun log likelihood estimation funciton, which will be applied to
+#' @param log_likelihood log likelihood estimation funciton, which will be applied to
 #'   all possible combinations of segments. Because it's executed many times,
 #'   it's likely to be the slow part of the function execution, so it's advised
 #'   that this function should have a performant, native implementation.
@@ -118,35 +118,29 @@ segment <- function(data, max_segments=ncol(data), log_likelihood=multivariate, 
 #' @export
 hieralg <- function(x,initial_position=1,log_likelihood=multivariate,penalty = function(x) 0)
 {
-  m <- ncol(x)
-  z <- c()
-  if(m>1){
-    for(i in 1:(m-1)) {
+  num_variables <- ncol(x)
+  segment_likelihoods <- numeric(num_variables)
+  if(num_variables > 1){
+    for(i in 1:(num_variables - 1)) {
       seg_left <- slice_segment(x, 1, i)
-      seg_right <- slice_segment(x, i + 1, m)
-      z <- c(z,log_likelihood(seg_left) - penalty(seg_left)
-             + log_likelihood(seg_right) - penalty(seg_right))
-   }
-  }
-  z <- c(z, log_likelihood(x) - penalty(x))
-  k <- which.max(z)
-  segs <- c()
-  if( k < m ){
-    segs <- k+initial_position-1
-    segment_left <- slice_segment(x, 1, k)
-    k1 <- hieralg(segment_left,initial_position,log_likelihood,penalty)
-
-    if(length(k1) > 0) {
-      segs <- union(segs,k1)
-    }
-
-    segment_right <- slice_segment(x, k + 1, m)
-    k2 <- hieralg(segment_right,initial_position=initial_position+k,log_likelihood, penalty)
-
-    if(length(k2) > 0) {
-      segs <- union(segs,k2)
+      seg_right <- slice_segment(x, i + 1, num_variables)
+      likelihood_left = log_likelihood(seg_left) - penalty(seg_left)
+      likelihood_right = log_likelihood(seg_right) - penalty(seg_right)
+      segment_likelihoods[i] <- likelihood_left + likelihood_right
     }
   }
-  if (length(segs) > 0) segs <- sort(segs)
-  segs
+  segment_likelihoods[num_variables] <- log_likelihood(x) - penalty(x)
+  current_position <- which.max(segment_likelihoods)
+
+  if (current_position >= num_variables) return(NULL)
+
+  segment_left <- slice_segment(x, 1, current_position)
+  posisions_left <- hieralg(segment_left, initial_position, log_likelihood, penalty)
+
+  segment_right <- slice_segment(x, current_position + 1, num_variables)
+  positions_right <- hieralg(segment_right, initial_position + current_position, log_likelihood, penalty)
+
+  segs <- union(positions_left, current_position + initial_position - 1, positions_right)
+
+  sort(segs)
 }
