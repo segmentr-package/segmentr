@@ -9,7 +9,9 @@ Description: More about what it does (maybe more than one line)
 License: MIT
 Encoding: UTF-8
 LazyData: true
-Imports: Rcpp (>= 0.12.16)
+Imports:
+  Rcpp (>= 0.12.16),
+  parallel
 LinkingTo: Rcpp
 Suggests: testthat
 RoxygenNote: 6.0.1

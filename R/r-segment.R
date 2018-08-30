@@ -119,30 +119,31 @@ segment <- function(data, max_segments=ncol(data), log_likelihood=multivariate, 
 hieralg <- function(x, initial_position=1, log_likelihood=multivariate, penalty = function(x) 0)
 {
   num_variables <- ncol(x)
-  segment_likelihoods <- numeric(num_variables)
+  segment_likelihoods <- sapply(1:num_variables, function (i) {
+    seg_left <- slice_segment(x, 1, i)
+    likelihood_left <- log_likelihood(seg_left) - penalty(seg_left)
 
-  if(num_variables > 1){
-    for(i in 1:(num_variables - 1)) {
-      seg_left <- slice_segment(x, 1, i)
+    likelihood_right <- if (i < num_variables) {
       seg_right <- slice_segment(x, i + 1, num_variables)
-      likelihood_left = log_likelihood(seg_left) - penalty(seg_left)
-      likelihood_right = log_likelihood(seg_right) - penalty(seg_right)
-      segment_likelihoods[i] <- likelihood_left + likelihood_right
+      log_likelihood(seg_right) - penalty(seg_right)
+    } else {
+      0
     }
-  }
 
-  segment_likelihoods[num_variables] <- log_likelihood(x) - penalty(x)
+    likelihood_left + likelihood_right
+  })
+
   current_position <- which.max(segment_likelihoods)
 
   if (current_position >= num_variables) return(NULL)
 
   segment_left <- slice_segment(x, 1, current_position)
-  posisions_left <- hieralg(segment_left, initial_position, log_likelihood, penalty)
+  positions_left <- hieralg(segment_left, initial_position, log_likelihood, penalty)
 
   segment_right <- slice_segment(x, current_position + 1, num_variables)
   positions_right <- hieralg(segment_right, initial_position + current_position, log_likelihood, penalty)
 
-  segs <- union(positions_left, current_position + initial_position - 1, positions_right)
+  segs <- unique(c(positions_left, current_position + initial_position - 1, positions_right))
 
   sort(segs)
 }
