@@ -116,10 +116,37 @@ segment <- function(data, max_segments=ncol(data), log_likelihood=multivariate, 
 #'   called with the segment being analysed as it's only parameter.
 #' @param initial_position a initial position for the recursive algorithm.
 #' @export
-hieralg <- function(x, initial_position=1, log_likelihood=multivariate, penalty = function(x) 0)
+hieralg <- function(
+  x,
+  initial_position=1,
+  log_likelihood=multivariate,
+  penalty = function(x) 0,
+  cluster = NULL
+)
+{
+  segs <- withCluster(cluster, function(cluster) {
+    applyFn <- if (is.null(cluster)) {
+      sapply
+    } else {
+      function(vec, fn) parallel::parSapply(cluster, vec, fn)
+    }
+
+    recursive_hieralg(x, initial_position, log_likelihood, penalty, applyFn)
+  })
+
+  sort(unique(segs))
+}
+
+recursive_hieralg <- function(
+  x,
+  initial_position,
+  log_likelihood,
+  penalty,
+  applyFun
+)
 {
   num_variables <- ncol(x)
-  segment_likelihoods <- sapply(1:num_variables, function (i) {
+  segment_likelihoods <- applyFun(1:num_variables, function (i) {
     seg_left <- slice_segment(x, 1, i)
     likelihood_left <- log_likelihood(seg_left) - penalty(seg_left)
 
@@ -143,7 +170,26 @@ hieralg <- function(x, initial_position=1, log_likelihood=multivariate, penalty 
   segment_right <- slice_segment(x, current_position + 1, num_variables)
   positions_right <- hieralg(segment_right, initial_position + current_position, log_likelihood, penalty)
 
-  segs <- unique(c(positions_left, current_position + initial_position - 1, positions_right))
+  c(positions_left, current_position + initial_position - 1, positions_right)
+}
 
-  sort(segs)
+withCluster <- function (cluster, operator) {
+  if (isTRUE(cluster) || is.numeric(cluster)) {
+    cluster <- if (is.numeric(cluster)){
+      parallel::makeCluster(cluster)
+    } else {
+      parallel::makeCluster(parallel::detectCores())
+    }
+
+    parallel::clusterEvalQ(cluster, require(segmentr))
+    response <- operator(cluster)
+    parallel::stopCluster(cluster)
+    response
+  }
+  else if (is.null(cluster) || isFALSE(cluster)) {
+    operator(cluster)
+  } else {
+    parallel::clusterEvalQ(cluster, require(segmentr))
+    operator(cluster)
+  }
 }

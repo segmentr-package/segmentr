@@ -18,7 +18,15 @@ data <- simulate2.1(5000)
 microbenchmark(
   segment(data, log_likelihood = multivariate),
   segment(data, log_likelihood = r_multivariate),
-  hieralg(data, loglikfun = multivariate),
-  hieralg(data, loglikfun = r_multivariate),
+  hieralg(data, log_likelihood = multivariate),
+  hieralg(data, log_likelihood = r_multivariate),
+  times = 5
+)
+
+data <- simulate2.1(50000)
+c <- parallel::makeCluster(parallel::detectCores())
+microbenchmark(
+  hieralg(data, log_likelihood = multivariate),
+  hieralg(data, log_likelihood = multivariate, cluster = c),
   times = 5
 )

@@ -25,7 +25,7 @@ simulate3.2 = function(N)
 }
 
 
-test_that("identifies points differently, if we take into account the different in algorithm implementation", {
+test_that("identifies points differently, if we take into account the different algorithm implementation", {
   set.seed(1234)
   data <- simulate2.1(2000)
   points <- hieralg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)))
@@ -33,5 +33,21 @@ test_that("identifies points differently, if we take into account the different 
 
   data <- simulate3.2(5000)
   points <- hieralg(data, penalty = function(X) (0.2* 3 ^ ncol(X)) * log(nrow(X)))
+  expect_equal(points, c(7, 10))
+})
+
+test_that("works with a cluster as well", {
+  set.seed(1234)
+  data <- simulate2.1(2000)
+  points <- hieralg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), cluster = TRUE)
+  expect_equal(points, c(5, 10))
+
+  data <- simulate3.2(5000)
+  points <- hieralg(data, penalty = function(X) (0.2* 3 ^ ncol(X)) * log(nrow(X)), cluster = 1)
+  expect_equal(points, c(7, 10))
+
+  cluster <- parallel::makeCluster(1)
+  points <- hieralg(data, penalty = function(X) (0.2* 3 ^ ncol(X)) * log(nrow(X)), cluster = cluster)
+  parallel::stopCluster(cluster)
   expect_equal(points, c(7, 10))
 })
