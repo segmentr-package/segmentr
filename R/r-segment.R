@@ -112,7 +112,7 @@ segment <- function(
     break_positions <- c(max_likehood_pos[break_pos - 1, break_positions[1]], break_positions)
   }
 
-  break_positions <- head(break_positions, n=-1)
+  head(break_positions, n=-1)
 }
 
 get_operator <- function(allow_parallel) {
