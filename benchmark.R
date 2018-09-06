@@ -23,8 +23,18 @@ microbenchmark(
   times = 5
 )
 
+doParallel::registerDoParallel(4)
+
+data <- simulate2.1(10000)
+microbenchmark(
+  segment(data, log_likelihood = multivariate, allow_parallel = FALSE),
+  segment(data, log_likelihood = multivariate, allow_parallel = TRUE),
+  hieralg(data, log_likelihood = multivariate, allow_parallel = FALSE),
+  hieralg(data, log_likelihood = multivariate, allow_parallel = TRUE),
+  times = 5
+)
+
 data <- simulate2.1(50000)
-doParallel::registerDoParallel(1)
 microbenchmark(
   hieralg(data, log_likelihood = multivariate, allow_parallel = FALSE),
   hieralg(data, log_likelihood = multivariate, allow_parallel = TRUE),

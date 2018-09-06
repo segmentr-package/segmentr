@@ -55,20 +55,30 @@ multivariate <- function(X, na_action=na.omit)
 #'   Defaults to a performant `multivariate` estimation.
 #' @param penalty a function that determines the penalty for the segment. It's
 #'   called with the segment being analysed as it's only parameter.
+#' @param allow_parallel allows parallel execution to take place using the
+#'   registered cluster. Defaults to TRUE.
 #' @export
-segment <- function(data, max_segments=ncol(data), log_likelihood=multivariate, penalty = function(data) 0)
+segment <- function(
+  data,
+  max_segments=ncol(data),
+  log_likelihood=multivariate,
+  penalty = function(data) 0,
+  allow_parallel = TRUE
+)
 {
+  `%doOp%` <- get_operator(allow_parallel)
+
   num_variables <- ncol(data)
   segment_likelihoods <- matrix(nrow=max_segments, ncol=num_variables)
   max_likehood_pos <- matrix(nrow=max_segments - 1, ncol=num_variables)
 
-  for(seg_end in 1:num_variables){
+  segment_likelihoods[1, ] <- foreach(seg_end = 1:num_variables, .combine = c, .packages = "segmentr") %doOp% {
     segment = slice_segment(data, 1, seg_end)
-    segment_likelihoods[1, seg_end] <- log_likelihood(segment) - penalty(segment)
+    log_likelihood(segment) - penalty(segment)
   }
 
   for(seg_start in 2:max_segments){
-    for(seg_end in seg_start:num_variables){
+    results <- foreach(seg_end = seg_start:num_variables, .packages = "segmentr") %doOp% {
       segment_likelihood <- function(preceding_likelihood, index) {
         segment <- slice_segment(data, index, seg_end)
         preceding_likelihood + log_likelihood(segment) - penalty(segment)
@@ -79,8 +89,14 @@ segment <- function(data, max_segments=ncol(data), log_likelihood=multivariate, 
 
       segment_tries <- mapply(segment_likelihood, previous_likelihoods, indices)
 
-      segment_likelihoods[seg_start, seg_end] <- max(segment_tries)
-      max_likehood_pos[seg_start - 1, seg_end] <- which.max(segment_tries) + seg_start - 2
+      list(max_likelihood = max(segment_tries), max_likelihood_pos = which.max(segment_tries) + seg_start - 2)
+    }
+
+    for (index in seq_along(results)) {
+      result <- results[[index]]
+      seg_end <- seg_start + index - 1
+      segment_likelihoods[seg_start, seg_end] <- result$max_likelihood
+      max_likehood_pos[seg_start - 1, seg_end] <- result$max_likelihood_pos
     }
   }
 

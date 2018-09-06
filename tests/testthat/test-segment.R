@@ -36,3 +36,17 @@ test_that("correctly identify independent points", {
   points <- segment(data, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)))
   expect_equal(points, c(5, 10))
 })
+
+test_that("works with cluster", {
+  set.seed(123)
+  data_1 <- simulate2.1(1000)
+  data_2 <- simulate3.2(1000)
+
+  doParallel::registerDoParallel(1)
+  points <- segment(data_1, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = TRUE)
+  expect_equal(points, c(5, 10))
+
+  points <- segment(data_2, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
+  expect_equal(points, c(5, 10))
+  doParallel::stopImplicitCluster()
+})
