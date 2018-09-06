@@ -24,9 +24,10 @@ microbenchmark(
 )
 
 data <- simulate2.1(50000)
-c <- parallel::makeCluster(parallel::detectCores())
+doParallel::registerDoParallel(1)
 microbenchmark(
-  hieralg(data, log_likelihood = multivariate),
-  hieralg(data, log_likelihood = multivariate, cluster = c),
+  hieralg(data, log_likelihood = multivariate, allow_parallel = FALSE),
+  hieralg(data, log_likelihood = multivariate, allow_parallel = TRUE),
   times = 5
 )
+doParallel::stopImplicitCluster()

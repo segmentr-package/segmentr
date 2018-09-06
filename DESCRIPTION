@@ -11,7 +11,8 @@ Encoding: UTF-8
 LazyData: true
 Imports:
   Rcpp (>= 0.12.16),
-  parallel
+  foreach
 LinkingTo: Rcpp
-Suggests: testthat
+Suggests: testthat,
+  doParallel
 RoxygenNote: 6.0.1

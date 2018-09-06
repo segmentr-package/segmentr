@@ -99,6 +99,16 @@ segment <- function(data, max_segments=ncol(data), log_likelihood=multivariate, 
   break_positions <- head(break_positions, n=-1)
 }
 
+get_operator <- function(allow_parallel) {
+  if (allow_parallel && foreach::getDoParWorkers() > 1) {
+    foreach::`%dopar%`
+  } else {
+    foreach::`%do%`
+  }
+}
+
+foreach <- foreach::foreach
+
 #' Hierarchical implementation of the `segment` function. It simplifies the
 #' comparisons to be made assuming the data is hierarchical, i.e. a segment
 #' found in a first trial is assumed to contain only segments independent of the
@@ -115,25 +125,18 @@ segment <- function(data, max_segments=ncol(data), log_likelihood=multivariate, 
 #' @param penalty a function that determines the penalty for the segment. It's
 #'   called with the segment being analysed as it's only parameter.
 #' @param initial_position a initial position for the recursive algorithm.
+#' @param allow_parallel allows parallel execution to take place using the
+#'   registered cluster. Defaults to TRUE.
 #' @export
 hieralg <- function(
   x,
   initial_position=1,
   log_likelihood=multivariate,
   penalty = function(x) 0,
-  cluster = NULL
+  allow_parallel = TRUE
 )
 {
-  segs <- withCluster(cluster, function(cluster) {
-    applyFn <- if (is.null(cluster)) {
-      sapply
-    } else {
-      function(vec, fn) parallel::parSapply(cluster, vec, fn)
-    }
-
-    recursive_hieralg(x, initial_position, log_likelihood, penalty, applyFn)
-  })
-
+  segs <- recursive_hieralg(x, initial_position, log_likelihood, penalty, allow_parallel)
   sort(unique(segs))
 }
 
@@ -142,11 +145,13 @@ recursive_hieralg <- function(
   initial_position,
   log_likelihood,
   penalty,
-  applyFun
+  allow_parallel
 )
 {
+  `%doOp%` <- get_operator(allow_parallel)
   num_variables <- ncol(x)
-  segment_likelihoods <- applyFun(1:num_variables, function (i) {
+
+  segment_likelihoods <- foreach(i = 1:num_variables, .combine = c, .packages = c("segmentr")) %doOp% {
     seg_left <- slice_segment(x, 1, i)
     likelihood_left <- log_likelihood(seg_left) - penalty(seg_left)
 
@@ -158,7 +163,7 @@ recursive_hieralg <- function(
     }
 
     likelihood_left + likelihood_right
-  })
+  }
 
   current_position <- which.max(segment_likelihoods)
 
@@ -171,25 +176,4 @@ recursive_hieralg <- function(
   positions_right <- hieralg(segment_right, initial_position + current_position, log_likelihood, penalty)
 
   c(positions_left, current_position + initial_position - 1, positions_right)
-}
-
-withCluster <- function (cluster, operator) {
-  if (isTRUE(cluster) || is.numeric(cluster)) {
-    cluster <- if (is.numeric(cluster)){
-      parallel::makeCluster(cluster)
-    } else {
-      parallel::makeCluster(parallel::detectCores())
-    }
-
-    parallel::clusterEvalQ(cluster, require(segmentr))
-    response <- operator(cluster)
-    parallel::stopCluster(cluster)
-    response
-  }
-  else if (is.null(cluster) || isFALSE(cluster)) {
-    operator(cluster)
-  } else {
-    parallel::clusterEvalQ(cluster, require(segmentr))
-    operator(cluster)
-  }
 }
