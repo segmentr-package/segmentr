@@ -186,10 +186,10 @@ recursive_hieralg <- function(
   if (current_position >= num_variables) return(NULL)
 
   segment_left <- slice_segment(x, 1, current_position)
-  positions_left <- hieralg(segment_left, initial_position, log_likelihood, penalty)
+  positions_left <- recursive_hieralg(segment_left, initial_position, log_likelihood, penalty, allow_parallel)
 
   segment_right <- slice_segment(x, current_position + 1, num_variables)
-  positions_right <- hieralg(segment_right, initial_position + current_position, log_likelihood, penalty)
+  positions_right <- recursive_hieralg(segment_right, initial_position + current_position, log_likelihood, penalty, allow_parallel)
 
   c(positions_left, current_position + initial_position - 1, positions_right)
 }
