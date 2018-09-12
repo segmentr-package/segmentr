@@ -25,13 +25,13 @@ microbenchmark(
 
 doParallel::registerDoParallel(4)
 
-data <- simulate2.1(10000)
+data <- matrix(rbinom(10000 * 100,size = 2, p=0.5), nrow=10000, ncol=100)
 microbenchmark(
   segment(data, log_likelihood = multivariate, allow_parallel = FALSE),
   segment(data, log_likelihood = multivariate, allow_parallel = TRUE),
   hieralg(data, log_likelihood = multivariate, allow_parallel = FALSE),
   hieralg(data, log_likelihood = multivariate, allow_parallel = TRUE),
-  times = 5
+  times = 1
 )
 
 data <- simulate2.1(50000)

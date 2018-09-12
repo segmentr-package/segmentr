@@ -72,24 +72,30 @@ segment <- function(
   segment_likelihoods <- matrix(nrow=max_segments, ncol=num_variables)
   max_likehood_pos <- matrix(nrow=max_segments - 1, ncol=num_variables)
 
-  segment_likelihoods[1, ] <- foreach(seg_end = 1:num_variables, .combine = c, .packages = "segmentr") %doOp% {
-    segment = slice_segment(data, 1, seg_end)
-    log_likelihood(segment) - penalty(segment)
+  split_indices <- chunk(1:num_variables, foreach::getDoParWorkers())
+  segment_likelihoods[1, ] <- foreach(indices = split_indices, .combine = c, .packages = "segmentr") %doOp% {
+    foreach(seg_end = indices, .combine = c) %do% {
+      segment = slice_segment(data, 1, seg_end)
+      log_likelihood(segment) - penalty(segment)
+    }
   }
 
   for(seg_start in 2:max_segments){
-    results <- foreach(seg_end = seg_start:num_variables, .packages = "segmentr") %doOp% {
-      segment_likelihood <- function(preceding_likelihood, index) {
-        segment <- slice_segment(data, index, seg_end)
-        preceding_likelihood + log_likelihood(segment) - penalty(segment)
+    split_indices <- chunk(seg_start:num_variables, foreach::getDoParWorkers())
+    results <- foreach(indices = split_indices, .combine = c, .packages = "segmentr") %doOp% {
+      foreach(seg_end = indices) %do% {
+        segment_likelihood <- function(preceding_likelihood, index) {
+          segment <- slice_segment(data, index, seg_end)
+          preceding_likelihood + log_likelihood(segment) - penalty(segment)
+        }
+
+        indices <- seg_start:seg_end
+        previous_likelihoods <- segment_likelihoods[seg_start - 1, indices - 1]
+
+        segment_tries <- mapply(segment_likelihood, previous_likelihoods, indices)
+
+        list(max_likelihood = max(segment_tries), max_likelihood_pos = which.max(segment_tries) + seg_start - 2)
       }
-
-      indices <- seg_start:seg_end
-      previous_likelihoods <- segment_likelihoods[seg_start - 1, indices - 1]
-
-      segment_tries <- mapply(segment_likelihood, previous_likelihoods, indices)
-
-      list(max_likelihood = max(segment_tries), max_likelihood_pos = which.max(segment_tries) + seg_start - 2)
     }
 
     for (index in seq_along(results)) {
@@ -124,6 +130,12 @@ get_operator <- function(allow_parallel) {
 }
 
 foreach <- foreach::foreach
+`%do%` <- foreach::`%do%`
+
+chunk <- function(x, n) {
+  if (n <= 1) return(list(x))
+  split(x, cut(seq_along(x), n, labels = FALSE))
+}
 
 #' Hierarchical implementation of the `segment` function. It simplifies the
 #' comparisons to be made assuming the data is hierarchical, i.e. a segment
@@ -167,18 +179,21 @@ recursive_hieralg <- function(
   `%doOp%` <- get_operator(allow_parallel)
   num_variables <- ncol(x)
 
-  segment_likelihoods <- foreach(i = 1:num_variables, .combine = c, .packages = c("segmentr")) %doOp% {
-    seg_left <- slice_segment(x, 1, i)
-    likelihood_left <- log_likelihood(seg_left) - penalty(seg_left)
+  split_indices <- chunk(1:num_variables, foreach::getDoParWorkers())
+  segment_likelihoods <- foreach(indices = split_indices, .combine = c, .packages = c("segmentr")) %doOp% {
+    foreach(i = indices, .combine = c) %do% {
+      seg_left <- slice_segment(x, 1, i)
+      likelihood_left <- log_likelihood(seg_left) - penalty(seg_left)
 
-    likelihood_right <- if (i < num_variables) {
-      seg_right <- slice_segment(x, i + 1, num_variables)
-      log_likelihood(seg_right) - penalty(seg_right)
-    } else {
-      0
+      likelihood_right <- if (i < num_variables) {
+        seg_right <- slice_segment(x, i + 1, num_variables)
+        log_likelihood(seg_right) - penalty(seg_right)
+      } else {
+        0
+      }
+
+      likelihood_left + likelihood_right
     }
-
-    likelihood_left + likelihood_right
   }
 
   current_position <- which.max(segment_likelihoods)
