@@ -34,10 +34,10 @@ microbenchmark(
   times = 1
 )
 
-data <- simulate2.1(50000)
+data <- matrix(rbinom(100 * 1000,size = 2, p=0.5), nrow=10000, ncol=100)
 microbenchmark(
   hieralg(data, log_likelihood = multivariate, allow_parallel = FALSE),
   hieralg(data, log_likelihood = multivariate, allow_parallel = TRUE),
-  times = 5
+  times = 2
 )
 doParallel::stopImplicitCluster()

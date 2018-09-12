@@ -73,7 +73,7 @@ segment <- function(
   max_likehood_pos <- matrix(nrow=max_segments - 1, ncol=num_variables)
 
   split_indices <- chunk(1:num_variables, foreach::getDoParWorkers())
-  segment_likelihoods[1, ] <- foreach(indices = split_indices, .combine = c, .packages = "segmentr") %doOp% {
+  segment_likelihoods[1, ] <- foreach(indices = split_indices, .final = interleave, .packages = "segmentr") %doOp% {
     foreach(seg_end = indices, .combine = c) %do% {
       segment = slice_segment(data, 1, seg_end)
       log_likelihood(segment) - penalty(segment)
@@ -82,7 +82,7 @@ segment <- function(
 
   for(seg_start in 2:max_segments){
     split_indices <- chunk(seg_start:num_variables, foreach::getDoParWorkers())
-    results <- foreach(indices = split_indices, .combine = c, .packages = "segmentr") %doOp% {
+    results <- foreach(indices = split_indices, .final = interleave, .packages = "segmentr") %doOp% {
       foreach(seg_end = indices) %do% {
         segment_likelihood <- function(preceding_likelihood, index) {
           segment <- slice_segment(data, index, seg_end)
@@ -134,7 +134,21 @@ foreach <- foreach::foreach
 
 chunk <- function(x, n) {
   if (n <= 1) return(list(x))
-  split(x, cut(seq_along(x), n, labels = FALSE))
+  suppressWarnings(split(x, 1:n))
+}
+
+interleave <- function(parts) {
+  num_items <- length(parts)
+  lengths <- sapply(parts, length)
+  result <- list()
+  indices <- rep(1, num_items)
+  for (i in 1:sum(lengths)) {
+    index <- (i - 1) %% num_items + 1
+    cur_list <- parts[[index]]
+    result[[i]] <- cur_list[indices[index]]
+    indices[index] <- indices[index] + 1
+  }
+  do.call(c, result)
 }
 
 #' Hierarchical implementation of the `segment` function. It simplifies the
@@ -180,7 +194,7 @@ recursive_hieralg <- function(
   num_variables <- ncol(x)
 
   split_indices <- chunk(1:num_variables, foreach::getDoParWorkers())
-  segment_likelihoods <- foreach(indices = split_indices, .combine = c, .packages = c("segmentr")) %doOp% {
+  segment_likelihoods <- foreach(indices = split_indices, .final = interleave, .packages = c("segmentr")) %doOp% {
     foreach(i = indices, .combine = c) %do% {
       seg_left <- slice_segment(x, 1, i)
       likelihood_left <- log_likelihood(seg_left) - penalty(seg_left)
