@@ -140,15 +140,16 @@ chunk <- function(x, n) {
 interleave <- function(parts) {
   num_items <- length(parts)
   lengths <- sapply(parts, length)
-  result <- list()
+  total_length <- sum(lengths)
+  result <- rep(NA, total_length)
   indices <- rep(1, num_items)
-  for (i in 1:sum(lengths)) {
+  for (i in 1:total_length) {
     index <- (i - 1) %% num_items + 1
     cur_list <- parts[[index]]
-    result[[i]] <- cur_list[indices[index]]
+    result[i] <- cur_list[indices[index]]
     indices[index] <- indices[index] + 1
   }
-  do.call(c, result)
+  result
 }
 
 #' Hierarchical implementation of the `segment` function. It simplifies the
