@@ -1,43 +1,55 @@
 slice_segment <- function (data, start, end) data[, start:end, drop=FALSE]
 
-#' Estimated Discrete Maximum Likelihood implemented in R, used to benchmark
-#' agaisnt the Rcpp implementation.
+#' Logarithmic Discrete Multivariate Likelihood estimation function implemented in R
 #'
-#' @param X a matrix to estimate the multivariate of. Each row is considered
+#' This log likelihood function is implemented in R in order to be used to benchmark
+#' agaisnt the \code{\link{segment}} version implemented in C++ for performance.
+#'
+#' @param data Matrix to estimate the multivariate of. Each row is considered
 #'   to be an observation, and each column is considered to be a different
 #'   variable.
-#' @param na.omit If true, omits na from the dataset.
-#' @return the estimate of the Discrite Maximum Likelyhood for the dataframe provided.
+#' @param na.omit If true, omits NAs from the dataset.
+#' @return The estimate of the Discrite Maximum Likelyhood for the dataframe provided.
 #' @export
-r_multivariate <- function(X, na.omit=TRUE)
+r_multivariate <- function(data, na.omit=TRUE)
 {
-  X <- as.matrix(X)
+  data <- as.matrix(data)
 
   if (na.omit) {
-    X <- na.omit(X)
+    data <- na.omit(data)
   }
 
-  ip <- table( apply(as.matrix(X),1,paste0,collapse="") )
-  n <- nrow(X)
+  ip <- table( apply(as.matrix(data),1,paste0,collapse="") )
+  n <- nrow(data)
   pip <- ip/sum(ip)
   loglik <-  sum( ip*log(pip) )
   df <- length(pip)
   loglik
 }
 
-#' Efficient Discrete Maximum Likelihood estimation function.
+#' Logarithmic Discrete Multivariate Likelihood estimation function implemented
+#' efficiently
 #'
-#' @param X a matrix to estimate the multivariate of. Each row is considered
-#'   to be an observation, and each column is considered to be a different
+#' Calculates the discrete log likelihood multivariate estimation of a data matrix
+#' using an algorithm implemented in C++ for performance. This is intented to be
+#' used in conjunction with \code{\link{segment}} and \code{\link{hieralg}}, as
+#' the log likelihood function is executed multiple times, which makes it the bottleneck
+#' of the computation. Because the multivariate is so commonly used, this efficient
+#' implementation is provided.
+#'
+#' @param data Matrix to estimate the multivariate of. Each row is considered to
+#'   be an observation, and each column is considered to be a different
 #'   variable.
-#' @param na_action A function that is applied to the `X` parameter. Defaults to `na.omit` function.
-#' @return the estimate of the Discrite Maximum Likelyhood for the dataframe provided.
+#' @param na_action A function that is applied to the `X` parameter. Defaults to
+#'   `na.omit` function.
+#' @return the estimate of the Discrite Maximum Likelyhood for the dataframe
+#'   provided.
 #' @export
-multivariate <- function(X, na_action=na.omit)
+multivariate <- function(data, na_action=na.omit)
 {
-  X <- as.matrix(X)
-  X <- na_action(X)
-  cpp_multivariate(X)
+  data <- as.matrix(data)
+  data <- na_action(data)
+  cpp_multivariate(data)
 }
 
 
@@ -184,7 +196,7 @@ hieralg <- function(
 }
 
 recursive_hieralg <- function(
-  x,
+  data,
   initial_position,
   log_likelihood,
   penalty,
@@ -192,16 +204,16 @@ recursive_hieralg <- function(
 )
 {
   `%doOp%` <- get_operator(allow_parallel)
-  num_variables <- ncol(x)
+  num_variables <- ncol(data)
 
   split_indices <- chunk(1:num_variables, foreach::getDoParWorkers())
   segment_likelihoods <- foreach(indices = split_indices, .final = interleave, .packages = c("segmentr")) %doOp% {
     foreach(i = indices, .combine = c) %do% {
-      seg_left <- slice_segment(x, 1, i)
+      seg_left <- slice_segment(data, 1, i)
       likelihood_left <- log_likelihood(seg_left) - penalty(seg_left)
 
       likelihood_right <- if (i < num_variables) {
-        seg_right <- slice_segment(x, i + 1, num_variables)
+        seg_right <- slice_segment(data, i + 1, num_variables)
         log_likelihood(seg_right) - penalty(seg_right)
       } else {
         0
@@ -215,10 +227,10 @@ recursive_hieralg <- function(
 
   if (current_position >= num_variables) return(NULL)
 
-  segment_left <- slice_segment(x, 1, current_position)
+  segment_left <- slice_segment(data, 1, current_position)
   positions_left <- recursive_hieralg(segment_left, initial_position, log_likelihood, penalty, allow_parallel)
 
-  segment_right <- slice_segment(x, current_position + 1, num_variables)
+  segment_right <- slice_segment(data, current_position + 1, num_variables)
   positions_right <- recursive_hieralg(segment_right, initial_position + current_position, log_likelihood, penalty, allow_parallel)
 
   c(positions_left, current_position + initial_position - 1, positions_right)

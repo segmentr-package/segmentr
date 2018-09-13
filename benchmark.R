@@ -1,4 +1,9 @@
 require('microbenchmark')
+require('profvis')
+
+makeRandom <- function(rows, columns) {
+  matrix(rbinom(rows * columns, size = 2, p=0.5), nrow=rows, ncol=columns)
+}
 
 simulate2.1 = function(N)
 {
@@ -23,9 +28,9 @@ microbenchmark(
   times = 5
 )
 
-doParallel::registerDoParallel(4)
 
-data <- matrix(rbinom(10000 * 100,size = 2, p=0.5), nrow=10000, ncol=100)
+data <- matrix(rbinom(10000 * 10, size = 2, p=0.5), nrow=10000, ncol=100)
+doMC::registerDoMC(4)
 microbenchmark(
   segment(data, log_likelihood = multivariate, allow_parallel = FALSE),
   segment(data, log_likelihood = multivariate, allow_parallel = TRUE),
@@ -34,10 +39,13 @@ microbenchmark(
   times = 1
 )
 
-data <- matrix(rbinom(100 * 1000,size = 2, p=0.5), nrow=10000, ncol=100)
+data <- makeRandom(100, 1000)
+doMC::registerDoMC(4)
 microbenchmark(
   hieralg(data, log_likelihood = multivariate, allow_parallel = FALSE),
   hieralg(data, log_likelihood = multivariate, allow_parallel = TRUE),
   times = 2
 )
-doParallel::stopImplicitCluster()
+
+data <- makeRandom(100, 1000)
+profvis(hieralg(data, log_likelihood = multivariate, allow_parallel = FALSE))
