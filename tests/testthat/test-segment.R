@@ -1,5 +1,9 @@
 context("segment")
 
+makeRandom <- function(rows, columns) {
+  matrix(rbinom(rows * columns, size = 2, p=0.5), nrow=rows, ncol=columns)
+}
+
 simulate2.1 = function(N)
 {
   X1 = sample(1:2,N,replace=TRUE)
@@ -49,4 +53,11 @@ test_that("works with cluster", {
   points <- segment(data_2, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
   expect_equal(points, c(5, 10))
   doParallel::stopImplicitCluster()
+})
+
+test_that("handles corner cases", {
+  set.seed(1234)
+  data <- makeRandom(1000, 0)
+  points <- segment(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
+  expect_equal(points, c())
 })

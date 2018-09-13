@@ -86,9 +86,11 @@ segment <- function(
   allow_parallel = TRUE
 )
 {
-  `%doOp%` <- get_operator(allow_parallel)
-
   num_variables <- ncol(data)
+
+  if (num_variables == 0 || nrow(data) == 0) return(NULL)
+
+  `%doOp%` <- get_operator(allow_parallel)
   segment_likelihoods <- matrix(nrow=max_segments, ncol=num_variables)
   max_likehood_pos <- matrix(nrow=max_segments, ncol=num_variables)
 
@@ -206,9 +208,11 @@ recursive_hieralg <- function(
   allow_parallel
 )
 {
-  `%doOp%` <- get_operator(allow_parallel)
   num_variables <- ncol(data)
 
+  if (num_variables == 0 || nrow(data) == 0) return(NULL)
+
+  `%doOp%` <- get_operator(allow_parallel)
   split_indices <- chunk(1:num_variables, foreach::getDoParWorkers())
   segment_likelihoods <- foreach(indices = split_indices, .final = interleave) %doOp% {
     foreach(i = indices, .combine = c) %do% {
