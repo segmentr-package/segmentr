@@ -86,7 +86,7 @@ segment <- function(
 
   for(seg_start in 1:max_segments){
     split_indices <- chunk(seg_start:num_variables, foreach::getDoParWorkers())
-    results <- foreach(indices = split_indices, .final = interleave, .packages = "segmentr") %doOp% {
+    results <- foreach(indices = split_indices, .final = interleave) %doOp% {
       foreach(seg_end = indices) %do% {
         if (seg_start > 1) {
           segment_likelihood <- function(preceding_likelihood, index) {
@@ -102,7 +102,7 @@ segment <- function(
           list(max_likelihood = max(segment_tries), max_likelihood_pos = which.max(segment_tries) + seg_start - 2)
         } else {
           segment <- slice_segment(data, seg_start, seg_end)
-          list(max_likelihood = log_likelihood(segment) - penalty(segment), max_likelihood_pos = seg_start - 1)
+          list(max_likelihood = log_likelihood(segment) - penalty(segment), max_likelihood_pos = 0)
         }
       }
     }
@@ -200,7 +200,7 @@ recursive_hieralg <- function(
   num_variables <- ncol(data)
 
   split_indices <- chunk(1:num_variables, foreach::getDoParWorkers())
-  segment_likelihoods <- foreach(indices = split_indices, .final = interleave, .packages = c("segmentr")) %doOp% {
+  segment_likelihoods <- foreach(indices = split_indices, .final = interleave) %doOp% {
     foreach(i = indices, .combine = c) %do% {
       seg_left <- slice_segment(data, 1, i)
       likelihood_left <- log_likelihood(seg_left) - penalty(seg_left)
