@@ -82,40 +82,33 @@ segment <- function(
 
   num_variables <- ncol(data)
   segment_likelihoods <- matrix(nrow=max_segments, ncol=num_variables)
-  max_likehood_pos <- matrix(nrow=max_segments - 1, ncol=num_variables)
+  max_likehood_pos <- matrix(nrow=max_segments, ncol=num_variables)
 
-  split_indices <- chunk(1:num_variables, foreach::getDoParWorkers())
-  segment_likelihoods[1, ] <- foreach(indices = split_indices, .final = interleave, .packages = "segmentr") %doOp% {
-    foreach(seg_end = indices, .combine = c) %do% {
-      segment = slice_segment(data, 1, seg_end)
-      log_likelihood(segment) - penalty(segment)
-    }
-  }
-
-  for(seg_start in 2:max_segments){
+  for(seg_start in 1:max_segments){
     split_indices <- chunk(seg_start:num_variables, foreach::getDoParWorkers())
     results <- foreach(indices = split_indices, .final = interleave, .packages = "segmentr") %doOp% {
       foreach(seg_end = indices) %do% {
-        segment_likelihood <- function(preceding_likelihood, index) {
-          segment <- slice_segment(data, index, seg_end)
-          preceding_likelihood + log_likelihood(segment) - penalty(segment)
+        if (seg_start > 1) {
+          segment_likelihood <- function(preceding_likelihood, index) {
+            segment <- slice_segment(data, index, seg_end)
+            preceding_likelihood + log_likelihood(segment) - penalty(segment)
+          }
+
+          indices <- seg_start:seg_end
+          previous_likelihoods <- segment_likelihoods[seg_start - 1, indices - 1]
+
+          segment_tries <- mapply(segment_likelihood, previous_likelihoods, indices)
+
+          list(max_likelihood = max(segment_tries), max_likelihood_pos = which.max(segment_tries) + seg_start - 2)
+        } else {
+          segment <- slice_segment(data, seg_start, seg_end)
+          list(max_likelihood = log_likelihood(segment) - penalty(segment), max_likelihood_pos = seg_start - 1)
         }
-
-        indices <- seg_start:seg_end
-        previous_likelihoods <- segment_likelihoods[seg_start - 1, indices - 1]
-
-        segment_tries <- mapply(segment_likelihood, previous_likelihoods, indices)
-
-        list(max_likelihood = max(segment_tries), max_likelihood_pos = which.max(segment_tries) + seg_start - 2)
       }
     }
 
-    for (index in seq_along(results)) {
-      result <- results[[index]]
-      seg_end <- seg_start + index - 1
-      segment_likelihoods[seg_start, seg_end] <- result$max_likelihood
-      max_likehood_pos[seg_start - 1, seg_end] <- result$max_likelihood_pos
-    }
+    segment_likelihoods[seg_start, seg_start:num_variables] <- sapply(results, "[[", "max_likelihood")
+    max_likehood_pos[seg_start, seg_start:num_variables] <- sapply(results, "[[", "max_likelihood_pos")
   }
 
   last_break_pos <- which.max(segment_likelihoods[,num_variables])
@@ -127,7 +120,7 @@ segment <- function(
   break_positions <- c(num_variables)
 
   for(break_pos in last_break_pos:2) {
-    break_positions <- c(max_likehood_pos[break_pos - 1, break_positions[1]], break_positions)
+    break_positions <- c(max_likehood_pos[break_pos, break_positions[1]], break_positions)
   }
 
   head(break_positions, n=-1)
