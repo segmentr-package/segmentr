@@ -20,10 +20,10 @@ the estimate of the Discrite Maximum Likelyhood for the dataframe
   provided.
 }
 \description{
-Calculates the discrete log likelihood multivariate estimation of a data matrix
-using an algorithm implemented in C++ for performance. This is intented to be
-used in conjunction with \code{\link{segment}} and \code{\link{hieralg}}, as
-the log likelihood function is executed multiple times, which makes it the bottleneck
-of the computation. Because the multivariate is so commonly used, this efficient
-implementation is provided.
+Calculates the discrete log likelihood multivariate estimation of a data
+matrix using an algorithm implemented in C++ for performance. This is
+intented to be used in conjunction with \code{\link{segment}} and
+\code{\link{hieralg}}, as the log likelihood function is executed multiple
+times, which makes it the bottleneck of the computation. Because the
+multivariate is so commonly used, this efficient implementation is provided.
 }

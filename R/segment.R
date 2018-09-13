@@ -1,15 +1,18 @@
 slice_segment <- function (data, start, end) data[, start:end, drop=FALSE]
 
-#' Logarithmic Discrete Multivariate Likelihood estimation function implemented in R
+#' Logarithmic Discrete Multivariate Likelihood estimation function implemented
+#' in R
 #'
-#' This log likelihood function is implemented in R in order to be used to benchmark
-#' agaisnt the \code{\link{segment}} version implemented in C++ for performance.
+#' This log likelihood function is implemented in R in order to be used to
+#' benchmark agaisnt the \code{\link{segment}} version implemented in C++ for
+#' performance.
 #'
-#' @param data Matrix to estimate the multivariate of. Each row is considered
-#'   to be an observation, and each column is considered to be a different
+#' @param data Matrix to estimate the multivariate of. Each row is considered to
+#'   be an observation, and each column is considered to be a different
 #'   variable.
 #' @param na.omit If true, omits NAs from the dataset.
-#' @return The estimate of the Discrite Maximum Likelyhood for the dataframe provided.
+#' @return The estimate of the Discrite Maximum Likelyhood for the dataframe
+#'   provided.
 #' @export
 r_multivariate <- function(data, na.omit=TRUE)
 {
@@ -30,12 +33,12 @@ r_multivariate <- function(data, na.omit=TRUE)
 #' Logarithmic Discrete Multivariate Likelihood estimation function implemented
 #' efficiently
 #'
-#' Calculates the discrete log likelihood multivariate estimation of a data matrix
-#' using an algorithm implemented in C++ for performance. This is intented to be
-#' used in conjunction with \code{\link{segment}} and \code{\link{hieralg}}, as
-#' the log likelihood function is executed multiple times, which makes it the bottleneck
-#' of the computation. Because the multivariate is so commonly used, this efficient
-#' implementation is provided.
+#' Calculates the discrete log likelihood multivariate estimation of a data
+#' matrix using an algorithm implemented in C++ for performance. This is
+#' intented to be used in conjunction with \code{\link{segment}} and
+#' \code{\link{hieralg}}, as the log likelihood function is executed multiple
+#' times, which makes it the bottleneck of the computation. Because the
+#' multivariate is so commonly used, this efficient implementation is provided.
 #'
 #' @param data Matrix to estimate the multivariate of. Each row is considered to
 #'   be an observation, and each column is considered to be a different
@@ -53,18 +56,23 @@ multivariate <- function(data, na_action=na.omit)
 }
 
 
+#' Thorough segment function
+#'
 #' Function that implements the dynamic programming algorithm, with the intent
 #' of finding points of independent segments for which the log likelihood
-#' function is maximized.
+#' function is maximized. It analyzes all possible combination, returning the
+#' segments that are garanteed to segment the data matrix in the maximum
+#' likelihood independent segments.
 #'
-#' @param data A matrix for which we wish to estimate the independent segments of.
+#' @param data A matrix for which we wish to estimate the independent segments
+#'   of.
 #' @param max_segments the max number of segments allowed to be found. Defaults
 #'   to the number of columns in `x`.
-#' @param log_likelihood log likelihood estimation funciton, which will be applied to
-#'   all possible combinations of segments. Because it's executed many times,
-#'   it's likely to be the slow part of the function execution, so it's advised
-#'   that this function should have a performant, native implementation.
-#'   Defaults to a performant `multivariate` estimation.
+#' @param log_likelihood log likelihood estimation funciton, which will be
+#'   applied to all possible combinations of segments. Because it's executed
+#'   many times, it's likely to be the slow part of the function execution, so
+#'   it's advised that this function should have a performant, native
+#'   implementation. Defaults to a performant `multivariate` estimation.
 #' @param penalty a function that determines the penalty for the segment. It's
 #'   called with the segment being analysed as it's only parameter.
 #' @param allow_parallel allows parallel execution to take place using the
@@ -157,19 +165,21 @@ interleave <- function(parts) {
   result
 }
 
-#' Hierarchical implementation of the `segment` function. It simplifies the
-#' comparisons to be made assuming the data is hierarchical, i.e. a segment
-#' found in a first trial is assumed to contain only segments independent of the
-#' rest of the data. This algorithm usually runs very fast, but is known to
-#' yield less accurate results, possibly now finding all the correct segment
-#' break points at their correct locaitons.
+#' Hierarchical segment function
+#'
+#' Hierarchical implementation of the \code{\link{segment}} function. It
+#' simplifies the comparisons to be made assuming the data is hierarchical, i.e.
+#' a segment found in a first trial is assumed to contain only segments
+#' independent of the rest of the data. This algorithm usually runs very fast,
+#' but is known to yield less accurate results, possibly now finding all the
+#' correct segment break points at their correct locaitons.
 #'
 #' @param x A matrix for which we wish to estimate the independent segments of.
-#' @param log_likelihood log likelihood estimation funciton, which will be applied to
-#'   all possible combinations of segments. Because it's executed many times,
-#'   it's likely to be the slow part of the function execution, so it's advised
-#'   that this function should have a performant, native implementation.
-#'   Defaults to a performant `multivariate` estimation.
+#' @param log_likelihood log likelihood estimation funciton, which will be
+#'   applied to all possible combinations of segments. Because it's executed
+#'   many times, it's likely to be the slow part of the function execution, so
+#'   it's advised that this function should have a performant, native
+#'   implementation. Defaults to a performant `multivariate` estimation.
 #' @param penalty a function that determines the penalty for the segment. It's
 #'   called with the segment being analysed as it's only parameter.
 #' @param initial_position a initial position for the recursive algorithm.

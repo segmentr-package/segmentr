@@ -2,12 +2,7 @@
 % Please edit documentation in R/segment.R
 \name{hieralg}
 \alias{hieralg}
-\title{Hierarchical implementation of the `segment` function. It simplifies the
-comparisons to be made assuming the data is hierarchical, i.e. a segment
-found in a first trial is assumed to contain only segments independent of the
-rest of the data. This algorithm usually runs very fast, but is known to
-yield less accurate results, possibly now finding all the correct segment
-break points at their correct locaitons.}
+\title{Hierarchical segment function}
 \usage{
 hieralg(x, initial_position = 1, log_likelihood = multivariate,
   penalty = function(x) 0, allow_parallel = TRUE)
@@ -17,11 +12,11 @@ hieralg(x, initial_position = 1, log_likelihood = multivariate,
 
 \item{initial_position}{a initial position for the recursive algorithm.}
 
-\item{log_likelihood}{log likelihood estimation funciton, which will be applied to
-all possible combinations of segments. Because it's executed many times,
-it's likely to be the slow part of the function execution, so it's advised
-that this function should have a performant, native implementation.
-Defaults to a performant `multivariate` estimation.}
+\item{log_likelihood}{log likelihood estimation funciton, which will be
+applied to all possible combinations of segments. Because it's executed
+many times, it's likely to be the slow part of the function execution, so
+it's advised that this function should have a performant, native
+implementation. Defaults to a performant `multivariate` estimation.}
 
 \item{penalty}{a function that determines the penalty for the segment. It's
 called with the segment being analysed as it's only parameter.}
@@ -30,10 +25,10 @@ called with the segment being analysed as it's only parameter.}
 registered cluster. Defaults to TRUE.}
 }
 \description{
-Hierarchical implementation of the `segment` function. It simplifies the
-comparisons to be made assuming the data is hierarchical, i.e. a segment
-found in a first trial is assumed to contain only segments independent of the
-rest of the data. This algorithm usually runs very fast, but is known to
-yield less accurate results, possibly now finding all the correct segment
-break points at their correct locaitons.
+Hierarchical implementation of the \code{\link{segment}} function. It
+simplifies the comparisons to be made assuming the data is hierarchical, i.e.
+a segment found in a first trial is assumed to contain only segments
+independent of the rest of the data. This algorithm usually runs very fast,
+but is known to yield less accurate results, possibly now finding all the
+correct segment break points at their correct locaitons.
 }

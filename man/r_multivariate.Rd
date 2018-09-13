@@ -2,21 +2,24 @@
 % Please edit documentation in R/segment.R
 \name{r_multivariate}
 \alias{r_multivariate}
-\title{Logarithmic Discrete Multivariate Likelihood estimation function implemented in R}
+\title{Logarithmic Discrete Multivariate Likelihood estimation function implemented
+in R}
 \usage{
 r_multivariate(data, na.omit = TRUE)
 }
 \arguments{
-\item{data}{Matrix to estimate the multivariate of. Each row is considered
-to be an observation, and each column is considered to be a different
+\item{data}{Matrix to estimate the multivariate of. Each row is considered to
+be an observation, and each column is considered to be a different
 variable.}
 
 \item{na.omit}{If true, omits NAs from the dataset.}
 }
 \value{
-The estimate of the Discrite Maximum Likelyhood for the dataframe provided.
+The estimate of the Discrite Maximum Likelyhood for the dataframe
+  provided.
 }
 \description{
-This log likelihood function is implemented in R in order to be used to benchmark
-agaisnt the \code{\link{segment}} version implemented in C++ for performance.
+This log likelihood function is implemented in R in order to be used to
+benchmark agaisnt the \code{\link{segment}} version implemented in C++ for
+performance.
 }
