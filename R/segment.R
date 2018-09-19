@@ -197,7 +197,9 @@ hieralg <- function(
 )
 {
   segs <- recursive_hieralg(x, initial_position, log_likelihood, penalty, allow_parallel)
-  sort(unique(segs))
+  segments <- sort(unique(segs))
+
+  list(segments=segments)
 }
 
 recursive_hieralg <- function(
@@ -240,5 +242,5 @@ recursive_hieralg <- function(
   segment_right <- slice_segment(data, current_position + 1, num_variables)
   positions_right <- recursive_hieralg(segment_right, initial_position + current_position, log_likelihood, penalty, allow_parallel)
 
-  c(positions_left, current_position + initial_position - 1, positions_right)
+  suppressWarnings(c(positions_left, current_position + initial_position - 1, positions_right))
 }
