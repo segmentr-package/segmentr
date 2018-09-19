@@ -29,16 +29,16 @@ simulate3.2 = function(N)
 }
 
 
-test_that("correctly identify independent points", {
+test_that("correctly identify independent results", {
   set.seed(123)
   data <- simulate2.1(1000)
-  points <- segment(data, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)))
-  expect_equal(points, c(5, 10))
+  results <- segment(data, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)))
+  expect_equal(results$segments, c(5, 10))
 
 
   data <- simulate3.2(1000)
-  points <- segment(data, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)))
-  expect_equal(points, c(5, 10))
+  results <- segment(data, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)))
+  expect_equal(results$segments, c(5, 10))
 })
 
 test_that("works with cluster", {
@@ -47,17 +47,17 @@ test_that("works with cluster", {
   data_2 <- simulate3.2(1000)
 
   doParallel::registerDoParallel(1)
-  points <- segment(data_1, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = TRUE)
-  expect_equal(points, c(5, 10))
+  results <- segment(data_1, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = TRUE)
+  expect_equal(results$segments, c(5, 10))
 
-  points <- segment(data_2, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
-  expect_equal(points, c(5, 10))
+  results <- segment(data_2, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
+  expect_equal(results$segments, c(5, 10))
   doParallel::stopImplicitCluster()
 })
 
 test_that("handles corner cases", {
   set.seed(1234)
   data <- makeRandom(1000, 0)
-  points <- segment(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
-  expect_equal(points, c())
+  results <- segment(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
+  expect_equal(results$segments, c())
 })
