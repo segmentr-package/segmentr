@@ -1,4 +1,4 @@
-context("segment")
+context("exactalg")
 
 makeRandom <- function(rows, columns) {
   matrix(rbinom(rows * columns, size = 2, p=0.5), nrow=rows, ncol=columns)
@@ -32,12 +32,12 @@ simulate3.2 = function(N)
 test_that("correctly identify independent results", {
   set.seed(123)
   data <- simulate2.1(1000)
-  results <- segment(data, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)))
+  results <- exactalg(data, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)))
   expect_equal(results$segments, c(5, 10))
 
 
   data <- simulate3.2(1000)
-  results <- segment(data, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)))
+  results <- exactalg(data, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)))
   expect_equal(results$segments, c(5, 10))
 })
 
@@ -47,10 +47,10 @@ test_that("works with cluster", {
   data_2 <- simulate3.2(1000)
 
   doParallel::registerDoParallel(1)
-  results <- segment(data_1, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = TRUE)
+  results <- exactalg(data_1, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = TRUE)
   expect_equal(results$segments, c(5, 10))
 
-  results <- segment(data_2, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
+  results <- exactalg(data_2, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
   expect_equal(results$segments, c(5, 10))
   doParallel::stopImplicitCluster()
 })
@@ -58,6 +58,6 @@ test_that("works with cluster", {
 test_that("handles corner cases", {
   set.seed(1234)
   data <- makeRandom(1000, 0)
-  results <- segment(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
+  results <- exactalg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
   expect_equal(results$segments, c())
 })

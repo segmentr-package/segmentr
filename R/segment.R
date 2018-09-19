@@ -78,7 +78,7 @@ multivariate <- function(data, na_action=na.omit)
 #' @param allow_parallel allows parallel execution to take place using the
 #'   registered cluster. Defaults to TRUE.
 #' @export
-segment <- function(
+exactalg <- function(
   data,
   max_segments=ncol(data),
   log_likelihood=multivariate,
