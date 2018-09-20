@@ -147,7 +147,9 @@ exactalg <- function(
 
   segments <- head(break_positions, n=-1)
 
-  list(segments=segments)
+  results <- list(segments=segments, log_likelihood=log_likelihood)
+  class(results) <- "segmentr"
+  results
 }
 
 get_operator <- function(allow_parallel) {
@@ -213,7 +215,9 @@ hieralg <- function(
   segs <- recursive_hieralg(x, initial_position, log_likelihood, penalty, allow_parallel)
   segments <- sort(unique(segs))
 
-  list(segments=segments)
+  results <- list(segments=segments, log_likelihood=log_likelihood)
+  class(results) <- "segmentr"
+  results
 }
 
 recursive_hieralg <- function(
@@ -264,8 +268,6 @@ predict.segmentr <- function(results, newdata) {
   log_likelihood <- results$log_likelihood
   points <- c(1, results$segments, ncol(newdata) + 1)
   segment_likelihoods <- foreach(start=head(points, -1), end=tail(points - 1, -1), .combine = c) %do% {
-    cat(start)
-    cat(end)
     log_likelihood(slice_segment(newdata, start, end))
   }
   sum(segment_likelihoods)
