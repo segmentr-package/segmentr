@@ -1,3 +1,15 @@
+#' @export
+segment <- function(
+  ...,
+  algorithm="exact"
+) {
+  if (algorithm %in% c("exact", "exactalg")) {
+    exactalg(...)
+  } else if (algorithm %in% c("hierarchical", "hieralg")) {
+    hieralg(...)
+  }
+}
+
 slice_segment <- function (data, start, end) data[, start:end, drop=FALSE]
 
 #' Logarithmic Discrete Multivariate Likelihood estimation function implemented
@@ -246,3 +258,4 @@ recursive_hieralg <- function(
 
   suppressWarnings(c(positions_left, current_position + initial_position - 1, positions_right))
 }
+

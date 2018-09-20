@@ -35,9 +35,19 @@ test_that("correctly identify independent results", {
   results <- exactalg(data, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)))
   expect_equal(results$segments, c(5, 10))
 
-
   data <- simulate3.2(1000)
   results <- exactalg(data, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)))
+  expect_equal(results$segments, c(5, 10))
+})
+
+test_that("can be called using segment", {
+  set.seed(123)
+  data <- simulate2.1(1000)
+  results <- segment(data, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)))
+  expect_equal(results$segments, c(5, 10))
+
+  data <- simulate3.2(1000)
+  results <- segment(data, penalty = function(X) (0.5 * 3 ^ ncol(X)) * log(nrow(X)), algorithm = "exact")
   expect_equal(results$segments, c(5, 10))
 })
 

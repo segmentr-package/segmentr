@@ -29,7 +29,7 @@ simulate3.2 = function(N)
 }
 
 
-test_that("identifies results$segments differently, if we take into account the different algorithm implementation", {
+test_that("identifies segments differently, if we take into account the different algorithm implementation", {
   set.seed(1234)
   data <- simulate2.1(2000)
   results <- hieralg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)))
@@ -37,6 +37,17 @@ test_that("identifies results$segments differently, if we take into account the 
 
   data <- simulate3.2(5000)
   results <- hieralg(data, penalty = function(X) (0.2* 3 ^ ncol(X)) * log(nrow(X)))
+  expect_equal(results$segments, c(7, 10))
+})
+
+test_that("can be called with segment", {
+  set.seed(1234)
+  data <- simulate2.1(2000)
+  results <- segment(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), algorithm = "hierarchical")
+  expect_equal(results$segments, c(5, 10))
+
+  data <- simulate3.2(5000)
+  results <- segment(data, penalty = function(X) (0.2* 3 ^ ncol(X)) * log(nrow(X)), algorithm = "hieralg")
   expect_equal(results$segments, c(7, 10))
 })
 
