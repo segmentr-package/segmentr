@@ -29,33 +29,45 @@ simulate3.2 = function(N)
 }
 
 
-test_that("identifies points differently, if we take into account the different algorithm implementation", {
+test_that("identifies segments differently, if we take into account the different algorithm implementation", {
   set.seed(1234)
   data <- simulate2.1(2000)
-  points <- hieralg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)))
-  expect_equal(points, c(5, 10))
+  results <- hieralg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)))
+  expect_equal(results$segments, c(5, 10))
 
   data <- simulate3.2(5000)
-  points <- hieralg(data, penalty = function(X) (0.2* 3 ^ ncol(X)) * log(nrow(X)))
-  expect_equal(points, c(7, 10))
+  results <- hieralg(data, penalty = function(X) (0.2 * 3 ^ ncol(X)) * log(nrow(X)))
+  expect_equal(results$segments, c(7, 10))
+})
+
+test_that("can be called with segment", {
+  set.seed(1234)
+  data <- simulate2.1(2000)
+  results <- segment(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), algorithm = "hierarchical")
+  expect_equal(results$segments, c(5, 10))
+
+  data <- simulate3.2(5000)
+  results <- segment(data, penalty = function(X) (0.2* 3 ^ ncol(X)) * log(nrow(X)), algorithm = "hieralg")
+  expect_equal(results$segments, c(7, 10))
 })
 
 test_that("works with a cluster as well", {
   set.seed(1234)
   data_1 <- simulate2.1(2000)
   data_2 <- simulate3.2(5000)
-  doParallel::registerDoParallel(1)
-  points <- hieralg(data_1, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = TRUE)
-  expect_equal(points, c(5, 10))
 
-  points <- hieralg(data_2, penalty = function(X) (0.2* 3 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
-  expect_equal(points, c(7, 10))
+  doParallel::registerDoParallel(1)
+  results <- hieralg(data_1, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = TRUE)
+  expect_equal(results$segments, c(5, 10))
+
+  results <- hieralg(data_2, penalty = function(X) (0.2* 3 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
+  expect_equal(results$segments, c(7, 10))
   doParallel::stopImplicitCluster()
 })
 
 test_that("handles corner cases", {
   set.seed(1234)
   data <- makeRandom(1000, 0)
-  points <- hieralg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
-  expect_equal(points, c())
+  results <- hieralg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
+  expect_equal(results$segments, c())
 })

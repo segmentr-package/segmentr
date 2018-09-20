@@ -1,3 +1,71 @@
+#' @export
+segment <- function(
+  ...,
+  algorithm="exact"
+) {
+  if (algorithm %in% c("exact", "exactalg")) {
+    exactalg(...)
+  } else if (algorithm %in% c("hierarchical", "hieralg")) {
+    hieralg(...)
+  } else if (algorithm %in% c("hybrid", "hybridalg")) {
+    hybridalg(...)
+  } else {
+    error("algorithm not supported")
+  }
+}
+
+#' @export
+hybridalg <- function(
+  data,
+  log_likelihood=multivariate,
+  penalty = function(x) 0,
+  allow_parallel = TRUE,
+  threshold = 50
+)
+{
+  recursive_hybrid <- function(
+    data,
+    initial_position,
+    log_likelihood,
+    penalty,
+    allow_parallel,
+    recursive_fn
+  ) {
+    if (ncol(data) > threshold){
+      recursive_hieralg(
+        data=data,
+        initial_position=initial_position,
+        log_likelihood=log_likelihood,
+        penalty=penalty,
+        allow_parallel=allow_parallel,
+        recursive_fn=recursive_hybrid
+      )
+    } else {
+      exact_segments(
+        data=data,
+        log_likelihood=log_likelihood,
+        max_segments = ncol(data),
+        penalty=penalty,
+        allow_parallel=allow_parallel
+      )
+    }
+  }
+
+  segs <- recursive_hybrid(
+    data = data,
+    initial_position = 1,
+    log_likelihood = log_likelihood,
+    penalty = penalty,
+    allow_parallel = allow_parallel,
+    recursive_fn = recursive_hybrid
+  )
+  segments <- sort(unique(segs))
+
+  results <- list(segments=segments, log_likelihood=log_likelihood)
+  class(results) <- "segmentr"
+  results
+}
+
 slice_segment <- function (data, start, end) data[, start:end, drop=FALSE]
 
 #' Logarithmic Discrete Multivariate Likelihood estimation function implemented
@@ -55,35 +123,12 @@ multivariate <- function(data, na_action=na.omit)
   cpp_multivariate(data)
 }
 
-
-#' Thorough segment function
-#'
-#' Function that implements the dynamic programming algorithm, with the intent
-#' of finding points of independent segments for which the log likelihood
-#' function is maximized. It analyzes all possible combination, returning the
-#' segments that are garanteed to segment the data matrix in the maximum
-#' likelihood independent segments.
-#'
-#' @param data A matrix for which we wish to estimate the independent segments
-#'   of.
-#' @param max_segments the max number of segments allowed to be found. Defaults
-#'   to the number of columns in `x`.
-#' @param log_likelihood log likelihood estimation funciton, which will be
-#'   applied to all possible combinations of segments. Because it's executed
-#'   many times, it's likely to be the slow part of the function execution, so
-#'   it's advised that this function should have a performant, native
-#'   implementation. Defaults to a performant `multivariate` estimation.
-#' @param penalty a function that determines the penalty for the segment. It's
-#'   called with the segment being analysed as it's only parameter.
-#' @param allow_parallel allows parallel execution to take place using the
-#'   registered cluster. Defaults to TRUE.
-#' @export
-segment <- function(
+exact_segments <- function(
   data,
-  max_segments=ncol(data),
-  log_likelihood=multivariate,
-  penalty = function(data) 0,
-  allow_parallel = TRUE
+  max_segments,
+  log_likelihood,
+  penalty,
+  allow_parallel
 )
 {
   num_variables <- ncol(data)
@@ -134,6 +179,49 @@ segment <- function(
   }
 
   head(break_positions, n=-1)
+}
+
+#' Thorough segment function
+#'
+#' Function that implements the dynamic programming algorithm, with the intent
+#' of finding points of independent segments for which the log likelihood
+#' function is maximized. It analyzes all possible combination, returning the
+#' segments that are garanteed to segment the data matrix in the maximum
+#' likelihood independent segments.
+#'
+#' @param data A matrix for which we wish to estimate the independent segments
+#'   of.
+#' @param max_segments the max number of segments allowed to be found. Defaults
+#'   to the number of columns in `x`.
+#' @param log_likelihood log likelihood estimation funciton, which will be
+#'   applied to all possible combinations of segments. Because it's executed
+#'   many times, it's likely to be the slow part of the function execution, so
+#'   it's advised that this function should have a performant, native
+#'   implementation. Defaults to a performant `multivariate` estimation.
+#' @param penalty a function that determines the penalty for the segment. It's
+#'   called with the segment being analysed as it's only parameter.
+#' @param allow_parallel allows parallel execution to take place using the
+#'   registered cluster. Defaults to TRUE.
+#' @export
+exactalg <- function(
+  data,
+  max_segments=ncol(data),
+  log_likelihood=multivariate,
+  penalty = function(data) 0,
+  allow_parallel = TRUE
+)
+{
+  segments <- exact_segments(
+    data=data,
+    max_segments=max_segments,
+    log_likelihood=log_likelihood,
+    penalty=penalty,
+    allow_parallel=allow_parallel
+  )
+
+  results <- list(segments=segments, log_likelihood=log_likelihood)
+  class(results) <- "segmentr"
+  results
 }
 
 get_operator <- function(allow_parallel) {
@@ -189,15 +277,25 @@ interleave <- function(parts) {
 #'   registered cluster. Defaults to TRUE.
 #' @export
 hieralg <- function(
-  x,
-  initial_position=1,
+  data,
   log_likelihood=multivariate,
   penalty = function(x) 0,
   allow_parallel = TRUE
 )
 {
-  segs <- recursive_hieralg(x, initial_position, log_likelihood, penalty, allow_parallel)
-  sort(unique(segs))
+  segs <- recursive_hieralg(
+    data=data,
+    initial_position=1,
+    log_likelihood=log_likelihood,
+    penalty=penalty,
+    allow_parallel=allow_parallel,
+    recursive_fn=recursive_hieralg
+  )
+  segments <- sort(unique(segs))
+
+  results <- list(segments=segments, log_likelihood=log_likelihood)
+  class(results) <- "segmentr"
+  results
 }
 
 recursive_hieralg <- function(
@@ -205,7 +303,8 @@ recursive_hieralg <- function(
   initial_position,
   log_likelihood,
   penalty,
-  allow_parallel
+  allow_parallel,
+  recursive_fn
 )
 {
   num_variables <- ncol(data)
@@ -235,10 +334,21 @@ recursive_hieralg <- function(
   if (current_position >= num_variables) return(NULL)
 
   segment_left <- slice_segment(data, 1, current_position)
-  positions_left <- recursive_hieralg(segment_left, initial_position, log_likelihood, penalty, allow_parallel)
+  positions_left <- recursive_fn(segment_left, initial_position, log_likelihood, penalty, allow_parallel, recursive_fn)
 
   segment_right <- slice_segment(data, current_position + 1, num_variables)
-  positions_right <- recursive_hieralg(segment_right, initial_position + current_position, log_likelihood, penalty, allow_parallel)
+  positions_right <- recursive_fn(segment_right, initial_position + current_position, log_likelihood, penalty, allow_parallel, recursive_fn)
 
-  c(positions_left, current_position + initial_position - 1, positions_right)
+  suppressWarnings(c(positions_left, current_position + initial_position - 1, positions_right))
 }
+
+#' @export
+predict.segmentr <- function(results, newdata) {
+  log_likelihood <- results$log_likelihood
+  points <- c(1, results$segments, ncol(newdata) + 1)
+  segment_likelihoods <- foreach(start=head(points, -1), end=tail(points - 1, -1), .combine = c) %do% {
+    log_likelihood(slice_segment(newdata, start, end))
+  }
+  sum(segment_likelihoods)
+}
+
