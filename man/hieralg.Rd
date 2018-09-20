@@ -4,14 +4,10 @@
 \alias{hieralg}
 \title{Hierarchical segment function}
 \usage{
-hieralg(x, initial_position = 1, log_likelihood = multivariate,
-  penalty = function(x) 0, allow_parallel = TRUE)
+hieralg(data, log_likelihood = multivariate, penalty = function(x) 0,
+  allow_parallel = TRUE)
 }
 \arguments{
-\item{x}{A matrix for which we wish to estimate the independent segments of.}
-
-\item{initial_position}{a initial position for the recursive algorithm.}
-
 \item{log_likelihood}{log likelihood estimation funciton, which will be
 applied to all possible combinations of segments. Because it's executed
 many times, it's likely to be the slow part of the function execution, so
@@ -23,6 +19,10 @@ called with the segment being analysed as it's only parameter.}
 
 \item{allow_parallel}{allows parallel execution to take place using the
 registered cluster. Defaults to TRUE.}
+
+\item{x}{A matrix for which we wish to estimate the independent segments of.}
+
+\item{initial_position}{a initial position for the recursive algorithm.}
 }
 \description{
 Hierarchical implementation of the \code{\link{segment}} function. It

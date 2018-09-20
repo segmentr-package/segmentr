@@ -36,7 +36,7 @@ test_that("identifies segments differently, if we take into account the differen
   expect_equal(results$segments, c(5, 10))
 
   data <- simulate3.2(5000)
-  results <- hieralg(data, penalty = function(X) (0.2* 3 ^ ncol(X)) * log(nrow(X)))
+  results <- hieralg(data, penalty = function(X) (0.2 * 3 ^ ncol(X)) * log(nrow(X)))
   expect_equal(results$segments, c(7, 10))
 })
 
@@ -55,6 +55,7 @@ test_that("works with a cluster as well", {
   set.seed(1234)
   data_1 <- simulate2.1(2000)
   data_2 <- simulate3.2(5000)
+
   doParallel::registerDoParallel(1)
   results <- hieralg(data_1, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = TRUE)
   expect_equal(results$segments, c(5, 10))
