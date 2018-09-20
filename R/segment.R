@@ -259,3 +259,14 @@ recursive_hieralg <- function(
   suppressWarnings(c(positions_left, current_position + initial_position - 1, positions_right))
 }
 
+#' @export
+predict.segmentr <- function(results, newdata) {
+  log_likelihood <- results$log_likelihood
+  points <- c(1, results$segments, ncol(newdata) + 1)
+  segment_likelihoods <- foreach(start=head(points, -1), end=tail(points - 1, -1), .combine = c) %do% {
+    cat(start)
+    cat(end)
+    log_likelihood(slice_segment(newdata, start, end))
+  }
+  sum(segment_likelihoods)
+}
