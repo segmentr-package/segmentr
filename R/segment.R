@@ -20,6 +20,7 @@ hybridalg <- function(
   log_likelihood=multivariate,
   penalty = function(x) 0,
   allow_parallel = TRUE,
+  max_segments = ncol(data),
   threshold = 50
 )
 {
@@ -44,7 +45,7 @@ hybridalg <- function(
       exact_segments(
         data=data,
         log_likelihood=log_likelihood,
-        max_segments = ncol(data),
+        max_segments = max_segments + 1,
         penalty=penalty,
         allow_parallel=allow_parallel
       )
@@ -60,6 +61,13 @@ hybridalg <- function(
     recursive_fn = recursive_hybrid
   )
   segments <- sort(unique(segs))
+
+  if (length(segments) > max_segments) {
+    temp_results <- list(segments=segments, log_likelihood=log_likelihood)
+    likelihoods <- calculate_segment_likelihoods(temp_results, data)
+    segments_with_likelihood <- data.frame(segment = segments, likelihood = head(likelihoods, -1))
+    segments <- with(segments_with_likelihood, segment[order(-likelihood)[1:max_segments]])
+  }
 
   results <- list(segments=segments, log_likelihood=log_likelihood)
   class(results) <- "segmentr"
@@ -132,6 +140,10 @@ exact_segments <- function(
 )
 {
   num_variables <- ncol(data)
+
+  if (num_variables < max_segments) {
+    max_segments <- num_variables
+  }
 
   if (num_variables == 0 || nrow(data) == 0) return(NULL)
 
