@@ -280,6 +280,7 @@ hieralg <- function(
   data,
   log_likelihood=multivariate,
   penalty = function(x) 0,
+  max_segments = ncol(data),
   allow_parallel = TRUE
 )
 {
@@ -292,6 +293,13 @@ hieralg <- function(
     recursive_fn=recursive_hieralg
   )
   segments <- sort(unique(segs))
+
+  if (length(segments) > max_segments) {
+    temp_results <- list(segments=segments, log_likelihood=log_likelihood)
+    likelihoods <- calculate_segment_likelihoods(temp_results, data)
+    segments_with_likelihood <- data.frame(segment = segments, likelihood = head(likelihoods, -1))
+    segments <- with(segments_with_likelihood, segment[order(-likelihood)[1:max_segments]])
+  }
 
   results <- list(segments=segments, log_likelihood=log_likelihood)
   class(results) <- "segmentr"
@@ -344,11 +352,14 @@ recursive_hieralg <- function(
 
 #' @export
 predict.segmentr <- function(results, newdata) {
-  log_likelihood <- results$log_likelihood
-  points <- c(1, results$segments, ncol(newdata) + 1)
-  segment_likelihoods <- foreach(start=head(points, -1), end=tail(points - 1, -1), .combine = c) %do% {
-    log_likelihood(slice_segment(newdata, start, end))
-  }
-  sum(segment_likelihoods)
+  likelihoods <- calculate_segment_likelihoods(results, newdata)
+  sum(likelihoods)
 }
 
+calculate_segment_likelihoods <- function(results, newdata) {
+  log_likelihood <- results$log_likelihood
+  points <- c(1, results$segments, ncol(newdata) + 1)
+  foreach(start=head(points, -1), end=tail(points - 1, -1), .combine = c) %do% {
+    log_likelihood(slice_segment(newdata, start, end))
+  }
+}

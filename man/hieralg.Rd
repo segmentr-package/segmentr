@@ -5,7 +5,7 @@
 \title{Hierarchical segment function}
 \usage{
 hieralg(data, log_likelihood = multivariate, penalty = function(x) 0,
-  allow_parallel = TRUE)
+  max_segments = ncol(data), allow_parallel = TRUE)
 }
 \arguments{
 \item{log_likelihood}{log likelihood estimation funciton, which will be

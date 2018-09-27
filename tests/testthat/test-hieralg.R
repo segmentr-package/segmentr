@@ -71,3 +71,11 @@ test_that("handles corner cases", {
   results <- hieralg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
   expect_equal(results$segments, c())
 })
+
+test_that("works with max_segments", {
+  set.seed(1234)
+  data_1 <- simulate2.1(2000)
+
+  results <- hieralg(data_1, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = TRUE, max_segments = 1)
+  expect_equal(results$segments, c(5))
+})
