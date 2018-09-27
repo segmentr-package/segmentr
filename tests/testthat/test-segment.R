@@ -71,3 +71,10 @@ test_that("handles corner cases", {
   results <- exactalg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
   expect_equal(results$segments, c())
 })
+
+test_that("test max segments", {
+  set.seed(123)
+  data <- simulate2.1(1000)
+  results <- exactalg(data, penalty = function(X) (0.5 * 2 ^ ncol(X)) * log(nrow(X)), max_segments = 2)
+  expect_equal(results$segments, c(9))
+})

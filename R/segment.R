@@ -45,7 +45,7 @@ hybridalg <- function(
       exact_segments(
         data=data,
         log_likelihood=log_likelihood,
-        max_segments = max_segments + 1,
+        max_segments = max_segments,
         penalty=penalty,
         allow_parallel=allow_parallel
       )
@@ -62,11 +62,11 @@ hybridalg <- function(
   )
   segments <- sort(unique(segs))
 
-  if (length(segments) > max_segments) {
+  if (length(segments) > 0 && length(segments) + 1 > max_segments) {
     temp_results <- list(segments=segments, log_likelihood=log_likelihood)
     likelihoods <- calculate_segment_likelihoods(temp_results, data)
     segments_with_likelihood <- data.frame(segment = segments, likelihood = head(likelihoods, -1))
-    segments <- with(segments_with_likelihood, segment[order(-likelihood)[1:max_segments]])
+    segments <- with(segments_with_likelihood, segment[order(-likelihood)[1:(max_segments - 1)]])
   }
 
   results <- list(segments=segments, log_likelihood=log_likelihood)
@@ -306,11 +306,11 @@ hieralg <- function(
   )
   segments <- sort(unique(segs))
 
-  if (length(segments) > max_segments) {
+  if (length(segments) > 0 && length(segments) + 1 > max_segments) {
     temp_results <- list(segments=segments, log_likelihood=log_likelihood)
     likelihoods <- calculate_segment_likelihoods(temp_results, data)
     segments_with_likelihood <- data.frame(segment = segments, likelihood = head(likelihoods, -1))
-    segments <- with(segments_with_likelihood, segment[order(-likelihood)[1:max_segments]])
+    segments <- with(segments_with_likelihood, segment[order(-likelihood)[1:(max_segments - 1)]])
   }
 
   results <- list(segments=segments, log_likelihood=log_likelihood)
