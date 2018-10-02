@@ -343,15 +343,30 @@ recursive_hieralg <- function(
   if (num_variables == 0 || nrow(data) == 0) return(NULL)
 
   `%doOp%` <- get_operator(allow_parallel)
+
+  segment_likelihood <- function (start, end) {
+    segment <- slice_segment(data, start, end)
+    likelihood_value <- log_likelihood(segment)
+    penalty_value <- penalty(segment)
+
+    if (is.nan(likelihood_value)) {
+      stop(paste0("log_likelihood returned a NaN when called with log_likelihood(data[, ", start, ":", end ,"])"))
+    }
+
+    if (is.nan(penalty_value)) {
+      stop(paste0("penalty returned a NaN when called with penalty(data[, ", start, ":", end ,"])"))
+    }
+
+    likelihood_value - penalty_value
+  }
+
   split_indices <- chunk(1:num_variables, foreach::getDoParWorkers())
   segment_likelihoods <- foreach(indices = split_indices, .final = interleave) %doOp% {
     foreach(i = indices, .combine = c) %do% {
-      seg_left <- slice_segment(data, 1, i)
-      likelihood_left <- log_likelihood(seg_left) - penalty(seg_left)
+      likelihood_left <- segment_likelihood(1, i)
 
       likelihood_right <- if (i < num_variables) {
-        seg_right <- slice_segment(data, i + 1, num_variables)
-        log_likelihood(seg_right) - penalty(seg_right)
+        segment_likelihood(i + 1, num_variables)
       } else {
         0
       }

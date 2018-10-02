@@ -82,3 +82,17 @@ test_that("works with max_segments", {
   results <- hybridalg(data_1, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = TRUE, max_segments = 2)
   expect_equal(results$segments, c(5))
 })
+
+test_that("handles NaN in log_likelihood or penalty", {
+  set.seed(1234)
+  data <- makeRandom(5, 20)
+  expect_error(
+    hybridalg(data, log_likelihood = function(X) if (ncol(X) == 2) NaN else sum(X)),
+    "log_likelihood returned a NaN when called with log_likelihood\\(data\\[, 2:3\\]\\)"
+  )
+
+  expect_error(
+    hybridalg(data, penalty = function(X) if (ncol(X) == 2) NaN else sum(X)),
+    "penalty returned a NaN when called with penalty\\(data\\[, 2:3\\]\\)"
+  )
+})
