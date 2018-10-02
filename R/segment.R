@@ -47,7 +47,8 @@ hybridalg <- function(
         log_likelihood=log_likelihood,
         max_segments = max_segments,
         penalty=penalty,
-        allow_parallel=allow_parallel
+        allow_parallel=allow_parallel,
+        initial_position=initial_position
       )
     }
   }
@@ -136,6 +137,7 @@ exact_segments <- function(
   max_segments,
   log_likelihood,
   penalty,
+  initial_position,
   allow_parallel
 )
 {
@@ -161,13 +163,7 @@ exact_segments <- function(
             likelihood_value <- log_likelihood(segment)
             penalty_value <- penalty(segment)
 
-            if (is.nan(likelihood_value)) {
-              stop(paste0("log_likelihood returned a NaN when called with log_likelihood(data[, ", index, ":", seg_end ,"])"))
-            }
-
-            if (is.nan(penalty_value)) {
-              stop(paste0("penalty returned a NaN when called with penalty(data[, ", index, ":", seg_end ,"])"))
-            }
+            handle_nan(likelihood_value, penalty_value, index + initial_position - 1, seg_end + initial_position - 1)
 
             preceding_likelihood + likelihood_value - penalty_value
           }
@@ -239,7 +235,8 @@ exactalg <- function(
     max_segments=max_segments,
     log_likelihood=log_likelihood,
     penalty=penalty,
-    allow_parallel=allow_parallel
+    allow_parallel=allow_parallel,
+    initial_position = 1
   )
 
   results <- list(segments=segments, log_likelihood=log_likelihood)
@@ -349,13 +346,7 @@ recursive_hieralg <- function(
     likelihood_value <- log_likelihood(segment)
     penalty_value <- penalty(segment)
 
-    if (is.nan(likelihood_value)) {
-      stop(paste0("log_likelihood returned a NaN when called with log_likelihood(data[, ", start + initial_position - 1, ":", end + initial_position - 1,"])"))
-    }
-
-    if (is.nan(penalty_value)) {
-      stop(paste0("penalty returned a NaN when called with penalty(data[, ", start + initial_position - 1, ":", end + initial_position - 1,"])"))
-    }
+    handle_nan(likelihood_value, penalty_value, start + initial_position - 1, end + initial_position - 1)
 
     likelihood_value - penalty_value
   }
@@ -399,5 +390,15 @@ calculate_segment_likelihoods <- function(results, newdata) {
   points <- c(1, results$segments, ncol(newdata) + 1)
   foreach(start=head(points, -1), end=tail(points - 1, -1), .combine = c) %do% {
     log_likelihood(slice_segment(newdata, start, end))
+  }
+}
+
+handle_nan <- function(likelihood_value, penalty_value, start, end) {
+  if (is.nan(likelihood_value)) {
+    stop(paste0("log_likelihood returned a NaN when called with log_likelihood(data[, ", start, ":", end, "])"))
+  }
+
+  if (is.nan(penalty_value)) {
+    stop(paste0("penalty returned a NaN when called with penalty(data[, ", start, ":", end, "])"))
   }
 }
