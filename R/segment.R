@@ -350,11 +350,11 @@ recursive_hieralg <- function(
     penalty_value <- penalty(segment)
 
     if (is.nan(likelihood_value)) {
-      stop(paste0("log_likelihood returned a NaN when called with log_likelihood(data[, ", start, ":", end ,"])"))
+      stop(paste0("log_likelihood returned a NaN when called with log_likelihood(data[, ", start + initial_position - 1, ":", end + initial_position - 1,"])"))
     }
 
     if (is.nan(penalty_value)) {
-      stop(paste0("penalty returned a NaN when called with penalty(data[, ", start, ":", end ,"])"))
+      stop(paste0("penalty returned a NaN when called with penalty(data[, ", start + initial_position - 1, ":", end + initial_position - 1,"])"))
     }
 
     likelihood_value - penalty_value
