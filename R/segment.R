@@ -158,7 +158,18 @@ exact_segments <- function(
         if (seg_start > 1) {
           segment_likelihood <- function(preceding_likelihood, index) {
             segment <- slice_segment(data, index, seg_end)
-            preceding_likelihood + log_likelihood(segment) - penalty(segment)
+            likelihood_value <- log_likelihood(segment)
+            penalty_value <- penalty(segment)
+
+            if (is.nan(likelihood_value)) {
+              stop(paste0("log_likelihood returned a NaN when called with log_likelihood(data[, ", index, ":", seg_end ,"])"))
+            }
+
+            if (is.nan(penalty_value)) {
+              stop(paste0("penalty returned a NaN when called with penalty(data[, ", index, ":", seg_end ,"])"))
+            }
+
+            preceding_likelihood + likelihood_value - penalty_value
           }
 
           indices <- seg_start:seg_end

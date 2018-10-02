@@ -65,11 +65,25 @@ test_that("works with cluster", {
   doParallel::stopImplicitCluster()
 })
 
-test_that("handles corner cases", {
+test_that("handles zero columns", {
   set.seed(1234)
   data <- makeRandom(1000, 0)
-  results <- exactalg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
+  results <- exactalg(data, penalty = function(X) (0.1 * 2 ^ ncol(X)) * log(nrow(X)))
   expect_equal(results$segments, c())
+})
+
+test_that("handles NaN in log_likelihood or penalty", {
+  set.seed(1234)
+  data <- makeRandom(5, 20)
+  expect_error(
+    exactalg(data, log_likelihood = function(X) if (ncol(X) == 2) NaN else sum(X)),
+    "log_likelihood returned a NaN when called with log_likelihood\\(data\\[, 2:3\\]\\)"
+  )
+
+  expect_error(
+    exactalg(data, penalty = function(X) if (ncol(X) == 2) NaN else sum(X)),
+    "penalty returned a NaN when called with penalty\\(data\\[, 2:3\\]\\)"
+  )
 })
 
 test_that("test max segments", {
