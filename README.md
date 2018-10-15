@@ -3,6 +3,8 @@
 This package is part of a Master Degree research thesis from Thales Mello, with
 Florencia Leonardi as Academic Advisor.
 
+[![Travis-CI Build Status](https://travis-ci.org/thalesmello/segmentr.svg?branch=master)](https://travis-ci.org/thalesmello/segmentr)
+
 ## Installation
 
 To install, use [devtools](https://github.com/r-lib/devtools):
