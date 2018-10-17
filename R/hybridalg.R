@@ -23,7 +23,7 @@ hybridalg <- function(
         recursive_fn = recursive_hybrid
       )
     } else {
-      results <- exact_segments(
+      exact_segments(
         data = data,
         log_likelihood = log_likelihood,
         max_segments = max_segments,
@@ -31,10 +31,6 @@ hybridalg <- function(
         allow_parallel = allow_parallel,
         initial_position = initial_position
       )
-
-      lapply(results$segments, function(segment) {
-        list(segment = segment)
-      })
     }
   }
 
@@ -48,12 +44,9 @@ hybridalg <- function(
   )
   segments <- sapply(segs, "[[", "segment")
 
-  segments <- if (length(segments) > 0) {
-    sort(segments)
-  } else {
-    NULL
+  if (length(segments) > 0) {
+    segments <- sort(segments)
   }
-
 
   if (length(segments) > 0 && length(segments) + 1 > max_segments) {
     temp_results <- list(segments = segments, log_likelihood = log_likelihood)

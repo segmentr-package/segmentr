@@ -67,7 +67,7 @@ test_that("handles zero columns", {
   set.seed(1234)
   data <- makeRandom(1000, 0)
   results <- exactalg(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)))
-  expect_equal(results$segments, c())
+  expect_equal(length(results$segments), 0)
 })
 
 test_that("handles NaN in log_likelihood or penalty", {

@@ -70,5 +70,7 @@ exact_segments <- function(
     log_likelihood(bigger) - log_likelihood(left) - log_likelihood(right)
   }
 
-  list(segments = segments, gammas = gammas)
+  foreach(segment = segments, gamma = gammas) %do% {
+    list(segment = segment, gamma = gamma)
+  }
 }

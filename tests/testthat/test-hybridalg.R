@@ -70,7 +70,7 @@ test_that("handles corner cases", {
   set.seed(1234)
   data <- makeRandom(1000, 0)
   results <- hybridalg(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), allow_parallel = FALSE, threshold = global_threshold)
-  expect_equal(results$segments, c())
+  expect_equal(length(results$segments), 0)
 })
 
 test_that("works with max_segments", {
