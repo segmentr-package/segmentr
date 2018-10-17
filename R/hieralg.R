@@ -33,7 +33,9 @@ hieralg <- function(
     allow_parallel = allow_parallel,
     recursive_fn = recursive_hieralg
   )
-  segments <- sort(unique(segs))
+  segments <- sapply(segs, "[[", "segment")
+
+  if (length(segments) == 0) segments <- NULL
 
   if (length(segments) > 0 && length(segments) + 1 > max_segments) {
     temp_results <- list(segments = segments, log_likelihood = log_likelihood)

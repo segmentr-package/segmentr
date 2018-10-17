@@ -46,5 +46,7 @@ recursive_hieralg <- function(
   segment_right <- slice_segment(data, current_position + 1, num_variables)
   positions_right <- recursive_fn(segment_right, initial_position + current_position, log_likelihood, penalty, allow_parallel, recursive_fn)
 
-  suppressWarnings(c(positions_left, current_position + initial_position - 1, positions_right))
+  gamma <- log_likelihood(data) - log_likelihood(segment_left) - log_likelihood(segment_right)
+  current_position <- list(segment = current_position + initial_position - 1, gamma = gamma)
+  suppressWarnings(c(positions_left, list(current_position), positions_right))
 }

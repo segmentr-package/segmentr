@@ -26,7 +26,7 @@ exactalg <- function(
                      log_likelihood = multivariate,
                      penalty = function(data) 0,
                      allow_parallel = TRUE) {
-  segments <- exact_segments(
+  results <- exact_segments(
     data = data,
     max_segments = max_segments,
     log_likelihood = log_likelihood,
@@ -35,7 +35,7 @@ exactalg <- function(
     initial_position = 1
   )
 
-  results <- list(segments = segments, log_likelihood = log_likelihood)
+  results$log_likelihood <- log_likelihood
   class(results) <- "segmentr"
   results
 }
