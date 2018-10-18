@@ -1,12 +1,12 @@
 #' Thorough segment function
 #'
 #' Function that implements the dynamic programming algorithm, with the intent
-#' of finding points of independent segments for which the log likelihood
+#' of finding points of independent changepoints for which the log likelihood
 #' function is maximized. It analyzes all possible combination, returning the
-#' segments that are garanteed to segment the data matrix in the maximum
-#' likelihood independent segments.
+#' changepoints that are garanteed to segment the data matrix in the maximum
+#' likelihood independent changepoints.
 #'
-#' @param data A matrix for which we wish to estimate the independent segments
+#' @param data A matrix for which we wish to estimate the independent changepoints
 #'   of.
 #' @param max_segments the max number of segments allowed to be found. Defaults
 #'   to the number of columns in `x`.
@@ -26,7 +26,7 @@ exactalg <- function(
                      log_likelihood = multivariate,
                      penalty = function(data) 0,
                      allow_parallel = TRUE) {
-  segments <- exact_segments(
+  changepoints <- exact_segments(
     data = data,
     max_segments = max_segments,
     log_likelihood = log_likelihood,
@@ -35,7 +35,12 @@ exactalg <- function(
     initial_position = 1
   )
 
-  results <- list(segments = segments, log_likelihood = log_likelihood)
+  results <- list()
+
+  results$changepoints <- vapply(changepoints, "[[", FUN.VALUE = 1, "changepoint")
+
+  results$log_likelihood <- log_likelihood
+  results$detailed_changepoints <- changepoints
   class(results) <- "segmentr"
   results
 }

@@ -1,6 +1,6 @@
 calculate_segment_likelihoods <- function(results, newdata) {
   log_likelihood <- results$log_likelihood
-  points <- c(1, results$segments, ncol(newdata) + 1)
+  points <- c(1, results$changepoints, ncol(newdata) + 1)
   foreach(start = head(points, -1), end = tail(points - 1, -1), .combine = c) %do% {
     log_likelihood(slice_segment(newdata, start, end))
   }
@@ -48,7 +48,7 @@ slice_segment <- function(data, start, end) data[, start:end, drop = FALSE]
 
 calculate_segment_likelihoods <- function(results, newdata) {
   log_likelihood <- results$log_likelihood
-  points <- c(1, results$segments, ncol(newdata) + 1)
+  points <- c(1, results$changepoints, ncol(newdata) + 1)
   foreach(start = head(points, -1), end = tail(points - 1, -1), .combine = c) %do% {
     log_likelihood(slice_segment(newdata, start, end))
   }

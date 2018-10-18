@@ -52,7 +52,7 @@ exact_segments <- function(
   last_break_pos <- which.max(segment_likelihoods[, num_variables])
 
   if (last_break_pos <= 1) {
-    return(c())
+    return(NULL)
   }
 
   break_positions <- c(num_variables)
@@ -61,5 +61,18 @@ exact_segments <- function(
     break_positions <- c(max_likehood_pos[break_pos, break_positions[1]], break_positions)
   }
 
-  head(break_positions, n = -1)
+  changepoints <- head(break_positions, n = -1)
+  previous_changepoints <- c(1, head(changepoints, n = -1))
+  gammas <- foreach(previous_changepoint = previous_changepoints, changepoint = changepoints, .combine = c) %do% {
+    bigger <- slice_segment(data, previous_changepoint, num_variables)
+    left <- slice_segment(data, previous_changepoint, changepoint - 1)
+    right <- slice_segment(data, changepoint, num_variables)
+    log_likelihood(bigger) - log_likelihood(left) - log_likelihood(right)
+  }
+
+  changepoints <- changepoints + initial_position - 1
+
+  foreach(changepoint = changepoints, gamma = gammas) %do% {
+    list(changepoint = changepoint, gamma = gamma)
+  }
 }
