@@ -9,14 +9,14 @@ exactalg(data, max_segments = ncol(data),
   allow_parallel = TRUE)
 }
 \arguments{
-\item{data}{A matrix for which we wish to estimate the independent segments
+\item{data}{A matrix for which we wish to estimate the independent changepoints
 of.}
 
-\item{max_segments}{the max number of segments allowed to be found. Defaults
+\item{max_segments}{the max number of changepoints allowed to be found. Defaults
 to the number of columns in `x`.}
 
 \item{log_likelihood}{log likelihood estimation funciton, which will be
-applied to all possible combinations of segments. Because it's executed
+applied to all possible combinations of changepoints. Because it's executed
 many times, it's likely to be the slow part of the function execution, so
 it's advised that this function should have a performant, native
 implementation. Defaults to a performant `multivariate` estimation.}
@@ -29,8 +29,8 @@ registered cluster. Defaults to TRUE.}
 }
 \description{
 Function that implements the dynamic programming algorithm, with the intent
-of finding points of independent segments for which the log likelihood
+of finding points of independent changepoints for which the log likelihood
 function is maximized. It analyzes all possible combination, returning the
-segments that are garanteed to segment the data matrix in the maximum
-likelihood independent segments.
+changepoints that are garanteed to segment the data matrix in the maximum
+likelihood independent changepoints.
 }

@@ -33,11 +33,11 @@ test_that("correctly identify independent results", {
   set.seed(123)
   data <- simulate2.1(2000)
   results <- hybridalg(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), threshold = global_threshold)
-  expect_equal(results$segments, c(5, 10))
+  expect_equal(results$changepoints, c(5, 10))
 
   data <- simulate3.2(5000)
   results <- hybridalg(data, penalty = function(X) (0.2 * 3^ncol(X)) * log(nrow(X)), threshold = global_threshold)
-  expect_equal(results$segments, c(3, 7))
+  expect_equal(results$changepoints, c(3, 7))
 })
 
 test_that("can be called using segment", {
@@ -46,10 +46,10 @@ test_that("can be called using segment", {
   data_2 <- simulate3.2(5000)
 
   results <- segment(data_1, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), threshold = global_threshold, algorithm = "hybrid")
-  expect_equal(results$segments, c(5, 10))
+  expect_equal(results$changepoints, c(5, 10))
 
   results <- segment(data_2, penalty = function(X) (0.2 * 3^ncol(X)) * log(nrow(X)), algorithm = "hybrid", threshold = global_threshold)
-  expect_equal(results$segments, c(3, 7))
+  expect_equal(results$changepoints, c(3, 7))
 })
 
 test_that("works with cluster", {
@@ -59,10 +59,10 @@ test_that("works with cluster", {
 
   doParallel::registerDoParallel(1)
   results <- hybridalg(data_1, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), allow_parallel = TRUE, threshold = global_threshold)
-  expect_equal(results$segments, c(5, 10))
+  expect_equal(results$changepoints, c(5, 10))
 
   results <- hybridalg(data_2, penalty = function(X) (0.2 * 3^ncol(X)) * log(nrow(X)), allow_parallel = FALSE, threshold = global_threshold)
-  expect_equal(results$segments, c(3, 7))
+  expect_equal(results$changepoints, c(3, 7))
   doParallel::stopImplicitCluster()
 })
 
@@ -70,7 +70,7 @@ test_that("handles corner cases", {
   set.seed(1234)
   data <- makeRandom(1000, 0)
   results <- hybridalg(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), allow_parallel = FALSE, threshold = global_threshold)
-  expect_equal(length(results$segments), 0)
+  expect_equal(length(results$changepoints), 0)
 })
 
 test_that("works with max_segments", {
@@ -78,7 +78,7 @@ test_that("works with max_segments", {
   data_1 <- simulate2.1(2000)
 
   results <- hybridalg(data_1, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), allow_parallel = TRUE, max_segments = 2)
-  expect_equal(results$segments, c(5))
+  expect_equal(results$changepoints, c(5))
 })
 
 test_that("handles NaN in log_likelihood or penalty", {

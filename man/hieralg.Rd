@@ -9,7 +9,7 @@ hieralg(data, log_likelihood = multivariate, penalty = function(x) 0,
 }
 \arguments{
 \item{log_likelihood}{log likelihood estimation funciton, which will be
-applied to all possible combinations of segments. Because it's executed
+applied to all possible combinations of changepoints. Because it's executed
 many times, it's likely to be the slow part of the function execution, so
 it's advised that this function should have a performant, native
 implementation. Defaults to a performant `multivariate` estimation.}
@@ -20,14 +20,14 @@ called with the segment being analysed as it's only parameter.}
 \item{allow_parallel}{allows parallel execution to take place using the
 registered cluster. Defaults to TRUE.}
 
-\item{x}{A matrix for which we wish to estimate the independent segments of.}
+\item{x}{A matrix for which we wish to estimate the independent changepoints of.}
 
 \item{initial_position}{a initial position for the recursive algorithm.}
 }
 \description{
 Hierarchical implementation of the \code{\link{segment}} function. It
 simplifies the comparisons to be made assuming the data is hierarchical, i.e.
-a segment found in a first trial is assumed to contain only segments
+a segment found in a first trial is assumed to contain only changepoints
 independent of the rest of the data. This algorithm usually runs very fast,
 but is known to yield less accurate results, possibly now finding all the
 correct segment break points at their correct locaitons.

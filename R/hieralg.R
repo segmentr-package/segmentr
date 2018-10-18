@@ -33,16 +33,16 @@ hieralg <- function(
     allow_parallel = allow_parallel,
     recursive_fn = recursive_hieralg
   )
-  segments <- sapply(segs, "[[", "segment")
+  changepoints <- sapply(segs, "[[", "changepoint")
 
-  if (length(segments) > 0 && length(segments) + 1 > max_segments) {
-    temp_results <- list(segments = segments, log_likelihood = log_likelihood)
+  if (length(changepoints) > 0 && length(changepoints) + 1 > max_segments) {
+    temp_results <- list(changepoints = changepoints, log_likelihood = log_likelihood)
     likelihoods <- calculate_segment_likelihoods(temp_results, data)
-    segments_with_likelihood <- data.frame(segment = segments, likelihood = head(likelihoods, -1))
-    segments <- with(segments_with_likelihood, segment[order(-likelihood)[1:(max_segments - 1)]])
+    changepoints_with_likelihood <- data.frame(changepoint = changepoints, likelihood = head(likelihoods, -1))
+    changepoints <- with(changepoints_with_likelihood, changepoint[order(-likelihood)[1:(max_segments - 1)]])
   }
 
-  results <- list(segments = segments, log_likelihood = log_likelihood)
+  results <- list(changepoints = changepoints, log_likelihood = log_likelihood)
   class(results) <- "segmentr"
   results
 }

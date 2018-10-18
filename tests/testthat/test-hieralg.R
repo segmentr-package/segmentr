@@ -27,26 +27,26 @@ simulate3.2 <- function(N) {
 }
 
 
-test_that("identifies segments differently, if we take into account the different algorithm implementation", {
+test_that("identifies changepoints differently, if we take into account the different algorithm implementation", {
   set.seed(1234)
   data <- simulate2.1(2000)
   results <- hieralg(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)))
-  expect_equal(results$segments, c(5, 10))
+  expect_equal(results$changepoints, c(5, 10))
 
   data <- simulate3.2(5000)
   results <- hieralg(data, penalty = function(X) (0.2 * 3^ncol(X)) * log(nrow(X)))
-  expect_equal(results$segments, c(7, 10))
+  expect_equal(results$changepoints, c(7, 10))
 })
 
 test_that("can be called with segment", {
   set.seed(1234)
   data <- simulate2.1(2000)
   results <- segment(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), algorithm = "hierarchical")
-  expect_equal(results$segments, c(5, 10))
+  expect_equal(results$changepoints, c(5, 10))
 
   data <- simulate3.2(5000)
   results <- segment(data, penalty = function(X) (0.2 * 3^ncol(X)) * log(nrow(X)), algorithm = "hieralg")
-  expect_equal(results$segments, c(7, 10))
+  expect_equal(results$changepoints, c(7, 10))
 })
 
 test_that("works with a cluster as well", {
@@ -56,10 +56,10 @@ test_that("works with a cluster as well", {
 
   doParallel::registerDoParallel(1)
   results <- hieralg(data_1, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), allow_parallel = TRUE)
-  expect_equal(results$segments, c(5, 10))
+  expect_equal(results$changepoints, c(5, 10))
 
   results <- hieralg(data_2, penalty = function(X) (0.2 * 3^ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
-  expect_equal(results$segments, c(7, 10))
+  expect_equal(results$changepoints, c(7, 10))
   doParallel::stopImplicitCluster()
 })
 
@@ -67,7 +67,7 @@ test_that("handles corner cases", {
   set.seed(1234)
   data <- makeRandom(1000, 0)
   results <- hieralg(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
-  expect_equal(length(results$segments), 0)
+  expect_equal(length(results$changepoints), 0)
 })
 
 test_that("works with max_segments", {
@@ -75,7 +75,7 @@ test_that("works with max_segments", {
   data_1 <- simulate2.1(2000)
 
   results <- hieralg(data_1, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), allow_parallel = TRUE, max_segments = 2)
-  expect_equal(results$segments, c(5))
+  expect_equal(results$changepoints, c(5))
 })
 
 test_that("handles NaN in log_likelihood or penalty", {
