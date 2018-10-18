@@ -57,3 +57,12 @@ test_that("test max changepoints", {
   results <- exactalg(data_1, penalty = function(X) (0.5 * 2^ncol(X)) * log(nrow(X)), max_segments = 2)
   expect_equal(results$changepoints, c(9))
 })
+
+test_that("has detailed changepoints in the result set", {
+  results <- exactalg(data_1, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)))
+
+  expect_equal(results$detailed_changepoints, list(
+    list(changepoint = 5, gamma = 716.0865),
+    list(changepoint = 10, gamma = 702.1316)
+  ), tolerance = 0.001)
+})

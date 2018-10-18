@@ -42,7 +42,7 @@ hieralg <- function(
     changepoints <- with(changepoints_with_likelihood, changepoint[order(-likelihood)[1:(max_segments - 1)]])
   }
 
-  results <- list(changepoints = changepoints, log_likelihood = log_likelihood)
+  results <- list(changepoints = changepoints, log_likelihood = log_likelihood, detailed_changepoints = segs)
   class(results) <- "segmentr"
   results
 }

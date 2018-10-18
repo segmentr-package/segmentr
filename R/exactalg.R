@@ -40,6 +40,7 @@ exactalg <- function(
   results$changepoints <- vapply(changepoints, "[[", FUN.VALUE = 1, "changepoint")
 
   results$log_likelihood <- log_likelihood
+  results$detailed_changepoints <- changepoints
   class(results) <- "segmentr"
   results
 }
