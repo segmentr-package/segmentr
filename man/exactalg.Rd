@@ -12,11 +12,11 @@ exactalg(data, max_segments = ncol(data),
 \item{data}{A matrix for which we wish to estimate the independent changepoints
 of.}
 
-\item{max_segments}{the max number of changepoints allowed to be found. Defaults
+\item{max_segments}{the max number of segments allowed to be found. Defaults
 to the number of columns in `x`.}
 
 \item{log_likelihood}{log likelihood estimation funciton, which will be
-applied to all possible combinations of changepoints. Because it's executed
+applied to all possible combinations of segments. Because it's executed
 many times, it's likely to be the slow part of the function execution, so
 it's advised that this function should have a performant, native
 implementation. Defaults to a performant `multivariate` estimation.}
