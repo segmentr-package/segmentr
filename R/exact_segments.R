@@ -70,6 +70,8 @@ exact_segments <- function(
     log_likelihood(bigger) - log_likelihood(left) - log_likelihood(right)
   }
 
+  changepoints <- changepoints + initial_position - 1
+
   foreach(changepoint = changepoints, gamma = gammas) %do% {
     list(changepoint = changepoint, gamma = gamma)
   }

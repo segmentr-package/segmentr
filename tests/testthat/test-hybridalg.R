@@ -11,7 +11,7 @@ test_that("correctly identify independent results", {
 
   data <- simulate3.2(5000)
   results <- hybridalg(data_2, penalty = function(X) (0.2 * 3^ncol(X)) * log(nrow(X)), threshold = global_threshold)
-  expect_equal(results$changepoints, c(3, 7))
+  expect_equal(results$changepoints, c(7, 10))
 })
 
 test_that("can be called using segment", {
@@ -19,7 +19,7 @@ test_that("can be called using segment", {
   expect_equal(results$changepoints, c(5, 10))
 
   results <- segment(data_2, penalty = function(X) (0.2 * 3^ncol(X)) * log(nrow(X)), algorithm = "hybrid", threshold = global_threshold)
-  expect_equal(results$changepoints, c(3, 7))
+  expect_equal(results$changepoints, c(7, 10))
 })
 
 test_that("works with cluster", {
@@ -28,7 +28,7 @@ test_that("works with cluster", {
   expect_equal(results$changepoints, c(5, 10))
 
   results <- hybridalg(data_2, penalty = function(X) (0.2 * 3^ncol(X)) * log(nrow(X)), allow_parallel = FALSE, threshold = global_threshold)
-  expect_equal(results$changepoints, c(3, 7))
+  expect_equal(results$changepoints, c(7, 10))
   doParallel::stopImplicitCluster()
 })
 
@@ -55,4 +55,11 @@ test_that("handles NaN in log_likelihood or penalty", {
     hybridalg(data, penalty = function(X) if (ncol(X) == 2) NaN else sum(X)),
     "penalty returned a NaN when called with penalty\\(data\\[, 2:3\\]\\)"
   )
+})
+
+test_that("fix bug with duplicated changepoints", {
+  set.seed(1234)
+  data <- simulate2.1(2000)
+  results <- hybridalg(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), threshold = global_threshold)
+  expect_equal(results$changepoints, c(5, 10))
 })
