@@ -12,9 +12,9 @@ recursive_hieralg <- function(
   `%doOp%` <- get_operator(allow_parallel)
 
   segment_likelihood <- function(start, end) {
-    changepoint <- slice_segment(data, start, end)
-    likelihood_value <- log_likelihood(changepoint)
-    penalty_value <- penalty(changepoint)
+    segment <- slice_segment(data, start, end)
+    likelihood_value <- log_likelihood(segment)
+    penalty_value <- penalty(segment)
 
     handle_nan(likelihood_value, penalty_value, start + initial_position - 1, end + initial_position - 1)
 
