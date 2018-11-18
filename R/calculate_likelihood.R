@@ -1,5 +1,5 @@
 #' @export
-predict.segmentr <- function(results, newdata) {
+calculate_likelihood <- function(results, newdata) {
   likelihoods <- calculate_segment_likelihoods(results, newdata)
   sum(likelihoods)
 }
