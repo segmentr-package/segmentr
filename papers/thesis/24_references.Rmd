@@ -1,0 +1,7 @@
+# References
+
+- fpop
+- RStudio
+- RCPP
+- original research paper from Florencia
+- benchmark package

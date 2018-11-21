@@ -1,0 +1,41 @@
+# Considerations on performance
+
+This code shows a handful of attempts that were made in actually trying to make
+the code run faster.
+
+## Benchmark the code
+
+The first step is to benchmark a first slow version of the code.
+
+## Native Code
+
+After identifying the bottleneck of the code, we can try to rewrite that
+function in a more optimized manner. For that, we use RCPP to implement
+the commonly used `multivariate` function in C++. That allows us to get
+better in the R code execution.
+
+## Parallelization
+
+Another approach to try to optimize the problem is to parallelize the computation.
+This is rather complicated in this scenario because, as a general rule, a stage of
+the computation depends on the previous stage. That means the computation can't be
+easily split across multiple nodes, as they frequently would have to wait for the
+computations in other nodes to finish.
+
+Still, we are able to introduce some parallelization wherever possible as described in
+the equation ???.
+
+Using the package `foreach`, we implemented parallel computation in the package,
+for which some performance gains can be observed in a handful of scenarios.
+
+In general, it's useful to parallelize when the likelihood function takes a
+considerable amount of time to compute the likelihood of a segment. Because
+each computing node takes a considerable amount of time computing, it's worth
+it to split the task in multiple workers. However, when that same time is fast,
+due to a small number of samples in the segment, for example, the log likelihood
+function tends to compute in a fairly smaller time.
+
+## Benchmark
+
+In the table we show the code snippets for the benchmark and a table comparing the
+results.

@@ -1,0 +1,16 @@
+---
+title: "A Package for Changepoint Detection in R"
+author:
+  - "Thales Melo"
+  - "Florencia Leonardi"
+date: "`r Sys.Date()`"
+site: "bookdown::bookdown_site"
+output:
+  bookdown::html_document2:
+  bookdown::pdf_document2:
+documentclass: book
+classoption: openany
+bibliography: []
+biblio-style: apalike
+link-citations: yes
+---

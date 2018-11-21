@@ -1,0 +1,15 @@
+
+\newcommand{\X}{\vec X}
+\newcommand{\x}{\mathbf x}
+\newcommand{\Xs}{\mathbf X}
+\renewcommand{\P}{\mathbb P}
+\newcommand{\E}{\mathbb E}
+\newcommand{\argmax}{\arg\max}
+\newcommand{\pen}{\text{pen}}
+\newcommand{\p}{\text{p}}
+\newcommand{\wQ}{\widetilde Q}
+\newcommand{\wP}{\widehat\Pr}
+\newcommand{\M}{\mathcal M}
+\newcommand{\rs}{r\!:\!s}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\R}{\mathbb R}

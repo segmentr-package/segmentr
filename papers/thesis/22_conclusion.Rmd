@@ -1,0 +1,3 @@
+# Conclusion
+
+This paper describes a method for identifying changepoints in a given dataset, and then goes on to implement it. Many attempts were also made to make the code run faster.

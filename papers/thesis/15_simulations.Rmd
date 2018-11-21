@@ -1,0 +1,3 @@
+# Simulations
+
+This section shows simulations using the package.

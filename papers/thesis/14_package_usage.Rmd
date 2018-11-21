@@ -1,0 +1,33 @@
+# Package Usage
+
+This section shows how to use the package.
+
+## Instalation
+
+The package can be installed using `devtools`.
+
+```
+install.packages("devtools")
+require("devtools")
+install_github("thalesmello/segmentr")
+```
+
+## Usage
+
+The package can be used with the `segment` function.
+
+```{r}
+require("segmentr")
+
+data <- rbind(
+  c(1, 1, 0, 0, 0, 1, 1, 1),
+  c(1, 1, 0, 0, 0, 1, 1, 1),
+  c(1, 1, 0, 0, 0, 1, 1, 1),
+  c(1, 1, 0, 0, 0, 1, 1, 1),
+  c(1, 1, 0, 0, 0, 1, 1, 1),
+  c(1, 1, 0, 0, 0, 1, 1, 1)
+)
+
+segment(data, algorithm = "exact", penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)))$changepoints
+```
+

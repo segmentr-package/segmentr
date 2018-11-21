@@ -1,0 +1,22 @@
+# Model Selection Criterion
+
+We propose a method to estimate this minimal set of intervals % $S=\{I_1,\dotsc, I_k\}$
+by optimising a criterion over all possible sets of intervals, namely
+
+\begin{equation}\label{opprob}
+\hat S \;=\; \underset{S}{\arg\max}\; \Bigl\{ \sum_{I\in S} ( \log \hat\P ({\bf X}_I) -  \text{pen}(I)) \Bigr\}\,,
+\end{equation}
+where pen is a non-decreasing function of $|I|$, the size of the interval $I$.
+
+The R package `segmentr` solves the optimisation problem \eqref{opprob}
+$\hat s \;=\; \underset{s}{\arg\min} \sum_{s} (f({\bf X}_s) + h(s))$,
+where ${\bf X}\in \R^{n\times p}$ and  $s$ is a set of `segments` over
+the set $1,\dotsc, p$. Basically, $s$ can be viewed as an ordered subset
+$s=\{0,s_1,\dotsc, s_k\}\subset\{0,1,\dotsc, p\}$, such that the
+segments (intervals) are given by
+$I_j = \{s_{j-1}+1,\dotsc,s_{j}\}\qquad j=1,\dotsc, k\,.$
+
+The function $c({\bf X},s)=\sum_{s} f({\bf X}_s)+h(s)$ is a `cost` function
+that tries to be optimised over the possible segmentations $s$. It is defined
+as a sum because in general $f$ defines a measure of  `fitting` to the dataset
+and $h$ defines a measure of complexity of the segmentation $s$.
