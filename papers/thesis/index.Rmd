@@ -1,5 +1,5 @@
 ---
-title: "A Package for Changepoint Detection in R"
+title: "A R Package for Changepoint Detection"
 author:
   - "Thales Melo"
   - "Florencia Leonardi"

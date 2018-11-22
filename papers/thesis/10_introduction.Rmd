@@ -1,0 +1,15 @@
+# Introduction
+
+This describes the development of the R package.
+
+## Motivation
+
+To make it easy to detect changepoints in R by researchers.
+
+## Main References
+
+This packages was bases on ???
+
+## Similar Work
+
+There is similar work done by `fpop` package

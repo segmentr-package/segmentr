@@ -1,3 +1,0 @@
-# Similar Work
-
-There is a package called `fpop` which takes a different approach based on this paper.

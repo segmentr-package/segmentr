@@ -1,3 +1,0 @@
-# Similar Work
-
-The package `fpop` also implements a changepoint detection algorithm, however takes a different approach.
