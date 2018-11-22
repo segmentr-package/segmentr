@@ -6,9 +6,9 @@
 #' @details Uses the specified algorithm to segment data into changepoints.
 #' @examples
 #' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
+#' if (interactive()) {
+#'   # EXAMPLE1
+#' }
 #' }
 #' @rdname segment
 #' @seealso \code{\link{exactalg}} for the exact algorithm, \code{\link{hieralg}} for the
