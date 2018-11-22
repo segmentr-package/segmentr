@@ -1,5 +1,5 @@
 
-\newcommand{\X}{\vec X}
+\newcommand{\X}{\bf X}
 \newcommand{\x}{\mathbf x}
 \newcommand{\Xs}{\mathbf X}
 \renewcommand{\P}{\mathbb P}
