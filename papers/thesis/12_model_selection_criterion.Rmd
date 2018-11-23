@@ -4,7 +4,7 @@ We propose a method to estimate this minimal set of intervals % $S=\{I_1,\dotsc,
 by optimising a criterion over all possible sets of intervals, namely
 
 \begin{equation}\label{opprob}
-\hat S \;=\; \underset{S}{\arg\max}\; \Bigl\{ \sum_{I\in S} ( \log \hat\P ({\X}_I) -  \text{pen}(I)) \Bigr\}\,,
+\hat S \;=\; \underset{S}{\arg\max}\; \Bigl\{ \sum_{I\in S} ( \log \hat{\P}({\X}_I) -  \text{pen}(I)) \Bigr\}\,,
 \end{equation}
 where pen is a non-decreasing function of $|I|$, the size of the interval $I$.
 
