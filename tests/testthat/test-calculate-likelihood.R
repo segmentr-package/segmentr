@@ -16,7 +16,7 @@ test_that("calculate log_likelihood of existing type", {
 
   mult_likelihood <- prod
 
-  results <- list(changepoints = c(3, 5), log_likelihood = prod)
+  results <- list(changepoints = c(2, 4), log_likelihood = prod)
   class(results) <- "segmentr"
 
   likelihood <- calculate_likelihood(results, points)
@@ -28,13 +28,13 @@ test_that("works with segment function on both algorithms", {
   data <- simulate2.1(2000)
   results <- segment(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)))
   likelihood <- calculate_likelihood(results, data)
-  expect_equal(likelihood, -11087.332, tolerance = 0.1)
+  expect_equal(likelihood, -8316, tolerance = 0.1)
 
   results <- segment(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), algorithm = "hieralg")
   likelihood <- calculate_likelihood(results, data)
-  expect_equal(likelihood, -11087.332, tolerance = 0.1)
+  expect_equal(likelihood, -8316, tolerance = 0.1)
 
   results <- segment(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), algorithm = "hybrid")
   likelihood <- calculate_likelihood(results, data)
-  expect_equal(likelihood, -11087.332, tolerance = 0.1)
+  expect_equal(likelihood, -8316, tolerance = 1)
 })
