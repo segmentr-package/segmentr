@@ -2,8 +2,7 @@
 % Please edit documentation in R/multivariate.R
 \name{multivariate}
 \alias{multivariate}
-\title{Logarithmic Discrete Multivariate Likelihood estimation function implemented
-efficiently}
+\title{Efficient Logarithmic Discrete Multivariate Likelihood estimation}
 \usage{
 multivariate(data, na_action = na.omit)
 }
@@ -20,10 +19,14 @@ the estimate of the Discrite Maximum Likelyhood for the dataframe
 provided.
 }
 \description{
+Estimate the likelihood of a given segment using the discrete multivariate
+estimation, implemmented efficiently in C++
+}
+\details{
 Calculates the discrete log likelihood multivariate estimation of a data
 matrix using an algorithm implemented in C++ for performance. This is
-intented to be used in conjunction with \code{\link{segment}} and
-\code{\link{hieralg}}, as the log likelihood function is executed multiple
-times, which makes it the bottleneck of the computation. Because the
-multivariate is so commonly used, this efficient implementation is provided.
+intented to be used in conjunction with \code{\link[=segment]{segment()}}, as the log likelihood
+function is executed multiple times, which makes it the bottleneck of the
+computation. Because the multivariate is so commonly used, this efficient
+implementation is provided.
 }

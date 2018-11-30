@@ -1,8 +1,11 @@
 #' Logarithmic Discrete Multivariate Likelihood estimation function implemented
 #' in R
 #'
+#' Estimate the likelihood of a given segment using the discrete multivariate
+#' estimation, but code runs more slowly due to R implementation
+#'
 #' This log likelihood function is implemented in R in order to be used to
-#' benchmark agaisnt the \code{\link{segment}} version implemented in C++ for
+#' benchmark agaisnt the [multivariate()] version implemented in C++ for
 #' performance.
 #'
 #' @param data Matrix to estimate the multivariate of. Each row is considered to
@@ -11,6 +14,7 @@
 #' @param na.omit If true, omits NAs from the dataset.
 #' @return The estimate of the Discrite Maximum Likelyhood for the dataframe
 #'   provided.
+#'
 #' @export
 r_multivariate <- function(data, na.omit = TRUE) {
   data <- as.matrix(data)

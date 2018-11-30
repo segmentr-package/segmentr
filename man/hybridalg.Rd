@@ -28,7 +28,7 @@ threshold.}
 }
 \description{
 For the larger datasets, assume the data is hierarchical, but calculate
-the exact segments after a threshold
+the exact segments when they're smaller than a threshold
 }
 \details{
 This algorithm implements an approach mixing the hierarchical and exact

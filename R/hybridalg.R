@@ -1,7 +1,7 @@
 #' Segment data into changepoints using a mixed hierarchical-exact approach
 #'
 #' For the larger datasets, assume the data is hierarchical, but calculate
-#' the exact segments after a threshold
+#' the exact segments when they're smaller than a threshold
 #'
 #' This algorithm implements an approach mixing the hierarchical and exact
 #' algorithms. It uses the hierarchical algorithms when the size of the segment

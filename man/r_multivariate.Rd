@@ -19,7 +19,11 @@ The estimate of the Discrite Maximum Likelyhood for the dataframe
 provided.
 }
 \description{
+Estimate the likelihood of a given segment using the discrete multivariate
+estimation, but code runs more slowly due to R implementation
+}
+\details{
 This log likelihood function is implemented in R in order to be used to
-benchmark agaisnt the \code{\link{segment}} version implemented in C++ for
+benchmark agaisnt the \code{\link[=multivariate]{multivariate()}} version implemented in C++ for
 performance.
 }
