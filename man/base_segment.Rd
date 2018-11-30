@@ -8,21 +8,29 @@ base_segment(data, log_likelihood, penalty, initial_position,
   allow_parallel)
 }
 \arguments{
-\item{data}{matrix for which we wish to estimate the independent segments of.}
+\item{data}{matrix for which to find the changepooints}
 
-\item{log_likelihood}{log likelihood estimation funciton, which will be
-applied to all possible combinations of segments. Because it's executed
-many times, it's likely to be the slow part of the function execution, so
+\item{log_likelihood}{a function receives the the segment matrix as argument
+and returns a likelihood estimation. This function is used to calculate the
+changepoints that maximize the total likelihood. Depending on the algorithm
+being used, this function is likely to be executed many times, in which
+case it's also likely to be the bottleneck of the function execution, so
 it's advised that this function should have a performant, native
 implementation. Defaults to a performant \code{multivariate} estimation.}
 
-\item{penalty}{a function that determines the penalty for the segment. It's
-called with the segment being analysed as it's only parameter.}
-
-\item{initial_position}{a initial position for the recursive algorithm.}
+\item{penalty}{a function that receives the segment as parameter and returns
+the penalty to the segment, directly subtracted from the likelihood
+estimated by the other function. The idea if for this to be used as a way
+of avoiding undesirable results, e.g. to avoid large segments by provind a
+penalty function that penalizes big segments, of the other way arround, by
+providing a penalty function that penalizes small segments.}
 
 \item{allow_parallel}{allows parallel execution to take place using the
-registered cluster. Defaults to TRUE.}
+registered cluster. Assumes a cluster is registered with the \code{foreach}
+package. Defaults to TRUE.}
+
+\item{max_segments}{an integer that defines the maximum amount of segments to
+split the data into.}
 }
 \description{
 Describe base arguments for segment function
