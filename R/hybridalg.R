@@ -1,3 +1,18 @@
+#' Segment data into changepoints using a mixed hierarchical-exact approach
+#'
+#' For the larger datasets, assume the data is hierarchical, but calculate
+#' the exact segments after a threshold
+#'
+#' This algorithm implements an approach mixing the hierarchical and exact
+#' algorithms. It uses the hierarchical algorithms when the size of the segment
+#' is bigger than the threshold, and then goes on to use the exact algorithm
+#' when the size of the segment is less than or equal to the threshold.
+#'
+#' @inheritParams base_segment
+#' @param threshold the threshold for which the exact algorithm will be used,
+#'   i.e. when the number of columns in the segment is less than or equal to the
+#'   threshold.
+#'
 #' @export
 hybridalg <- function(
                       data,

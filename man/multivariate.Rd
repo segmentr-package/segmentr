@@ -12,12 +12,12 @@ multivariate(data, na_action = na.omit)
 be an observation, and each column is considered to be a different
 variable.}
 
-\item{na_action}{A function that is applied to the `X` parameter. Defaults to
-`na.omit` function.}
+\item{na_action}{A function that is applied to the \code{X} parameter. Defaults to
+\code{na.omit} function.}
 }
 \value{
 the estimate of the Discrite Maximum Likelyhood for the dataframe
-  provided.
+provided.
 }
 \description{
 Calculates the discrete log likelihood multivariate estimation of a data

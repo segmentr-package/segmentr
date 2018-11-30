@@ -1,30 +1,66 @@
-#' @title segment
-#' @description Segments data into changepoints using a specified algorithm
-#' @param ... params to be passed to the underlying function.
-#' @param algorithm can be of type `exact`, `hierarchical` or `hybrid`, Default: 'exact'
+#' Segment data into changepoints
+#'
+#' Generic function to segment data into separate changepoionts according to
+#' specified algorithm
+#'
+#' This function can be used as a generic function to call any of the algorithms implemented
+#' by the package. Depending on the type of data the user wants to segment, one algorithm
+#' might be more adequate than the others.
+#'
+#' @inheritParams base_segment
+#' @param ... other params to be passed to the underlying function
+#' @param algorithm can be of type `exact`, `hierarchical` or `hybrid`, Default: `exact`
 #' @return returns an object of type `segmentr`
-#' @details Uses the specified algorithm to segment data into changepoints.
 #' @examples
-#' \dontrun{
-#' if (interactive()) {
-#'   # EXAMPLE1
-#' }
-#' }
-#' @rdname segment
-#' @seealso \code{\link{exactalg}} for the exact algorithm, \code{\link{hieralg}} for the
-#' hierarchical algorithm implementation, \code{\link{hybrid}} for the hybrid algorithm
-#' implementation.
+#' 
+#' make_segment <- function(n, p) matrix(rbinom(100 * n, 1, p), nrow = 100)
+#' data <- cbind(make_segment(5, 0.1), make_segment(10, 0.9), make_segment(2, 0.1))
+#' mean_lik <- function(X) abs(mean(X) - 0.5) * ncol(X)^2
+#' segment(data, log_likelihood = mean_lik, algorithm = "hieralg")$changepoints
+#' @seealso [exactalg()] for the exact algorithm, [hieralg()] for the
+#'   hierarchical algorithm implementation, [hybridalg()] for the hybrid algorithm
+#'   implementation.
+#'
 #' @export
 segment <- function(
-                    ...,
-                    algorithm = "exact") {
+                    data,
+                    log_likelihood = multivariate,
+                    penalty = function(x) 0,
+                    max_segments = ncol(data),
+                    allow_parallel = TRUE,
+                    algorithm = "exact",
+                    ...) {
   if (algorithm %in% c("exact", "exactalg")) {
-    exactalg(...)
+    exactalg(
+      data = data,
+      log_likelihood = log_likelihood,
+      penalty = penalty,
+      max_segments = max_segments,
+      allow_parallel = allow_parallel,
+      algorithm = algorithm,
+      ...
+    )
   } else if (algorithm %in% c("hierarchical", "hieralg")) {
-    hieralg(...)
+    hieralg(
+      data = data,
+      log_likelihood = log_likelihood,
+      penalty = penalty,
+      max_segments = max_segments,
+      allow_parallel = allow_parallel,
+      algorithm = algorithm,
+      ...
+    )
   } else if (algorithm %in% c("hybrid", "hybridalg")) {
-    hybridalg(...)
+    hybridalg(
+      data = data,
+      log_likelihood = log_likelihood,
+      penalty = penalty,
+      max_segments = max_segments,
+      allow_parallel = allow_parallel,
+      algorithm = algorithm,
+      ...
+    )
   } else {
-    error("algorithm not supported")
+    stop("algorithm not supported")
   }
 }

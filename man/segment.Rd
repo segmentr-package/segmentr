@@ -2,33 +2,53 @@
 % Please edit documentation in R/segment.R
 \name{segment}
 \alias{segment}
-\title{segment}
+\title{Segment data into changepoints}
 \usage{
-segment(..., algorithm = "exact")
+segment(data, log_likelihood = multivariate, penalty = function(x) 0,
+  max_segments = ncol(data), allow_parallel = TRUE,
+  algorithm = "exact", ...)
 }
 \arguments{
-\item{...}{params to be passed to the underlying function.}
+\item{data}{matrix for which we wish to estimate the independent segments of.}
 
-\item{algorithm}{can be of type `exact`, `hierarchical` or `hybrid`, Default: 'exact'}
+\item{log_likelihood}{log likelihood estimation funciton, which will be
+applied to all possible combinations of segments. Because it's executed
+many times, it's likely to be the slow part of the function execution, so
+it's advised that this function should have a performant, native
+implementation. Defaults to a performant \code{multivariate} estimation.}
+
+\item{penalty}{a function that determines the penalty for the segment. It's
+called with the segment being analysed as it's only parameter.}
+
+\item{allow_parallel}{allows parallel execution to take place using the
+registered cluster. Defaults to TRUE.}
+
+\item{algorithm}{can be of type \code{exact}, \code{hierarchical} or \code{hybrid}, Default: \code{exact}}
+
+\item{...}{other params to be passed to the underlying function}
 }
 \value{
-returns an object of type `segmentr`
+returns an object of type \code{segmentr}
 }
 \description{
-Segments data into changepoints using a specified algorithm
+Generic function to segment data into separate changepoionts according to
+specified algorithm
 }
 \details{
-Uses the specified algorithm to segment data into changepoints.
+This function can be used as a generic function to call any of the algorithms implemented
+by the package. Depending on the type of data the user wants to segment, one algorithm
+might be more adequate than the others.
 }
 \examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+
+make_segment <- function(n, p) matrix(rbinom(100 * n, 1, p), nrow = 100)
+data <- cbind(make_segment(5, 0.1), make_segment(10, 0.9), make_segment(2, 0.1))
+mean_lik <- function(X) abs(mean(X) - 0.5) * ncol(X)^2
+segment(data, log_likelihood = mean_lik, algorithm = "hieralg")$changepoints
+
 }
 \seealso{
-\code{\link{exactalg}} for the exact algorithm, \code{\link{hieralg}} for the
-hierarchical algorithm implementation, \code{\link{hybrid}} for the hybrid algorithm
+\code{\link[=exactalg]{exactalg()}} for the exact algorithm, \code{\link[=hieralg]{hieralg()}} for the
+hierarchical algorithm implementation, \code{\link[=hybridalg]{hybridalg()}} for the hybrid algorithm
 implementation.
 }

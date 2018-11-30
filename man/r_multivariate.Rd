@@ -16,7 +16,7 @@ variable.}
 }
 \value{
 The estimate of the Discrite Maximum Likelyhood for the dataframe
-  provided.
+provided.
 }
 \description{
 This log likelihood function is implemented in R in order to be used to

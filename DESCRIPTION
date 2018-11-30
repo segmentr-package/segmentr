@@ -16,3 +16,4 @@ LinkingTo: Rcpp
 Suggests: testthat,
   doParallel
 RoxygenNote: 6.1.0
+Roxygen: list(markdown = TRUE)

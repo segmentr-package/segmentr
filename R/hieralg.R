@@ -1,23 +1,16 @@
-#' Hierarchical segment function
+#' Segment data into changepoints assuming hierarchical structure
 #'
-#' Hierarchical implementation of the \code{\link{segment}} function. It
-#' simplifies the comparisons to be made assuming the data is hierarchical, i.e.
-#' a segment found in a first trial is assumed to contain only segments
-#' independent of the rest of the data. This algorithm usually runs very fast,
-#' but is known to yield less accurate results, possibly now finding all the
-#' correct segment break points at their correct locaitons.
+#' By assuming changepoints follow an hierarchical architecture, this architecture
+#' manages to run faster by not searching all possible branches
 #'
-#' @param x A matrix for which we wish to estimate the independent segments of.
-#' @param log_likelihood log likelihood estimation funciton, which will be
-#'   applied to all possible combinations of segments. Because it's executed
-#'   many times, it's likely to be the slow part of the function execution, so
-#'   it's advised that this function should have a performant, native
-#'   implementation. Defaults to a performant `multivariate` estimation.
-#' @param penalty a function that determines the penalty for the segment. It's
-#'   called with the segment being analysed as it's only parameter.
-#' @param initial_position a initial position for the recursive algorithm.
-#' @param allow_parallel allows parallel execution to take place using the
-#'   registered cluster. Defaults to TRUE.
+#' Fast algorithm that segments data intoo changepoints, and it does so by
+#' simplifying by reducing the search possibilities by assuming data split in an
+#' hierarchical structure, i.e. a segment found in a first trial is assumed to
+#' contain only segments independent of the rest of the data. This algorithm
+#' usually runs very fast, but is known to yield less accurate results, possibly
+#' not finding the exact changepoints that would maximize likelihood.
+#'
+#' @inheritParams base_segment
 #' @export
 hieralg <- function(
                     data,
