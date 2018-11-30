@@ -46,5 +46,19 @@ interleave <- function(parts) {
   result
 }
 
+# Impoort functions from other packages
 foreach <- foreach::foreach
 `%do%` <- foreach::`%do%`
+head <- utils::head
+tail <- utils::tail
+na.omit <- stats::na.omit
+
+# Declare variables used by the foreach package
+# This is done so R CHECK does not complain
+i <- NULL
+start <- NULL
+end <- NULL
+indices <- NULL
+seg_end <- NULL
+changepoint <- NULL
+previous_changepoint <- NULL
