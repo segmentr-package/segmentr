@@ -58,6 +58,6 @@ segment(data, log_likelihood = mean_lik, algorithm = "hieralg")$changepoints
 }
 \seealso{
 \code{\link[=exactalg]{exactalg()}} for the exact algorithm, \code{\link[=hieralg]{hieralg()}} for the
-hierarchical algorithm implementation, \code{\link[=hybridalg]{hybridalg()}} for the hybrid algorithm
-implementation.
+hierarchical algorithm implementation, \code{\link[=hybridalg]{hybridalg()}} for the hybrid
+algorithm implementation.
 }

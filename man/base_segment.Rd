@@ -4,8 +4,7 @@
 \alias{base_segment}
 \title{Base arguments for segment function}
 \usage{
-base_segment(data, log_likelihood, penalty, initial_position,
-  allow_parallel)
+base_segment(data, log_likelihood, penalty, max_segments, allow_parallel)
 }
 \arguments{
 \item{data}{matrix for which to find the changepooints}
@@ -25,12 +24,12 @@ of avoiding undesirable results, e.g. to avoid large segments by provind a
 penalty function that penalizes big segments, of the other way arround, by
 providing a penalty function that penalizes small segments.}
 
+\item{max_segments}{an integer that defines the maximum amount of segments to
+split the data into.}
+
 \item{allow_parallel}{allows parallel execution to take place using the
 registered cluster. Assumes a cluster is registered with the \code{foreach}
 package. Defaults to TRUE.}
-
-\item{max_segments}{an integer that defines the maximum amount of segments to
-split the data into.}
 }
 \description{
 Describe base arguments for segment function
