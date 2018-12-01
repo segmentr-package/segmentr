@@ -14,7 +14,7 @@ exactalg(data, max_segments = ncol(data),
 \item{max_segments}{an integer that defines the maximum amount of segments to
 split the data into.}
 
-\item{log_likelihood}{a function receives the the segment matrix as argument
+\item{log_likelihood}{a function receives the segment matrix as argument
 and returns a likelihood estimation. This function is used to calculate the
 changepoints that maximize the total likelihood. Depending on the algorithm
 being used, this function is likely to be executed many times, in which

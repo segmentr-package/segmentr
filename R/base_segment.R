@@ -3,7 +3,7 @@
 #' Describe base arguments for segment function
 #'
 #' @param data matrix for which to find the changepooints
-#' @param log_likelihood a function receives the the segment matrix as argument
+#' @param log_likelihood a function receives the segment matrix as argument
 #'   and returns a likelihood estimation. This function is used to calculate the
 #'   changepoints that maximize the total likelihood. Depending on the algorithm
 #'   being used, this function is likely to be executed many times, in which
