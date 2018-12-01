@@ -2,14 +2,14 @@ context("hybridalg")
 
 global_threshold <- 10
 set.seed(123)
-data_1 <- simulate2.1(2000)
-data_2 <- simulate3.2(5000)
+data_1 <- segments_1to5_6to10_11to15(2000)
+data_2 <- segments_1to10_11to15(5000)
 
 test_that("correctly identify independent results", {
   results <- hybridalg(data_1, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), threshold = global_threshold)
   expect_equal(results$changepoints, c(5, 10))
 
-  data <- simulate3.2(5000)
+  data <- segments_1to10_11to15(5000)
   results <- hybridalg(data_2, penalty = function(X) (0.2 * 3^ncol(X)) * log(nrow(X)), threshold = global_threshold)
   expect_equal(results$changepoints, c(7, 10))
 })
@@ -59,7 +59,7 @@ test_that("handles NaN in log_likelihood or penalty", {
 
 test_that("fix bug with duplicated changepoints", {
   set.seed(1234)
-  data <- simulate2.1(2000)
+  data <- segments_1to5_6to10_11to15(2000)
   results <- hybridalg(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)), threshold = global_threshold)
   expect_equal(results$changepoints, c(5, 10))
 })

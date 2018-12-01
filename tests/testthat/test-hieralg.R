@@ -1,8 +1,8 @@
 context("hieralg")
 
 set.seed(1234)
-data_1 <- simulate2.1(2000)
-data_2 <- simulate3.2(5000)
+data_1 <- segments_1to5_6to10_11to15(2000)
+data_2 <- segments_1to10_11to15(5000)
 
 test_that("identifies changepoints differently, if we take into account the different algorithm implementation", {
   results <- hieralg(data_1, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)))

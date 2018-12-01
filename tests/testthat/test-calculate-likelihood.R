@@ -1,6 +1,6 @@
 context("methods")
 
-simulate2.1 <- function(N) {
+segments_1to5_6to10_11to15 <- function(N) {
   X1 <- sample(1:2, N, replace = TRUE)
   X2 <- sample(1:2, N, replace = TRUE)
   X3 <- sample(1:2, N, replace = TRUE)
@@ -25,7 +25,7 @@ test_that("calculate log_likelihood of existing type", {
 
 test_that("works with segment function on both algorithms", {
   set.seed(1234)
-  data <- simulate2.1(2000)
+  data <- segments_1to5_6to10_11to15(2000)
   results <- segment(data, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)))
   likelihood <- calculate_likelihood(results, data)
   expect_equal(likelihood, -8316, tolerance = 0.1)

@@ -1,8 +1,8 @@
 context("exactalg")
 
 set.seed(123)
-data_1 <- simulate2.1(1000)
-data_2 <- simulate3.2(1000)
+data_1 <- segments_1to5_6to10_11to15(1000)
+data_2 <- segments_1to10_11to15(1000)
 
 test_that("correctly identify independent results", {
   results <- exactalg(data_1, penalty = function(X) (0.5 * 2^ncol(X)) * log(nrow(X)))
@@ -22,8 +22,8 @@ test_that("can be called using segment", {
 
 test_that("works with cluster", {
   set.seed(123)
-  data_1 <- simulate2.1(1000)
-  data_2 <- simulate3.2(1000)
+  data_1 <- segments_1to5_6to10_11to15(1000)
+  data_2 <- segments_1to10_11to15(1000)
 
   doParallel::registerDoParallel(1)
   results <- exactalg(data_1, penalty = function(X) (0.5 * 2^ncol(X)) * log(nrow(X)), allow_parallel = TRUE)

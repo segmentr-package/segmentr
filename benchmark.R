@@ -5,7 +5,7 @@ makeRandom <- function(rows, columns) {
   matrix(rbinom(rows * columns, size = 2, p=0.5), nrow=rows, ncol=columns)
 }
 
-simulate2.1 = function(N)
+segments_1to5_6to10_11to15 = function(N)
 {
   X1 = sample(1:2,N,replace=TRUE)
   X2 = sample(1:2,N,replace=TRUE)
@@ -18,7 +18,7 @@ simulate2.1 = function(N)
 }
 
 set.seed(123)
-data <- simulate2.1(5000)
+data <- segments_1to5_6to10_11to15(5000)
 
 microbenchmark(
   segment(data, log_likelihood = multivariate),
