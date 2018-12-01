@@ -2,6 +2,7 @@
 #'
 #' Describe base arguments for segment function
 #'
+#' @keywords internal
 #' @param data matrix for which to find the changepooints
 #' @param log_likelihood a function receives the segment matrix as argument
 #'   and returns a likelihood estimation. This function is used to calculate the

@@ -34,3 +34,4 @@ package. Defaults to TRUE.}
 \description{
 Describe base arguments for segment function
 }
+\keyword{internal}
