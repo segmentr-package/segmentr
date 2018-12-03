@@ -36,6 +36,7 @@ exactalg <- function(
 
   results$log_likelihood <- log_likelihood
   results$detailed_changepoints <- changepoints
+  results$segments <- calculate_segments(results$changepoints, ncol(data))
   class(results) <- "segmentr"
   results
 }
