@@ -56,3 +56,9 @@ mean_likelihood <- function(X) {
 }
 
 capture_print <- function(...) capture.output(print(...))
+
+with_algorithms <- function(test_cases) {
+  for (algorithm in c("exact", "hierarchical", "hybrid")) {
+    test_cases(algorithm)
+  }
+}
