@@ -15,14 +15,14 @@ test_that("consistently identify results", {
 test_that("shows correct representation", {
   for (algorithm in c("exact", "hierarchical", "hybrid")) {
     results <- segment(data, log_likelihood = mean_likelihood, penalty = function(X) 1, algorithm = algorithm)
-    print_value <- capture.output(print(results))
-    expected_value <- capture.output(print(glue("
+    print_value <- capture_print(results)
+    expected_value <- capture_print(glue("
     Segments (total of 3):
 
     1:10
     11:14
     15:28
-    ")))
+    "))
     expect_equal(print_value, expected_value)
   }
 })

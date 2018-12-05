@@ -54,3 +54,5 @@ mean_likelihood <- function(X) {
     -sum((X - mean_value)^2)
   }
 }
+
+capture_print <- function(...) capture.output(print(...))
