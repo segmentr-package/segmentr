@@ -62,7 +62,7 @@ test_that("has detailed changepoints in the result set", {
   results <- exactalg(data_1, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)))
 
   expect_equal(results$detailed_changepoints, list(
-    list(changepoint = 5, gamma = 716.0865),
-    list(changepoint = 10, gamma = 702.1316)
+    list(changepoint = 6, gamma = 27.95679),
+    list(changepoint = 11, gamma = 7.016473)
   ), tolerance = 0.001)
 })

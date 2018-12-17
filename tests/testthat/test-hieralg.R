@@ -58,7 +58,7 @@ test_that("has detailed changepoints in the result set", {
   results <- hieralg(data_1, penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X)))
 
   expect_equal(results$detailed_changepoints, list(
-    list(changepoint = 5, gamma = 18.38363),
-    list(changepoint = 10, gamma = 6.702574)
+    list(changepoint = 6, gamma = 18.38363),
+    list(changepoint = 11, gamma = 6.702574)
   ), tolerance = 0.001)
 })

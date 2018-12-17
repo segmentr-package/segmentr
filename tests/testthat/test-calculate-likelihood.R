@@ -16,7 +16,7 @@ test_that("calculate log_likelihood of existing type", {
 
   mult_likelihood <- prod
 
-  results <- list(changepoints = c(2, 4), log_likelihood = prod)
+  results <- list(changepoints = c(3, 5), log_likelihood = prod)
   class(results) <- "segmentr"
 
   likelihood <- calculate_likelihood(results, points)

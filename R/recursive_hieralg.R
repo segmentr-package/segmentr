@@ -24,13 +24,13 @@ recursive_hieralg <- function(
   split_indices <- chunk(1:num_variables, foreach::getDoParWorkers())
   segment_likelihoods <- foreach(indices = split_indices, .final = interleave) %doOp% {
     foreach(i = indices, .combine = c) %do% {
-      likelihood_left <- segment_likelihood(1, i)
-
-      likelihood_right <- if (i < num_variables) {
-        segment_likelihood(i + 1, num_variables)
+      likelihood_left <- if (i > 1) {
+        segment_likelihood(1, i - 1)
       } else {
         0
       }
+
+      likelihood_right <- segment_likelihood(i, num_variables)
 
       likelihood_left + likelihood_right
     }
@@ -38,13 +38,13 @@ recursive_hieralg <- function(
 
   current_position <- which.max(segment_likelihoods)
 
-  if (current_position >= num_variables) return(NULL)
+  if (current_position == 1) return(NULL)
 
-  segment_left <- slice_segment(data, 1, current_position)
+  segment_left <- slice_segment(data, 1, current_position - 1)
   positions_left <- recursive_fn(segment_left, initial_position, log_likelihood, penalty, allow_parallel, recursive_fn)
 
-  segment_right <- slice_segment(data, current_position + 1, num_variables)
-  positions_right <- recursive_fn(segment_right, initial_position + current_position, log_likelihood, penalty, allow_parallel, recursive_fn)
+  segment_right <- slice_segment(data, current_position, num_variables)
+  positions_right <- recursive_fn(segment_right, initial_position + current_position - 1, log_likelihood, penalty, allow_parallel, recursive_fn)
 
   gamma <- log_likelihood(data) - log_likelihood(segment_left) - log_likelihood(segment_right)
   current_position <- list(changepoint = current_position + initial_position - 1, gamma = gamma)

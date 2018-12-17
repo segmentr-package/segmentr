@@ -37,7 +37,7 @@ exact_segments <- function(
 
           segment_tries <- mapply(segment_likelihood, previous_likelihoods, indices)
 
-          list(max_likelihood = max(segment_tries), max_likelihood_pos = which.max(segment_tries) + seg_start - 2)
+          list(max_likelihood = max(segment_tries), max_likelihood_pos = which.max(segment_tries) + seg_start - 1)
         } else {
           segment <- slice_segment(data, seg_start, seg_end)
           list(max_likelihood = log_likelihood(segment) - penalty(segment), max_likelihood_pos = 0)

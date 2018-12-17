@@ -7,7 +7,7 @@ data <- make_segmented(segments)
 test_that("consistently identify results", {
   with_algorithms(function(algorithm) {
     results <- segment(data, log_likelihood = mean_likelihood, penalty = function(X) 1, algorithm = algorithm)
-    expect_equal(results$changepoints, c(10, 14))
+    expect_equal(results$changepoints, c(11, 15))
     expect_equal(results$segments, segments)
   })
 })
