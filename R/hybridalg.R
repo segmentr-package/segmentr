@@ -17,7 +17,6 @@
 hybridalg <- function(
                       data,
                       likelihood = multivariate,
-                      penalty = function(x) 0,
                       allow_parallel = TRUE,
                       max_segments = ncol(data),
                       threshold = 50) {
@@ -25,7 +24,6 @@ hybridalg <- function(
                                  data,
                                  initial_position,
                                  likelihood,
-                                 penalty,
                                  allow_parallel,
                                  recursive_fn) {
     if (ncol(data) > threshold) {
@@ -33,7 +31,6 @@ hybridalg <- function(
         data = data,
         initial_position = initial_position,
         likelihood = likelihood,
-        penalty = penalty,
         allow_parallel = allow_parallel,
         recursive_fn = recursive_hybrid
       )
@@ -42,7 +39,6 @@ hybridalg <- function(
         data = data,
         likelihood = likelihood,
         max_segments = max_segments,
-        penalty = penalty,
         allow_parallel = allow_parallel,
         initial_position = initial_position
       )
@@ -53,7 +49,6 @@ hybridalg <- function(
     data = data,
     initial_position = 1,
     likelihood = likelihood,
-    penalty = penalty,
     allow_parallel = allow_parallel,
     recursive_fn = recursive_hybrid
   )

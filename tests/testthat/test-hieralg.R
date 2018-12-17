@@ -41,16 +41,11 @@ test_that("works with max_segments", {
   expect_true(identical(results$segments, list(1:5, 6:15)) || identical(results$segments, list(1:10, 11:15)))
 })
 
-test_that("handles NaN in likelihood or penalty", {
+test_that("handles NaN in likelihood", {
   data <- makeRandom(5, 20)
   expect_error(
     hieralg(data, likelihood = function(X) if (ncol(X) == 2) NaN else sum(X)),
     "likelihood returned a NaN when called with likelihood\\(data\\[, 1:2\\]\\)"
-  )
-
-  expect_error(
-    hieralg(data, penalty = function(X) if (ncol(X) == 2) NaN else sum(X)),
-    "penalty returned a NaN when called with penalty\\(data\\[, 1:2\\]\\)"
   )
 })
 

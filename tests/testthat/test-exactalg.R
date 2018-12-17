@@ -40,16 +40,11 @@ test_that("handles zero columns", {
   expect_equal(length(results$segments), 0)
 })
 
-test_that("handles NaN in likelihood or penalty", {
+test_that("handles NaN in likelihood", {
   data <- makeRandom(5, 20)
   expect_error(
     exactalg(data, likelihood = function(X) if (ncol(X) == 2) NaN else sum(X)),
     "likelihood returned a NaN when called with likelihood\\(data\\[, 2:3\\]\\)"
-  )
-
-  expect_error(
-    exactalg(data, penalty = function(X) if (ncol(X) == 2) NaN else sum(X)),
-    "penalty returned a NaN when called with penalty\\(data\\[, 2:3\\]\\)"
   )
 })
 

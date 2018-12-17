@@ -15,14 +15,12 @@
 hieralg <- function(
                     data,
                     likelihood = multivariate,
-                    penalty = function(x) 0,
                     max_segments = ncol(data),
                     allow_parallel = TRUE) {
   segs <- recursive_hieralg(
     data = data,
     initial_position = 1,
     likelihood = likelihood,
-    penalty = penalty,
     allow_parallel = allow_parallel,
     recursive_fn = recursive_hieralg
   )

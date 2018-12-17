@@ -43,17 +43,12 @@ test_that("works with max_segments", {
   expect_equal(results$segments, list(1:10, 11:15))
 })
 
-test_that("handles NaN in likelihood or penalty", {
+test_that("handles NaN in likelihood", {
   set.seed(1234)
   data <- makeRandom(5, 20)
   expect_error(
     hybridalg(data, likelihood = function(X) if (ncol(X) == 2) NaN else sum(X)),
     "likelihood returned a NaN when called with likelihood\\(data\\[, 2:3\\]\\)"
-  )
-
-  expect_error(
-    hybridalg(data, penalty = function(X) if (ncol(X) == 2) NaN else sum(X)),
-    "penalty returned a NaN when called with penalty\\(data\\[, 2:3\\]\\)"
   )
 })
 

@@ -2,7 +2,6 @@ exact_segments <- function(
                            data,
                            max_segments,
                            likelihood,
-                           penalty,
                            initial_position,
                            allow_parallel) {
   num_variables <- ncol(data)
@@ -25,11 +24,10 @@ exact_segments <- function(
           segment_likelihood <- function(preceding_likelihood, index) {
             segment <- slice_segment(data, index, seg_end)
             likelihood_value <- likelihood(segment)
-            penalty_value <- penalty(segment)
 
-            handle_nan(likelihood_value, penalty_value, index + initial_position - 1, seg_end + initial_position - 1)
+            handle_nan(likelihood_value, index + initial_position - 1, seg_end + initial_position - 1)
 
-            preceding_likelihood + likelihood_value - penalty_value
+            preceding_likelihood + likelihood_value
           }
 
           indices <- seg_start:seg_end
@@ -40,7 +38,7 @@ exact_segments <- function(
           list(max_likelihood = max(segment_tries), max_likelihood_pos = which.max(segment_tries) + seg_start - 1)
         } else {
           segment <- slice_segment(data, seg_start, seg_end)
-          list(max_likelihood = likelihood(segment) - penalty(segment), max_likelihood_pos = 0)
+          list(max_likelihood = likelihood(segment), max_likelihood_pos = 0)
         }
       }
     }

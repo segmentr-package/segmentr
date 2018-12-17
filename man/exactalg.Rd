@@ -5,7 +5,7 @@
 \title{Segment data into exact changepoints}
 \usage{
 exactalg(data, max_segments = ncol(data), likelihood = multivariate,
-  penalty = function(data) 0, allow_parallel = TRUE)
+  allow_parallel = TRUE)
 }
 \arguments{
 \item{data}{matrix for which to find the changepooints}
@@ -20,13 +20,6 @@ being used, this function is likely to be executed many times, in which
 case it's also likely to be the bottleneck of the function execution, so
 it's advised that this function should have a performant, native
 implementation. Defaults to a performant \code{multivariate} estimation.}
-
-\item{penalty}{a function that receives the segment as parameter and returns
-the penalty to the segment, directly subtracted from the likelihood
-estimated by the other function. The idea if for this to be used as a way
-of avoiding undesirable results, e.g. to avoid large segments by provind a
-penalty function that penalizes big segments, of the other way arround, by
-providing a penalty function that penalizes small segments.}
 
 \item{allow_parallel}{allows parallel execution to take place using the
 registered cluster. Assumes a cluster is registered with the \code{foreach}

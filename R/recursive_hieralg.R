@@ -2,7 +2,6 @@ recursive_hieralg <- function(
                               data,
                               initial_position,
                               likelihood,
-                              penalty,
                               allow_parallel,
                               recursive_fn) {
   num_variables <- ncol(data)
@@ -14,11 +13,10 @@ recursive_hieralg <- function(
   segment_likelihood <- function(start, end) {
     segment <- slice_segment(data, start, end)
     likelihood_value <- likelihood(segment)
-    penalty_value <- penalty(segment)
 
-    handle_nan(likelihood_value, penalty_value, start + initial_position - 1, end + initial_position - 1)
+    handle_nan(likelihood_value, start + initial_position - 1, end + initial_position - 1)
 
-    likelihood_value - penalty_value
+    likelihood_value
   }
 
   split_indices <- chunk(1:num_variables, foreach::getDoParWorkers())
@@ -45,7 +43,6 @@ recursive_hieralg <- function(
     data = segment_left,
     initial_position = initial_position,
     likelihood = likelihood,
-    penalty = penalty,
     allow_parallel = allow_parallel,
     recursive_fn = recursive_fn
   )
@@ -55,7 +52,6 @@ recursive_hieralg <- function(
     data = segment_right,
     initial_position = initial_position + current_position - 1,
     likelihood = likelihood,
-    penalty = penalty,
     allow_parallel = allow_parallel,
     recursive_fn = recursive_fn
   )

@@ -28,13 +28,9 @@ get_operator <- function(allow_parallel) {
   }
 }
 
-handle_nan <- function(likelihood_value, penalty_value, start, end) {
+handle_nan <- function(likelihood_value, start, end) {
   if (is.nan(likelihood_value)) {
     stop(paste0("likelihood returned a NaN when called with likelihood(data[, ", start, ":", end, "])"))
-  }
-
-  if (is.nan(penalty_value)) {
-    stop(paste0("penalty returned a NaN when called with penalty(data[, ", start, ":", end, "])"))
   }
 }
 

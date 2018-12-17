@@ -6,7 +6,7 @@ data <- make_segmented(segments)
 
 test_that("consistently identify results", {
   with_algorithms(function(algorithm) {
-    results <- segment(data, likelihood = mean_likelihood, penalty = function(X) 1, algorithm = algorithm)
+    results <- segment(data, likelihood = function(X) mean_likelihood(X) - 1, algorithm = algorithm)
     expect_equal(results$changepoints, c(11, 15))
     expect_equal(results$segments, segments)
   })
@@ -14,7 +14,7 @@ test_that("consistently identify results", {
 
 test_that("shows correct representation", {
   with_algorithms(function(algorithm) {
-    results <- segment(data, likelihood = mean_likelihood, penalty = function(X) 1, algorithm = algorithm)
+    results <- segment(data, likelihood = function(X) mean_likelihood(X) - 1, algorithm = algorithm)
     print_value <- capture_print(results)
     expected_value <- capture_print(glue("
     Segments (total of 3):

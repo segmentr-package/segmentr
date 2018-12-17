@@ -19,13 +19,11 @@ exactalg <- function(
                      data,
                      max_segments = ncol(data),
                      likelihood = multivariate,
-                     penalty = function(data) 0,
                      allow_parallel = TRUE) {
   changepoints <- exact_segments(
     data = data,
     max_segments = max_segments,
     likelihood = likelihood,
-    penalty = penalty,
     allow_parallel = allow_parallel,
     initial_position = 1
   )

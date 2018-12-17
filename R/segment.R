@@ -25,7 +25,6 @@
 segment <- function(
                     data,
                     likelihood = multivariate,
-                    penalty = function(x) 0,
                     max_segments = ncol(data),
                     allow_parallel = TRUE,
                     algorithm = "exact",
@@ -43,7 +42,6 @@ segment <- function(
   algorithm_function(
     data = data,
     likelihood = likelihood,
-    penalty = penalty,
     max_segments = max_segments,
     allow_parallel = allow_parallel,
     ...
