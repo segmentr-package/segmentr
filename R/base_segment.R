@@ -4,7 +4,7 @@
 #'
 #' @keywords internal
 #' @param data matrix for which to find the changepooints
-#' @param log_likelihood a function receives the segment matrix as argument
+#' @param likelihood a function receives the segment matrix as argument
 #'   and returns a likelihood estimation. This function is used to calculate the
 #'   changepoints that maximize the total likelihood. Depending on the algorithm
 #'   being used, this function is likely to be executed many times, in which
@@ -24,7 +24,7 @@
 #'   package. Defaults to TRUE.
 base_segment <- function(
                          data,
-                         log_likelihood,
+                         likelihood,
                          penalty,
                          max_segments,
                          allow_parallel) NULL

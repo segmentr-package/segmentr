@@ -18,13 +18,13 @@
 exactalg <- function(
                      data,
                      max_segments = ncol(data),
-                     log_likelihood = multivariate,
+                     likelihood = multivariate,
                      penalty = function(data) 0,
                      allow_parallel = TRUE) {
   changepoints <- exact_segments(
     data = data,
     max_segments = max_segments,
-    log_likelihood = log_likelihood,
+    likelihood = likelihood,
     penalty = penalty,
     allow_parallel = allow_parallel,
     initial_position = 1
@@ -34,7 +34,7 @@ exactalg <- function(
 
   results$changepoints <- vapply(changepoints, "[[", FUN.VALUE = 1, "changepoint")
 
-  results$log_likelihood <- log_likelihood
+  results$likelihood <- likelihood
   results$detailed_changepoints <- changepoints
   results$segments <- calculate_segments(results$changepoints, ncol(data))
   class(results) <- "segmentr"

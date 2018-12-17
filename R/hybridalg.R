@@ -16,7 +16,7 @@
 #' @export
 hybridalg <- function(
                       data,
-                      log_likelihood = multivariate,
+                      likelihood = multivariate,
                       penalty = function(x) 0,
                       allow_parallel = TRUE,
                       max_segments = ncol(data),
@@ -24,7 +24,7 @@ hybridalg <- function(
   recursive_hybrid <- function(
                                  data,
                                  initial_position,
-                                 log_likelihood,
+                                 likelihood,
                                  penalty,
                                  allow_parallel,
                                  recursive_fn) {
@@ -32,7 +32,7 @@ hybridalg <- function(
       recursive_hieralg(
         data = data,
         initial_position = initial_position,
-        log_likelihood = log_likelihood,
+        likelihood = likelihood,
         penalty = penalty,
         allow_parallel = allow_parallel,
         recursive_fn = recursive_hybrid
@@ -40,7 +40,7 @@ hybridalg <- function(
     } else {
       exact_segments(
         data = data,
-        log_likelihood = log_likelihood,
+        likelihood = likelihood,
         max_segments = max_segments,
         penalty = penalty,
         allow_parallel = allow_parallel,
@@ -52,7 +52,7 @@ hybridalg <- function(
   segs <- recursive_hybrid(
     data = data,
     initial_position = 1,
-    log_likelihood = log_likelihood,
+    likelihood = likelihood,
     penalty = penalty,
     allow_parallel = allow_parallel,
     recursive_fn = recursive_hybrid
@@ -64,7 +64,7 @@ hybridalg <- function(
   }
 
   if (length(changepoints) > 0 && length(changepoints) + 1 > max_segments) {
-    temp_results <- list(changepoints = changepoints, log_likelihood = log_likelihood)
+    temp_results <- list(changepoints = changepoints, likelihood = likelihood)
     likelihoods <- calculate_segment_likelihoods(temp_results, data)
     changepoints_with_likelihood <- data.frame(changepoint = changepoints, likelihood = head(likelihoods, -1))
     changepoints <- with(changepoints_with_likelihood, changepoint[order(-likelihood)[1:(max_segments - 1)]])
@@ -72,7 +72,7 @@ hybridalg <- function(
 
   results <- list(
     changepoints = changepoints,
-    log_likelihood = log_likelihood,
+    likelihood = likelihood,
     detailed_changepoints = segs,
     segments = calculate_segments(changepoints, ncol(data))
   )

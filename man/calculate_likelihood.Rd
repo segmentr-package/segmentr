@@ -14,10 +14,10 @@ calculate_likelihood(results, newdata)
 \description{
 Given the changepoints in a segmentr object, this function splits a
 new dataset into segments and then calculates the total likelihood
-using the log_likelihood function of the \code{segmentr} object.
+using the likelihood function of the \code{segmentr} object.
 }
 \details{
 This function splits a \code{newdata} dataset into segments according to the
-changepoints in the \code{results} segmentr object. It then uses the \code{log_likelihood}
+changepoints in the \code{results} segmentr object. It then uses the \code{likelihood}
 function of the segmentr object to calculate the total likelihood of the new object.
 }

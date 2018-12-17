@@ -4,14 +4,14 @@
 \alias{segment}
 \title{Segment data into changepoints}
 \usage{
-segment(data, log_likelihood = multivariate, penalty = function(x) 0,
+segment(data, likelihood = multivariate, penalty = function(x) 0,
   max_segments = ncol(data), allow_parallel = TRUE,
   algorithm = "exact", ...)
 }
 \arguments{
 \item{data}{matrix for which to find the changepooints}
 
-\item{log_likelihood}{a function receives the segment matrix as argument
+\item{likelihood}{a function receives the segment matrix as argument
 and returns a likelihood estimation. This function is used to calculate the
 changepoints that maximize the total likelihood. Depending on the algorithm
 being used, this function is likely to be executed many times, in which
@@ -54,7 +54,7 @@ might be more adequate than the others.
 make_segment <- function(n, p) matrix(rbinom(100 * n, 1, p), nrow = 100)
 data <- cbind(make_segment(5, 0.1), make_segment(10, 0.9), make_segment(2, 0.1))
 mean_lik <- function(X) abs(mean(X) - 0.5) * ncol(X)^2
-segment(data, log_likelihood = mean_lik, algorithm = "hieralg")$changepoints
+segment(data, likelihood = mean_lik, algorithm = "hieralg")$changepoints
 }
 \seealso{
 \code{\link[=exactalg]{exactalg()}} for the exact algorithm, \code{\link[=hieralg]{hieralg()}} for the

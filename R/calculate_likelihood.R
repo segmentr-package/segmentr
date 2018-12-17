@@ -2,10 +2,10 @@
 #'
 #' Given the changepoints in a segmentr object, this function splits a
 #' new dataset into segments and then calculates the total likelihood
-#' using the log_likelihood function of the `segmentr` object.
+#' using the likelihood function of the `segmentr` object.
 #'
 #' This function splits a `newdata` dataset into segments according to the
-#' changepoints in the `results` segmentr object. It then uses the `log_likelihood`
+#' changepoints in the `results` segmentr object. It then uses the `likelihood`
 #' function of the segmentr object to calculate the total likelihood of the new object.
 #'
 #'

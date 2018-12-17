@@ -21,10 +21,10 @@ set.seed(123)
 data <- segments_1to5_6to10_11to15(5000)
 
 microbenchmark(
-  segment(data, log_likelihood = multivariate),
-  segment(data, log_likelihood = r_multivariate),
-  hieralg(data, log_likelihood = multivariate),
-  hieralg(data, log_likelihood = r_multivariate),
+  segment(data, likelihood = multivariate),
+  segment(data, likelihood = r_multivariate),
+  hieralg(data, likelihood = multivariate),
+  hieralg(data, likelihood = r_multivariate),
   times = 5
 )
 
@@ -32,20 +32,20 @@ microbenchmark(
 data <- matrix(rbinom(10000 * 10, size = 2, p=0.5), nrow=10000, ncol=100)
 doMC::registerDoMC(4)
 microbenchmark(
-  segment(data, log_likelihood = multivariate, allow_parallel = FALSE),
-  segment(data, log_likelihood = multivariate, allow_parallel = TRUE),
-  hieralg(data, log_likelihood = multivariate, allow_parallel = FALSE),
-  hieralg(data, log_likelihood = multivariate, allow_parallel = TRUE),
+  segment(data, likelihood = multivariate, allow_parallel = FALSE),
+  segment(data, likelihood = multivariate, allow_parallel = TRUE),
+  hieralg(data, likelihood = multivariate, allow_parallel = FALSE),
+  hieralg(data, likelihood = multivariate, allow_parallel = TRUE),
   times = 1
 )
 
 data <- makeRandom(100, 1000)
 doMC::registerDoMC(4)
 microbenchmark(
-  hieralg(data, log_likelihood = multivariate, allow_parallel = FALSE),
-  hieralg(data, log_likelihood = multivariate, allow_parallel = TRUE),
+  hieralg(data, likelihood = multivariate, allow_parallel = FALSE),
+  hieralg(data, likelihood = multivariate, allow_parallel = TRUE),
   times = 2
 )
 
 data <- makeRandom(100, 1000)
-profvis(hieralg(data, log_likelihood = multivariate, allow_parallel = FALSE))
+profvis(hieralg(data, likelihood = multivariate, allow_parallel = FALSE))

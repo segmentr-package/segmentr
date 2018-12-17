@@ -4,13 +4,13 @@
 \alias{hieralg}
 \title{Segment data into changepoints assuming hierarchical structure}
 \usage{
-hieralg(data, log_likelihood = multivariate, penalty = function(x) 0,
+hieralg(data, likelihood = multivariate, penalty = function(x) 0,
   max_segments = ncol(data), allow_parallel = TRUE)
 }
 \arguments{
 \item{data}{matrix for which to find the changepooints}
 
-\item{log_likelihood}{a function receives the segment matrix as argument
+\item{likelihood}{a function receives the segment matrix as argument
 and returns a likelihood estimation. This function is used to calculate the
 changepoints that maximize the total likelihood. Depending on the algorithm
 being used, this function is likely to be executed many times, in which

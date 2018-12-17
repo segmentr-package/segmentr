@@ -4,12 +4,12 @@
 \alias{base_segment}
 \title{Base arguments for segment function}
 \usage{
-base_segment(data, log_likelihood, penalty, max_segments, allow_parallel)
+base_segment(data, likelihood, penalty, max_segments, allow_parallel)
 }
 \arguments{
 \item{data}{matrix for which to find the changepooints}
 
-\item{log_likelihood}{a function receives the segment matrix as argument
+\item{likelihood}{a function receives the segment matrix as argument
 and returns a likelihood estimation. This function is used to calculate the
 changepoints that maximize the total likelihood. Depending on the algorithm
 being used, this function is likely to be executed many times, in which

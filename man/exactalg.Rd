@@ -4,9 +4,8 @@
 \alias{exactalg}
 \title{Segment data into exact changepoints}
 \usage{
-exactalg(data, max_segments = ncol(data),
-  log_likelihood = multivariate, penalty = function(data) 0,
-  allow_parallel = TRUE)
+exactalg(data, max_segments = ncol(data), likelihood = multivariate,
+  penalty = function(data) 0, allow_parallel = TRUE)
 }
 \arguments{
 \item{data}{matrix for which to find the changepooints}
@@ -14,7 +13,7 @@ exactalg(data, max_segments = ncol(data),
 \item{max_segments}{an integer that defines the maximum amount of segments to
 split the data into.}
 
-\item{log_likelihood}{a function receives the segment matrix as argument
+\item{likelihood}{a function receives the segment matrix as argument
 and returns a likelihood estimation. This function is used to calculate the
 changepoints that maximize the total likelihood. Depending on the algorithm
 being used, this function is likely to be executed many times, in which

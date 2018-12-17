@@ -8,10 +8,10 @@ calculate_segments <- function(changepoints, num_variables) {
 }
 
 calculate_segment_likelihoods <- function(results, newdata) {
-  log_likelihood <- results$log_likelihood
+  likelihood <- results$likelihood
   points <- c(1, results$changepoints, ncol(newdata) + 1)
   foreach(start = head(points, -1), end = tail(points - 1, -1), .combine = c) %do% {
-    log_likelihood(slice_segment(newdata, start, end))
+    likelihood(slice_segment(newdata, start, end))
   }
 }
 
@@ -30,7 +30,7 @@ get_operator <- function(allow_parallel) {
 
 handle_nan <- function(likelihood_value, penalty_value, start, end) {
   if (is.nan(likelihood_value)) {
-    stop(paste0("log_likelihood returned a NaN when called with log_likelihood(data[, ", start, ":", end, "])"))
+    stop(paste0("likelihood returned a NaN when called with likelihood(data[, ", start, ":", end, "])"))
   }
 
   if (is.nan(penalty_value)) {

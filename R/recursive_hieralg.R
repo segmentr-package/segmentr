@@ -1,7 +1,7 @@
 recursive_hieralg <- function(
                               data,
                               initial_position,
-                              log_likelihood,
+                              likelihood,
                               penalty,
                               allow_parallel,
                               recursive_fn) {
@@ -13,7 +13,7 @@ recursive_hieralg <- function(
 
   segment_likelihood <- function(start, end) {
     segment <- slice_segment(data, start, end)
-    likelihood_value <- log_likelihood(segment)
+    likelihood_value <- likelihood(segment)
     penalty_value <- penalty(segment)
 
     handle_nan(likelihood_value, penalty_value, start + initial_position - 1, end + initial_position - 1)
@@ -41,12 +41,12 @@ recursive_hieralg <- function(
   if (current_position == 1) return(NULL)
 
   segment_left <- slice_segment(data, 1, current_position - 1)
-  positions_left <- recursive_fn(segment_left, initial_position, log_likelihood, penalty, allow_parallel, recursive_fn)
+  positions_left <- recursive_fn(segment_left, initial_position, likelihood, penalty, allow_parallel, recursive_fn)
 
   segment_right <- slice_segment(data, current_position, num_variables)
-  positions_right <- recursive_fn(segment_right, initial_position + current_position - 1, log_likelihood, penalty, allow_parallel, recursive_fn)
+  positions_right <- recursive_fn(segment_right, initial_position + current_position - 1, likelihood, penalty, allow_parallel, recursive_fn)
 
-  gamma <- log_likelihood(data) - log_likelihood(segment_left) - log_likelihood(segment_right)
+  gamma <- likelihood(data) - likelihood(segment_left) - likelihood(segment_right)
   current_position <- list(changepoint = current_position + initial_position - 1, gamma = gamma)
   suppressWarnings(c(positions_left, list(current_position), positions_right))
 }

@@ -11,12 +11,12 @@ segments_1to5_6to10_11to15 <- function(N) {
   X
 }
 
-test_that("calculate log_likelihood of existing type", {
+test_that("calculate likelihood of existing type", {
   points <- rbind(1:7)
 
   mult_likelihood <- prod
 
-  results <- list(changepoints = c(3, 5), log_likelihood = prod)
+  results <- list(changepoints = c(3, 5), likelihood = prod)
   class(results) <- "segmentr"
 
   likelihood <- calculate_likelihood(results, points)

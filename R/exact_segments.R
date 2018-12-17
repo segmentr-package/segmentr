@@ -1,7 +1,7 @@
 exact_segments <- function(
                            data,
                            max_segments,
-                           log_likelihood,
+                           likelihood,
                            penalty,
                            initial_position,
                            allow_parallel) {
@@ -24,7 +24,7 @@ exact_segments <- function(
         if (seg_start > 1) {
           segment_likelihood <- function(preceding_likelihood, index) {
             segment <- slice_segment(data, index, seg_end)
-            likelihood_value <- log_likelihood(segment)
+            likelihood_value <- likelihood(segment)
             penalty_value <- penalty(segment)
 
             handle_nan(likelihood_value, penalty_value, index + initial_position - 1, seg_end + initial_position - 1)
@@ -40,7 +40,7 @@ exact_segments <- function(
           list(max_likelihood = max(segment_tries), max_likelihood_pos = which.max(segment_tries) + seg_start - 1)
         } else {
           segment <- slice_segment(data, seg_start, seg_end)
-          list(max_likelihood = log_likelihood(segment) - penalty(segment), max_likelihood_pos = 0)
+          list(max_likelihood = likelihood(segment) - penalty(segment), max_likelihood_pos = 0)
         }
       }
     }
@@ -67,7 +67,7 @@ exact_segments <- function(
     bigger <- slice_segment(data, previous_changepoint, num_variables)
     left <- slice_segment(data, previous_changepoint, changepoint - 1)
     right <- slice_segment(data, changepoint, num_variables)
-    log_likelihood(bigger) - log_likelihood(left) - log_likelihood(right)
+    likelihood(bigger) - likelihood(left) - likelihood(right)
   }
 
   changepoints <- changepoints + initial_position - 1
