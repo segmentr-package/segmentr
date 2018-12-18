@@ -8,8 +8,6 @@ recursive_hieralg <- function(
 
   if (num_variables == 0 || nrow(data) == 0) return(NULL)
 
-  `%doOp%` <- get_operator(allow_parallel)
-
   segment_likelihood <- function(start, end) {
     segment <- slice_segment(data, start, end)
     likelihood_value <- likelihood(segment)
@@ -19,20 +17,17 @@ recursive_hieralg <- function(
     likelihood_value
   }
 
-  split_indices <- chunk(1:num_variables, foreach::getDoParWorkers())
-  segment_likelihoods <- foreach(indices = split_indices, .final = interleave) %doOp% {
-    foreach(i = indices, .combine = c) %do% {
-      likelihood_left <- if (i > 1) {
-        segment_likelihood(1, i - 1)
-      } else {
-        0
-      }
-
-      likelihood_right <- segment_likelihood(i, num_variables)
-
-      likelihood_left + likelihood_right
+  segment_likelihoods <- chuncked_foreach(1:num_variables, allow_parallel, function(i) {
+    likelihood_left <- if (i > 1) {
+      segment_likelihood(1, i - 1)
+    } else {
+      0
     }
-  }
+
+    likelihood_right <- segment_likelihood(i, num_variables)
+
+    likelihood_left + likelihood_right
+  })
 
   current_position <- which.max(segment_likelihoods)
 

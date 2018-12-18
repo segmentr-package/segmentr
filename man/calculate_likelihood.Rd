@@ -4,7 +4,7 @@
 \alias{calculate_likelihood}
 \title{Calculate a dataset's likelihood using changepoints of \code{segmentr} object}
 \usage{
-calculate_likelihood(results, newdata)
+calculate_likelihood(results, newdata, likelihood)
 }
 \arguments{
 \item{results}{a segmentr object, which contains the definition of the changepoints to be applied}

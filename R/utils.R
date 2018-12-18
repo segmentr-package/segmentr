@@ -48,6 +48,17 @@ interleave <- function(parts) {
   result
 }
 
+chuncked_foreach <- function(indices, allow_parallel, operator) {
+  split_indices <- chunk(indices, foreach::getDoParWorkers())
+  `%doOp%` <- get_operator(allow_parallel)
+
+  foreach(indices = split_indices, .final = interleave) %doOp% {
+    foreach(index = indices) %do% {
+      operator(index)
+    }
+  }
+}
+
 # Impoort functions from other packages
 foreach <- foreach::foreach
 `%do%` <- foreach::`%do%`
