@@ -35,7 +35,6 @@ hieralg <- function(
 
   results <- list(
     changepoints = changepoints,
-    likelihood = likelihood,
     segments = calculate_segments(changepoints, ncol(data))
   )
   class(results) <- "segmentr"

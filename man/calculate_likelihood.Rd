@@ -10,6 +10,8 @@ calculate_likelihood(results, newdata, likelihood)
 \item{results}{a segmentr object, which contains the definition of the changepoints to be applied}
 
 \item{newdata}{a dataset for which we wish to calculate the total likelihood}
+
+\item{likelihood}{a likelihood function to be used to calculate the likelihood of each segment}
 }
 \description{
 Given the changepoints in a segmentr object, this function splits a

@@ -75,3 +75,4 @@ indices <- NULL
 seg_end <- NULL
 changepoint <- NULL
 previous_changepoint <- NULL
+index <- NULL
