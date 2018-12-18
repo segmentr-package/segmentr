@@ -56,7 +56,6 @@ recursive_hieralg <- function(
     recursive_fn = recursive_fn
   )
 
-  gamma <- likelihood(data) - likelihood(segment_left) - likelihood(segment_right)
-  current_position <- list(changepoint = current_position + initial_position - 1, gamma = gamma)
+  current_position <- list(changepoint = current_position + initial_position - 1)
   suppressWarnings(c(positions_left, list(current_position), positions_right))
 }

@@ -68,7 +68,6 @@ hybridalg <- function(
   results <- list(
     changepoints = changepoints,
     likelihood = likelihood,
-    detailed_changepoints = segs,
     segments = calculate_segments(changepoints, ncol(data))
   )
   class(results) <- "segmentr"

@@ -52,12 +52,3 @@ test_that("test max segments", {
   results <- exactalg(data_1, likelihood = function(X) multivariate(X) - (0.5 * 2^ncol(X)) * log(nrow(X)), max_segments = 2)
   expect_equal(results$segments, list(1:9, 10:15))
 })
-
-test_that("has detailed changepoints in the result set", {
-  results <- exactalg(data_1, likelihood = function(X) multivariate(X) - (0.1 * 2^ncol(X)) * log(nrow(X)))
-
-  expect_equal(results$detailed_changepoints, list(
-    list(changepoint = 6, gamma = -21877.92),
-    list(changepoint = 11, gamma = -656.128)
-  ), tolerance = 0.001)
-})

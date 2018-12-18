@@ -48,12 +48,3 @@ test_that("handles NaN in likelihood", {
     "likelihood returned a NaN when called with likelihood\\(data\\[, 1:2\\]\\)"
   )
 })
-
-test_that("has detailed changepoints in the result set", {
-  results <- hieralg(data_1, likelihood = function(X) multivariate(X) - (0.1 * 2^ncol(X)) * log(nrow(X)))
-
-  expect_equal(results$detailed_changepoints, list(
-    list(changepoint = 6, gamma = -24085.6),
-    list(changepoint = 11, gamma = -722.9841)
-  ), tolerance = 0.001)
-})

@@ -58,13 +58,3 @@ test_that("fix bug with duplicated changepoints", {
   results <- hybridalg(data, likelihood = function(X) multivariate(X) - (0.1 * 2^ncol(X)) * log(nrow(X)), threshold = global_threshold)
   expect_equal(results$segments, list(1:5, 6:10, 11:15))
 })
-
-
-test_that("has detailed changepoints in the result set", {
-  results <- hieralg(data_1, likelihood = function(X) multivariate(X) - (0.1 * 2^ncol(X)) * log(nrow(X)))
-
-  expect_equal(results$detailed_changepoints, list(
-    list(changepoint = 6, gamma = -725.6721),
-    list(changepoint = 11, gamma = -24087.61)
-  ), tolerance = 0.001)
-})
