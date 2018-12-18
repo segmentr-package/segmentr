@@ -7,8 +7,7 @@ calculate_segments <- function(changepoints, num_variables) {
   foreach(start = head(points, -1), end = tail(points - 1, -1)) %do% start:end
 }
 
-calculate_segment_likelihoods <- function(results, newdata) {
-  likelihood <- results$likelihood
+calculate_segment_likelihoods <- function(results, newdata, likelihood) {
   points <- c(1, results$changepoints, ncol(newdata) + 1)
   foreach(start = head(points, -1), end = tail(points - 1, -1), .combine = c) %do% {
     likelihood(slice_segment(newdata, start, end))

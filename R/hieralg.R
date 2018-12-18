@@ -27,8 +27,8 @@ hieralg <- function(
   changepoints <- sapply(segs, "[[", "changepoint")
 
   if (length(changepoints) > 0 && length(changepoints) + 1 > max_segments) {
-    temp_results <- list(changepoints = changepoints, likelihood = likelihood)
-    likelihoods <- calculate_segment_likelihoods(temp_results, data)
+    temp_results <- list(changepoints = changepoints)
+    likelihoods <- calculate_segment_likelihoods(temp_results, data, likelihood = likelihood)
     changepoints_with_likelihood <- data.frame(changepoint = changepoints, likelihood = head(likelihoods, -1))
     changepoints <- with(changepoints_with_likelihood, changepoint[order(-likelihood)[1:(max_segments - 1)]])
   }

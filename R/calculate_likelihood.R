@@ -13,7 +13,7 @@
 #' @param newdata a dataset for which we wish to calculate the total likelihood
 #'
 #' @export
-calculate_likelihood <- function(results, newdata) {
-  likelihoods <- calculate_segment_likelihoods(results, newdata)
+calculate_likelihood <- function(results, newdata, likelihood) {
+  likelihoods <- calculate_segment_likelihoods(results, newdata, likelihood = likelihood)
   sum(likelihoods)
 }
