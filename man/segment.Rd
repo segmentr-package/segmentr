@@ -30,7 +30,12 @@ package. Defaults to TRUE.}
 \item{...}{other params to be passed to the underlying function}
 }
 \value{
-returns an object of type \code{segmentr}
+a list of type \code{segmentr}, which has the two attributes:
+\itemize{
+\item \code{changepoints}: a vector with the first index of each identified changepoint
+\item \code{segments}: a list of vectors, in which each vector corresponds to the indices
+that identifies a segment.
+}
 }
 \description{
 Generic function to segment data into separate changepoionts according to

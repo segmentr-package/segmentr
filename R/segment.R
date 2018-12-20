@@ -7,10 +7,9 @@
 #' by the package. Depending on the type of data the user wants to segment, one algorithm
 #' might be more adequate than the others.
 #'
-#' @inheritParams base_segment
+#' @inherit base_segment
 #' @param ... other params to be passed to the underlying function
 #' @param algorithm can be of type `exact`, `hierarchical` or `hybrid`, Default: `exact`
-#' @return returns an object of type `segmentr`
 #' @examples
 #' 
 #' make_segment <- function(n, p) matrix(rbinom(100 * n, 1, p), nrow = 100)

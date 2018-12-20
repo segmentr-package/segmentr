@@ -24,6 +24,14 @@ split the data into.}
 registered cluster. Assumes a cluster is registered with the \code{foreach}
 package. Defaults to TRUE.}
 }
+\value{
+a list of type \code{segmentr}, which has the two attributes:
+\itemize{
+\item \code{changepoints}: a vector with the first index of each identified changepoint
+\item \code{segments}: a list of vectors, in which each vector corresponds to the indices
+that identifies a segment.
+}
+}
 \description{
 Describe base arguments for segment function
 }

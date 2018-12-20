@@ -10,7 +10,7 @@
 #' usually runs very fast, but is known to yield less accurate results, possibly
 #' not finding the exact changepoints that would maximize likelihood.
 #'
-#' @inheritParams base_segment
+#' @inherit base_segment
 #' @export
 hieralg <- function(
                     data,

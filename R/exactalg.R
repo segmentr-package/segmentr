@@ -13,7 +13,7 @@
 #' being quite long for longer data sequences one wish to apply. For longer datasets,
 #' the hierarchical algorithm might be more adequate.
 #'
-#' @inheritParams base_segment
+#' @inherit base_segment
 #' @export
 exactalg <- function(
                      data,

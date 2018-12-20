@@ -16,6 +16,10 @@
 #' @param allow_parallel allows parallel execution to take place using the
 #'   registered cluster. Assumes a cluster is registered with the `foreach`
 #'   package. Defaults to TRUE.
+#' @return a list of type `segmentr`, which has the two attributes:
+#' - `changepoints`: a vector with the first index of each identified changepoint
+#' - `segments`: a list of vectors, in which each vector corresponds to the indices
+#'   that identifies a segment.
 base_segment <- function(
                          data,
                          likelihood,

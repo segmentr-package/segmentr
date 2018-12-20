@@ -8,7 +8,7 @@
 #' is bigger than the threshold, and then goes on to use the exact algorithm
 #' when the size of the segment is less than or equal to the threshold.
 #'
-#' @inheritParams base_segment
+#' @inherit base_segment
 #' @param threshold the threshold for which the exact algorithm will be used,
 #'   i.e. when the number of columns in the segment is less than or equal to the
 #'   threshold.

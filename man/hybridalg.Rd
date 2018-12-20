@@ -29,6 +29,14 @@ split the data into.}
 i.e. when the number of columns in the segment is less than or equal to the
 threshold.}
 }
+\value{
+a list of type \code{segmentr}, which has the two attributes:
+\itemize{
+\item \code{changepoints}: a vector with the first index of each identified changepoint
+\item \code{segments}: a list of vectors, in which each vector corresponds to the indices
+that identifies a segment.
+}
+}
 \description{
 For the larger datasets, assume the data is hierarchical, but calculate
 the exact segments when they're smaller than a threshold
