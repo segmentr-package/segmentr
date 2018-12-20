@@ -30,7 +30,7 @@ exactalg <- function(
 
   results <- list()
 
-  results$changepoints <- vapply(changepoints, "[[", FUN.VALUE = 1, "changepoint")
+  results$changepoints <- vapply(changepoints, "[[", FUN.VALUE = numeric(1), "changepoint")
   results$segments <- calculate_segments(results$changepoints, ncol(data))
   class(results) <- "segmentr"
   results

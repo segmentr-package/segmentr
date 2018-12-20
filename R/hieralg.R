@@ -24,7 +24,7 @@ hieralg <- function(
     allow_parallel = allow_parallel,
     recursive_fn = recursive_hieralg
   )
-  changepoints <- sapply(segs, "[[", "changepoint")
+  changepoints <- vapply(segs, "[[", FUN.VALUE = numeric(1), "changepoint")
 
   if (length(changepoints) > 0 && length(changepoints) + 1 > max_segments) {
     temp_results <- list(changepoints = changepoints)

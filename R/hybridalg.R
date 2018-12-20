@@ -52,7 +52,7 @@ hybridalg <- function(
     allow_parallel = allow_parallel,
     recursive_fn = recursive_hybrid
   )
-  changepoints <- sapply(segs, "[[", "changepoint")
+  changepoints <- vapply(segs, "[[", FUN.VALUE = numeric(1), "changepoint")
 
   if (length(changepoints) > 0) {
     changepoints <- sort(changepoints)
