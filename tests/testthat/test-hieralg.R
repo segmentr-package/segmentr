@@ -8,16 +8,16 @@ test_that("identifies changepoints differently, if we take into account the diff
   results <- hieralg(data_1, likelihood = function(X) multivariate(X) - (0.1 * 2^ncol(X)) * log(nrow(X)))
   expect_equal(results$segments, list(1:5, 6:10, 11:15))
 
-  results <- hieralg(data_2, likelihood = function(X) multivariate(X) - (0.2 * 3^ncol(X)) * log(nrow(X)))
-  expect_equal(results$segments, list(1:7, 8:10, 11:15))
+  results <- hieralg(data_2, likelihood = function(X) multivariate(X) - (0.2 * 2^ncol(X)) * log(nrow(X)))
+  expect_equal(results$segments, list(1:10, 11:15))
 })
 
 test_that("can be called with segment", {
   results <- segment(data_1, likelihood = function(X) multivariate(X) - (0.1 * 2^ncol(X)) * log(nrow(X)), algorithm = "hierarchical")
   expect_equal(results$segments, list(1:5, 6:10, 11:15))
 
-  results <- segment(data_2, likelihood = function(X) multivariate(X) - (0.2 * 3^ncol(X)) * log(nrow(X)), algorithm = "hieralg")
-  expect_equal(results$segments, list(1:7, 8:10, 11:15))
+  results <- segment(data_2, likelihood = function(X) multivariate(X) - (0.2 * 2^ncol(X)) * log(nrow(X)), algorithm = "hieralg")
+  expect_equal(results$segments, list(1:10, 11:15))
 })
 
 test_that("works with a cluster as well", {
@@ -25,8 +25,8 @@ test_that("works with a cluster as well", {
   results <- hieralg(data_1, likelihood = function(X) multivariate(X) - (0.1 * 2^ncol(X)) * log(nrow(X)), allow_parallel = TRUE)
   expect_equal(results$segments, list(1:5, 6:10, 11:15))
 
-  results <- hieralg(data_2, likelihood = function(X) multivariate(X) - (0.2 * 3^ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
-  expect_equal(results$segments, list(1:7, 8:10, 11:15))
+  results <- hieralg(data_2, likelihood = function(X) multivariate(X) - (0.2 * 2^ncol(X)) * log(nrow(X)), allow_parallel = FALSE)
+  expect_equal(results$segments, list(1:10, 11:15))
   doParallel::stopImplicitCluster()
 })
 

@@ -10,16 +10,16 @@ test_that("correctly identify independent results", {
   expect_equal(results$segments, list(1:5, 6:10, 11:15))
 
   data <- segments_1to10_11to15(5000)
-  results <- hybridalg(data_2, likelihood = function(X) multivariate(X) - (0.2 * 3^ncol(X)) * log(nrow(X)), threshold = global_threshold)
-  expect_equal(results$segment, list(1:7, 8:10, 11:15))
+  results <- hybridalg(data_2, likelihood = function(X) multivariate(X) - (0.2 * 2^ncol(X)) * log(nrow(X)), threshold = global_threshold)
+  expect_equal(results$segment, list(1:10, 11:15))
 })
 
 test_that("can be called using segment", {
   results <- segment(data_1, likelihood = function(X) multivariate(X) - (0.1 * 2^ncol(X)) * log(nrow(X)), threshold = global_threshold, algorithm = "hybrid")
   expect_equal(results$segments, list(1:5, 6:10, 11:15))
 
-  results <- segment(data_2, likelihood = function(X) multivariate(X) - (0.2 * 3^ncol(X)) * log(nrow(X)), algorithm = "hybrid", threshold = global_threshold)
-  expect_equal(results$segments, list(1:7, 8:10, 11:15))
+  results <- segment(data_2, likelihood = function(X) multivariate(X) - (0.2 * 2^ncol(X)) * log(nrow(X)), algorithm = "hybrid", threshold = global_threshold)
+  expect_equal(results$segments, list(1:10, 11:15))
 })
 
 test_that("works with cluster", {
@@ -27,8 +27,8 @@ test_that("works with cluster", {
   results <- hybridalg(data_1, likelihood = function(X) multivariate(X) - (0.1 * 2^ncol(X)) * log(nrow(X)), allow_parallel = TRUE, threshold = global_threshold)
   expect_equal(results$segments, list(1:5, 6:10, 11:15))
 
-  results <- hybridalg(data_2, likelihood = function(X) multivariate(X) - (0.2 * 3^ncol(X)) * log(nrow(X)), allow_parallel = FALSE, threshold = global_threshold)
-  expect_equal(results$segments, list(1:7, 8:10, 11:15))
+  results <- hybridalg(data_2, likelihood = function(X) multivariate(X) - (0.2 * 2^ncol(X)) * log(nrow(X)), allow_parallel = FALSE, threshold = global_threshold)
+  expect_equal(results$segments, list(1:10, 11:15))
   doParallel::stopImplicitCluster()
 })
 
