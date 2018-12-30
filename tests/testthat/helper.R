@@ -33,7 +33,7 @@ consistent_segments <- function(segments) {
   all(agg == 1:last)
 }
 
-make_segment <- function(n, rows = 100, p = 0.9) matrix(rbinom(100 * n, 1, p), nrow = rows)
+make_segment <- function(n, rows = 100, p = 0.9) matrix(rbinom(rows * n, 1, p), nrow = rows)
 
 make_segmented <- function(segments, rows = 100, p = 0.9) {
   if (!consistent_segments(segments)) stop("Segments are not consistent")
