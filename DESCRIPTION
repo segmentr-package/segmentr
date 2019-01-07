@@ -19,7 +19,11 @@ LinkingTo: Rcpp
 Suggests: testthat,
   doParallel,
     knitr,
-    rmarkdown
+    rmarkdown,
+    segmentr,
+    tidyverse,
+    lubridate,
+    magrittr
 RoxygenNote: 6.1.0
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
