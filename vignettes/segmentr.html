@@ -19,7 +19,7 @@
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
@@ -81,7 +81,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -283,30 +305,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 <p>Segmentr is a package that implements a handful of algorithms to find segments that maximize its total likelihood. So, the user of this package has to find an adequate likelihood for the segmentation problem to be solved, possibly having to penalize it as well in order to avoid a solution biased towards either too big or too small segments. Also, it’s important to consider the computation time of each algorithm and its tradeoffs. This <em>vignette</em> walks through the main concepts regarding its usage, using weather temperature from Berlin as an example. For this demo, the <code>tidyverse</code>, <code>magrittr</code> and <code>lubridate</code> packages will be used.</p>
-<pre><code>#&gt; Loading required package: tidyverse
-#&gt; ── Attaching packages ────────────────────────────── tidyverse 1.2.1 ──
-#&gt; ✔ ggplot2 3.0.0     ✔ purrr   0.2.5
-#&gt; ✔ tibble  1.4.2     ✔ dplyr   0.7.8
-#&gt; ✔ tidyr   0.8.1     ✔ stringr 1.3.1
-#&gt; ✔ readr   1.1.1     ✔ forcats 0.3.0
-#&gt; ── Conflicts ───────────────────────────────── tidyverse_conflicts() ──
-#&gt; ✖ dplyr::filter() masks stats::filter()
-#&gt; ✖ dplyr::lag()    masks stats::lag()
-#&gt; Loading required package: lubridate
-#&gt; 
-#&gt; Attaching package: &#39;lubridate&#39;
-#&gt; The following object is masked from &#39;package:base&#39;:
-#&gt; 
-#&gt;     date
-#&gt; Loading required package: magrittr
-#&gt; 
-#&gt; Attaching package: &#39;magrittr&#39;
-#&gt; The following object is masked from &#39;package:purrr&#39;:
-#&gt; 
-#&gt;     set_names
-#&gt; The following object is masked from &#39;package:tidyr&#39;:
-#&gt; 
-#&gt;     extract</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">require</span>(segmentr)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">require</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">require</span>(lubridate)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">require</span>(magrittr)</a></code></pre></div>
 <div id="understanding-the-data" class="section level2">
 <h2>Understanding the data</h2>
 <p>The <code>berlin</code> dataset, provided in this dataset, contains daily temperature data from several weather stations in Berlin.</p>

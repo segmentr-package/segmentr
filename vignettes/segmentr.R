@@ -4,7 +4,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ---- echo=FALSE---------------------------------------------------------
+## ----message=FALSE-------------------------------------------------------
 require(segmentr)
 require(tidyverse)
 require(lubridate)
