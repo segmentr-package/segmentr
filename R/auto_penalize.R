@@ -36,7 +36,7 @@
 
 auto_penalize <- function(data, likelihood, big_segment_penalty = 10, small_segment_penalty = 10) {
   make_penalty <- function(big_segment_multiplier, big_segment_scale, small_segment_multiplier, small_segment_scale, total_length) {
-    function (data) {
+    function(data) {
       x <- ncol(data)
       delta <- x - total_length / 2
       big_segment_multiplier * exp(big_segment_scale * delta) + small_segment_multiplier * exp(-small_segment_scale * delta)
@@ -47,17 +47,17 @@ auto_penalize <- function(data, likelihood, big_segment_penalty = 10, small_segm
 
   if (total_length < 10) stop("data is too small")
 
-  small_segment_indices = floor(seq(1, total_length - 1, length.out = 5))
+  small_segment_indices <- floor(seq(1, total_length - 1, length.out = 5))
 
   small_segment_likelihood <- abs(mean(sapply(small_segment_indices, function(index) {
-    likelihood(data[, index:(index+1)])
+    likelihood(data[, index:(index + 1)])
   })))
 
   big_segment_likelihood <- abs(likelihood(data))
 
-  big_segment_multiplier = big_segment_likelihood / big_segment_penalty
+  big_segment_multiplier <- big_segment_likelihood / big_segment_penalty
   big_segment_scale <- 4 * log(big_segment_penalty) / total_length
-  small_segment_multiplier = small_segment_likelihood / small_segment_penalty
+  small_segment_multiplier <- small_segment_likelihood / small_segment_penalty
   small_segment_scale <- 4 * log(small_segment_penalty) / total_length
 
   penalty <- make_penalty(
@@ -70,6 +70,3 @@ auto_penalize <- function(data, likelihood, big_segment_penalty = 10, small_segm
 
   function(data) likelihood(data) - penalty(data)
 }
-
-
-
