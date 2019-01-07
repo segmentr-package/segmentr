@@ -20,7 +20,6 @@ Suggests: testthat,
   doParallel,
     knitr,
     rmarkdown,
-    segmentr,
     tidyverse,
     lubridate,
     magrittr
