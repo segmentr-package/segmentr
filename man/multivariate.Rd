@@ -4,15 +4,16 @@
 \alias{multivariate}
 \title{Efficient Logarithmic Discrete Multivariate Likelihood estimation}
 \usage{
-multivariate(data, na_action = na.omit)
+multivariate(data, na_action = function(d) d[, colSums(is.na(d)) == 0,
+  drop = FALSE])
 }
 \arguments{
 \item{data}{Matrix to estimate the multivariate of. Each row is considered to
 be an observation, and each column is considered to be a different
 variable.}
 
-\item{na_action}{A function that is applied to the \code{X} parameter. Defaults to
-\code{na.omit} function.}
+\item{na_action}{A function that is applied to the \code{data} parameter. Defaults to
+removing columsn with NA.}
 }
 \value{
 the estimate of the Discrite Maximum Likelyhood for the dataframe

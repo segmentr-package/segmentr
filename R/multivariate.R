@@ -13,13 +13,13 @@
 #' @param data Matrix to estimate the multivariate of. Each row is considered to
 #'   be an observation, and each column is considered to be a different
 #'   variable.
-#' @param na_action A function that is applied to the `X` parameter. Defaults to
-#'   `na.omit` function.
+#' @param na_action A function that is applied to the `data` parameter. Defaults to
+#'   removing columsn with NA.
 #' @return the estimate of the Discrite Maximum Likelyhood for the dataframe
 #'   provided.
 #'
 #' @export
-multivariate <- function(data, na_action = na.omit) {
+multivariate <- function(data, na_action = function(d) d[, colSums(is.na(d)) == 0, drop = FALSE]) {
   data <- as.matrix(data)
   data <- na_action(data)
   cpp_multivariate(data)
