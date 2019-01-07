@@ -20,7 +20,10 @@ Suggests: testthat,
   doParallel,
     knitr,
     rmarkdown,
-    tidyverse,
+    tidyr,
+    tibble,
+    dplyr,
+    ggplot2,
     lubridate,
     magrittr
 RoxygenNote: 6.1.0

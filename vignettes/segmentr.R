@@ -6,7 +6,10 @@ knitr::opts_chunk$set(
 
 ## ----message=FALSE-------------------------------------------------------
 require(segmentr)
-require(tidyverse)
+require(tidyr)
+require(tibble)
+require(dplyr)
+require(ggplot2)
 require(lubridate)
 require(magrittr)
 

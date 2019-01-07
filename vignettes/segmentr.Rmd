@@ -16,11 +16,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-Segmentr is a package that implements a handful of algorithms to find segments that maximize its total likelihood. So, the user of this package has to find an adequate likelihood for the segmentation problem to be solved, possibly having to penalize it as well in order to avoid a solution biased towards either too big or too small segments. Also, it's important to consider the computation time of each algorithm and its tradeoffs. This *vignette* walks through the main concepts regarding its usage, using weather temperature from Berlin as an example. For this demo, the `tidyverse`, `magrittr` and `lubridate` packages will be used.
+Segmentr is a package that implements a handful of algorithms to find segments that maximize its total likelihood. So, the user of this package has to find an adequate likelihood for the segmentation problem to be solved, possibly having to penalize it as well in order to avoid a solution biased towards either too big or too small segments. Also, it's important to consider the computation time of each algorithm and its tradeoffs. This *vignette* walks through the main concepts regarding its usage, using weather temperature from Berlin as an example. For this demo, the following packages will be used:
 
 ```{r message=FALSE}
 require(segmentr)
-require(tidyverse)
+require(tidyr)
+require(tibble)
+require(dplyr)
+require(ggplot2)
 require(lubridate)
 require(magrittr)
 ```

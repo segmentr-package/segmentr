@@ -304,11 +304,14 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 
-<p>Segmentr is a package that implements a handful of algorithms to find segments that maximize its total likelihood. So, the user of this package has to find an adequate likelihood for the segmentation problem to be solved, possibly having to penalize it as well in order to avoid a solution biased towards either too big or too small segments. Also, it’s important to consider the computation time of each algorithm and its tradeoffs. This <em>vignette</em> walks through the main concepts regarding its usage, using weather temperature from Berlin as an example. For this demo, the <code>tidyverse</code>, <code>magrittr</code> and <code>lubridate</code> packages will be used.</p>
+<p>Segmentr is a package that implements a handful of algorithms to find segments that maximize its total likelihood. So, the user of this package has to find an adequate likelihood for the segmentation problem to be solved, possibly having to penalize it as well in order to avoid a solution biased towards either too big or too small segments. Also, it’s important to consider the computation time of each algorithm and its tradeoffs. This <em>vignette</em> walks through the main concepts regarding its usage, using weather temperature from Berlin as an example. For this demo, the following packages will be used:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">require</span>(segmentr)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">require</span>(tidyverse)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">require</span>(lubridate)</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="kw">require</span>(magrittr)</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">require</span>(tidyr)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">require</span>(tibble)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">require</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">require</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="kw">require</span>(lubridate)</a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="kw">require</span>(magrittr)</a></code></pre></div>
 <div id="understanding-the-data" class="section level2">
 <h2>Understanding the data</h2>
 <p>The <code>berlin</code> dataset, provided in this dataset, contains daily temperature data from several weather stations in Berlin.</p>
