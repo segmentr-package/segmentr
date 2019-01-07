@@ -17,6 +17,9 @@ Imports:
   glue
 LinkingTo: Rcpp
 Suggests: testthat,
-  doParallel
+  doParallel,
+    knitr,
+    rmarkdown
 RoxygenNote: 6.1.0
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
