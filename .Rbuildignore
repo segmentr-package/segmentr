@@ -1,3 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
+^papers/
+^scripts/
+^tags$
+^benchmark.R$
+^make_berlin.R$

@@ -2,33 +2,59 @@
 % Please edit documentation in R/segment.R
 \name{segment}
 \alias{segment}
-\title{segment}
+\title{Segment data into changepoints}
 \usage{
-segment(..., algorithm = "exact")
+segment(data, likelihood = multivariate, max_segments = ncol(data),
+  allow_parallel = TRUE, algorithm = "exact", ...)
 }
 \arguments{
-\item{...}{params to be passed to the underlying function.}
+\item{data}{matrix for which to find the changepooints}
 
-\item{algorithm}{can be of type `exact`, `hierarchical` or `hybrid`, Default: 'exact'}
+\item{likelihood}{a function receives the segment matrix as argument
+and returns a likelihood estimation. This function is used to calculate the
+changepoints that maximize the total likelihood. Depending on the algorithm
+being used, this function is likely to be executed many times, in which
+case it's also likely to be the bottleneck of the function execution, so
+it's advised that this function should have a performant, native
+implementation. Defaults to a performant \code{multivariate} estimation.}
+
+\item{max_segments}{an integer that defines the maximum amount of segments to
+split the data into.}
+
+\item{allow_parallel}{allows parallel execution to take place using the
+registered cluster. Assumes a cluster is registered with the \code{foreach}
+package. Defaults to TRUE.}
+
+\item{algorithm}{can be of type \code{exact}, \code{hierarchical} or \code{hybrid}, Default: \code{exact}}
+
+\item{...}{other params to be passed to the underlying function}
 }
 \value{
-returns an object of type `segmentr`
+a list of type \code{segmentr}, which has the two attributes:
+\itemize{
+\item \code{changepoints}: a vector with the first index of each identified changepoint
+\item \code{segments}: a list of vectors, in which each vector corresponds to the indices
+that identifies a segment.
+}
 }
 \description{
-Segments data into changepoints using a specified algorithm
+Generic function to segment data into separate changepoionts according to
+specified algorithm
 }
 \details{
-Uses the specified algorithm to segment data into changepoints.
+This function can be used as a generic function to call any of the algorithms implemented
+by the package. Depending on the type of data the user wants to segment, one algorithm
+might be more adequate than the others.
 }
 \examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+
+make_segment <- function(n, p) matrix(rbinom(100 * n, 1, p), nrow = 100)
+data <- cbind(make_segment(5, 0.1), make_segment(10, 0.9), make_segment(2, 0.1))
+mean_lik <- function(X) abs(mean(X) - 0.5) * ncol(X)^2
+segment(data, likelihood = mean_lik, algorithm = "hieralg")$changepoints
 }
 \seealso{
-\code{\link{exactalg}} for the exact algorithm, \code{\link{hieralg}} for the
-hierarchical algorithm implementation, \code{\link{hybrid}} for the hybrid algorithm
-implementation.
+\code{\link[=exactalg]{exactalg()}} for the exact algorithm, \code{\link[=hieralg]{hieralg()}} for the
+hierarchical algorithm implementation, \code{\link[=hybridalg]{hybridalg()}} for the hybrid
+algorithm implementation.
 }

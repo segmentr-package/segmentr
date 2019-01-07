@@ -2,33 +2,46 @@
 % Please edit documentation in R/hieralg.R
 \name{hieralg}
 \alias{hieralg}
-\title{Hierarchical segment function}
+\title{Segment data into changepoints assuming hierarchical structure}
 \usage{
-hieralg(data, log_likelihood = multivariate, penalty = function(x) 0,
-  max_segments = ncol(data), allow_parallel = TRUE)
+hieralg(data, likelihood = multivariate, max_segments = ncol(data),
+  allow_parallel = TRUE)
 }
 \arguments{
-\item{log_likelihood}{log likelihood estimation funciton, which will be
-applied to all possible combinations of segments. Because it's executed
-many times, it's likely to be the slow part of the function execution, so
-it's advised that this function should have a performant, native
-implementation. Defaults to a performant `multivariate` estimation.}
+\item{data}{matrix for which to find the changepooints}
 
-\item{penalty}{a function that determines the penalty for the segment. It's
-called with the segment being analysed as it's only parameter.}
+\item{likelihood}{a function receives the segment matrix as argument
+and returns a likelihood estimation. This function is used to calculate the
+changepoints that maximize the total likelihood. Depending on the algorithm
+being used, this function is likely to be executed many times, in which
+case it's also likely to be the bottleneck of the function execution, so
+it's advised that this function should have a performant, native
+implementation. Defaults to a performant \code{multivariate} estimation.}
+
+\item{max_segments}{an integer that defines the maximum amount of segments to
+split the data into.}
 
 \item{allow_parallel}{allows parallel execution to take place using the
-registered cluster. Defaults to TRUE.}
-
-\item{x}{A matrix for which we wish to estimate the independent segments of.}
-
-\item{initial_position}{a initial position for the recursive algorithm.}
+registered cluster. Assumes a cluster is registered with the \code{foreach}
+package. Defaults to TRUE.}
+}
+\value{
+a list of type \code{segmentr}, which has the two attributes:
+\itemize{
+\item \code{changepoints}: a vector with the first index of each identified changepoint
+\item \code{segments}: a list of vectors, in which each vector corresponds to the indices
+that identifies a segment.
+}
 }
 \description{
-Hierarchical implementation of the \code{\link{segment}} function. It
-simplifies the comparisons to be made assuming the data is hierarchical, i.e.
-a segment found in a first trial is assumed to contain only segments
-independent of the rest of the data. This algorithm usually runs very fast,
-but is known to yield less accurate results, possibly now finding all the
-correct segment break points at their correct locaitons.
+By assuming changepoints follow an hierarchical architecture, this architecture
+manages to run faster by not searching all possible branches
+}
+\details{
+Fast algorithm that segments data intoo changepoints, and it does so by
+simplifying by reducing the search possibilities by assuming data split in an
+hierarchical structure, i.e. a segment found in a first trial is assumed to
+contain only segments independent of the rest of the data. This algorithm
+usually runs very fast, but is known to yield less accurate results, possibly
+not finding the exact changepoints that would maximize likelihood.
 }
