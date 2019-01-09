@@ -3,10 +3,8 @@ Type: Package
 Title: Segment Data With Maximum Likelihood
 Version: 0.1.1
 Authors@R: c(
-    person("Thales", "Mello", email = "thalesmello@gmail.com", role = c("cre")),
-    person("Florencia", "Leonardi", role = c("cph", "ths")),
-    person("Bruno M.", "de Castro", role = c("cph")),
-    person("Deutscher Wetterdienst", role = c("cph"))
+    person("Thales", "Mello", email = "thalesmello@gmail.com", role = c("aut", "cre")),
+    person("Florencia", "Leonardi", role = c("cph", "ths"))
     )
 Maintainer: Thales Mello <thalesmello@gmail.com>
 Description: Given a likelihood provided by the user, this package applies it
@@ -15,8 +13,8 @@ Description: Given a likelihood provided by the user, this package applies it
     a handful of algorithms with different time complexities and assumption compromises
     so the user is able to choose the best one for the problem at hand. The implementation
     of the segmentation algorithms in this package are based on the paper by Bruno M. de Castro,
-    Florencia Leonardi. You can find the paper and other references in the Acknowledgments
-    section of this package's repository front page via the URL below.
+    Florencia Leonardi (2018). You can find the paper and other references in the Acknowledgments
+    section of this package's repository via the URL below.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
