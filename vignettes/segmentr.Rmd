@@ -23,7 +23,6 @@ require(segmentr)
 require(tidyr)
 require(tibble)
 require(dplyr)
-require(ggplot2)
 require(lubridate)
 require(magrittr)
 ```
@@ -40,13 +39,12 @@ berlin[, 1:5]
 
 In order to grasp how the data behave, look at the how the daily mean temperature behaves over time.
 
-```{r, purl=FALSE}
+```{r}
 berlin %>%
   colMeans() %>%
   enframe("time", "temperature") %>%
   mutate_at(vars(time), ymd) %>%
-  ggplot(aes(time, temperature)) %>%
-  add(geom_line())
+  with(plot(time, temperature, type="l"))
 ```
 
 It's possible to mean weather cycles every year. A "linear regression likelihood" function will be used to segment the this data and find when the trends change.
@@ -122,16 +120,17 @@ results
 
 Plot the actual change points on the daily means to have a better understanding of how the segments split the data.
 
-```{r, purl=FALSE}
+```{r}
 dates <- colnames(berlin) %>% ymd()
 
 berlin %>%
   colMeans() %>%
   enframe("time", "temperature") %>%
   mutate_at(vars(time), ymd) %>%
-  ggplot(aes(time, temperature)) %>%
-  add(geom_line()) %>%
-  add(geom_vline(xintercept = dates[results$changepoints], color = "red", linetype = "dashed"))
+  with({
+    plot(time, temperature, type="l")
+    abline(v=dates[results$changepoints], col="red", lty=2)
+  })
 ```
 
 They more or less split the data as expected.
@@ -159,9 +158,10 @@ sub_berlin %>%
   colMeans() %>%
   enframe("time", "temperature") %>%
   mutate_at(vars(time), ymd) %>%
-  ggplot(aes(time, temperature)) %>%
-  add(geom_line()) %>%
-  add(geom_vline(xintercept = dates[results$changepoints], color = "red", linetype = "dashed"))
+  with({
+    plot(time, temperature, type="l")
+    abline(v=dates[results$changepoints], col="red", lty=2)
+  })
 ```
 
 The problem with that is that it thinks the data is optimally split roughly at the middle of the dataset, when in fact it would require putting change points in roughly each one third of the data. Hence, the hierarchical algorithm is not able to optimally split the dataset.

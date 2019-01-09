@@ -36,7 +36,6 @@ Suggests: testthat,
     tidyr,
     tibble,
     dplyr,
-    ggplot2,
     lubridate,
     magrittr,
     rdwd
