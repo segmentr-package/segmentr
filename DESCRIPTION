@@ -29,7 +29,8 @@ Suggests: testthat,
     dplyr,
     ggplot2,
     lubridate,
-    magrittr
+    magrittr,
+    rdwd
 RoxygenNote: 6.1.0
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
