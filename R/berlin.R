@@ -1,4 +1,4 @@
-#' Daily temperatures from weather stations in berlin
+#' Daily temperatures from weather stations in Berlin
 #'
 #' Contains weather daily weather data from many DWD weather stations in Berlin
 #' from the years of 2010 and 2011. Data was obtained using the package

@@ -5,7 +5,7 @@
 #' A short representation of the segments is printed on the screen, using the
 #' `start:end` range notation.
 #'
-#' @param x an object of type segmentr, containing changepoint information
+#' @param x an object of type segmentr, containing change point information
 #' @param ... further arguments to be passed down to other methods
 #'
 #' @examples

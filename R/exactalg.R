@@ -1,17 +1,17 @@
-#' Segment data into exact changepoints
+#' Segment data into exact change points
 #'
-#' Find changespoints in data calculating the penalized likelihood for all possible
+#' Find changes points in data calculating the penalized likelihood for all possible
 #' segment combinations
 #'
 #' Function that implements the dynamic programming algorithm, with the intent
-#' of finding points of independent changepoints for which the log likelihood
+#' of finding points of independent change points for which the likelihood
 #' function is maximized. It analyzes all possible combinations, returning the
-#' changepoints that are garanteed to segment the data matrix in the maximum
-#' likelihood independent changepoints. Because it analyzes all possible combinations
-#' of changepoionts, it has a quadratic algorithm complexity, meaning it works
-#' in an acceptable computation time, whereas time increases quadratically,
-#' being quite long for longer data sequences one wish to apply. For longer datasets,
-#' the hierarchical algorithm might be more adequate.
+#' change points that are guaranteed to segment the data matrix in the maximum
+#' likelihood independent change points. Because it analyzes all possible combinations
+#' of change points, it has a O-squared algorithm complexity, meaning it works
+#' in an acceptable computation time for small datasets, but it takes quite
+#' longer for datasets with many columns. For big datasets, [hieralg()] might
+#' be more adequate.
 #'
 #' @inherit base_segment
 #' @export

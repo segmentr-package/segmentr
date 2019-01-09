@@ -15,7 +15,7 @@ variable.}
 \item{na.omit}{If true, omits NAs from the dataset.}
 }
 \value{
-The estimate of the Discrite Maximum Likelyhood for the dataframe
+The estimate of the Discrete Maximum Likelihood for the dataframe
 provided.
 }
 \description{
@@ -24,6 +24,6 @@ estimation, but code runs more slowly due to R implementation
 }
 \details{
 This log likelihood function is implemented in R in order to be used to
-benchmark agaisnt the \code{\link[=multivariate]{multivariate()}} version implemented in C++ for
+benchmark against the \code{\link[=multivariate]{multivariate()}} version implemented in C++ for
 performance.
 }

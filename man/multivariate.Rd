@@ -13,20 +13,20 @@ be an observation, and each column is considered to be a different
 variable.}
 
 \item{na_action}{A function that is applied to the \code{data} parameter. Defaults to
-removing columsn with NA.}
+removing columns with NA.}
 }
 \value{
-the estimate of the Discrite Maximum Likelyhood for the dataframe
+the estimate of the Discrete Maximum Likelihood for the dataframe
 provided.
 }
 \description{
 Estimate the likelihood of a given segment using the discrete multivariate
-estimation, implemmented efficiently in C++
+estimation, implemented efficiently in C++
 }
 \details{
 Calculates the discrete log likelihood multivariate estimation of a data
 matrix using an algorithm implemented in C++ for performance. This is
-intented to be used in conjunction with \code{\link[=segment]{segment()}}, as the log likelihood
+intended to be used in conjunction with \code{\link[=segment]{segment()}}, as the log likelihood
 function is executed multiple times, which makes it the bottleneck of the
 computation. Because the multivariate is so commonly used, this efficient
 implementation is provided.

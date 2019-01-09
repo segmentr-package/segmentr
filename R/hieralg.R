@@ -1,14 +1,14 @@
-#' Segment data into changepoints assuming hierarchical structure
+#' Segment data into change points assuming hierarchical structure
 #'
-#' By assuming changepoints follow an hierarchical architecture, this architecture
+#' By assuming change points follow an hierarchical architecture, this architecture
 #' manages to run faster by not searching all possible branches
 #'
-#' Fast algorithm that segments data intoo changepoints, and it does so by
+#' Fast algorithm that segments data into change points, and it does so by
 #' simplifying by reducing the search possibilities by assuming data split in an
 #' hierarchical structure, i.e. a segment found in a first trial is assumed to
 #' contain only segments independent of the rest of the data. This algorithm
 #' usually runs very fast, but is known to yield less accurate results, possibly
-#' not finding the exact changepoints that would maximize likelihood.
+#' not finding the exact change points that would maximize likelihood.
 #'
 #' @inherit base_segment
 #' @export

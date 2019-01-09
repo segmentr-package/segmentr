@@ -7,7 +7,7 @@
 \method{print}{segmentr}(x, ...)
 }
 \arguments{
-\item{x}{an object of type segmentr, containing changepoint information}
+\item{x}{an object of type segmentr, containing change point information}
 
 \item{...}{further arguments to be passed down to other methods}
 }

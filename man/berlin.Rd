@@ -3,7 +3,7 @@
 \docType{data}
 \name{berlin}
 \alias{berlin}
-\title{Daily temperatures from weather stations in berlin}
+\title{Daily temperatures from weather stations in Berlin}
 \format{A matrix containing daily temperatures, with each column representing
 a date and each column representing a weather station in Berlin
 \describe{

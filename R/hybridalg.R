@@ -1,4 +1,4 @@
-#' Segment data into changepoints using a mixed hierarchical-exact approach
+#' Segment data into change points using a mixed hierarchical-exact approach
 #'
 #' For the larger datasets, assume the data is hierarchical, but calculate
 #' the exact segments when they're smaller than a threshold

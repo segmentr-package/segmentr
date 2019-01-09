@@ -78,7 +78,7 @@ f <- Vectorize(. %>% floor() %>% { berlin[, 1:.] } %>% lm_likelihood)
 curve(f, from = 1, to = 730)
 ```
 
-This graph represents how the likelihood of the first $x$ segments in the data, and one can see the curve has a peak close to zero. Even though it's not the global maximum of the curve, the cummulative effect of all the segments in the data is enough to bias the solution towards small segments.
+This graph represents how the likelihood of the first $x$ segments in the data, and one can see the curve has a peak close to zero. Even though it's not the global maximum of the curve, the cumulative effect of all the segments in the data is enough to bias the solution towards small segments.
 
 ## Penalizing the likelihood function
 
@@ -120,7 +120,7 @@ results <- segment(
 results
 ```
 
-Plot the actual changepoints on the daily means to have a better understanding of how the segments split the data.
+Plot the actual change points on the daily means to have a better understanding of how the segments split the data.
 
 ```{r}
 dates <- colnames(berlin) %>% ymd()
@@ -152,7 +152,7 @@ results <- segment(
 results
 ```
 
-The "hierarchical" algorithm only splits the data in half in this situatios. This happens because it first tries to find a optimal changepoint in the data, so that it can recursively find the remainder. 
+The "hierarchical" algorithm only splits the data in half in this situations. This happens because it first tries to find a optimal change point in the data, so that it can recursively find the remainder. 
 
 ```{r}
 sub_berlin %>%
@@ -164,4 +164,4 @@ sub_berlin %>%
   add(geom_vline(xintercept = dates[results$changepoints], color = "red", linetype = "dashed"))
 ```
 
-The problem with that is that it thinks the data is optimally split roughly at the middle of the dataset, when in fact it would require putting changepoints in roughly each one third of the data. Hence, the hierarchical algorithm is not able to optimally split the dataset.
+The problem with that is that it thinks the data is optimally split roughly at the middle of the dataset, when in fact it would require putting change points in roughly each one third of the data. Hence, the hierarchical algorithm is not able to optimally split the dataset.

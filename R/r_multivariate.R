@@ -5,14 +5,14 @@
 #' estimation, but code runs more slowly due to R implementation
 #'
 #' This log likelihood function is implemented in R in order to be used to
-#' benchmark agaisnt the [multivariate()] version implemented in C++ for
+#' benchmark against the [multivariate()] version implemented in C++ for
 #' performance.
 #'
 #' @param data Matrix to estimate the multivariate of. Each row is considered to
 #'   be an observation, and each column is considered to be a different
 #'   variable.
 #' @param na.omit If true, omits NAs from the dataset.
-#' @return The estimate of the Discrite Maximum Likelyhood for the dataframe
+#' @return The estimate of the Discrete Maximum Likelihood for the dataframe
 #'   provided.
 #'
 #' @export

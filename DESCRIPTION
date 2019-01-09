@@ -6,7 +6,7 @@ Author: Thales Mello
     Florencia Leonardi
 Maintainer: Thales Mello <thalesmello@gmail.com>
 Description: Given a likelihood provided by the user, this package applies it
-    to a given matrix dataset in order to find changepoints in the data that
+    to a given matrix dataset in order to find change points in the data that
     maximize the sum of the likelihoods of all the segments. This package provides
     a handful of algorithms with different time complexities and assumption compromises
     so the user is able to choose the best one for the problem at hand.

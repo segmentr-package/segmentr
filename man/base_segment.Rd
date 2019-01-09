@@ -4,18 +4,17 @@
 \alias{base_segment}
 \title{Base arguments for segment function}
 \usage{
-base_segment(data, likelihood, penalty, max_segments, allow_parallel)
+base_segment(data, likelihood, max_segments, allow_parallel)
 }
 \arguments{
-\item{data}{matrix for which to find the changepooints}
+\item{data}{matrix for which to find the change points}
 
 \item{likelihood}{a function receives the segment matrix as argument
 and returns a likelihood estimation. This function is used to calculate the
-changepoints that maximize the total likelihood. Depending on the algorithm
+change points that maximize the total likelihood. Depending on the algorithm
 being used, this function is likely to be executed many times, in which
 case it's also likely to be the bottleneck of the function execution, so
-it's advised that this function should have a performant, native
-implementation. Defaults to a performant \code{multivariate} estimation.}
+it's advised that this function should have fast implementation.}
 
 \item{max_segments}{an integer that defines the maximum amount of segments to
 split the data into.}
@@ -27,7 +26,7 @@ package. Defaults to TRUE.}
 \value{
 a list of type \code{segmentr}, which has the two attributes:
 \itemize{
-\item \code{changepoints}: a vector with the first index of each identified changepoint
+\item \code{changepoints}: a vector with the first index of each identified change point
 \item \code{segments}: a list of vectors, in which each vector corresponds to the indices
 that identifies a segment.
 }

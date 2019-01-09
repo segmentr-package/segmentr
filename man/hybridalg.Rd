@@ -2,21 +2,20 @@
 % Please edit documentation in R/hybridalg.R
 \name{hybridalg}
 \alias{hybridalg}
-\title{Segment data into changepoints using a mixed hierarchical-exact approach}
+\title{Segment data into change points using a mixed hierarchical-exact approach}
 \usage{
-hybridalg(data, likelihood = multivariate, allow_parallel = TRUE,
+hybridalg(data, likelihood, allow_parallel = TRUE,
   max_segments = ncol(data), threshold = 50)
 }
 \arguments{
-\item{data}{matrix for which to find the changepooints}
+\item{data}{matrix for which to find the change points}
 
 \item{likelihood}{a function receives the segment matrix as argument
 and returns a likelihood estimation. This function is used to calculate the
-changepoints that maximize the total likelihood. Depending on the algorithm
+change points that maximize the total likelihood. Depending on the algorithm
 being used, this function is likely to be executed many times, in which
 case it's also likely to be the bottleneck of the function execution, so
-it's advised that this function should have a performant, native
-implementation. Defaults to a performant \code{multivariate} estimation.}
+it's advised that this function should have fast implementation.}
 
 \item{allow_parallel}{allows parallel execution to take place using the
 registered cluster. Assumes a cluster is registered with the \code{foreach}
@@ -32,7 +31,7 @@ threshold.}
 \value{
 a list of type \code{segmentr}, which has the two attributes:
 \itemize{
-\item \code{changepoints}: a vector with the first index of each identified changepoint
+\item \code{changepoints}: a vector with the first index of each identified change point
 \item \code{segments}: a list of vectors, in which each vector corresponds to the indices
 that identifies a segment.
 }

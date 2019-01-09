@@ -3,11 +3,11 @@
 
 # segmentr
 
-\-[![Travis-CI Build
+[![Travis-CI Build
 Status](https://travis-ci.org/thalesmello/segmentr.svg?branch=master)](https://travis-ci.org/thalesmello/segmentr)
 
 Given a likelihood provided by the user, this package applies it to a
-given matrix dataset in order to find changepoints in the data that
+given matrix dataset in order to find change points in the data that
 maximize the sum of the likelihoods of all the segments.
 
 This package provides a handful of algorithms with different time
@@ -25,8 +25,8 @@ devtools::install_github("thalesmello/segmentr", build_vignettes = TRUE)
 
 ## Example
 
-Sample code usign the package to identify changements in each semgents
-mean:
+Sample code using the package to identify change points in the segments’
+means:
 
 ``` r
 require(segmentr)

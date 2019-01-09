@@ -2,21 +2,20 @@
 % Please edit documentation in R/hieralg.R
 \name{hieralg}
 \alias{hieralg}
-\title{Segment data into changepoints assuming hierarchical structure}
+\title{Segment data into change points assuming hierarchical structure}
 \usage{
-hieralg(data, likelihood = multivariate, max_segments = ncol(data),
+hieralg(data, likelihood, max_segments = ncol(data),
   allow_parallel = TRUE)
 }
 \arguments{
-\item{data}{matrix for which to find the changepooints}
+\item{data}{matrix for which to find the change points}
 
 \item{likelihood}{a function receives the segment matrix as argument
 and returns a likelihood estimation. This function is used to calculate the
-changepoints that maximize the total likelihood. Depending on the algorithm
+change points that maximize the total likelihood. Depending on the algorithm
 being used, this function is likely to be executed many times, in which
 case it's also likely to be the bottleneck of the function execution, so
-it's advised that this function should have a performant, native
-implementation. Defaults to a performant \code{multivariate} estimation.}
+it's advised that this function should have fast implementation.}
 
 \item{max_segments}{an integer that defines the maximum amount of segments to
 split the data into.}
@@ -28,20 +27,20 @@ package. Defaults to TRUE.}
 \value{
 a list of type \code{segmentr}, which has the two attributes:
 \itemize{
-\item \code{changepoints}: a vector with the first index of each identified changepoint
+\item \code{changepoints}: a vector with the first index of each identified change point
 \item \code{segments}: a list of vectors, in which each vector corresponds to the indices
 that identifies a segment.
 }
 }
 \description{
-By assuming changepoints follow an hierarchical architecture, this architecture
+By assuming change points follow an hierarchical architecture, this architecture
 manages to run faster by not searching all possible branches
 }
 \details{
-Fast algorithm that segments data intoo changepoints, and it does so by
+Fast algorithm that segments data into change points, and it does so by
 simplifying by reducing the search possibilities by assuming data split in an
 hierarchical structure, i.e. a segment found in a first trial is assumed to
 contain only segments independent of the rest of the data. This algorithm
 usually runs very fast, but is known to yield less accurate results, possibly
-not finding the exact changepoints that would maximize likelihood.
+not finding the exact change points that would maximize likelihood.
 }

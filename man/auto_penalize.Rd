@@ -10,8 +10,8 @@ auto_penalize(data, likelihood, big_segment_penalty = 10,
 \arguments{
 \item{data}{dataset to be segmented by the \code{\link[=segment]{segment()}} function}
 
-\item{likelihood}{function to be maximised using the \code{\link[=segment]{segment()}} function.
-It's used to find out the scale fo the values in the segment function}
+\item{likelihood}{function to be maximized using the \code{\link[=segment]{segment()}} function.
+It's used to find out the scale of the values in the segment function}
 
 \item{big_segment_penalty}{penalty factor for big segments. The bigger it is, the bigger the penalty on big segments. Must be greater than or equal to 1. Penalty on big segments is constant when it's equal to 1. Default: 10}
 
@@ -26,8 +26,8 @@ penalize big and small segments, this function makes an educated guess
 on a penalty function for the likelihood function.
 }
 \details{
-This function tries to fit a sum of two exponential functions to values infered
-from the dataset and the likelihood funciton. The model for the penalty function
+This function tries to fit a sum of two exponential functions to values inferred
+from the dataset and the likelihood function. The model for the penalty function
 we try to fit is in the form:
 
 \deqn{C₁ exp(s₁(x - ½L)) + C₂ exp(s₂(-x + ½L))}
