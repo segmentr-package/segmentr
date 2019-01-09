@@ -3,8 +3,9 @@ Type: Package
 Title: Segment Data With Maximum Likelihood
 Version: 0.1.1
 Authors@R: c(
-    person("Thales", "Mello", email = "thalesmello@gmail.com", role = c("aut", "cre")),
-    person("Florencia", "Leonardi", role = c("cph", "ths")),
+    person("Thales", "Mello", email = "thalesmello@gmail.com", role = c("aut", "cre", "cph")),
+    person("Florencia", "Leonardi", role = c("aut", "cph", "ths")),
+    person("Bruno M.", "de Castro", role = c("cph")),
     person("Deutscher Wetterdienst", role = c("cph"))
     )
 Maintainer: Thales Mello <thalesmello@gmail.com>
