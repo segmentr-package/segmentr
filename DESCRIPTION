@@ -34,3 +34,4 @@ Suggests: testthat,
 RoxygenNote: 6.1.0
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
+Language: en-US
