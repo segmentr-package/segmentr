@@ -5,6 +5,7 @@ This is a resubmission. I have changed:
 - Conformed `Authors@R` to CRAN guidelines
 - Cited researchers of the base papers and linked the paper in DESCRIPTION
 - Included Acknowledgments in README
+- Remove graphs from the `./vignettes/segmentr.R` file to avoid graphical device error
 
 ## Test environments
 
