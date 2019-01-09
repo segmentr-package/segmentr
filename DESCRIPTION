@@ -3,6 +3,7 @@ Type: Package
 Title: Segment Data With Maximum Likelihood
 Version: 0.1.0
 Author: Thales Mello
+    Florencia Leonardi
 Maintainer: Thales Mello <thalesmello@gmail.com>
 Description: Given a likelihood provided by the user, this package applies it
     to a given matrix dataset in order to find changepoints in the data that
