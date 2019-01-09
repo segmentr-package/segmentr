@@ -8,11 +8,11 @@
 #' from the dataset and the likelihood function. The model for the penalty function
 #' we try to fit is in the form:
 #'
-#' \deqn{C₁ exp(s₁(x - ½L)) + C₂ exp(s₂(-x + ½L))}
+#' \deqn{C1 exp(s1(x - L/2)) + C1 exp(s2(-x + L/2))}
 #'
-#' In the equation, \eqn{C₁} and \eqn{s₁} are, respectively,
+#' In the equation, \eqn{C1} and \eqn{s1} are, respectively,
 #' a multiplier constant and an exponential scale modifier for small segments,
-#' whereas \eqn{C₂} and \eqn{s₂} are the equivalent ones for
+#' whereas \eqn{C2} and \eqn{s2} are the equivalent ones for
 #' big segments. \eqn{L} is the number of columns in the `data` matrix.
 #'
 #' Assuming the penalty function to be as such, the parameters are estimated
