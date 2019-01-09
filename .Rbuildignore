@@ -8,3 +8,5 @@
 ^make_berlin.R$
 ^cran-comments.md$
 ^revdep$
+^README\.Rmd$
+^README-.*\.png$
