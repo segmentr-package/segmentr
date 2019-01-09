@@ -1,7 +1,7 @@
 Package: segmentr
 Type: Package
 Title: Segment Data With Maximum Likelihood
-Version: 0.1.0
+Version: 0.1.1
 Author: Thales Mello
     Florencia Leonardi
 Maintainer: Thales Mello <thalesmello@gmail.com>

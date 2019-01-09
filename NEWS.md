@@ -1,4 +1,12 @@
-# segmentr
+# segmentr 0.1.1
+
+Minor changes to documentation to solve release issues.
+
+- Simplify equation in `auto_penalize` documentation
+- Adopt canonical CRAN URL in `berlin` documentation
+- Refer to MIT license in Description
+
+# segmentr 0.1.0
 
 First version of the package. Implements a handful of algorithms to help
 segment data according to a likelihood function.
