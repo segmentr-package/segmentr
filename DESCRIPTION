@@ -10,7 +10,7 @@ Description: Given a likelihood provided by the user, this package applies it
     maximize the sum of the likelihoods of all the segments. This package provides
     a handful of algorithms with different time complexities and assumption compromises
     so the user is able to choose the best one for the problem at hand.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends:
