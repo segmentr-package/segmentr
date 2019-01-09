@@ -6,3 +6,5 @@
 ^tags$
 ^benchmark.R$
 ^make_berlin.R$
+^cran-comments.md$
+^revdep$
