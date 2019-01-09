@@ -18,9 +18,9 @@ a date and each column representing a weather station in Berlin
 berlin
 }
 \description{
-Contains weather daily weather data from many DWD weather stations in Berlin
-from the years of 2010 and 2011. Data was obtained using the package
-\href{https://CRAN.R-project.org/package=rdwd}{rdwd}
+Contains weather daily weather data from many \href{https://dwd.de/}{Deutscher Wetterdienst}
+weather stations in Berlin from the years of 2010 and 2011. Data was obtained using the
+package \href{https://CRAN.R-project.org/package=rdwd}{rdwd}
 and reformatted to a format appropriate to be used for analysis in this object.
 }
 \keyword{datasets}
