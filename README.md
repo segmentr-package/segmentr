@@ -3,6 +3,9 @@
 
 # segmentr
 
+\-[![Travis-CI Build
+Status](https://travis-ci.org/thalesmello/segmentr.svg?branch=master)](https://travis-ci.org/thalesmello/segmentr)
+
 Given a likelihood provided by the user, this package applies it to a
 given matrix dataset in order to find changepoints in the data that
 maximize the sum of the likelihoods of all the segments.
