@@ -2,7 +2,7 @@
 #'
 #' Contains weather daily weather data from many DWD weather stations in Berlin
 #' from the years of 2010 and 2011. Data was obtained using the package
-#' [rdwd](https://cran.r-project.org/web/packages/rdwd/vignettes/rdwd.html)
+#' [rdwd](https://CRAN.R-project.org/package=rdwd)
 #' and reformatted to a format appropriate to be used for analysis in this object.
 #'
 #' @format A matrix containing daily temperatures, with each column representing
