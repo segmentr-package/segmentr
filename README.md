@@ -44,3 +44,22 @@ segment(data, likelihood = mean_lik, algorithm = "hieralg")
 ```
 
 For an in depth step-by-step, please check `vignette("segmentr")`.
+
+## Acknowledgments
+
+This package is part of a Master’s degree research thesis at
+[IME-USP](https://www.ime.usp.br/), with [Florencia
+Leonardi](https://www.ime.usp.br/~leonardi/Home_page_of_Florencia_G._Leonardi/Home_Page.html)
+as thesis adviser.
+
+The algorithms in this package are based on a
+[paper](https://arxiv.org/abs/1501.01756) by Bruno M. de Castro and
+[Florencia
+Leonardi](https://www.ime.usp.br/~leonardi/Home_page_of_Florencia_G._Leonardi/Home_Page.html).
+
+The `berlin` sample dataset was provided by [© Deutscher
+Wetterdienst](https://dwd.de/) and put together with the
+[`rdwd`](https://CRAN.R-project.org/package=rdwd) package by [Berry
+Boessenkool](https://github.com/brry). Check
+[`make_berlin.R`](https://github.com/thalesmello/segmentr/blob/master/make_berlin.R)
+for the script that builds the dataset.

@@ -5,7 +5,7 @@ Version: 0.1.1
 Authors@R: c(
     person("Thales", "Mello", email = "thalesmello@gmail.com", role = c("cre")),
     person("Florencia", "Leonardi", role = c("cph", "ths")),
-    person("Bruno", "de Castro", middle = "M.", role = c("cph")),
+    person("Bruno M.", "de Castro", role = c("cph")),
     person("Deutscher Wetterdienst", role = c("cph"))
     )
 Maintainer: Thales Mello <thalesmello@gmail.com>
@@ -15,7 +15,8 @@ Description: Given a likelihood provided by the user, this package applies it
     a handful of algorithms with different time complexities and assumption compromises
     so the user is able to choose the best one for the problem at hand. The implementation
     of the segmentation algorithms in this package are based on the paper by Bruno M. de Castro,
-    Florencia Leonardi, available via the URL below.
+    Florencia Leonardi. You can find the paper and other references in the Acknowledgments
+    section of this package's repository front page via the URL below.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -41,4 +42,4 @@ RoxygenNote: 6.1.0
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Language: en-US
-URL: https://arxiv.org/abs/1501.01756
+URL: https://github.com/thalesmello/segmentr
