@@ -3,6 +3,9 @@
 * Ubuntu 14.04.5 LTS (on travis-ci), R 3.5.2
 * win-builder (devel and release)
 
+Could not run with r-devel in my computer, as I had trouble installing `xlm2`,
+due to native dependencies.
+
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
 
