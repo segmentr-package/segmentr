@@ -16,7 +16,7 @@
 #' @export
 hybridalg <- function(
                       data,
-                      likelihood = multivariate,
+                      likelihood,
                       allow_parallel = TRUE,
                       max_segments = ncol(data),
                       threshold = 50) {

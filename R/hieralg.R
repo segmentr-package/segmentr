@@ -14,7 +14,7 @@
 #' @export
 hieralg <- function(
                     data,
-                    likelihood = multivariate,
+                    likelihood,
                     max_segments = ncol(data),
                     allow_parallel = TRUE) {
   segs <- recursive_hieralg(

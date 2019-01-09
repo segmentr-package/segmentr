@@ -17,8 +17,8 @@
 #' @export
 exactalg <- function(
                      data,
+                     likelihood,
                      max_segments = ncol(data),
-                     likelihood = multivariate,
                      allow_parallel = TRUE) {
   changepoints <- exact_segments(
     data = data,

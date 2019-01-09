@@ -23,7 +23,7 @@
 #' @export
 segment <- function(
                     data,
-                    likelihood = multivariate,
+                    likelihood,
                     max_segments = ncol(data),
                     allow_parallel = TRUE,
                     algorithm = "exact",

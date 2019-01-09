@@ -23,6 +23,5 @@
 base_segment <- function(
                          data,
                          likelihood,
-                         penalty,
                          max_segments,
                          allow_parallel) NULL
