@@ -4,7 +4,6 @@ Minor changes to documentation to solve release issues.
 
 - Simplify equation in `auto_penalize` documentation
 - Adopt canonical CRAN URL in `berlin` documentation
-- Refer to MIT license in Description
 
 # segmentr 0.1.0
 
