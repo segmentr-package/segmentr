@@ -18,14 +18,6 @@ data(berlin)
 berlin[, 1:5]
 
 ## ------------------------------------------------------------------------
-berlin %>%
-  colMeans() %>%
-  enframe("time", "temperature") %>%
-  mutate_at(vars(time), ymd) %>%
-  ggplot(aes(time, temperature)) %>%
-  add(geom_line())
-
-## ------------------------------------------------------------------------
 lm_likelihood <- function (data) {
   as_tibble(t(data)) %>%
     rowid_to_column() %>%
@@ -65,17 +57,6 @@ results <- segment(
 )
 
 results
-
-## ------------------------------------------------------------------------
-dates <- colnames(berlin) %>% ymd()
-
-berlin %>%
-  colMeans() %>%
-  enframe("time", "temperature") %>%
-  mutate_at(vars(time), ymd) %>%
-  ggplot(aes(time, temperature)) %>%
-  add(geom_line()) %>%
-  add(geom_vline(xintercept = dates[results$changepoints], color = "red", linetype = "dashed"))
 
 ## ------------------------------------------------------------------------
 sub_berlin <- berlin[, 1:551]

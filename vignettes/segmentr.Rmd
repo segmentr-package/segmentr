@@ -40,7 +40,7 @@ berlin[, 1:5]
 
 In order to grasp how the data behave, look at the how the daily mean temperature behaves over time.
 
-```{r}
+```{r, purl=FALSE}
 berlin %>%
   colMeans() %>%
   enframe("time", "temperature") %>%
@@ -122,7 +122,7 @@ results
 
 Plot the actual change points on the daily means to have a better understanding of how the segments split the data.
 
-```{r}
+```{r, purl=FALSE}
 dates <- colnames(berlin) %>% ymd()
 
 berlin %>%
