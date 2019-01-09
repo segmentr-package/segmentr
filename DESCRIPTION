@@ -15,7 +15,7 @@ Description: Given a likelihood provided by the user, this package applies it
     a handful of algorithms with different time complexities and assumption compromises
     so the user is able to choose the best one for the problem at hand. The implementation
     of the segmentation algorithms in this package are based on the paper by Bruno M. de Castro,
-	Florencia Leonardi (2018) <https://arxiv.org/abs/1501.01756>. The Berlin
+	Florencia Leonardi (2018) <arXiv:1501.01756>. The Berlin
 	weather sample dataset was provided by Deutscher Wetterdienst <https://dwd.de/>.
 	You can find all the references in the Acknowledgments section of this package's
 	repository via the URL below.
