@@ -1,3 +1,18 @@
 # Simulations
 
-This section shows simulations using the package.
+In order to exemplify the utility of this package, a handful of hypothetical
+data will be presented, together with a proposal of an appropriate likelihood
+function that is expected to segment the data in an expected manner.
+
+## Correlated random variables
+
+Let $X_1$, $X_2$, ..., $X_n$ be random variable observations, with each $X_k$,
+with $1 \le k \le n$, representing a set of observations from a different
+random variable with $m$ observations in each set, represented by
+$X_k = \{x_{k1},\ x_{k2},\ ...,\ x_{km}\}$.
+Also, let $Eq_1$, $Eq_2$, ..., $Eq_N$ be $N$ equations which specify
+relationships between the points arbitrary random variables. Therefore, build
+the data matrix $D$ with each set of observations $X_k$ in each column.
+
+$$D = [x_{ij}] \(eq$$
+
