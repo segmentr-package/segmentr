@@ -12,7 +12,7 @@
 <meta name="author" content="Thales Melo" />
 <meta name="author" content="Florencia Leonardi" />
 
-<meta name="date" content="2018-11-23" />
+<meta name="date" content="2019-01-15" />
 
 <title>A R Package for Changepoint Detection</title>
 
@@ -284,6 +284,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -291,14 +294,74 @@ button.code-folding-btn:focus {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -311,7 +374,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">A R Package for Changepoint Detection</h1>
 <h4 class="author"><em>Thales Melo</em></h4>
 <h4 class="author"><em>Florencia Leonardi</em></h4>
-<h4 class="date"><em>2018-11-23</em></h4>
+<h4 class="date"><em>2019-01-15</em></h4>
 
 </div>
 
@@ -432,9 +495,9 @@ install_github(&quot;thalesmello/segmentr&quot;)</code></pre>
 <div id="usage" class="section level2">
 <h2><span class="header-section-number">5.2</span> Usage</h2>
 <p>The package can be used with the <code>segment</code> function.</p>
-<pre class="r"><code>require(&quot;segmentr&quot;)</code></pre>
-<pre><code>## Loading required package: segmentr</code></pre>
-<pre class="r"><code>data &lt;- rbind(
+<pre class="r"><code>require(&quot;segmentr&quot;)
+
+data &lt;- rbind(
   c(1, 1, 0, 0, 0, 1, 1, 1),
   c(1, 1, 0, 0, 0, 1, 1, 1),
   c(1, 1, 0, 0, 0, 1, 1, 1),
@@ -446,21 +509,46 @@ install_github(&quot;thalesmello/segmentr&quot;)</code></pre>
 segment(
   data,
   algorithm = &quot;exact&quot;,
-  penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X))
-)$changepoints</code></pre>
-<pre><code>## [1] 2 4 6</code></pre>
+  likelihood = function(X) multivariate(X) - (0.1 * 2^ncol(X)) * log(nrow(X))
+)</code></pre>
+<pre><code>## Segments (total of 4):
+## 
+## 1:2
+## 3:4
+## 5:6
+## 7:8</code></pre>
 <!--chapter:end:14_package_usage.Rmd-->
 </div>
 </div>
 <div id="simulations" class="section level1">
 <h1><span class="header-section-number">6</span> Simulations</h1>
-<p>This section shows simulations using the package.</p>
+<p>In order to exemplify the utility of this package, a handful of hypothetical
+data will be presented, together with a proposal of an appropriate likelihood
+function that is expected to segment the data in an expected manner.</p>
+<div id="correlated-random-variables" class="section level2">
+<h2><span class="header-section-number">6.1</span> Correlated random variables</h2>
+<p>Let <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span>, …, <span class="math inline">\(X_n\)</span> be random variable observations, with each <span class="math inline">\(X_k\)</span>,
+with <span class="math inline">\(1 \le k \le n\)</span>, representing a set of observations from a different
+random variable with <span class="math inline">\(m\)</span> observations in each set, represented by
+<span class="math inline">\(X_k = \{x_{k1},\ x_{k2},\ ...,\ x_{km}\}\)</span>.
+Also, let <span class="math inline">\(Eq_1\)</span>, <span class="math inline">\(Eq_2\)</span>, …, <span class="math inline">\(Eq_N\)</span> be <span class="math inline">\(N\)</span> equations which specify
+relationships between the points arbitrary random variables. Therefore, build
+the data matrix <span class="math inline">\(D\)</span> with each set of observations <span class="math inline">\(X_k\)</span> in each column.</p>
+<p><span class="math display">\[D = [x_{ij}] \(eq\]</span></p>
 <!--chapter:end:15_simulations.Rmd-->
+</div>
 </div>
 <div id="real-data-examples" class="section level1">
 <h1><span class="header-section-number">7</span> Real Data Examples</h1>
 <p>This shows how the package can be used to analyze realworld data.</p>
+<div id="example-with-genethic-data" class="section level2">
+<h2><span class="header-section-number">7.1</span> Example with Genethic Data</h2>
+<p>This uses the Genetic Dataset</p>
+</div>
+<div id="example-with-weather-data-from-berlin" class="section level2">
+<h2><span class="header-section-number">7.2</span> Example with Weather data from Berlin</h2>
 <!--chapter:end:16_real_data_examples.Rmd-->
+</div>
 </div>
 <div id="considerations-on-performance" class="section level1">
 <h1><span class="header-section-number">8</span> Considerations on performance</h1>
@@ -515,6 +603,7 @@ results.</p>
 <li>RCPP</li>
 <li>original research paper from Florencia</li>
 <li>benchmark package</li>
+<li>DWW weather data</li>
 </ul>
 <!--chapter:end:24_references.Rmd-->
 </div>
