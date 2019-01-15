@@ -1,3 +1,9 @@
 # Real Data Examples
 
 This shows how the package can be used to analyze realworld data.
+
+## Example with Genethic Data
+
+This uses the Genetic Dataset
+
+## Example with Weather data from Berlin
