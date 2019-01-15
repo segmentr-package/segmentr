@@ -31,7 +31,7 @@ data <- rbind(
 segment(
   data,
   algorithm = "exact",
-  penalty = function(X) (0.1 * 2^ncol(X)) * log(nrow(X))
-)$changepoints
+  likelihood = function(X) multivariate(X) - (0.1 * 2^ncol(X)) * log(nrow(X))
+)
 ```
 
