@@ -3,4 +3,6 @@ _book
 *.dvi
 *.out
 *.toc
+*.log
+thesis.tex
 thesis.Rmd
