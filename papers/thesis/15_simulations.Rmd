@@ -14,5 +14,5 @@ Also, let $Eq_1$, $Eq_2$, ..., $Eq_N$ be $N$ equations which specify
 relationships between the points arbitrary random variables. Therefore, build
 the data matrix $D$ with each set of observations $X_k$ in each column.
 
-$$D = [x_{ij}] \(eq$$
+$$D = [x_{ij}]$$
 
