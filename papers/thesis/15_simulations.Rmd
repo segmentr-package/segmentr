@@ -14,5 +14,24 @@ Also, let $Eq_1$, $Eq_2$, ..., $Eq_N$ be $N$ equations which specify
 relationships between the points arbitrary random variables. Therefore, build
 the data matrix $D$ with each set of observations $X_k$ in each column.
 
-$$D = [x_{ij}]$$
+$$
+D = [x_{ij}], 1 \le i \le m \text{ and } 1 \le j \le n
+(\#eq:multivariatedata)
+$$
+
+Let $C(D)$ be the set of changepoints that split \@ref(eq:multivariatedata) in
+changepoints with maximum likelihood. If the maximum likelihood of a discrete
+multivariate distribution is used, the set of changepoints in the data will be
+defined by the $Eq_k$, with $1 \le k \le N$, for which there are no common
+random variables relationships defined in each sequence of continuous equations
+relationships. In other words, $C(D)$ will be the points that split $D$ in
+segments of random variables independent of each other.
+
+To give an example, assume 
+
+```{r}
+# R code building the data
+```
+
+So, we use `segmentr` in order to find the expected segment points.
 
