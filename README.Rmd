@@ -29,13 +29,12 @@ problem at hand.
 You can install segmentr from GitHub using:
 
 ```{r gh-installation, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("thalesmello/segmentr", build_vignettes = TRUE)
+install.packages("segmentr")
 ```
 
 ## Example
 
-Sample code using the package to identify change points in the segments' means:
+Sample code using the package to identify change points in the segments' averages:
 
 ```{r example}
 require(segmentr)
