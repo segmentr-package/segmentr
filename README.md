@@ -16,17 +16,16 @@ the best one for the problem at hand.
 
 ## Installation
 
-You can install segmentr from GitHub using:
+Install the package from CRAN:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("thalesmello/segmentr", build_vignettes = TRUE)
+install.packages("segmentr")
 ```
 
 ## Example
 
 Sample code using the package to identify change points in the segments’
-means:
+averages:
 
 ``` r
 require(segmentr)

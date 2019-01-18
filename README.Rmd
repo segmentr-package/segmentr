@@ -26,7 +26,7 @@ problem at hand.
 
 ## Installation
 
-You can install segmentr from GitHub using:
+Install the package from CRAN:
 
 ```{r gh-installation, eval = FALSE}
 install.packages("segmentr")
