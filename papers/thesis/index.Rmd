@@ -8,7 +8,7 @@ site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
 classoption: openany
-bibliography: []
+bibliography: ["citations.bib"]
 biblio-style: apalike
 link-citations: yes
 ---
