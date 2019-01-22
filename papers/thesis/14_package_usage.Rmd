@@ -4,12 +4,10 @@ This section shows how to use the package.
 
 ## Instalation
 
-The package can be installed using `devtools`.
+The package is available to install in the official repository of the R programming language.
 
-```
-install.packages("devtools")
-require("devtools")
-install_github("thalesmello/segmentr")
+```{r, eval=FALSE}
+install.packages("segmentr")
 ```
 
 ## Usage
