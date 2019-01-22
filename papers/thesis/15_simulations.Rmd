@@ -6,25 +6,25 @@ function that is expected to segment the data in an expected manner.
 
 ## Correlated random variables
 
-Let $C_1$, $C_2$, ..., $C_n$ a sequence of $n$ sets of data points, each with $m$
+Let $C_1$, $C_2$, ..., $C_n$ a sequence of $n$ vectors of data points, each with $m$
 observations represented by $C_k = \{c_{k1},\ c_{k2},\ ...,\ c_{km}\}$, with
 $1 \le k \le n$. Assume that each $C_k$ is a function of an unknown set of independent
 random variables $X$, such that $C_k = f_k(X)$. When used together with a multivariate
-likelihood [@multivariate-likelihood], it's possible to identify the set of $N_b$ changepoints
+likelihood [@multivariate-likelihood], for which an implementation is provided in
+the `segmentr` package as the `multivariate()` function, it's possible to identify
+the set of $N_b$ changepoints
 $b_1, ..., b_{N_b}$, with $b_0 = 1$ and $b_{N_b + 1} = n + 1$, such that all $f_k$, for
 $b_i \le k \le b_{i+1}-1$ is a function of the same set of independent random variables $X$,
-for each $1 \le i \le N_b$.
-
-### Example of correlated random variables
+or each $1 \le i \le N_b$.
 
 Let $X_1, ..., X_6$ be independent random variables and $C_1, ..., C_{15}$ be
-defined as in @\ref(eq:example-columns). It's possible to see the first segment $C_1, ..., C_5$
+defined as in \@ref(eq:example-columns) . It's possible to see the first segment $C_1, ..., C_5$
 depend on $X_1, X_2$, the second segment $C_6, ..., C_{10}$ depend on $X_3, X_4$ and the third
 and last segment $C_{11}, ..., C_{15}$ depend on $X_4, X_5$. Therefore, the changepoints would
 be $b_1 = 6$ and $b_2 = 11$. In order to exemplify that, 
 
-$$
-\begin{align}
+\begin{equation}
+\begin{aligned}
 C_1 & = X_1 \\
 C_2 & = X_1 - X_2 \\
 C_3 & = X_2 \\
@@ -40,34 +40,53 @@ C_{12} & = X_5 - X_6 \\
 C_{13} & = X_6 \\
 C_{14} & = X_5 + X_6 \\
 C_{15} & = X_5
-\end{align}
+\end{aligned}
 (\#eq:example-columns)
-$$
+\end{equation}
 
-Considering the equations above, it's possible 
-
-Also, let $Eq_1$, $Eq_2$, ..., $Eq_N$ be $N$ equations which specify
-relationships between the points arbitrary random variables. Therefore, build
-the data matrix $D$ with each set of observations $X_k$ in each column.
-
-$$
-D = [x_{ij}], 1 \le i \le m \text{ and } 1 \le j \le n
-(\#eq:multivariatedata)
-$$
-
-Let $C(D)$ be the set of changepoints that split \@ref(eq:multivariatedata) in
-changepoints with maximum likelihood. If the maximum likelihood of a discrete
-multivariate distribution is used, the set of changepoints in the data will be
-defined by the $Eq_k$, with $1 \le k \le N$, for which there are no common
-random variables relationships defined in each sequence of continuous equations
-relationships. In other words, $C(D)$ will be the points that split $D$ in
-segments of random variables independent of each other.
-
-To ilustrate, assume there are $n = 15$ sequences of random variables observations, with 
+To ilustrate, consider the following code, which defines $X_1, ..., X_6$ and $C_1, ..., C_{15}$ as specified in \@ref(eq:example-columns), and alo defines the matrix $D$ as the column binding of the vectors $C_1, ..., C_{15}$.
 
 ```{r}
-# R code building the data
+n <- 100
+X1 <- sample(1:2, n, replace = TRUE)
+X2 <- sample(1:2, n, replace = TRUE)
+X3 <- sample(1:2, n, replace = TRUE)
+X4 <- sample(1:2, n, replace = TRUE)
+X5 <- sample(1:2, n, replace = TRUE)
+X6 <- sample(1:2, n, replace = TRUE)
+
+C1 <- X1
+C2 <- X1 - X2
+C3 <- X2
+C4 <- X1 + X2
+C5 <- X1
+C6 <- X3
+C7 <- X3 - X4
+C8 <- X4
+C9 <- X3 + X4
+C10 <- X3
+C11 <- X5
+C12 <- X5 - X6
+C13 <- X6
+C14 <- X5 + X6
+C15 <- X5
+D <- cbind(C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15)
+head(D)
 ```
 
-So, we use `segmentr` in order to find the expected segment points.
+It's possible to identify the segments in the matrix $D$ with a penalized version of the
+`multivariate` function included in the package.
+
+```{r}
+penalized = function(X) multivariate(X) - 2 ^ ncol(X)
+segment(D, likelihood = penalized, algorithm = "exact")
+```
+
+Notice it's important to use a penalized likelihood version of the `multivariate` function because
+the original function favors bigger segments. The answer provided by the `segment` package
+in that scenario would actually be all the columns in the $D$ matrix.
+
+```{r}
+segment(D, likelihood = multivariate, algorithm = "exact")
+```
 
