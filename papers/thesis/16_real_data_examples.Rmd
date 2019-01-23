@@ -117,7 +117,12 @@ It looks the segments are still rather large, so the penalty on small segments m
 too large. The penalty function can be tuned to adjust it.
 
 ```{r}
-penalized_likelihood <- auto_penalize(berlin, lm_likelihood, big_segment_penalty = 10, small_segment_penalty = 1.1)
+penalized_likelihood <- auto_penalize(
+  berlin,
+  lm_likelihood,
+  big_segment_penalty = 10,
+  small_segment_penalty = 1.1
+)
 
 results <- segment(
   berlin,
