@@ -90,3 +90,45 @@ in that scenario would actually be all the columns in the $D$ matrix.
 segment(D, likelihood = multivariate, algorithm = "exact")
 ```
 
+## Segments with similar averages
+
+Let $C_1, ..., C_n$ be vectors of genetic data, encoded as zero for homozygosity and
+one for heterozygosity. In this scenario a researcher might be interested in finding
+segments of homozigosity in the data. It's possible to use `segmentr` to find segments
+that maximize the homogeneity of a segment with a "mean" likelihood function, i.e. a
+function that maximizes the likelihood of segments whose elements approximate the
+segment average. One such function is defined in \@ref(eq:mean-likelihood).
+
+Therefore, it's possible to have `segmentr` find the changepoints in the data using
+the adequate functions. It's necessary to penlize the likelihood function because
+single columns segments actually maximize the function, which is not desirable.
+Therefore, a constant penalty is included in order to penalize too many segments
+as the final output.
+
+\begin{equation}
+L_{\mu}(X)=-\sum_i(x_i-E[X])^2 \;\bigg|\; x_i \in X
+(\#eq:mean-likelihood)
+\end{equation}
+
+```{r}
+mean_likelihood <- function(X) {
+  mean_value <- mean(X, na.rm = T)
+  if (is.na(mean_value)) {
+    0
+  } else {
+    -sum((X - mean_value)^2)
+  }
+}
+
+make_segment <- function(n, p) matrix(rbinom(100 * n, 1, p), nrow = 100)
+
+D <- cbind(
+  make_segment(5, 0.9),
+  make_segment(10, 0.1),
+  make_segment(5, 0.9)
+)
+
+segment(D, likelihood = function(X) mean_likelihood(X) - 1, algorithm = "hieralg")
+```
+
+
