@@ -1,9 +1,185 @@
 # Real Data Examples
 
-This shows how the package can be used to analyze realworld data.
+In order to exemplify how `segmentr` is used in real situations, an example on weather
+data is provided in this paper.
 
-## Example with Genethic Data
+## Weather data from Berlin
 
-This uses the Genetic Dataset
+### Understanding the data
 
-## Example with Weather data from Berlin
+First it's necessary to load the data.
+
+```{r message=FALSE}
+require(segmentr)
+require(tidyr)
+require(tibble)
+require(dplyr)
+require(lubridate)
+require(magrittr)
+```
+
+The `berlin` dataset, provided in the segmentr package, contains daily
+temperature data from several weather stations in Berlin.
+
+
+```{r}
+data(berlin)
+berlin[, 1:5]
+```
+
+In order to grasp how the data behave, look at the how the daily mean temperature
+behaves over time.
+
+```{r}
+berlin %>%
+  colMeans() %>%
+  enframe("time", "temperature") %>%
+  mutate_at(vars(time), ymd) %>%
+  with(plot(time, temperature, type="l"))
+```
+
+It's possible to mean weather cycles every year. A "linear regression likelihood"
+function will be used to segment the this data and find when the trends change.
+
+### Building the likelihood
+
+To build an adequate likelihood function that uses a linear regression, it's necessary
+to find a metric that is higher the better fit a segment is. Turns out the
+*adjusted r-squared* is a metric used to measure how well a linear model fits the data,
+so it will be used.
+
+A segmentr likelihood function takes a segment as a matrix and returns the likelihood of
+the segment, so it's necessary to build a function with that interface.
+
+```{r}
+lm_likelihood <- function (data) {
+  as_tibble(t(data)) %>%
+    rowid_to_column() %>%
+    gather(station, temperature, -rowid) %>%
+    with(lm(temperature ~ rowid)) %>%
+    summary %>%
+    .$adj.r.squared
+}
+
+c(lm_likelihood(berlin[, 2:3]), lm_likelihood(berlin[, 1:150]), lm_likelihood(berlin))
+```
+
+The `lm_likelihood` function returns a low value when compared to a hypothetical slice
+of the first 150 columns, so it appears reasonable. However, the highest likelihood was
+obtained with a segment of size 2,
+which indicates this function has a tendency to favor small data.
+
+```{r}
+f <- Vectorize(. %>% floor() %>% { berlin[, 1:.] } %>% lm_likelihood)
+curve(f, from = 1, to = 730)
+```
+
+This graph represents how the likelihood of the first $x$ segments in the data, and one
+can see the curve has a peak close to zero. Even though it's not the global maximum of
+the curve, the cumulative effect of all the segments in the data is enough to bias the
+solution towards small segments.
+
+### Penalizing the likelihood function
+
+To penalize small segments, it's important to penalize the likelihood function to avoid
+non-wanted behavior. Segmentr provides the `auto_penalize` utility, which returns a
+penalized version of the likelihood function.
+
+```{r}
+penalized_likelihood <- auto_penalize(berlin, lm_likelihood)
+f <- Vectorize(. %>% floor() %>% { berlin[, 1:.] } %>% penalized_likelihood)
+curve(f, from = 1, to = 730)
+```
+
+The new likelihood curve penalizes segments too big or too small, indicating it might work
+as we expect.
+
+### Segmenting the data
+
+With the penalized likelihood at hand, it's finally possible to segment the data. For that,
+the "hierarchical" algorithm will be used, which manages to segment the data in a reasonable
+$O(n \log(n))$ time complexity, by assuming the data to have a hierarchical structure. It
+returns reasonable results most of the times, but there is always the risk it doesn't split
+the data correctly. To find the exact answer, the "exact" algorithm would have to be used,
+but it's quite costly with $O(n^2)$.
+
+```{r}
+results <- segment(
+  berlin,
+  likelihood = penalized_likelihood,
+  algorithm = "hierarchical"
+)
+
+results
+```
+
+It looks the segments are still rather large, so the penalty on small segments might be
+too large. The penalty function can be tuned to adjust it.
+
+```{r}
+penalized_likelihood <- auto_penalize(berlin, lm_likelihood, big_segment_penalty = 10, small_segment_penalty = 1.1)
+
+results <- segment(
+  berlin,
+  likelihood = penalized_likelihood,
+  algorithm = "hierarchical"
+)
+
+results
+```
+
+Plot the actual change points on the daily means to have a better understanding of how the
+segments split the data.
+
+```{r}
+dates <- colnames(berlin) %>% ymd()
+
+berlin %>%
+  colMeans() %>%
+  enframe("time", "temperature") %>%
+  mutate_at(vars(time), ymd) %>%
+  with({
+    plot(time, temperature, type="l")
+    abline(v=dates[results$changepoints], col="red", lty=2)
+  })
+```
+
+They more or less split the data as expected.
+
+### Limitations of the "hierarchical" algorithm
+
+Even though it runs fast, the "hierarchical" algorithm should be handled with care, because
+it assumes the data has a hierarchical segment structure, which is not always true. To give
+an example, a subset of the `berlin` dataset is used.
+
+```{r}
+sub_berlin <- berlin[, 1:551]
+
+results <- segment(
+  sub_berlin,
+  likelihood = penalized_likelihood,
+  algorithm = "hierarchical"
+)
+
+results
+```
+
+The "hierarchical" algorithm only splits the data in half in this situations. This happens
+because it first tries to find a optimal change point in the data, so that it can recursively
+find the remainder. 
+
+```{r}
+sub_berlin %>%
+  colMeans() %>%
+  enframe("time", "temperature") %>%
+  mutate_at(vars(time), ymd) %>%
+  with({
+    plot(time, temperature, type="l")
+    abline(v=dates[results$changepoints], col="red", lty=2)
+  })
+```
+
+
+The problem with that is that it thinks the data is optimally split roughly at the middle
+of the dataset, when in fact it would require putting change points in roughly each one
+third of the data. Hence, the hierarchical algorithm is not able to optimally split the dataset.
