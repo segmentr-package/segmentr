@@ -16,7 +16,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-Segmentr is a package that implements a handful of algorithms to find segments that maximize its total likelihood. So, the user of this package has to find an adequate likelihood for the segmentation problem to be solved, possibly having to penalize it as well in order to avoid a solution biased towards either too big or too small segments. Also, it's important to consider the computation time of each algorithm and its tradeoffs. This *vignette* walks through the main concepts regarding its usage, using weather temperature from Berlin as an example. For this demo, the following packages will be used:
+Segmentr is a package that implements a handful of algorithms to find segments that maximize
+its total likelihood. So, the user of this package has to find an adequate likelihood for
+the segmentation problem to be solved, possibly having to penalize it in order to avoid either an
+overparameterized or underparameterized model, i.e. one with too many or too few change points.
+Also, it's important to consider the computation time of each algorithm and its tradeoffs.
+This *vignette* walks rough the main concepts regarding its usage, using weather
+temperature from Berlin as an example. For this demo, the following packages will be used:
 
 ```{r message=FALSE}
 require(segmentr)
@@ -30,21 +36,29 @@ require(magrittr)
 
 ## Understanding the data
 
-The `berlin` dataset, provided in this dataset, contains daily temperature data from several weather stations in Berlin.
+The `berlin` dataset, provided in this package, contains daily temperature measurements
+from `r nrow(berlin)` weather stations in Berlin for every day in the years 2010 and 2011,
+i.e., a total of `r ncol(berlin)`. Therefore, every element in the `berlin` has a
+temperature measumement in ºC, such that each of the `r ncol(berlin)` columns corresponds
+to a date and each of the `r nrow(berlin)` rows corresponds to the weather station the
+measurement was collected from. In the table below, it's possible to see the first five columns
+of measurements and the respective weather stations.
 
 ```{r}
 data(berlin)
 berlin[, 1:5]
 ```
 
-In order to grasp how the data behave, look at the how the daily mean temperature behaves over time.
+In order to visualize the data, plot the daily average temperature of all the weather stations,
+i.e., the mean value of each column in the `berlin` dataset, with its respective date in order
+to observe how the average temperature of berlin behaves over time.
 
 ```{r}
 berlin %>%
   colMeans() %>%
   enframe("time", "temperature") %>%
   mutate_at(vars(time), ymd) %>%
-  with(plot(time, temperature, type="l"))
+  with(plot(time, temperature))
 ```
 
 It's possible to mean weather cycles every year. A "linear regression likelihood" function will be used to segment the this data and find when the trends change.
