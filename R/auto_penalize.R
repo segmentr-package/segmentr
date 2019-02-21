@@ -8,7 +8,7 @@
 #' from the dataset and the likelihood function. The model for the penalty function
 #' we try to fit is in the form:
 #'
-#' \deqn{C1 exp(s1(x - L/2)) + C1 exp(s2(-x + L/2))}
+#' \deqn{C1 exp(s1(x - L/2)) + C2 exp(s2(-x + L/2))}
 #'
 #' In the equation, \eqn{C1} and \eqn{s1} are, respectively,
 #' a multiplier constant and an exponential scale modifier for small segments,
@@ -61,9 +61,9 @@ auto_penalize <- function(data, likelihood, big_segment_penalty = 10, small_segm
   small_segment_scale <- 4 * log(small_segment_penalty) / total_length
 
   penalty <- make_penalty(
-    big_segment_multiplier = 1,
+    big_segment_multiplier = big_segment_multiplier,
     big_segment_scale = big_segment_scale,
-    small_segment_multiplier = 1,
+    small_segment_multiplier = small_segment_multiplier,
     small_segment_scale = small_segment_scale,
     total_length = total_length
   )
