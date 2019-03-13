@@ -39,7 +39,7 @@ Suggests: testthat,
     lubridate,
     magrittr,
     rdwd
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Language: en-US
