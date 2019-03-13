@@ -30,7 +30,7 @@ This function tries to fit a sum of two exponential functions to values inferred
 from the dataset and the likelihood function. The model for the penalty function
 we try to fit is in the form:
 
-\deqn{C1 exp(s1(x - L/2)) + C1 exp(s2(-x + L/2))}
+\deqn{C1 exp(s1(x - L/2)) + C2 exp(s2(-x + L/2))}
 
 In the equation, \eqn{C1} and \eqn{s1} are, respectively,
 a multiplier constant and an exponential scale modifier for small segments,
