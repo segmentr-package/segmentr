@@ -11,111 +11,131 @@ require(tibble)
 require(dplyr)
 require(lubridate)
 require(magrittr)
+require(purrr)
 
 ## ------------------------------------------------------------------------
 data(berlin)
-berlin[, 1:5]
+as_tibble(berlin, rownames="station") %>%
+  mutate(`..`="..") %>%
+  select(station, `2010-01-01`:`2010-01-03`, `..`, `2011-12-29`:`2011-12-31`)
 
 ## ------------------------------------------------------------------------
 berlin %>%
   colMeans() %>%
   enframe("time", "temperature") %>%
   mutate_at(vars(time), ymd) %>%
-  with(plot(time, temperature))
+  with(plot(time, temperature, cex=0.2))
 
 ## ------------------------------------------------------------------------
-# berlin dataset is transformed into a dataframe, which will
-# be used as cache to avoid repeated conversions and improve performance
-berlin_dataset_cache <- t(berlin) %>%
-  as_tibble(rownames="time") %>%
-  mutate_at(vars(time), ymd) %>%
-  rowid_to_column() %>%
-  gather(station, temperature, -rowid, -time)
-
-lm_likelihood <- function (data) {
-  if(ncol(data) <= 1) return(-Inf)
-  dates <- ymd(colnames(data))
-  start_date <- head(dates, 1)
-  end_date <- tail(dates, 1)
+plot_results <- function(results, data) {
+  dates <- colnames(data) %>% ymd()
   
-  fit <- berlin_dataset_cache %>%
-    filter(start_date <= time & time <= end_date) %>%
+  data %>%
+    colMeans() %>%
+    enframe("time", "temperature") %>%
+    mutate_at(vars(time), ymd) %>%
+    with({
+      plot(time, temperature, cex=0.2)
+      abline(v=dates[results$changepoints], col="red", lty=2)
+    })
+}
+
+plot_results(list(changepoints=c(200, 360, 570)), berlin)
+
+## ------------------------------------------------------------------------
+lm_likelihood <- function (data) {
+  fit <- t(data) %>%
+    as_tibble() %>%
+    rowid_to_column() %>%
+    gather(station, temperature, -rowid) %>%
     with(lm(temperature ~ rowid))
     
-  sum(fit$residuals ^ 2)
+  -mean(fit$residuals ^ 2)
 }
 
 c(lm_likelihood(berlin[, 2:3]), lm_likelihood(berlin[, 1:150]), lm_likelihood(berlin))
 
 ## ------------------------------------------------------------------------
-make_cumulative <- function(likelihood) {
-  Vectorize(. %>% floor() %>% { berlin[, 1:., drop = FALSE] } %>% lm_likelihood)
+results <- segment(
+  berlin,
+  likelihood = lm_likelihood,
+  algorithm = "hierarchical"
+)
+
+results
+
+## ------------------------------------------------------------------------
+plot_results(results, berlin)
+
+## ------------------------------------------------------------------------
+plot_curve <- function(expr, from, to, points = 100, plot_func=plot, ...) {
+  x <- floor(seq(from, to, length.out = 100))
+  y <- map_dbl(x, expr)
+  plot_func(x, y, ...)
 }
-f <- make_cumulative(lm_likelihood)
-curve(f, from = 2, to = 730)
+
+plot_curve(~ exp(0.3*(. - 50)) + exp(0.3 * (-. + 50)), from = 0, to = 100, type="l")
 
 ## ------------------------------------------------------------------------
-f_lm <- make_cumulative(lm_likelihood)
-curve(f_lm, from = 2, to = 730)
 penalized_likelihood <- auto_penalize(berlin, lm_likelihood)
-f_penalized <- make_cumulative(penalized_likelihood)
-curve(f_penalized, from = 2, to = 730, add = TRUE, col = "red")
-
-## ------------------------------------------------------------------------
 results <- segment(
   berlin,
   likelihood = penalized_likelihood,
   algorithm = "hierarchical"
 )
-
 results
 
 ## ------------------------------------------------------------------------
-penalized_likelihood <- auto_penalize(berlin, lm_likelihood, big_segment_penalty = 10, small_segment_penalty = 1.1)
+plot_results(results, berlin)
 
+## ------------------------------------------------------------------------
+penalized_likelihood <- auto_penalize(berlin, lm_likelihood, big_segment_penalty = 1000)
 results <- segment(
   berlin,
   likelihood = penalized_likelihood,
   algorithm = "hierarchical"
 )
-
 results
 
 ## ------------------------------------------------------------------------
-dates <- colnames(berlin) %>% ymd()
+plot_results(results, berlin)
 
-berlin %>%
+## ------------------------------------------------------------------------
+monthly_berlin <- berlin %>%
+  as_tibble(rownames = "station") %>%
+  gather(time, temperature, -station) %>%
+  mutate(month = floor_date(ymd(time), "month")) %>%
+  group_by(station, month) %>%
+  summarize(temperature = mean(temperature)) %>%
+  spread(month, temperature) %>% {
+    stations <- .$station
+    result <- as.matrix(.[, -1])
+    rownames(result) <- stations
+    result
+  }
+
+monthly_berlin %>%
   colMeans() %>%
   enframe("time", "temperature") %>%
   mutate_at(vars(time), ymd) %>%
-  with({
-    plot(time, temperature, type="l")
-    abline(v=dates[results$changepoints], col="red", lty=2)
-  })
+  with(plot(time, temperature, cex=0.2))
 
 ## ------------------------------------------------------------------------
-sub_berlin <- berlin[, 1:551]
+penalized_likelihood <- auto_penalize(monthly_berlin, lm_likelihood, small_segment_penalty = 100)
 
 results <- segment(
-  sub_berlin,
+  monthly_berlin,
   likelihood = penalized_likelihood,
-  algorithm = "hierarchical"
+  algorithm = "exact"
 )
 
 results
 
 ## ------------------------------------------------------------------------
-sub_berlin %>%
-  colMeans() %>%
-  enframe("time", "temperature") %>%
-  mutate_at(vars(time), ymd) %>%
-  with({
-    plot(time, temperature, type="l")
-    abline(v=dates[results$changepoints], col="red", lty=2)
-  })
+plot_results(results, monthly_berlin)
 
 ## ------------------------------------------------------------------------
-lm_likelihood <- function (data) {
+rsquared_likelihood <- function (data) {
   as_tibble(t(data)) %>%
     rowid_to_column() %>%
     gather(station, temperature, -rowid) %>%
@@ -124,14 +144,29 @@ lm_likelihood <- function (data) {
     .$adj.r.squared
 }
 
-c(lm_likelihood(berlin[, 2:3]), lm_likelihood(berlin[, 1:150]), lm_likelihood(berlin))
+c(rsquared_likelihood(berlin[, 2:3]), rsquared_likelihood(berlin[, 1:150]), rsquared_likelihood(berlin))
 
 ## ------------------------------------------------------------------------
-f <- Vectorize(. %>% floor() %>% { berlin[, 1:.] } %>% lm_likelihood)
-curve(f, from = 1, to = 730)
+penalized_likelihood <- auto_penalize(berlin, rsquared_likelihood)
+results <- segment(
+  berlin,
+  likelihood = penalized_likelihood,
+  algorithm = "hierarchical"
+)
+results
 
 ## ------------------------------------------------------------------------
-penalized_likelihood <- auto_penalize(berlin, lm_likelihood)
-f <- Vectorize(. %>% floor() %>% { berlin[, 1:.] } %>% penalized_likelihood)
-curve(f, from = 1, to = 730)
+plot_results(results, berlin)
+
+## ------------------------------------------------------------------------
+penalized_likelihood <- auto_penalize(berlin, rsquared_likelihood, small_segment_penalty = 1.1)
+results <- segment(
+  berlin,
+  likelihood = penalized_likelihood,
+  algorithm = "hierarchical"
+)
+results
+
+## ------------------------------------------------------------------------
+plot_results(results, berlin)
 
