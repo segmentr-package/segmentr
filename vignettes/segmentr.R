@@ -170,3 +170,16 @@ results
 ## ------------------------------------------------------------------------
 plot_results(results, berlin)
 
+## ------------------------------------------------------------------------
+sub_berlin <- berlin[, 1:547]
+penalized_likelihood <- auto_penalize(sub_berlin, rsquared_likelihood, small_segment_penalty = 1.1)
+results <- segment(
+  sub_berlin,
+  likelihood = penalized_likelihood,
+  algorithm = "hierarchical"
+)
+results
+
+## ------------------------------------------------------------------------
+plot_results(results, sub_berlin)
+
