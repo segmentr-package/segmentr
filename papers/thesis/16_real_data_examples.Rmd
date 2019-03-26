@@ -60,7 +60,7 @@ we expect the likelihood function to identify segments approximately like presen
 ```{r}
 plot_results <- function(results, data) {
   dates <- colnames(data) %>% ymd()
-  
+
   data %>%
     colMeans() %>%
     enframe("time", "temperature") %>%
@@ -106,7 +106,7 @@ lm_likelihood <- function (data) {
     rowid_to_column() %>%
     gather(station, temperature, -rowid) %>%
     with(lm(temperature ~ rowid))
-    
+
   -mean(fit$residuals ^ 2)
 }
 
@@ -333,7 +333,7 @@ In fact, smaller segments are being over penalized. Because of this, it's necess
 `small_segment_penalty` segment.
 
 ```{r}
-penalized_likelihood <- auto_penalize(berlin, rsquared_likelihood, small_segment_penalty = 1.1)
+penalized_likelihood <- auto_penalize(berlin, rsquared_likelihood, small_segment_penalty = 1.5)
 results <- segment(
   berlin,
   likelihood = penalized_likelihood,
@@ -359,7 +359,7 @@ data set, roughly one year and a half.
 
 ```{r}
 sub_berlin <- berlin[, 1:547]
-penalized_likelihood <- auto_penalize(sub_berlin, rsquared_likelihood, small_segment_penalty = 1.1)
+penalized_likelihood <- auto_penalize(sub_berlin, rsquared_likelihood)
 results <- segment(
   sub_berlin,
   likelihood = penalized_likelihood,
