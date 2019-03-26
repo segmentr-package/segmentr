@@ -159,7 +159,7 @@ results
 plot_results(results, berlin)
 
 ## ------------------------------------------------------------------------
-penalized_likelihood <- auto_penalize(berlin, rsquared_likelihood, small_segment_penalty = 1.1)
+penalized_likelihood <- auto_penalize(berlin, rsquared_likelihood, small_segment_penalty = 1.5)
 results <- segment(
   berlin,
   likelihood = penalized_likelihood,
@@ -172,7 +172,7 @@ plot_results(results, berlin)
 
 ## ------------------------------------------------------------------------
 sub_berlin <- berlin[, 1:547]
-penalized_likelihood <- auto_penalize(sub_berlin, rsquared_likelihood, small_segment_penalty = 1.1)
+penalized_likelihood <- auto_penalize(sub_berlin, rsquared_likelihood)
 results <- segment(
   sub_berlin,
   likelihood = penalized_likelihood,
