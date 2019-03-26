@@ -100,7 +100,7 @@ function that maximizes the likelihood of segments whose elements approximate th
 segment average. One such function is defined in \@ref(eq:mean-likelihood).
 
 Therefore, it's possible to have `segmentr` find the changepoints in the data using
-the adequate functions. It's necessary to penlize the likelihood function because
+the adequate functions. It's necessary to penalize the likelihood function because
 single columns segments actually maximize the function, which is not desirable.
 Therefore, a constant penalty is included in order to penalize too many segments
 as the final output.
