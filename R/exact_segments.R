@@ -49,10 +49,10 @@ exact_segments <- function(
     return(NULL)
   }
 
-  break_positions <- c(num_variables)
+  break_positions <- num_variables + 1
 
   for (break_pos in last_break_pos:2) {
-    break_positions <- c(max_likehood_pos[break_pos, break_positions[1]], break_positions)
+    break_positions <- c(max_likehood_pos[break_pos, break_positions[1] - 1], break_positions)
   }
 
   changepoints <- head(break_positions, n = -1)

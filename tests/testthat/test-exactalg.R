@@ -52,3 +52,22 @@ test_that("test max segments", {
   results <- exactalg(data_1, likelihood = function(X) multivariate(X) - (0.5 * 2^ncol(X)) * log(nrow(X)), max_segments = 2)
   expect_equal(results$segments, list(1:9, 10:15))
 })
+
+test_that("fixes but with order of segments", {
+  data <- rbind(
+    c(1, 1, 0, 0, 0, 1023, 134521, 12324),
+    c(1, 1, 0, 0, 0, -20941, 1423, 14334),
+    c(1, 1, 0, 0, 0, 2398439, 1254, 146324),
+    c(1, 1, 0, 0, 0, 24134, 1, 15323),
+    c(1, 1, 0, 0, 0, -231, 1256, 13445),
+    c(1, 1, 0, 0, 0, 10000, 1121, 331)
+  )
+
+  results <- segment(
+    data,
+    algorithm = "exact",
+    likelihood = function(X) multivariate(X) - 0.01 * exp(ncol(X))
+  )
+
+  expect_equal(results$segments, list(1, 2, 3, 4, 5, 6:8))
+})
