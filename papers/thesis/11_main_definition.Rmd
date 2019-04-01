@@ -5,8 +5,8 @@ continous), where $p$ is the number of  columns (variables) and $n$ is the
 sample size (number of individuals). We assume the individuals are not related
 and therefore the rows of ${\X}$ are independent.
 
-For $j\in \{1,\dotsc, p\}$ we denote by ${\X}^{j}$ the $j$th column of ${\bf
-X}$ and given an interval of contiguous variables $I\subset\{1,\dotsc, p\}$ we
+For $j\in \{1,\dotsc, p\}$ we denote by ${\X}^{j}$ the $j$th column of
+${\bf X}$ and given an interval of contiguous variables $I\subset\{1,\dotsc, p\}$ we
 denote by ${\X}_I$ the sub-matrix with columns corresponding to elements of
 $I$.
 
