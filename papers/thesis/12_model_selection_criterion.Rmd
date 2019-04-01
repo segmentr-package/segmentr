@@ -1,22 +1,62 @@
-# Model Selection Criterion
+# Searching a solution
 
-We propose a method to estimate this minimal set of intervals % $S=\{I_1,\dotsc, I_k\}$
+In this chapter, we describe the equation that gives an answer to finding the minimal
+set of intervals $S_0=\{I_1,\dotsc, I_k\}$, and we also we explore the solutions
+are implemented at the same time as giving some alternatives to simplify the search
+path and find an approximate solution.
+
+## Model Selection Criterion
+
+We propose a method to estimate this minimal set of intervals $S_0=\{I_1,\dotsc, I_k\}$
 by optimising a criterion over all possible sets of intervals, namely
 
 \begin{equation}\label{opprob}
-\hat S \;=\; \underset{S}{\arg\max}\; \Bigl\{ \sum_{I\in S} ( \log \hat{\P}({\X}_I) -  \text{pen}(I)) \Bigr\}\,,
+\hat S \;=\; \underset{S}{\arg\max}\; \Bigl\{ \sum_{I\in S} ( \text{pen}({\X}_I)) \Bigr\}\,,
 \end{equation}
-where pen is a non-decreasing function of $|I|$, the size of the interval $I$.
+where **lik* is a likelihood function of the ${\X}_I$ segment.
 
-The R package `segmentr` solves the optimisation problem \eqref{opprob}
-$\hat s \;=\; \underset{s}{\arg\min} \sum_{s} (f({\X}_s) + h(s))$,
-where ${\X}\in \R^{n\times p}$ and  $s$ is a set of `segments` over
-the set $1,\dotsc, p$. Basically, $s$ can be viewed as an ordered subset
-$s=\{0,s_1,\dotsc, s_k\}\subset\{0,1,\dotsc, p\}$, such that the
-segments (intervals) are given by
-$I_j = \{s_{j-1}+1,\dotsc,s_{j}\}\qquad j=1,\dotsc, k\,.$
+The solution so the equation is usually done with dynamic programming, however the
+search path the algorith takes might take a long time evaluating all the possible
+combinations to give the best result, or might as well make some assumptions to
+prune the search path and give an approximate result. A few alternatives are
+explored.
 
-The function $c({\X},s)=\sum_{s} f({\X}_s)+h(s)$ is a `cost` function
-that tries to be optimised over the possible segmentations $s$. It is defined
-as a sum because in general $f$ defines a measure of  `fitting` to the dataset
-and $h$ defines a measure of complexity of the segmentation $s$.
+## Exact Algorithm
+
+The first attempt to try to solve the equation would be to actually search all the possible alternatives
+in order to find the correct minimal set of intervals that maximize the total likelihood of the system.
+It's done iteratively by:
+
+- for each column index $i \in \{1, \dots, p\}$
+- for each column index $j \in \{i, \dots, p\}$
+- compute $l_{i:j}=\text{lik}(X_{i:j})$
+- store the likelihood $l_{i:j}$ and the index $j$ for the highest value of $l_{i:j}$ for later comparison
+
+Finally, after computing all of the possible combinations of likelihood segments,
+the procedure to find the optimal solution would be as following:
+
+- let $j = p$
+- while $j > 1$, repeat the steps below
+- search the stored values for $i = \underset{i}{\arg\max} (l_{i:j})$
+- store $i$
+
+The equation gives us the exact answer to the dataset provided. The complexity of the algithm, however, is
+$O(n^2)$, which means the execution time will be prohibitive for very large
+datasets.
+
+Taking that into consideration, two different algorithms are proposed in order
+to resuce the complexity of the algorithm.
+
+## Hierarchical Algorithm
+
+The `hierarchical algorithm` assumes the changepoints have a hierarchical structure.
+The way it works is the algorithm goes throgh the data once, identify a point that
+maximizes the likelihood function, and then recursively calls the function on the
+segments divided by the newly found changepoint.
+
+## Hybrid lgorithm
+
+The `hybrid algorithm` uses a mixed approach, in which it used the hierarchical
+approach for when the segments are larger than a specified `threshold`, and uses
+the exact approach for when the segments are smaller than the threshold.
+ 
