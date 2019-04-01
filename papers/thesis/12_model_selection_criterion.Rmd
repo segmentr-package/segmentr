@@ -38,7 +38,8 @@ the procedure to find the optimal solution would be as following:
 - let $j = p$
 - while $j > 1$, repeat the steps below
 - search the stored values for $i = \underset{i}{\arg\max} (l_{i:j})$
-- store $i$
+- store $i$ in the set of changepoints $C$
+- let $j = i$ and repeat until $j = 1$
 
 The equation gives us the exact answer to the dataset provided. The complexity of the algithm, however, is
 $O(n^2)$, which means the execution time will be prohibitive for very large
