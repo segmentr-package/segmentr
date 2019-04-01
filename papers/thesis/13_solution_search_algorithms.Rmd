@@ -1,4 +1,4 @@
-# Efficient Algorithms
+# Solution Search Algorithms
 
 The algorithm described in \@ref(model-selection-criterion) gives us the exact
 answer to the dataset provided. The complexity of the algithm, however, is
