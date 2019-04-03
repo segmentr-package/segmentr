@@ -38,26 +38,42 @@ the procedure to find the optimal solution would be as following:
 - let $j = p$
 - while $j > 1$, repeat the steps below
 - search the stored values for $i = \underset{i}{\arg\max} (l_{i:j})$
-- store $i$ in the set of changepoints $C$
+- store $i$ in the set of changepoints $C$ if $i \ne 1$
 - let $j = i$ and repeat until $j = 1$
 
-The equation gives us the exact answer to the dataset provided. The complexity of the algithm, however, is
-$O(n^2)$, which means the execution time will be prohibitive for very large
-datasets.
+Given the indices in the changepoints set $C$, let $c_0 = 1$, $c_{k+1}=p$ and $c_i\in C$
+be the sequence of sorted elements of $C$, for $i = 1, \dots, k$. The minimal set of
+intervals would be defined as $S_0 = \{ c_{i-1}:c_i, \text{ for } i=1,\dots,k+1 \}$
+in which $c_{i-1}:c_i=\{\text{contiguous sequence of number from } c_{i-1} \text{ to } c_i\}$.
 
-Taking that into consideration, two different algorithms are proposed in order
-to resuce the complexity of the algorithm.
+The described algorithm will provide the correct answer for the equation, precisely because it
+analyses all the possible combinations. However, that has a time complexity in Big-O notation of
+$O(np^2)$ in which $n$ is the number of samples in the data set and $p$ is the number of columns.
+Because a lot of use cases for data segmentation has usually a large number of columns and not
+many data samples, e.g. DNA data, computation time can be very prohibitive.
 
 ## Hierarchical Algorithm
 
-The `hierarchical algorithm` assumes the changepoints have a hierarchical structure.
-The way it works is the algorithm goes throgh the data once, identify a point that
-maximizes the likelihood function, and then recursively calls the function on the
-segments divided by the newly found changepoint.
+In order to try to simplify the search path of the algorithm, [@base-paper] also proposes a technique
+that relies on assuming the data to be hierarchical, i.e. it assumes the minimal solution set can
+me estimated by only searching the data for the optimal changepoint segmentation once. The algorithm
+is described below.
+
+- let $d$ be the current data set we want to split in two
+- for each column $i$ in the data set
+- compute the total likelihood $l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})$ if $i \ne 1$
+- find $i$ for which $l_i$ is maximum
+- if $l_i < \text{lik}(X_{1:p})$ return empty set as result of current function call
+- recursively find the set of changepoints $C_L$ by calling the algorithm on the left segment $X_{1:i-1}$
+- recursively find the set of changepoints $C_R$ by calling the algorithm on the right segment $X_{i:p}$
+- return $C=C_L \cup C_R \cup \{i\}$ as result of current function call
+
+Implementing the algorithm described above will allow for a time complexity of $O(np\log(p))$ where $n$ is
+the number of samples, $p$ is the number of columns. The reduction in time complexity is only possible
+because of the strong assumption the data set has a hierarchical likelihood behavior. However, that
+doesn't hold true for many situations, as it will be seen in more detail in the next chapters,
+and the use of this algorithm should done with care.
 
 ## Hybrid lgorithm
 
-The `hybrid algorithm` uses a mixed approach, in which it used the hierarchical
-approach for when the segments are larger than a specified `threshold`, and uses
-the exact approach for when the segments are smaller than the threshold.
- 
+The hybrid algorithm  
