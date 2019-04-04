@@ -59,7 +59,7 @@ that relies on assuming the data to be hierarchical, i.e. it assumes the minimal
 me estimated by only searching the data for the optimal changepoint segmentation once. The algorithm
 is described below.
 
-- let $d$ be the current data set we want to split in two
+- let $d$ be the current data set we want to segment
 - for each column $i$ in the data set
 - compute the total likelihood $l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})$ if $i \ne 1$
 - find $i$ for which $l_i$ is maximum
@@ -76,4 +76,20 @@ and the use of this algorithm should done with care.
 
 ## Hybrid lgorithm
 
-The hybrid algorithm  
+The hybrid algorithm is a modified version of the hierarchical algorithm, in which it will start searching the
+combinations using the hierarchical approach, and if the segments become smaller than a certain threshold,
+it will try to find the exact segments with the exact algorithm. The procedure would be as follow:
+
+- let $d$ be the current data set we want to segment
+- if the number of columns of $d$ is $p_d < k$, in which $k$ is a predefined threashold, return the set of
+  changepoints calculated by the exact algorithm.
+- for each column $i$ in the data set
+- compute the total likelihood $l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})$ if $i \ne 1$
+- find $i$ for which $l_i$ is maximum
+- if $l_i < \text{lik}(X_{1:p})$ return empty set as result of current function call
+- recursively find the set of changepoints $C_L$ by calling the algorithm on the left segment $X_{1:i-1}$
+- recursively find the set of changepoints $C_R$ by calling the algorithm on the right segment $X_{i:p}$
+- return $C=C_L \cup C_R \cup \{i\}$ as result of current function call
+
+The only difference of this procedure and the hierarchical procedure is the presence of the conditional
+step in the beginning of the procedure that tests whether of not to use the hybrid algorithm.
