@@ -13,7 +13,7 @@ by optimizing a criterion over all possible sets of intervals, namely
 \begin{equation}\label{opprob}
 \hat S \;=\; \underset{S}{\arg\max}\; \Bigl\{ \sum_{I\in S} ( \text{pen}({\X}_I)) \Bigr\}\,,
 \end{equation}
-where **lik* is a likelihood function of the ${\X}_I$ segment.
+where **lik** is a likelihood function of the ${\X}_I$ segment.
 
 The solution so the equation is usually done with dynamic programming, however the
 search path the algorithm takes might take a long time evaluating all the possible
