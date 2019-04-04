@@ -12,7 +12,7 @@ $1 \le k \le n$. Assume that each $C_k$ is a function of an unknown set of indep
 random variables $X$, such that $C_k = f_k(X)$. When used together with a multivariate
 likelihood [@multivariate-likelihood], for which an implementation is provided in
 the `segmentr` package as the `multivariate()` function, it's possible to identify
-the set of $N_b$ changepoints
+the set of $N_b$ change points
 $b_1, ..., b_{N_b}$, with $b_0 = 1$ and $b_{N_b + 1} = n + 1$, such that all $f_k$, for
 $b_i \le k \le b_{i+1}-1$ is a function of the same set of independent random variables $X$,
 or each $1 \le i \le N_b$.
@@ -20,7 +20,7 @@ or each $1 \le i \le N_b$.
 Let $X_1, ..., X_6$ be independent random variables and $C_1, ..., C_{15}$ be
 defined as in \@ref(eq:example-columns) . It's possible to see the first segment $C_1, ..., C_5$
 depend on $X_1, X_2$, the second segment $C_6, ..., C_{10}$ depend on $X_3, X_4$ and the third
-and last segment $C_{11}, ..., C_{15}$ depend on $X_4, X_5$. Therefore, the changepoints would
+and last segment $C_{11}, ..., C_{15}$ depend on $X_4, X_5$. Therefore, the change points would
 be $b_1 = 6$ and $b_2 = 11$. In order to exemplify that, 
 
 \begin{equation}
@@ -44,7 +44,7 @@ C_{15} & = X_5
 (\#eq:example-columns)
 \end{equation}
 
-To ilustrate, consider the following code, which defines $X_1, ..., X_6$ and $C_1, ..., C_{15}$ as specified in \@ref(eq:example-columns), and alo defines the matrix $D$ as the column binding of the vectors $C_1, ..., C_{15}$.
+To illustrate, consider the following code, which defines $X_1, ..., X_6$ and $C_1, ..., C_{15}$ as specified in \@ref(eq:example-columns), and also consider the matrix $D$ as the column binding of the vectors $C_1, ..., C_{15}$.
 
 ```{r}
 n <- 100
@@ -94,12 +94,13 @@ segment(D, likelihood = multivariate, algorithm = "exact")
 
 Let $C_1, ..., C_n$ be vectors of genetic data, encoded as zero for homozygosity and
 one for heterozygosity. In this scenario a researcher might be interested in finding
-segments of homozigosity in the data. It's possible to use `segmentr` to find segments
+segments of homozygosity in the data. It's possible to use `segmentr` to find
+segments
 that maximize the homogeneity of a segment with a "mean" likelihood function, i.e. a
 function that maximizes the likelihood of segments whose elements approximate the
 segment average. One such function is defined in \@ref(eq:mean-likelihood).
 
-Therefore, it's possible to have `segmentr` find the changepoints in the data using
+Therefore, it's possible to have `segmentr` find the change points in the data using
 the adequate functions. It's necessary to penalize the likelihood function because
 single columns segments actually maximize the function, which is not desirable.
 Therefore, a constant penalty is included in order to penalize too many segments

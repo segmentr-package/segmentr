@@ -1,6 +1,6 @@
 # Package Usage
 
-The purpose os this work is too have the `segmentr` to be as accessible as possible.
+The purpose of this work is too have the `segmentr` to be as accessible as possible.
 Because of that, extra care was put into making it easy to install and use.
 
 ## Instalation
@@ -16,10 +16,10 @@ install.packages("segmentr")
 
 ## Usage
 
-The package can be used with [segment()]. It takes a `data` argument cointinging a bi-dimensional matrix
-in which the rows represent diferent samples and the columns represent the comprehension of the data set
+The package can be used with [segment()]. It takes a `data` argument containing a bi-dimensional matrix
+in which the rows represent different samples and the columns represent the comprehension of the data set
 we wish to segment. The function also accepts a `algorithm` argument, which can be `exact`, `hierarchical`
-or `hybrid`, that specifies the type of algorithm will be used when exploring the dataset. Finally, it's
+or `hybrid`, that specifies the type of algorithm will be used when exploring the data set. Finally, it's
 also necessary to specify a `likelihood` function as argument, as it is used to compare and pick segments
 that are better fit according to the given likelihood's chosen criteria.
 

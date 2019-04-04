@@ -5,7 +5,7 @@ time of the algorithms implemented by the package.
 
 ## Benchmark the code
 
-The package `microbenchmark` allows us to execute the code and compare different runtimes.
+The package `microbenchmark` allows us to execute the code and compare different run-times.
 Therefore it's going to be used in this package to compare the performance of different
 code snippets.
 
@@ -109,11 +109,11 @@ between all the processes in the cluster. That takes more time than is saved by 
 the algorithm in parallel.
 
 Taking all of that in consideration, the decision of whether or not to use parallelization
-relies on the user after evaluating the nature of the dataset. For datasets with few samples
+relies on the user after evaluating the nature of the data set. For data sets with few samples
 and many columns, parallelization is not recommended. In the case there are lots of samples,
 parallelization might give better computation times.
 
-An alternative not developed in this project would be to use a genetic algorithm aproach to
+An alternative not developed in this project would be to use a genetic algorithm approach to
 the minimal set estimation, which is a probabilistic process that converges to the result
 after enough computation time have passed. The main advantage of such method is that computations
 can be more easily parallelized. Such development might be explored in future developments of

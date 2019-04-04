@@ -1,6 +1,6 @@
 # Conclusion
 
-This work describes the segmentation problem, provides aa theorical model to work
+This work describes the segmentation problem, provides a theoretical model to work
 with the segmentation of data, and goes on to describe a few algorithms to try to
 estimate the set of points that optimally segment a given data set, explaining
 the differences between them.
@@ -13,6 +13,6 @@ consideration when trying to have the code run faster.
 
 In summary, there are a lot of decisions involved in the problem of segmentation,
 such as picking the right likelihood function for the evaluation, which
-algorithm to pick, and whether or not paralellization can help in running the computation
+algorithm to pick, and whether or not parallelization can help in running the computation
 faster. By providing a common set of tools, we hope to make the life of the researcher
 easier.

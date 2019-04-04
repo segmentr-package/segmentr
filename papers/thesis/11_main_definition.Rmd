@@ -1,7 +1,7 @@
 # Main Definition
 
 Consider a matrix ${\X} \in \R^{n\times p}$ of  real data (discrete or
-continous), where $p$ is the number of  columns (variables) and $n$ is the
+continuous), where $p$ is the number of  columns (variables) and $n$ is the
 sample size (number of individuals). We assume the individuals are not related
 and therefore the rows of ${\X}$ are independent.
 
@@ -19,7 +19,7 @@ the unique interval in $S_0$ containing  marker $j$.
 The function  $f_{I(j)}$ represents a density function in the case of continuous
 random variables or a probability mass function in the case of discrete random
 variables.  Moreover we assume the sequence $S_0=\{I_1,\dots, I_k\}$ is
-`minimal` in the sense that we can not merge two sub-sequent intervals and
+`minimal` in the sense that we can not merge two subsequent intervals and
 obtain an equivalent model. This is equivalent to assume that
 $f_{I_\ell}\neq f_{I_{\ell+1}}$ for all $\ell=1, \dots, k-1$.
 

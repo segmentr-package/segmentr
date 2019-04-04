@@ -4,7 +4,7 @@ This describes the development of the R package.
 
 ## Motivation
 
-To make it easy to detect changepoints in R by researchers.
+To make it easy to detect change points in R by researchers.
 
 ## Main References
 

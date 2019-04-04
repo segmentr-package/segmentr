@@ -8,7 +8,7 @@ path and find an approximate solution.
 ## Model Selection Criterion
 
 We propose a method to estimate this minimal set of intervals $S_0=\{I_1,\dotsc, I_k\}$
-by optimising a criterion over all possible sets of intervals, namely
+by optimizing a criterion over all possible sets of intervals, namely
 
 \begin{equation}\label{opprob}
 \hat S \;=\; \underset{S}{\arg\max}\; \Bigl\{ \sum_{I\in S} ( \text{pen}({\X}_I)) \Bigr\}\,,
@@ -16,7 +16,7 @@ by optimising a criterion over all possible sets of intervals, namely
 where **lik* is a likelihood function of the ${\X}_I$ segment.
 
 The solution so the equation is usually done with dynamic programming, however the
-search path the algorith takes might take a long time evaluating all the possible
+search path the algorithm takes might take a long time evaluating all the possible
 combinations to give the best result, or might as well make some assumptions to
 prune the search path and give an approximate result. A few alternatives are
 explored.
@@ -38,10 +38,10 @@ the procedure to find the optimal solution would be as following:
 - let $j = p$
 - while $j > 1$, repeat the steps below
 - search the stored values for $i = \underset{i}{\arg\max} (l_{i:j})$
-- store $i$ in the set of changepoints $C$ if $i \ne 1$
+- store $i$ in the set of change points $C$ if $i \ne 1$
 - let $j = i$ and repeat until $j = 1$
 
-Given the indices in the changepoints set $C$, let $c_0 = 1$, $c_{k+1}=p$ and $c_i\in C$
+Given the indices in the change points set $C$, let $c_0 = 1$, $c_{k+1}=p$ and $c_i\in C$
 be the sequence of sorted elements of $C$, for $i = 1, \dots, k$. The minimal set of
 intervals would be defined as $S_0 = \{ c_{i-1}:c_i, \text{ for } i=1,\dots,k+1 \}$
 in which $c_{i-1}:c_i=\{\text{contiguous sequence of number from } c_{i-1} \text{ to } c_i\}$.
@@ -56,7 +56,7 @@ many data samples, e.g. DNA data, computation time can be very prohibitive.
 
 In order to try to simplify the search path of the algorithm, [@base-paper] also proposes a technique
 that relies on assuming the data to be hierarchical, i.e. it assumes the minimal solution set can
-me estimated by only searching the data for the optimal changepoint segmentation once. The algorithm
+me estimated by only searching the data for the optimal change point segmentation once. The algorithm
 is described below.
 
 - let $d$ be the current data set we want to segment
@@ -64,8 +64,8 @@ is described below.
 - compute the total likelihood $l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})$ if $i \ne 1$
 - find $i$ for which $l_i$ is maximum
 - if $l_i < \text{lik}(X_{1:p})$ return empty set as result of current function call
-- recursively find the set of changepoints $C_L$ by calling the algorithm on the left segment $X_{1:i-1}$
-- recursively find the set of changepoints $C_R$ by calling the algorithm on the right segment $X_{i:p}$
+- recursively find the set of change points $C_L$ by calling the algorithm on the left segment $X_{1:i-1}$
+- recursively find the set of change points $C_R$ by calling the algorithm on the right segment $X_{i:p}$
 - return $C=C_L \cup C_R \cup \{i\}$ as result of current function call
 
 Implementing the algorithm described above will allow for a time complexity of $O(np\log(p))$ where $n$ is
@@ -81,14 +81,14 @@ combinations using the hierarchical approach, and if the segments become smaller
 it will try to find the exact segments with the exact algorithm. The procedure would be as follow:
 
 - let $d$ be the current data set we want to segment
-- if the number of columns of $d$ is $p_d < k$, in which $k$ is a predefined threashold, return the set of
-  changepoints calculated by the exact algorithm.
+- if the number of columns of $d$ is $p_d < k$, in which $k$ is a predefined threshold, return the set of
+  change points calculated by the exact algorithm.
 - for each column $i$ in the data set
 - compute the total likelihood $l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})$ if $i \ne 1$
 - find $i$ for which $l_i$ is maximum
 - if $l_i < \text{lik}(X_{1:p})$ return empty set as result of current function call
-- recursively find the set of changepoints $C_L$ by calling the algorithm on the left segment $X_{1:i-1}$
-- recursively find the set of changepoints $C_R$ by calling the algorithm on the right segment $X_{i:p}$
+- recursively find the set of change points $C_L$ by calling the algorithm on the left segment $X_{1:i-1}$
+- recursively find the set of change points $C_R$ by calling the algorithm on the right segment $X_{i:p}$
 - return $C=C_L \cup C_R \cup \{i\}$ as result of current function call
 
 The only difference of this procedure and the hierarchical procedure is the presence of the conditional
