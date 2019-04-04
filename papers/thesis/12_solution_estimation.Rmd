@@ -1,4 +1,4 @@
-# Searching a solution
+# Solution Estimation
 
 In this chapter, we describe the equation that gives an answer to finding the minimal
 set of intervals $S_0=\{I_1,\dotsc, I_k\}$, and we also we explore the solutions

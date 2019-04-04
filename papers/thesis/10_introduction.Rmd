@@ -9,7 +9,3 @@ To make it easy to detect changepoints in R by researchers.
 ## Main References
 
 This thesis describes the process of implementation of the `segmentr` R package, describing how to use it, application on simulations and real world use cases, as well as the process of actually developing it. It was based on the work of [@base-paper]
-
-## Similar Work
-
-There is similar work done by `fpop` package
