@@ -12,7 +12,7 @@
 % ---------------------------------------------------------------------------- %
 % Pacotes
 \usepackage[T1]{fontenc}
-\usepackage[american]{babel}
+\usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[pdftex]{graphicx}           % usamos arquivos pdf/png como figuras
 \usepackage{setspace}                   % espaçamento flexível
@@ -202,61 +202,61 @@ framexrightmargin=10pt
 %   à Comissão Julgadora antes da defesa
 %
 %
-% \newpage
-% \thispagestyle{empty}
-%     \begin{center}
-%         \vspace*{2.3 cm}
-% 	\textbf{\Large{$title-formatted$}}\\
-%         \vspace*{2 cm}
-%     \end{center}
+\newpage
+\thispagestyle{empty}
+    \begin{center}
+        \vspace*{2.3 cm}
+	\textbf{\Large{$title-formatted$}}\\
+        \vspace*{2 cm}
+    \end{center}
 
-%     \vskip 2cm
+    \vskip 2cm
 
-%     \begin{flushright}
-% 	Esta versão da dissertação/tese contém as correções e alterações sugeridas\\
-% 	pela Comissão Julgadora durante a defesa da versão original do trabalho,\\
-% 	realizada em 14/12/2010. Uma cópia da versão original está disponível no\\
-% 	Instituto de Matemática e Estatística da Universidade de São Paulo.
+    \begin{flushright}
+	Esta versão da dissertação/tese contém as correções e alterações sugeridas\\
+	pela Comissão Julgadora durante a defesa da versão original do trabalho,\\
+	realizada em 14/12/2010. Uma cópia da versão original está disponível no\\
+	Instituto de Matemática e Estatística da Universidade de São Paulo.
 
-%     \vskip 2cm
+    \vskip 2cm
 
-%     \end{flushright}
-%     \vskip 4.2cm
+    \end{flushright}
+    \vskip 4.2cm
 
-%     \begin{quote}
-%     \noindent Comissão Julgadora:
+    \begin{quote}
+    \noindent Comissão Julgadora:
 
-%     \begin{itemize}
-% 		$for(valuation-committee)$
-% 		\item $valuation-committee$
-% 		$endfor$
-%     \end{itemize}
+    \begin{itemize}
+		$for(valuation-committee)$
+		\item $valuation-committee$
+		$endfor$
+    \end{itemize}
 
-%     \end{quote}
-% \pagebreak
+    \end{quote}
+\pagebreak
 
 
-% \pagenumbering{roman}     % começamos a numerar
+\pagenumbering{roman}     % começamos a numerar
 
 % ---------------------------------------------------------------------------- %
 % Agradecimentos:
 % Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página
 $if(acknowledgements-text)$
-$acknowledgements$
+$acknowledgements-text$
 $endif$
 
 
 % ---------------------------------------------------------------------------- %
 % Resumo
 $if(resumo-text)$
-$resumo$
+$resumo-text$
 $endif$
 
 % ---------------------------------------------------------------------------- %
 % Abstract
 
 $if(abstract-text)$
-$abstract$
+$abstract-text$
 $endif$
 
 % ---------------------------------------------------------------------------- %
@@ -265,12 +265,12 @@ $endif$
 
 % ---------------------------------------------------------------------------- %
 $if(abbreviations-text)$
-$abbreviations$
+$abbreviations-text$
 $endif$
 
 % ---------------------------------------------------------------------------- %
 $if(symbols-text)$
-$symbols$
+$symbols-text$
 $endif$
 
 % ---------------------------------------------------------------------------- %
