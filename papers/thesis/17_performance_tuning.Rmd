@@ -43,7 +43,7 @@ makeRandom <- function(rows, columns) {
 
 data <- makeRandom(20, 100)
  
-microbenchmark(
+bench <- microbenchmark(
   segment(data,
           likelihood = multivariate,
           algorithm = "exact"),
@@ -58,6 +58,7 @@ microbenchmark(
           algorithm = "hierarchical"),
   times = 2
 )
+knitr::kable(bench)
 ```
 
 In the scenario above, we notice performance improvements in the native [multivariate()]
@@ -86,7 +87,7 @@ the `allow_parallel` argument is true or false. With that in mind, a few compari
 ```{r}
 data <- makeRandom(100, 10)
 doMC::registerDoMC(4)
-microbenchmark(
+bench <- microbenchmark(
   segment(data,
           likelihood = multivariate,
           algorithm = "exact",
@@ -105,6 +106,7 @@ microbenchmark(
           allow_parallel = TRUE),
   times = 1
 )
+knitr::kable(bench)
 ```
 
 Analyzing the results above, we notice good improvements, especially for the "exact" algorithm.
@@ -115,7 +117,7 @@ Consider the following case.
 ```{r}
 data <- makeRandom(5, 100)
 doMC::registerDoMC(4)
-microbenchmark(
+bench <- microbenchmark(
   segment(data,
           likelihood = multivariate,
           algorithm = "exact",
@@ -134,6 +136,7 @@ microbenchmark(
           allow_parallel = TRUE),
   times = 1
 )
+knitr::kable(bench)
 ```
 
 In the result above, parallelization achieved the opposite effect, actually making the
