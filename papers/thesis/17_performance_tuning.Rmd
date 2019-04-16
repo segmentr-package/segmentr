@@ -37,7 +37,8 @@ programming environment.
 
 ```{r}
 makeRandom <- function(rows, columns) {
-  matrix(rbinom(rows * columns, size = 2, p=0.5), nrow=rows, ncol=columns)
+  matrix(rbinom(rows * columns, size = 2, p=0.5),
+         nrow=rows, ncol=columns)
 }
 
 data <- makeRandom(20, 100)
