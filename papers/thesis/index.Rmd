@@ -1,30 +1,104 @@
 ---
 title: "A R Package for Changepoint Detection"
+title-formatted: "A R Package for \\linebreak Changepoint Detection"
+main-author: "Thales Mello"
+advisor: "Florencia Leonardi"
 author:
   - "Thales Melo"
   - "Florencia Leonardi"
+valuation-committee:
+  - "Professor 1"
+  - "Professor 2"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
-classoption: openany
+classoption: twoside
 bibliography: ["citations.bib"]
 biblio-style: apalike
 link-citations: yes
+paperize: a4
+fontsize: 11pt
+abstract-text: |
+  \chapter*{Abstract}
+  \noindent SOBRENOME, A. B. C. \textbf{Título do trabalho em inglês}.
+  2010. 120 f.
+  Tese (Doutorado) - Instituto de Matemática e Estatística,
+  Universidade de São Paulo, São Paulo, 2010.
+  \\
+  
+  
+  We describe the implementation of an R package focused in detecting changepoints
+  in a matrix dataset, according to segments that maximize the system's segment
+  likelihoods according to a given likelihood function, which dictate how we want
+  to segment the data, and a penalty function, which can be used to do changes.
+  
+  
+  Elemento obrigatório, elaborado com as mesmas características do resumo em
+  língua portuguesa. De acordo com o Regimento da Pós- Graduação da USP (Artigo
+  99), deve ser redigido em inglês para fins de divulgação.
+  Text text text text text text text text text text text text text text text text
+  text text text text text text text text text text text text text text text text
+  text text text text text text text text text text text text text text text text
+  text text text text text text text text text text text text.
+  Text text text text text text text text text text text text text text text text
+  text text text text text text text text text text text text text text text text
+  text text text.
+  
+  \noindent \textbf{Keywords:} keyword1, keyword2, keyword3.
+
+resumo-text: |
+  \chapter*{Resumo}
+  
+  \noindent SOBRENOME, A. B. C. \textbf{Título do trabalho em português}.
+  2010. 120 f.
+  Tese (Doutorado) - Instituto de Matemática e Estatística,
+  Universidade de São Paulo, São Paulo, 2010.
+  \\
+  
+  Elemento obrigatório, constituído de uma sequência de frases concisas e
+  objetivas, em forma de texto.  Deve apresentar os objetivos, métodos empregados,
+  resultados e conclusões.  O resumo deve ser redigido em parágrafo único, conter
+  no máximo 500 palavras e ser seguido dos termos representativos do conteúdo do
+  trabalho (palavras-chave).
+  Texto texto texto texto texto texto texto texto texto texto texto texto texto
+  texto texto texto texto texto texto texto texto texto texto texto texto texto
+  texto texto texto texto texto texto texto texto texto texto texto texto texto
+  texto texto texto texto texto texto texto texto texto texto texto texto texto
+  texto texto texto texto texto texto texto texto texto texto texto texto texto
+  texto texto texto texto texto texto texto texto.
+  Texto texto texto texto texto texto texto texto texto texto texto texto texto
+  texto texto texto texto texto texto texto texto texto texto texto texto texto
+  texto texto texto texto texto texto texto texto texto texto texto texto texto
+  texto texto texto texto texto texto texto texto texto texto texto texto texto
+  texto texto.
+  \\
+  
+  \noindent \textbf{Palavras-chave:} palavra-chave1, palavra-chave2, palavra-chave3.
+acknowledgements-text: |
+  \chapter*{Agradecimentos}
+  Texto texto texto texto texto texto texto texto texto texto texto texto texto
+  texto texto texto texto texto texto texto texto texto texto texto texto texto
+  texto texto texto texto texto texto texto texto texto texto texto texto texto
+  texto texto texto texto. Texto opcional.
+abbreviations-text: |
+  \chapter{Lista de Abreviaturas}
+  \begin{tabular}{ll}
+           CFT         & Transformada contínua de Fourier (\emph{Continuous Fourier Transform})\\
+           DFT         & Transformada discreta de Fourier (\emph{Discrete Fourier Transform})\\
+          EIIP         & Potencial de interação elétron-íon (\emph{Electron-Ion Interaction Potentials})\\
+          STFT         & Tranformada de Fourier de tempo reduzido (\emph{Short-Time Fourier Transform})\\
+  \end{tabular}
+symbols-text: |
+  \chapter{Lista de Símbolos}
+  \begin{tabular}{ll}
+          $\omega$    & Frequência angular\\
+          $\psi$      & Função de análise \emph{wavelet}\\
+          $\Psi$      & Transformada de Fourier de $\psi$\\
+  \end{tabular}
 ---
 
-# Abstract {-}
-
-We describe the implementation of an R package focused in detecting changepoints
-in a matrix dataset, according to segments that maximize the system's segment
-likelihoods according to a given likelihood function, which dictate how we want
-to segment the data, and a penalty function, which can be used to do changes.
-
-This is the second paragraph.
-
-# Resumo {-}
-
-Resumo do pacote em português
+`r knitr::opts_chunk$set(cache=TRUE)`
 
 <!-- Macros used in this project -->
 \newcommand{\X}{\bf X}
