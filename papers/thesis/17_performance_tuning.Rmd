@@ -43,10 +43,18 @@ makeRandom <- function(rows, columns) {
 data <- makeRandom(20, 100)
  
 microbenchmark(
-  segment(data, likelihood = multivariate, algorithm = "exact"),
-  segment(data, likelihood = r_multivariate, algorithm = "exact"),
-  segment(data, likelihood = multivariate, algorithm = "hierarchical"),
-  segment(data, likelihood = r_multivariate, algorithm = "hierarchical"),
+  segment(data,
+          likelihood = multivariate,
+          algorithm = "exact"),
+  segment(data,
+          likelihood = r_multivariate,
+          algorithm = "exact"),
+  segment(data,
+          likelihood = multivariate,
+          algorithm = "hierarchical"),
+  segment(data,
+          likelihood = r_multivariate,
+          algorithm = "hierarchical"),
   times = 2
 )
 ```
@@ -78,10 +86,22 @@ the `allow_parallel` argument is true or false. With that in mind, a few compari
 data <- makeRandom(100, 10)
 doMC::registerDoMC(4)
 microbenchmark(
-  segment(data, likelihood = multivariate, algorithm = "exact", allow_parallel = FALSE),
-  segment(data, likelihood = multivariate, algorithm = "exact", allow_parallel = TRUE),
-  segment(data, likelihood = multivariate, algorithm = "hierarchical", allow_parallel = FALSE),
-  segment(data, likelihood = multivariate, algorithm = "hierarchical", allow_parallel = TRUE),
+  segment(data,
+          likelihood = multivariate,
+          algorithm = "exact",
+          allow_parallel = FALSE),
+  segment(data,
+          likelihood = multivariate,
+          algorithm = "exact",
+          allow_parallel = TRUE),
+  segment(data,
+          likelihood = multivariate,
+          algorithm = "hierarchical",
+          allow_parallel = FALSE),
+  segment(data,
+          likelihood = multivariate,
+          algorithm = "hierarchical",
+          allow_parallel = TRUE),
   times = 1
 )
 ```
@@ -95,10 +115,22 @@ Consider the following case.
 data <- makeRandom(5, 100)
 doMC::registerDoMC(4)
 microbenchmark(
-  segment(data, likelihood = multivariate, algorithm = "exact", allow_parallel = FALSE),
-  segment(data, likelihood = multivariate, algorithm = "exact", allow_parallel = TRUE),
-  segment(data, likelihood = multivariate, algorithm = "hierarchical", allow_parallel = FALSE),
-  segment(data, likelihood = multivariate, algorithm = "hierarchical", allow_parallel = TRUE),
+  segment(data,
+          likelihood = multivariate,
+          algorithm = "exact",
+          allow_parallel = FALSE),
+  segment(data,
+          likelihood = multivariate,
+          algorithm = "exact",
+          allow_parallel = TRUE),
+  segment(data,
+          likelihood = multivariate,
+          algorithm = "hierarchical",
+          allow_parallel = FALSE),
+  segment(data,
+          likelihood = multivariate,
+          algorithm = "hierarchical",
+          allow_parallel = TRUE),
   times = 1
 )
 ```

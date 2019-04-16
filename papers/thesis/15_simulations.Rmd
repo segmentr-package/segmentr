@@ -70,7 +70,8 @@ C12 <- X5 - X6
 C13 <- X6
 C14 <- X5 + X6
 C15 <- X5
-D <- cbind(C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15)
+D <- cbind(C1, C2, C3, C4, C5, C6, C7, C8,
+           C9, C10, C11, C12, C13, C14, C15)
 head(D)
 ```
 
@@ -121,7 +122,9 @@ mean_likelihood <- function(X) {
   }
 }
 
-make_segment <- function(n, p) matrix(rbinom(100 * n, 1, p), nrow = 100)
+make_segment <- function(n, p) {
+  matrix(rbinom(100 * n, 1, p), nrow = 100)
+}
 
 D <- cbind(
   make_segment(5, 0.9),
@@ -129,7 +132,11 @@ D <- cbind(
   make_segment(5, 0.9)
 )
 
-segment(D, likelihood = function(X) mean_likelihood(X) - 1, algorithm = "hieralg")
+segment(
+  D,
+  likelihood = function(X) mean_likelihood(X) - 1,
+  algorithm = "hieralg"
+)
 ```
 
 

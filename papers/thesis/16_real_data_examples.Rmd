@@ -36,7 +36,8 @@ columns, as well as the last three columns, together with the respective station
 data(berlin)
 as_tibble(berlin, rownames="station") %>%
   mutate(`..`="..") %>%
-  select(station, `2010-01-01`:`2010-01-03`, `..`, `2011-12-29`:`2011-12-31`)
+  select(station, `2010-01-01`:`2010-01-03`,
+         `..`, `2011-12-29`:`2011-12-31`)
 ```
 
 In order to grasp the behavior of the weather data, we plot the daily average temperature of all the weather stations,
@@ -67,7 +68,8 @@ plot_results <- function(results, data) {
     mutate_at(vars(time), ymd) %>%
     with({
       plot(time, temperature, cex=0.2)
-      abline(v=dates[results$changepoints], col="red", lty=2)
+      abline(v=dates[results$changepoints],
+             col="red", lty=2)
     })
 }
 
@@ -110,7 +112,9 @@ lm_likelihood <- function (data) {
   -mean(fit$residuals ^ 2)
 }
 
-c(lm_likelihood(berlin[, 2:3]), lm_likelihood(berlin[, 1:150]), lm_likelihood(berlin))
+c(lm_likelihood(berlin[, 2:3]),
+  lm_likelihood(berlin[, 1:150]),
+  lm_likelihood(berlin))
 ```
 
 With the likelihood function defined, it can now be applied to [segment()] in order to get the segments for the data set.
@@ -162,13 +166,16 @@ for values of $l$ neighboring $\frac{L}{2}$. To visualize, consider a sample pen
 $C_1 = C_2 = 1$, $s_1 = s_2 = 0.3$ and $L = 100$, plotted below.
 
 ```{r}
-plot_curve <- function(expr, from, to, points = 100, plot_func=plot, ...) {
+plot_curve <- function(expr, from, to,
+                       points = 100, plot_func=plot,
+                       ...) {
   x <- floor(seq(from, to, length.out = 100))
   y <- map_dbl(x, expr)
   plot_func(x, y, ...)
 }
 
-plot_curve(~ exp(0.3*(. - 50)) + exp(0.3 * (-. + 50)), from = 0, to = 100, type="l")
+plot_curve(~ exp(0.3*(. - 50)) + exp(0.3 * (-. + 50)),
+           from = 0, to = 100, type="l")
 ```
 
 Given the penalty function general formula, it's necessary to adjust the parameters such the penalty function has a scale
@@ -191,7 +198,8 @@ $$
 So, a `penalized_likelihood` function is created with [auto_penalize()] and then used with [segment()].
 
 ```{r}
-penalized_likelihood <- auto_penalize(berlin, lm_likelihood)
+penalized_likelihood <- auto_penalize(berlin,
+                                      lm_likelihood)
 results <- segment(
   berlin,
   likelihood = penalized_likelihood,
@@ -210,7 +218,11 @@ The function above found two segments, the last of which was still quite large, 
 `big_segment_penalty` need to be increased to avoid that type of segment in the function.
 
 ```{r}
-penalized_likelihood <- auto_penalize(berlin, lm_likelihood, big_segment_penalty = 1000)
+penalized_likelihood <- auto_penalize(
+  berlin,
+  lm_likelihood,
+  big_segment_penalty = 1000
+)
 results <- segment(
   berlin,
   likelihood = penalized_likelihood,
@@ -265,7 +277,11 @@ monthly_berlin %>%
 A new `penalized_function` is then built and applied to the monthly data set using [segment()].
 
 ```{r}
-penalized_likelihood <- auto_penalize(monthly_berlin, lm_likelihood, small_segment_penalty = 100)
+penalized_likelihood <- auto_penalize(
+  monthly_berlin,
+  lm_likelihood,
+  small_segment_penalty = 100
+)
 
 results <- segment(
   monthly_berlin,
@@ -304,14 +320,19 @@ rsquared_likelihood <- function (data) {
     .$adj.r.squared
 }
 
-c(rsquared_likelihood(berlin[, 2:3]), rsquared_likelihood(berlin[, 1:150]), rsquared_likelihood(berlin))
+c(rsquared_likelihood(berlin[, 2:3]),
+  rsquared_likelihood(berlin[, 1:150]),
+  rsquared_likelihood(berlin))
 ```
 
 Similar to the previous case, the new `rsquared_likelihood` has the highest values for small segments. Therefore,
 it needs to be penalized with the `auto_penalize` function.
 
 ```{r}
-penalized_likelihood <- auto_penalize(berlin, rsquared_likelihood)
+penalized_likelihood <- auto_penalize(
+  berlin,
+  rsquared_likelihood
+)
 results <- segment(
   berlin,
   likelihood = penalized_likelihood,
@@ -333,7 +354,11 @@ In fact, smaller segments are being over penalized. Because of this, it's necess
 `small_segment_penalty` segment.
 
 ```{r}
-penalized_likelihood <- auto_penalize(berlin, rsquared_likelihood, small_segment_penalty = 1.5)
+penalized_likelihood <- auto_penalize(
+  berlin,
+  rsquared_likelihood,
+  small_segment_penalty = 1.5
+)
 results <- segment(
   berlin,
   likelihood = penalized_likelihood,
@@ -359,7 +384,10 @@ data set, roughly one year and a half.
 
 ```{r}
 sub_berlin <- berlin[, 1:547]
-penalized_likelihood <- auto_penalize(sub_berlin, rsquared_likelihood)
+penalized_likelihood <- auto_penalize(
+  sub_berlin,
+  rsquared_likelihood
+)
 results <- segment(
   sub_berlin,
   likelihood = penalized_likelihood,
