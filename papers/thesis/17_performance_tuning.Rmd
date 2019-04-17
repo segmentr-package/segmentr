@@ -35,14 +35,23 @@ results, Segmentr implements the [multivariate()] likelihood function in compile
 as well as it implements [r_multivariate()] which implements the same algorithm in the R
 programming environment.
 
-```{r}
+```{r benchmark-native}
+print_benchmark <- function(bench, caption) {
+  bench %>%
+    transmute(expr=expr, `time (ms)`= time / 10^6) %>%
+    kable(
+      caption=caption,
+      digits=3
+    ) %>%
+    column_spec(1, width = "30em")
+}
 makeRandom <- function(rows, columns) {
   matrix(rbinom(rows * columns, size = 2, p=0.5),
          nrow=rows, ncol=columns)
 }
 
 data <- makeRandom(20, 100)
- 
+
 bench <- microbenchmark(
   segment(data,
           likelihood = multivariate,
@@ -58,7 +67,12 @@ bench <- microbenchmark(
           algorithm = "hierarchical"),
   times = 2
 )
-knitr::kable(bench)
+
+print_benchmark(
+  bench,
+  caption="Execution time comparison
+    between native C++ and interpreted R code"
+)
 ```
 
 In the scenario above, we notice performance improvements in the native [multivariate()]
@@ -84,7 +98,7 @@ Therefore, whether or not the computation will be performed depends on whether t
 a parallel cluster registered in the R session with packages such as `doMC`, and whether
 the `allow_parallel` argument is true or false. With that in mind, a few comparisons are evaluated.
 
-```{r}
+```{r benchmark-parallel-narrow}
 data <- makeRandom(100, 10)
 doMC::registerDoMC(4)
 bench <- microbenchmark(
@@ -106,7 +120,12 @@ bench <- microbenchmark(
           allow_parallel = TRUE),
   times = 1
 )
-knitr::kable(bench)
+print_benchmark(
+  bench,
+  caption="Execution time comparison
+    between parralel and single-threaded computation
+    with a data set of 100 samples and 10 columns"
+)
 ```
 
 Analyzing the results above, we notice good improvements, especially for the "exact" algorithm.
@@ -114,7 +133,7 @@ However, in a situation in which the number of rows isn't very large in comparis
 number of columns, the results of the parallel computation are a lot more modest.
 Consider the following case.
 
-```{r}
+```{r benchmark-parallel-wide}
 data <- makeRandom(5, 100)
 doMC::registerDoMC(4)
 bench <- microbenchmark(
@@ -136,7 +155,13 @@ bench <- microbenchmark(
           allow_parallel = TRUE),
   times = 1
 )
-knitr::kable(bench)
+
+print_benchmark(
+  bench,
+  caption="Execution time comparison
+    between parralel and single-threaded computation
+    with a data set of 5 samples and 100 columns"
+)
 ```
 
 In the result above, parallelization achieved the opposite effect, actually making the
