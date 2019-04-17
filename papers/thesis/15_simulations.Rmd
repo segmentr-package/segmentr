@@ -10,7 +10,7 @@ Let $C_1$, $C_2$, ..., $C_n$ a sequence of $n$ vectors of data points, each with
 observations represented by $C_k = \{c_{k1},\ c_{k2},\ ...,\ c_{km}\}$, with
 $1 \le k \le n$. Assume that each $C_k$ is a function of an unknown set of independent
 random variables $X$, such that $C_k = f_k(X)$. When used together with a multivariate
-likelihood [@multivariate-likelihood], for which an implementation is provided in
+likelihood [@park2017fundamentals], for which an implementation is provided in
 the `segmentr` package as the `multivariate()` function, it's possible to identify
 the set of $N_b$ change points
 $b_1, ..., b_{N_b}$, with $b_0 = 1$ and $b_{N_b + 1} = n + 1$, such that all $f_k$, for
@@ -21,7 +21,7 @@ Let $X_1, ..., X_6$ be independent random variables and $C_1, ..., C_{15}$ be
 defined as in \@ref(eq:example-columns) . It's possible to see the first segment $C_1, ..., C_5$
 depend on $X_1, X_2$, the second segment $C_6, ..., C_{10}$ depend on $X_3, X_4$ and the third
 and last segment $C_{11}, ..., C_{15}$ depend on $X_4, X_5$. Therefore, the change points would
-be $b_1 = 6$ and $b_2 = 11$. In order to exemplify that, 
+be $b_1 = 6$ and $b_2 = 11$.
 
 \begin{equation}
 \begin{aligned}
