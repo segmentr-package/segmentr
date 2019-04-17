@@ -1,6 +1,6 @@
 ---
-title: "A R Package for Changepoint Detection"
-title-formatted: "A R Package for \\linebreak Changepoint Detection"
+title: "An R Package for Ghange Point Detection"
+title-formatted: "An R Package for \\linebreak Change Point Detection"
 main-author: "Thales Mello"
 advisor: "Florencia Leonardi"
 author:
@@ -9,8 +9,11 @@ author:
 valuation-committee:
   - "Professor 1"
   - "Professor 2"
-date: "`r Sys.Date()`"
+masters-program: "Mestrado em Estatística"
+date: "São Paulo, 16 de Abril de 2019"
 site: bookdown::bookdown_site
+final-submission: false
+presentation-date: "23 de Abril de 2019"
 output: bookdown::gitbook
 documentclass: book
 classoption: twoside
@@ -28,7 +31,7 @@ abstract-text: |
   \\
   
   
-  We describe the implementation of an R package focused in detecting changepoints
+  We describe the implementation of an R package focused in detecting change points
   in a matrix dataset, according to segments that maximize the system's segment
   likelihoods according to a given likelihood function, which dictate how we want
   to segment the data, and a penalty function, which can be used to do changes.
