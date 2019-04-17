@@ -101,7 +101,13 @@ symbols-text: |
   \end{tabular}
 ---
 
-`r knitr::opts_chunk$set(cache=TRUE)`
+```{r message=FALSE, echo=FALSE}
+require(knitr)
+require(kableExtra)
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+
 
 <!-- Macros used in this project -->
 \newcommand{\X}{\bf X}
