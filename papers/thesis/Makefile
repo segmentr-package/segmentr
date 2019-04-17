@@ -1,7 +1,7 @@
 target_pdf = __book/thesis.pdf
 
 pdf:
-	R -e 'bookdown::render_book(".", bookdown::pdf_book(template="ime.tex", citation_package="natbib"))'
+	R -e 'require("segmentr"); bookdown::render_book(".", bookdown::pdf_book(template="ime.tex", citation_package="natbib"))'
 .PHONY: pdf
 
 clean:
