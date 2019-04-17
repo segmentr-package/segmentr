@@ -138,7 +138,7 @@ framexrightmargin=10pt
 
     \vskip 2cm
     \textsc{
-    Dissertação/Tese apresentada\\[-0.25cm]
+    Dissertação apresentada\\[-0.25cm]
     ao\\[-0.25cm]
     Instituto de Matemática e Estatística\\[-0.25cm]
     da\\[-0.25cm]
@@ -146,10 +146,10 @@ framexrightmargin=10pt
     para\\[-0.25cm]
     obtenção do título\\[-0.25cm]
     de\\[-0.25cm]
-    Mestre/Doutor em Ciências}
+    Mestre em Ciências}
 
     \vskip 1.5cm
-    Programa: Nome do Programa\\
+    Programa: $masters-program$\\
     Orientador: $advisor$\\
 
    	\vskip 1cm
@@ -157,9 +157,58 @@ framexrightmargin=10pt
     financeiro}
 
     \vskip 0.5cm
-    \normalsize{São Paulo, abril de 2019}
+    \normalsize{$date$}
 \end{center}
 
+$if(final-submission)$
+\newpage
+\thispagestyle{empty}
+    \begin{center}
+        \vspace*{2.3 cm}
+	\textbf{\Large{$title-formatted$}}\\
+        \vspace*{2 cm}
+    \end{center}
+
+    \vskip 2cm
+
+    \begin{flushright}
+	Esta versão da dissertação contém as correções e alterações sugeridas\\
+	pela Comissão Julgadora durante a defesa da versão original do trabalho,\\
+        realizada em $presentation-date$. Uma cópia da versão original está disponível no\\
+	Instituto de Matemática e Estatística da Universidade de São Paulo.
+
+    \vskip 2cm
+
+    \end{flushright}
+    \vskip 4.2cm
+
+    \begin{quote}
+    \noindent Comissão Julgadora:
+
+    \begin{itemize}
+		$for(valuation-committee)$
+		\item $valuation-committee$
+		$endfor$
+    \end{itemize}
+
+    \end{quote}
+\pagebreak
+$else$
+
+
+% ---------------------------------------------------------------------------- %
+% Página de rosto (SÓ PARA A VERSÃO CORRIGIDA - APÓS DEFESA)
+% Resolução CoPGr 5890 (20/12/2010)
+%
+% Nota: O título para as dissertações/teses do IME-USP devem caber em um
+% orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
+%
+% IMPORTANTE:
+%   Coloque um '%' em todas as linhas desta
+%   página antes de compilar a versão do trabalho que será entregue
+%   à Comissão Julgadora antes da defesa
+%
+%
 % ---------------------------------------------------------------------------- %
 % Página de rosto (SÓ PARA A VERSÃO DEPOSITADA - ANTES DA DEFESA)
 % Resolução CoPGr 5890 (20/12/2010)
@@ -181,59 +230,13 @@ framexrightmargin=10pt
     \vskip 2cm
 
     \begin{flushright}
-	Esta é a versão original da dissertação/tese elaborada pelo\\
+	Esta é a versão original da dissertação elaborada pelo\\
 	candidato $main-author$, tal como \\
 	submetida à Comissão Julgadora.
     \end{flushright}
 
 \pagebreak
-
-
-% ---------------------------------------------------------------------------- %
-% Página de rosto (SÓ PARA A VERSÃO CORRIGIDA - APÓS DEFESA)
-% Resolução CoPGr 5890 (20/12/2010)
-%
-% Nota: O título para as dissertações/teses do IME-USP devem caber em um
-% orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
-%
-% IMPORTANTE:
-%   Coloque um '%' em todas as linhas desta
-%   página antes de compilar a versão do trabalho que será entregue
-%   à Comissão Julgadora antes da defesa
-%
-%
-\newpage
-\thispagestyle{empty}
-    \begin{center}
-        \vspace*{2.3 cm}
-	\textbf{\Large{$title-formatted$}}\\
-        \vspace*{2 cm}
-    \end{center}
-
-    \vskip 2cm
-
-    \begin{flushright}
-	Esta versão da dissertação/tese contém as correções e alterações sugeridas\\
-	pela Comissão Julgadora durante a defesa da versão original do trabalho,\\
-	realizada em 14/12/2010. Uma cópia da versão original está disponível no\\
-	Instituto de Matemática e Estatística da Universidade de São Paulo.
-
-    \vskip 2cm
-
-    \end{flushright}
-    \vskip 4.2cm
-
-    \begin{quote}
-    \noindent Comissão Julgadora:
-
-    \begin{itemize}
-		$for(valuation-committee)$
-		\item $valuation-committee$
-		$endfor$
-    \end{itemize}
-
-    \end{quote}
-\pagebreak
+$endif$
 
 
 \pagenumbering{roman}     % começamos a numerar
