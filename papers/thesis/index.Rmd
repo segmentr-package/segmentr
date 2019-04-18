@@ -85,7 +85,7 @@ acknowledgements-text: |
   texto texto texto texto texto texto texto texto texto texto texto texto texto
   texto texto texto texto. Texto opcional.
 abbreviations-text: |
-  \chapter{Lista de Abreviaturas}
+  \chapter{List of Abbreviations}
   \begin{tabular}{ll}
            CFT         & Transformada contínua de Fourier (\emph{Continuous Fourier Transform})\\
            DFT         & Transformada discreta de Fourier (\emph{Discrete Fourier Transform})\\
@@ -93,7 +93,7 @@ abbreviations-text: |
           STFT         & Tranformada de Fourier de tempo reduzido (\emph{Short-Time Fourier Transform})\\
   \end{tabular}
 symbols-text: |
-  \chapter{Lista de Símbolos}
+  \chapter{List of Symbols}
   \begin{tabular}{ll}
           $\omega$    & Frequência angular\\
           $\psi$      & Função de análise \emph{wavelet}\\
