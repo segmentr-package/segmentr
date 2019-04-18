@@ -104,10 +104,11 @@ symbols-text: |
 ```{r message=FALSE, echo=FALSE}
 require(knitr)
 require(kableExtra)
-knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(
+  cache=TRUE,
+  echo=FALSE
+)
 ```
-
-
 
 <!-- Macros used in this project -->
 \newcommand{\X}{\bf X}
