@@ -32,19 +32,23 @@ to a date, and each of the `r nrow(berlin)` rows corresponds to the weather stat
 data point was measured at. In the table below, it's possible to see the first three
 columns, as well as the last three columns, together with the respective stations.
 
-```{r}
+```{r berlin-sample}
 data(berlin)
 as_tibble(berlin, rownames="station") %>%
   mutate(`..`="..") %>%
   select(station, `2010-01-01`:`2010-01-03`,
-         `..`, `2011-12-29`:`2011-12-31`)
+         `..`, `2011-12-29`:`2011-12-31`) %>%
+  kable(caption="
+    First and last columns of the `berlin` dataset
+  ") %>%
+  column_spec(1, width="5em")
 ```
 
 In order to grasp the behavior of the weather data, we plot the daily average temperature of all the weather stations,
 i.e., the mean value of each column in the data set as a time series graph in order
 to observe how the average temperature of Berlin behaves over time.
 
-```{r}
+```{r berlin-curve, fig.cap = "Average daily temperature over time as measured by different stations in Berlin"}
 berlin %>%
   colMeans() %>%
   enframe("time", "temperature") %>%
@@ -58,7 +62,7 @@ trend segments. So, a "linear regression likelihood" function is proposed, which
 return a higher value the better a linear regression fits in a given segment. By intuition,
 we expect the likelihood function to identify segments approximately like presented below.
 
-```{r}
+```{r berlin-ideal, fig.cap = "Manual segmentation of the weather data picked according to intuition"}
 plot_results <- function(results, data) {
   dates <- colnames(data) %>% ymd()
 
@@ -89,9 +93,10 @@ the equation, $L_lm$ is the linear regression likelihood function, $X$ is the se
 that belong to the segment, $x_i$ and $y_i$ are the points that belong to $X$ for each index $i$,
 and $f$ is the best linear regression that fitted the $X$ segment.
 
-$$
+\begin{equation}
 L_{lm}(X)=-\sum_{i=1}^n\frac{1}{n}(y_i - f(x_i))^2
-$$
+(\#eq:linear-regression-likelihood)
+\end{equation}
 
 A [segment()] likelihood argument requires a function which accepts a candidate
 segment matrix, i.e. a subset of the columns in the data set, and returns the estimated
@@ -101,7 +106,7 @@ of the squared residuals of a linear regression over the candidate segment. The 
 for a small, a medium, and a large segment are also provided, in order to compare the magnitude
 of likelihood values function for different sizes of segments.
 
-```{r}
+```{r likelihood-samples}
 lm_likelihood <- function (data) {
   fit <- t(data) %>%
     as_tibble() %>%
@@ -112,9 +117,16 @@ lm_likelihood <- function (data) {
   -mean(fit$residuals ^ 2)
 }
 
-c(lm_likelihood(berlin[, 2:3]),
-  lm_likelihood(berlin[, 1:150]),
-  lm_likelihood(berlin))
+tibble(
+  `Small Size`=lm_likelihood(berlin[, 2:3]),
+  `Medium Size`=lm_likelihood(berlin[, 1:150]),
+  `Large Size`=lm_likelihood(berlin)
+) %>%
+  kable(
+    caption="Sample values of the linear regression
+    likelihood function for different sizes of segment
+    candidates"
+  )
 ```
 
 With the likelihood function defined, it can now be applied to [segment()] in order to get the segments for the data set.
@@ -124,19 +136,41 @@ due to its $O(n \log(n))$. We point the hierarchical algorithm, generally suitab
 assumes the segments' likelihoods to be structured in a hierarchical manner, with a combination of two neighboring segments
 having being selected as an intermediate step before evaluating the ideal change points of the data set.
 
-```{r}
+```{r results-non-penalized}
+print_results_table <- function(results, caption) {
+  index <- seq(length(results$segments))
+  starts <- sapply(results$segments, head, 1)
+  ends <- sapply(results$segments, tail, 1)
+  header <- c(2)
+  names(header) <- paste0(
+    "Segments (total of",
+    length(results$segments),
+    ")"
+  )
+  tibble(
+    `Segment no.`=index,
+    `First index`=starts,
+    `Last index`=ends
+  ) %>%
+    kable(caption=caption)
+}
+
 results <- segment(
   berlin,
   likelihood = lm_likelihood,
   algorithm = "hierarchical"
 )
 
-results
+print_results_table(
+  results,
+  caption="Results of the segmentation algorithm
+  using a non-penalized likelihood function"
+)
 ```
 
 With the results calculated, it's possible to plot them in the together with the weather data.
 
-```{r}
+```{r berlin-non-penalized, fig.cap = "Berlin weather data segmented using a non-penalized likelihood function"}
 plot_results(results, berlin)
 ```
 
@@ -155,9 +189,10 @@ penalizing the likelihood function whenever a very short or a very long segment 
 One such method is to subtract the output of the likelihood function with a penalty function which
 is a function of the length of the segment. We propose a penalty function.
 
-$$
+\begin{equation}
 p(l) = C_1e^{s_1(l - \frac{L}{2})} + C_2e^{s_2(-l + \frac{L}{2})}
-$$
+(\#eq:penalty-function)
+\end{equation}
 
 The penalty $p$, function of the segment's length $l$, has the property that, for parametrization values
 $C_1 > 0$, $s_1 > 0$, $C_2 > 0$ and $s_2 > 0$, the penalty is high for values of $l$ neighboring $0$,
@@ -165,7 +200,7 @@ as well as values of $l$ the total length $L$ of the data set. However, penalty 
 for values of $l$ neighboring $\frac{L}{2}$. To visualize, consider a sample penalty function, with
 $C_1 = C_2 = 1$, $s_1 = s_2 = 0.3$ and $L = 100$, plotted below.
 
-```{r}
+```{r penalty-curve, fig.cap="Example curve of the penalty function for $C_1 = C_2 = 1$, $s_1 = s_2 = 0.3$ and $L = 100$"}
 plot_curve <- function(expr, from, to,
                        points = 100, plot_func=plot,
                        ...) {
@@ -188,16 +223,19 @@ penalized the related type of segment size is.
 Let $P_s$ be the `small_segment_penalty`, $P_b$ be the `big_segment_penalty`, $\mu_s$ be the average likelihood for the sampled small segments and $\mu_b$ be the average likelihood for the samples big segments. The relationship between the parameters
 is defined in the equations below.
 
-$$
-C_1 = \frac{\mu_b}{P_b} \\
-s_1 = \frac{4 \log(P_b)}{L} \\
-C_2 = \frac{\mu_s}{P_s} \\
-s_2 = \frac{4 \log(P_s)}{L}
-$$
+\begin{equation}
+\begin{aligned}
+C_1 & = \frac{\mu_b}{P_b} \\
+s_1 & = \frac{4 \log(P_b)}{L} \\
+C_2 & = \frac{\mu_s}{P_s} \\
+s_2 & = \frac{4 \log(P_s)}{L}
+\end{aligned}
+(\#eq:penalty-parametrization)
+\end{equation}
 
 So, a `penalized_likelihood` function is created with [auto_penalize()] and then used with [segment()].
 
-```{r}
+```{r results-auto-penalized}
 penalized_likelihood <- auto_penalize(berlin,
                                       lm_likelihood)
 results <- segment(
@@ -205,19 +243,24 @@ results <- segment(
   likelihood = penalized_likelihood,
   algorithm = "hierarchical"
 )
-results
+
+print_results_table(
+  results,
+  caption="Results of the segmentation algorithm
+  using an auto-penalized likelihood function"
+)
 ```
 
 With the results, it's possible to the segments with the weather data.
 
-```{r}
+```{r berlin-auto-penalized, fig.cap = "Berlin weather data segmented using an auto-penalized likelihood function"}
 plot_results(results, berlin)
 ```
 
 The function above found two segments, the last of which was still quite large, which suggests the
 `big_segment_penalty` need to be increased to avoid that type of segment in the function.
 
-```{r}
+```{r results-adjusted-penalized}
 penalized_likelihood <- auto_penalize(
   berlin,
   lm_likelihood,
@@ -228,12 +271,16 @@ results <- segment(
   likelihood = penalized_likelihood,
   algorithm = "hierarchical"
 )
-results
+print_results_table(
+  results,
+  caption="Results of the segmentation algorithm
+  using an adjusted penalized likelihood function"
+)
 ```
 
 Again, with the results, it's possible to the segments with the weather data.
 
-```{r}
+```{r berlin-adjusted-penalized, fig.cap="Berlin weather data segmented using an adjusted penalized likelihood function"}
 plot_results(results, berlin)
 ```
 
@@ -253,7 +300,7 @@ computing the average temperature for each combination of month and weather stat
 the data set will have 24 columns, one for each month in the two years period comprehended.
 The plot of the monthly average temperature of the temperatures of all the data points is plotted below.
 
-```{r}
+```{r downsampled-curve, fig.cap="Average monthly temperature over time as measured by different stations in Berlin"}
 monthly_berlin <- berlin %>%
   as_tibble(rownames = "station") %>%
   gather(time, temperature, -station) %>%
@@ -276,7 +323,7 @@ monthly_berlin %>%
 
 A new `penalized_function` is then built and applied to the monthly data set using [segment()].
 
-```{r}
+```{r downres-auto-penalized}
 penalized_likelihood <- auto_penalize(
   monthly_berlin,
   lm_likelihood,
@@ -289,12 +336,17 @@ results <- segment(
   algorithm = "exact"
 )
 
-results
+print_results_table(
+  results,
+  caption="Results of the segmentation algorithm
+    using an auto-penalized likelihood function over
+    downsampled berlin data"
+)
 ```
 
-With the results of the monthly data segmentation, we plot it with the weather data.
+With the results of the monthly data segmentation, we plot it with weather data in Figure \@ref(fig:downsampled-auto-penalized).
 
-```{r}
+```{r downsampled-auto-penalized, fig.cap="Downsampled Berlin monthly weather data segmented using an auto penalized likelihood function"}
 plot_results(results, monthly_berlin)
 ```
 
@@ -310,7 +362,7 @@ how well the linear model fits the points in the data. It ranges from zero to on
 to one, the better it predicts the points in the data. Therefore, a `rsquared_likelihood` is defined
 and it can be used to figure what segments better fit linear regressions.
 
-```{r}
+```{r rsquared-samples}
 rsquared_likelihood <- function (data) {
   as_tibble(t(data)) %>%
     rowid_to_column() %>%
@@ -320,15 +372,22 @@ rsquared_likelihood <- function (data) {
     .$adj.r.squared
 }
 
-c(rsquared_likelihood(berlin[, 2:3]),
-  rsquared_likelihood(berlin[, 1:150]),
-  rsquared_likelihood(berlin))
+tibble(
+  `Small Size`=rsquared_likelihood(berlin[, 2:3]),
+  `Medium Size`=rsquared_likelihood(berlin[, 1:150]),
+  `Large Size`=rsquared_likelihood(berlin)
+) %>%
+  kable(
+    caption="Sample values of the R-squared
+    likelihood function for different sizes of segment
+    candidates"
+  )
 ```
 
 Similar to the previous case, the new `rsquared_likelihood` has the highest values for small segments. Therefore,
 it needs to be penalized with the `auto_penalize` function.
 
-```{r}
+```{r rsquaredres-auto-penalized}
 penalized_likelihood <- auto_penalize(
   berlin,
   rsquared_likelihood
@@ -338,22 +397,28 @@ results <- segment(
   likelihood = penalized_likelihood,
   algorithm = "hierarchical"
 )
-results
+
+print_results_table(
+  results,
+  caption="Results of the segmentation algorithm
+    using an auto-penalized R-squared likelihood function over
+    Berlin data"
+)
 ```
 
 With the results, we plot it with the weather data.
 
-```{r}
+```{r rsquaredplot-auto-penalized, fig.cap="Berlin daily weather data segmented using an auto-penalized R-squared likelihood function"}
 plot_results(results, berlin)
 ```
 
-The default penalized `rsquared_likelihood` split the data set in three segments, reasonably well
-distributed. Since the penalty model applied by `auto_penalize` apply the least penalty for values segments
-closer to about half the total length, increasing the `big_penalty_segment` will have no effect.
+The default penalized `rsquared_likelihood` split the data set in three segments, roughly the same size each.
+Since the penalty model applied by `auto_penalize`, it applies the least penalty for values segments
+closer to about half the total length, so increasing the `big_penalty_segment` will have no effect.
 In fact, smaller segments are being over penalized. Because of this, it's necessary to reduce the
 `small_segment_penalty` segment.
 
-```{r}
+```{r rsquaredres-adjusted-penalized}
 penalized_likelihood <- auto_penalize(
   berlin,
   rsquared_likelihood,
@@ -364,12 +429,17 @@ results <- segment(
   likelihood = penalized_likelihood,
   algorithm = "hierarchical"
 )
-results
+print_results_table(
+  results,
+  caption="Results of the segmentation algorithm
+    using an adjusted penalized R-squared likelihood
+    function over Berlin data"
+)
 ```
 
 With the `r_squared_likelihood` results, we plot it with the weather data.
 
-```{r}
+```{r rsquaredplot-adjusted-penalized, fig.cap="Berlin daily weather data segmented using an adjusted penalized R-squared likelihood function"}
 plot_results(results, berlin)
 ```
 
@@ -382,7 +452,7 @@ is never picked by the algorithm during the computation process, and so the idea
 picked at their ideal positions. In order to see it more clearly, take the first 547 data points of the Berlin
 data set, roughly one year and a half.
 
-```{r}
+```{r subberlinres-penalized}
 sub_berlin <- berlin[, 1:547]
 penalized_likelihood <- auto_penalize(
   sub_berlin,
@@ -393,12 +463,17 @@ results <- segment(
   likelihood = penalized_likelihood,
   algorithm = "hierarchical"
 )
-results
+print_results_table(
+  results,
+  caption="Results of the segmentation algorithm
+    using an auto-penalized R-squared likelihood
+    function over a subset of Berlin data"
+)
 ```
 
 With the `penalized_likelihood` results, we plot it with weather data.
 
-```{r}
+```{r subberlinplot-penalized, fig.cap="Subset of Berlin daily weather data segmented using an auto-penalized R-squared likelihood function"}
 plot_results(results, sub_berlin)
 ```
 
