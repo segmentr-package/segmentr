@@ -24,81 +24,64 @@ paperize: a4
 fontsize: 11pt
 abstract-text: |
   \chapter*{Abstract}
-  \noindent SOBRENOME, A. B. C. \textbf{Título do trabalho em inglês}.
-  2010. 120 f.
-  Tese (Doutorado) - Instituto de Matemática e Estatística,
+  
+  \noindent Mello, Thales. \textbf{An R Package for Ghange Point Detection}.
+  2019. 61 f.
+  Dissertação (Mestrado) - Instituto de Matemática e Estatística,
   Universidade de São Paulo, São Paulo, 2010.
-  \\
+  \linebreak
   
+  This dissertation explores the development of a package in the R
+  programming language in order to detect change points in a data set to
+  be analyzed, by using a user-defined likelihood function to validate
+  the set of segments according to with a desired criterion.
   
-  We describe the implementation of an R package focused in detecting change points
-  in a matrix dataset, according to segments that maximize the system's segment
-  likelihoods according to a given likelihood function, which dictate how we want
-  to segment the data, and a penalty function, which can be used to do changes.
+  In this work we describe the search algorithms implemented by the
+  package, exact, hierarchical and mixed, each one having characteristics of
+  performance and quality of the results distinct from the others.
   
+  Finally, we explore some use-cases for the package, as well as some
+  attempts at performance optimization, exploring the implementation of
+  critical sections of code in low-level programming languages, as try to
+  make use of parallel computing.
   
-  Elemento obrigatório, elaborado com as mesmas características do resumo em
-  língua portuguesa. De acordo com o Regimento da Pós- Graduação da USP (Artigo
-  99), deve ser redigido em inglês para fins de divulgação.
-  Text text text text text text text text text text text text text text text text
-  text text text text text text text text text text text text text text text text
-  text text text text text text text text text text text text text text text text
-  text text text text text text text text text text text text.
-  Text text text text text text text text text text text text text text text text
-  text text text text text text text text text text text text text text text text
-  text text text.
-  
-  \noindent \textbf{Keywords:} keyword1, keyword2, keyword3.
+  \noindent \textbf{Keywords:} segment, change-point, likelihood, R-package.
 
 resumo-text: |
   \chapter*{Resumo}
   
-  \noindent SOBRENOME, A. B. C. \textbf{Título do trabalho em português}.
-  2010. 120 f.
-  Tese (Doutorado) - Instituto de Matemática e Estatística,
+  \noindent Mello, Thales. \textbf{Um pacote R para detectar pontos de mudança}.
+  2019. 61 f.
+  Dissertação (Mestrado) - Instituto de Matemática e Estatística,
   Universidade de São Paulo, São Paulo, 2010.
-  \\
+  \linebreak
   
-  Elemento obrigatório, constituído de uma sequência de frases concisas e
-  objetivas, em forma de texto.  Deve apresentar os objetivos, métodos empregados,
-  resultados e conclusões.  O resumo deve ser redigido em parágrafo único, conter
-  no máximo 500 palavras e ser seguido dos termos representativos do conteúdo do
-  trabalho (palavras-chave).
-  Texto texto texto texto texto texto texto texto texto texto texto texto texto
-  texto texto texto texto texto texto texto texto texto texto texto texto texto
-  texto texto texto texto texto texto texto texto texto texto texto texto texto
-  texto texto texto texto texto texto texto texto texto texto texto texto texto
-  texto texto texto texto texto texto texto texto texto texto texto texto texto
-  texto texto texto texto texto texto texto texto.
-  Texto texto texto texto texto texto texto texto texto texto texto texto texto
-  texto texto texto texto texto texto texto texto texto texto texto texto texto
-  texto texto texto texto texto texto texto texto texto texto texto texto texto
-  texto texto texto texto texto texto texto texto texto texto texto texto texto
-  texto texto.
-  \\
+  Esta dissertação explora o desenvolvimento de um pacote da lingaugem
+  de programação R com o objetivo de detectar pontos de mudança em um
+  conjunto de dados a ser analizado e utilizando para tal uma função de
+  verossimilhança definida pelo usuário para fazer a validação do
+  conjunto de segmentos de acordo com um critério desejado.
   
-  \noindent \textbf{Palavras-chave:} palavra-chave1, palavra-chave2, palavra-chave3.
+  Neste trabalho são descritos os algorítmos de busca implementados pelo
+  pacote, exato, hierárquico e misto, em que cada um possui
+  características de performance e qualidade dos resultados encontrdos
+  diferentes.
+  
+  Por fim, são exploradas algumas aplicações de uso do pacote, bem como
+  algumas tentativas de otimização de performance, explorando
+  implementação de trechos críticos do código em linguagens de baixo
+  nível, bem como valendo-se também do uso de computação paralela.
+  \linebreak
+  
+  \noindent \textbf{Palavras-chave:} segment, change-point, likelihood, R-package.
 acknowledgements-text: |
-  \chapter*{Agradecimentos}
-  Texto texto texto texto texto texto texto texto texto texto texto texto texto
-  texto texto texto texto texto texto texto texto texto texto texto texto texto
-  texto texto texto texto texto texto texto texto texto texto texto texto texto
-  texto texto texto texto. Texto opcional.
-abbreviations-text: |
-  \chapter{List of Abbreviations}
-  \begin{tabular}{ll}
-           CFT         & Transformada contínua de Fourier (\emph{Continuous Fourier Transform})\\
-           DFT         & Transformada discreta de Fourier (\emph{Discrete Fourier Transform})\\
-          EIIP         & Potencial de interação elétron-íon (\emph{Electron-Ion Interaction Potentials})\\
-          STFT         & Tranformada de Fourier de tempo reduzido (\emph{Short-Time Fourier Transform})\\
-  \end{tabular}
-symbols-text: |
-  \chapter{List of Symbols}
-  \begin{tabular}{ll}
-          $\omega$    & Frequência angular\\
-          $\psi$      & Função de análise \emph{wavelet}\\
-          $\Psi$      & Transformada de Fourier de $\psi$\\
-  \end{tabular}
+  \chapter*{Acknowledgements}
+  
+  I thank Handley Wickham, for his work in several R packages and his
+  tutorial on the development of R packages, Yihui Xie for his work in
+  the bookdown package, Bruno M. Castro and Florencia Leonardi, for their
+  work in the paper that inspired this project. Without their
+  contributions to the community, none of this would be possible.
 ---
 
 ```{r message=FALSE, echo=FALSE}
