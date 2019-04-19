@@ -18,7 +18,7 @@ $b_i \le k \le b_{i+1}-1$ is a function of the same set of independent random va
 or each $1 \le i \le N_b$.
 
 Let $X_1, ..., X_6$ be independent random variables and $C_1, ..., C_{15}$ be
-defined as in \@ref(eq:example-columns) . It's possible to see the first segment $C_1, ..., C_5$
+defined as in \@ref(eq:examplecolumns) . It's possible to see the first segment $C_1, ..., C_5$
 depend on $X_1, X_2$, the second segment $C_6, ..., C_{10}$ depend on $X_3, X_4$ and the third
 and last segment $C_{11}, ..., C_{15}$ depend on $X_4, X_5$. Therefore, the change points would
 be $b_1 = 6$ and $b_2 = 11$.
@@ -41,12 +41,14 @@ C_{13} & = X_6 \\
 C_{14} & = X_5 + X_6 \\
 C_{15} & = X_5
 \end{aligned}
-(\#eq:example-columns)
+(\#eq:examplecolumns)
 \end{equation}
 
-To illustrate, consider the following code, which defines $X_1, ..., X_6$ and $C_1, ..., C_{15}$ as specified in \@ref(eq:example-columns), and also consider the matrix $D$ as the column binding of the vectors $C_1, ..., C_{15}$.
+To illustrate, consider the following code, which defines $X_1, ..., X_6$ and $C_1, ..., C_{15}$ as specified in \@ref(eq:examplecolumns), and also consider the matrix $D$ as the column binding of the vectors $C_1, ..., C_{15}$.
 
-```{r}
+(ref:sample-columns-caption) Sample values of the correlated random variables defined in \@ref(eq:examplecolumns).
+
+```{r sample-columns}
 n <- 100
 X1 <- sample(1:2, n, replace = TRUE)
 X2 <- sample(1:2, n, replace = TRUE)
@@ -72,15 +74,38 @@ C14 <- X5 + X6
 C15 <- X5
 D <- cbind(C1, C2, C3, C4, C5, C6, C7, C8,
            C9, C10, C11, C12, C13, C14, C15)
-head(D)
+head(D) %>%
+  kable(caption="(ref:sample-columns-caption)")
 ```
 
 It's possible to identify the segments in the matrix $D$ with a penalized version of the
 `multivariate` function included in the package.
 
-```{r}
+
+(ref:results-columns-caption) Segment tables as defined in \@ref(eq:examplecolumns).
+
+```{r results-columns}
+print_results_table <- function(results, caption) {
+  index <- seq(length(results$segments))
+  starts <- sapply(results$segments, head, 1)
+  ends <- sapply(results$segments, tail, 1)
+  header <- c(2)
+  names(header) <- paste0(
+    "Segments (total of",
+    length(results$segments),
+    ")"
+  )
+  tibble(
+    `Segment no.`=index,
+    `First index`=starts,
+    `Last index`=ends
+  ) %>%
+    kable(caption=caption)
+}
+
 penalized = function(X) multivariate(X) - 2 ^ ncol(X)
-segment(D, likelihood = penalized, algorithm = "exact")
+segment(D, likelihood = penalized, algorithm = "exact") %>%
+  print_results_table(caption="(ref:results-columns-caption)")
 ```
 
 Notice it's important to use a penalized likelihood version of the `multivariate` function because
@@ -88,15 +113,19 @@ the original function favors bigger segments. The answer provided by the `segmen
 in that scenario would actually be all the columns in the $D$ matrix.
 
 ```{r}
-segment(D, likelihood = multivariate, algorithm = "exact")
+segment(D, likelihood = multivariate, algorithm = "exact") %>%
+  print_results_table(caption="Results of segmentation usign a non-penalized multivariate likelihood")
 ```
 
 ## Segments with similar averages
 
-Let $C_1, ..., C_n$ be vectors of genetic data, encoded as zero for homozygosity and
+Segmentr can be use to segment random variables $C_1, ..., C_n$ that represent
+genetic data, encoded as zero for homozygosity and
 one for heterozygosity. In this scenario a researcher might be interested in finding
-segments of homozygosity in the data. It's possible to use `segmentr` to find
-segments
+segments of homozygosity in the data, so it's desireable to segment the data
+according to the homogeneity of values within a segment of DNA.
+
+It's possible to use `segmentr` to find segments
 that maximize the homogeneity of a segment with a "mean" likelihood function, i.e. a
 function that maximizes the likelihood of segments whose elements approximate the
 segment average. One such function is defined in \@ref(eq:mean-likelihood).
@@ -107,12 +136,55 @@ single columns segments actually maximize the function, which is not desirable.
 Therefore, a constant penalty is included in order to penalize too many segments
 as the final output.
 
+Consider the simple example defined in \@ref(eq:geneticexample), in which
+$X_i$ for $i \in \{1, \dots, 20\}$ represent each a column indexed by $i$ of a
+data set $D$, and $\text{Bern(p)}$ representing the Berlinlli distribution wit
+probability $p$. A penalized version of \@ref(eq:mean-likelihood) is defined in
+\@ref(eq:penalizedmeanlikelihood), with the goal of punishing single column
+segments, which would be the mathematical maximum of segmentation. By applying
+the likelihood function defined in \@ref(eq:penalizedmeanlikelihood) to
+the data set defined in \@ref(eq:geneticexample), the results obtained are
+shown in Table \@ref(tab:results-penalized-mean).
+
 \begin{equation}
 L_{\mu}(X)=-\sum_i(x_i-E[X])^2 \;\bigg|\; x_i \in X
 (\#eq:mean-likelihood)
 \end{equation}
 
-```{r}
+\begin{equation}
+P_{L_{\mu}}(X)=L_{\mu}(X)-1
+(\#eq:penalizedmeanlikelihood)
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+X_1 & \sim \text{Bern}(0.9)
+X_2 & \sim \text{Bern}(0.9)
+X_3 & \sim \text{Bern}(0.9)
+X_4 & \sim \text{Bern}(0.9)
+X_5 & \sim \text{Bern}(0.9)
+X_6 & \sim \text{Bern}(0.1)
+X_7 & \sim \text{Bern}(0.1)
+X_8 & \sim \text{Bern}(0.1)
+X_9 & \sim \text{Bern}(0.1)
+X_10 & \sim \text{Bern}(0.1)
+X_11 & \sim \text{Bern}(0.1)
+X_12 & \sim \text{Bern}(0.1)
+X_13 & \sim \text{Bern}(0.1)
+X_14 & \sim \text{Bern}(0.1)
+X_15 & \sim \text{Bern}(0.1)
+X_16 & \sim \text{Bern}(0.9)
+X_17 & \sim \text{Bern}(0.9)
+X_18 & \sim \text{Bern}(0.9)
+X_19 & \sim \text{Bern}(0.9)
+X_20 & \sim \text{Bern}(0.9)
+\end{aligned}
+(\#eq:geneticexample)
+\end{equation}
+
+(ref:results-penalized-mean-caption) Results of segmentation by aplying the likelihood function defined in \@ref(eq:penalizedmeanlikelihood) to a sample of size 10 of the model defined in \@ref(eq:geneticexample).
+
+```{r results-penalized-mean}
 mean_likelihood <- function(X) {
   mean_value <- mean(X, na.rm = T)
   if (is.na(mean_value)) {
@@ -136,7 +208,8 @@ segment(
   D,
   likelihood = function(X) mean_likelihood(X) - 1,
   algorithm = "hieralg"
-)
+) %>%
+  print_results_table(caption="(ref:results-penalized-mean-caption)")
 ```
 
 
