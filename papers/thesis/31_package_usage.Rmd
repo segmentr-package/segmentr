@@ -1,3 +1,5 @@
+# (APPENDIX) Appendix {-}
+
 # Package Usage
 
 The purpose of this work is too have the `segmentr` to be as accessible as possible.
