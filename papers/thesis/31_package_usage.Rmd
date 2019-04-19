@@ -12,7 +12,7 @@ the Segmentr package for R is proposed to help researchers segment their
 data sets. Installation can be done using the default `install.packages` command,
 like shown below.
 
-```{r, eval=FALSE}
+```{r, echo=TRUE, eval=FALSE}
 install.packages("segmentr")
 ```
 
@@ -25,7 +25,7 @@ or `hybrid`, that specifies the type of algorithm will be used when exploring th
 also necessary to specify a `likelihood` function as argument, as it is used to compare and pick segments
 that are better fit according to the given likelihood's chosen criteria.
 
-```{r}
+```{r, echo=TRUE}
 require("segmentr")
 
 data <- rbind(

@@ -75,14 +75,15 @@ C15 <- X5
 D <- cbind(C1, C2, C3, C4, C5, C6, C7, C8,
            C9, C10, C11, C12, C13, C14, C15)
 head(D) %>%
-  kable(caption="(ref:sample-columns-caption)")
+  kable(caption="Sample values of the correlated random
+        variables defined in (ref:eq-examplecolumns).")
 ```
 
 It's possible to identify the segments in the matrix $D$ with a penalized version of the
 `multivariate` function included in the package.
 
 
-(ref:results-columns-caption) Segment tables as defined in \@ref(eq:examplecolumns).
+(ref:eq-examplecolumns) \@ref(eq:examplecolumns)
 
 ```{r results-columns}
 print_results_table <- function(results, caption) {
@@ -105,7 +106,9 @@ print_results_table <- function(results, caption) {
 
 penalized = function(X) multivariate(X) - 2 ^ ncol(X)
 segment(D, likelihood = penalized, algorithm = "exact") %>%
-  print_results_table(caption="(ref:results-columns-caption)")
+  print_results_table(
+    caption="Segment tables as defined in
+    (ref:eq-examplecolumns).")
 ```
 
 Notice it's important to use a penalized likelihood version of the `multivariate` function because
@@ -114,7 +117,9 @@ in that scenario would actually be all the columns in the $D$ matrix.
 
 ```{r}
 segment(D, likelihood = multivariate, algorithm = "exact") %>%
-  print_results_table(caption="Results of segmentation usign a non-penalized multivariate likelihood")
+  print_results_table(
+    caption="Results of segmentation usign a non-penalized
+      multivariate likelihood")
 ```
 
 ## Segments with similar averages
@@ -158,31 +163,35 @@ P_{L_{\mu}}(X)=L_{\mu}(X)-1
 
 \begin{equation}
 \begin{aligned}
-X_1 & \sim \text{Bern}(0.9)
-X_2 & \sim \text{Bern}(0.9)
-X_3 & \sim \text{Bern}(0.9)
-X_4 & \sim \text{Bern}(0.9)
-X_5 & \sim \text{Bern}(0.9)
-X_6 & \sim \text{Bern}(0.1)
-X_7 & \sim \text{Bern}(0.1)
-X_8 & \sim \text{Bern}(0.1)
-X_9 & \sim \text{Bern}(0.1)
-X_10 & \sim \text{Bern}(0.1)
-X_11 & \sim \text{Bern}(0.1)
-X_12 & \sim \text{Bern}(0.1)
-X_13 & \sim \text{Bern}(0.1)
-X_14 & \sim \text{Bern}(0.1)
-X_15 & \sim \text{Bern}(0.1)
-X_16 & \sim \text{Bern}(0.9)
-X_17 & \sim \text{Bern}(0.9)
-X_18 & \sim \text{Bern}(0.9)
-X_19 & \sim \text{Bern}(0.9)
+X_1 & \sim \text{Bern}(0.9) \\
+X_2 & \sim \text{Bern}(0.9) \\
+X_3 & \sim \text{Bern}(0.9) \\
+X_4 & \sim \text{Bern}(0.9) \\
+X_5 & \sim \text{Bern}(0.9) \\
+X_6 & \sim \text{Bern}(0.1) \\
+X_7 & \sim \text{Bern}(0.1) \\
+X_8 & \sim \text{Bern}(0.1) \\
+X_9 & \sim \text{Bern}(0.1) \\
+X_10 & \sim \text{Bern}(0.1) \\
+X_11 & \sim \text{Bern}(0.1) \\
+X_12 & \sim \text{Bern}(0.1) \\
+X_13 & \sim \text{Bern}(0.1) \\
+X_14 & \sim \text{Bern}(0.1) \\
+X_15 & \sim \text{Bern}(0.1) \\
+X_16 & \sim \text{Bern}(0.9) \\
+X_17 & \sim \text{Bern}(0.9) \\
+X_18 & \sim \text{Bern}(0.9) \\
+X_19 & \sim \text{Bern}(0.9) \\
 X_20 & \sim \text{Bern}(0.9)
 \end{aligned}
 (\#eq:geneticexample)
 \end{equation}
 
 (ref:results-penalized-mean-caption) Results of segmentation by aplying the likelihood function defined in \@ref(eq:penalizedmeanlikelihood) to a sample of size 10 of the model defined in \@ref(eq:geneticexample).
+
+(ref:eq-penalizedmeanlikelihood) \@ref(eq:penalizedmeanlikelihood)
+
+(ref:eq-geneticexample) \@ref(eq:geneticexample)
 
 ```{r results-penalized-mean}
 mean_likelihood <- function(X) {
@@ -209,7 +218,12 @@ segment(
   likelihood = function(X) mean_likelihood(X) - 1,
   algorithm = "hieralg"
 ) %>%
-  print_results_table(caption="(ref:results-penalized-mean-caption)")
+  print_results_table(
+    caption="Results of segmentation by aplying the
+      likelihood function defined in
+      (ref:eq-penalizedmeanlikelihood) to a sample of size
+      10 of the model defined in (ref:eq-geneticexample).
+    ")
 ```
 
 
