@@ -137,24 +137,6 @@ assumes the segments' likelihoods to be structured in a hierarchical manner, wit
 having being selected as an intermediate step before evaluating the ideal change points of the data set.
 
 ```{r results-non-penalized}
-print_results_table <- function(results, caption) {
-  index <- seq(length(results$segments))
-  starts <- sapply(results$segments, head, 1)
-  ends <- sapply(results$segments, tail, 1)
-  header <- c(2)
-  names(header) <- paste0(
-    "Segments (total of",
-    length(results$segments),
-    ")"
-  )
-  tibble(
-    `Segment no.`=index,
-    `First index`=starts,
-    `Last index`=ends
-  ) %>%
-    kable(caption=caption)
-}
-
 results <- segment(
   berlin,
   likelihood = lm_likelihood,
