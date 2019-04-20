@@ -1,11 +1,16 @@
 # Introduction
 
-This describes the development of the R package.
+[@base-paper] describe a method of sequence segmentation by analyzing a given
+sequence data set using a multivariate likelihood function. This work extends
+on that by generalizing the type of likelihood function, such that it can be
+used for use-cases other than maximizing the likelihood of correlated segments,
+e.g. segments with homogeneous values, segments that have the same linear
+regression trend.
 
-## Motivation
-
-To make it easy to detect change points in R by researchers.
-
-## Main References
-
-This thesis describes the process of implementation of the `segmentr` R package, describing how to use it, application on simulations and real world use cases, as well as the process of actually developing it. It was based on the work of [@base-paper]
+This work is demonstrated in the R Programming Language [@R-lang] environment
+and, based on the instructions provided by [@r-package-tutorial], this work is
+made available as an R package @segmentr-cran, with the goal of being easily
+usable by researchers and R programmers. Source code for the package is also
+available as an open source software @segmentr-github. Also, for the use case
+described by [@base-paper], a performant version of the multivariate likelihood
+function is implemented using RCPP [@rcpp].
