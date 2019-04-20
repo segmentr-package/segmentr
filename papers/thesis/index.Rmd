@@ -1,5 +1,5 @@
 ---
-title: "An R Package for Ghange Point Detection"
+title: "An R Package for Change Point Detection"
 title-formatted: "An R Package for \\linebreak Change Point Detection"
 main-author: "Thales Mello"
 advisor: "Florencia Leonardi"
@@ -25,11 +25,10 @@ fontsize: 11pt
 abstract-text: |
   \chapter*{Abstract}
   
-  \noindent Mello, Thales. \textbf{An R Package for Ghange Point Detection}.
+  \noindent Mello, Thales. \textbf{An R Package for Change Point Detection}.
   2019. 61 f.
   Dissertação (Mestrado) - Instituto de Matemática e Estatística,
   Universidade de São Paulo, São Paulo, 2010.
-  \linebreak
   
   This dissertation explores the development of a package in the R
   programming language in order to detect change points in a data set to
@@ -54,7 +53,6 @@ resumo-text: |
   2019. 61 f.
   Dissertação (Mestrado) - Instituto de Matemática e Estatística,
   Universidade de São Paulo, São Paulo, 2010.
-  \linebreak
   
   Esta dissertação explora o desenvolvimento de um pacote da lingaugem
   de programação R com o objetivo de detectar pontos de mudança em um
@@ -71,7 +69,6 @@ resumo-text: |
   algumas tentativas de otimização de performance, explorando
   implementação de trechos críticos do código em linguagens de baixo
   nível, bem como valendo-se também do uso de computação paralela.
-  \linebreak
   
   \noindent \textbf{Palavras-chave:} segment, change-point, likelihood, R-package.
 acknowledgements-text: |
