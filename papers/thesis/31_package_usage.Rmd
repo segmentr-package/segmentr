@@ -44,3 +44,14 @@ segment(
 )
 ```
 
+## Tutorial
+
+In order to learn how to use the package to
+analyze data, a vignette version of Chapter
+\@ref(real-data-examples) is provided, such that
+it can be used to follow the examples and learn
+how to use the package.
+
+```{r eval=FALSE}
+vignette("segmentr")
+```
