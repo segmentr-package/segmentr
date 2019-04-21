@@ -1,7 +1,7 @@
 # Real Data Examples
 
 In order to exemplify how Segmentr is used in real situations, an example on weather
-data is provided in this paper.
+data is provided in this paper. The data was obtained using data found in [@dwd].
 
 Segmentr is a package that implements a handful of algorithms to segment a given data set, by finding
 the change points that maximize the collective likelihood of the segments according to an arbitrary
