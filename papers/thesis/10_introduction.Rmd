@@ -4,8 +4,8 @@
 sequence data set using a multivariate likelihood function. This work extends
 on that by generalizing the type of likelihood function, such that it can be
 used for use-cases other than maximizing the likelihood of correlated segments,
-e.g. segments with homogeneous values, segments that have the same linear
-regression trend.
+e.g. segments with homogeneous values (see Chapter \@ref(segments-with-similar-averages)), segments that have the same linear
+regression trend \@ref(real-data-examples).
 
 This work is demonstrated in the R Programming Language [@R-lang] environment
 and, based on the instructions provided by [@r-package-tutorial], this work is
