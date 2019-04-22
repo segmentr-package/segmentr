@@ -18,7 +18,7 @@ output: bookdown::gitbook
 documentclass: book
 classoption: twoside
 bibliography: ["citations.bib"]
-biblio-style: alpha-ime.bst
+biblio-style: plainnat-ime.bst
 link-citations: yes
 paperize: a4
 fontsize: 11pt
