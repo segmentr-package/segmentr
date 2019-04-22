@@ -1,0 +1,13 @@
+_book
+*.aux
+*.dvi
+*.out
+*.toc
+*.log
+thesis.tex
+thesis.Rmd
+thesis.html
+thesis_files
+*.idx
+_bookdown_files/
+thesis_cache

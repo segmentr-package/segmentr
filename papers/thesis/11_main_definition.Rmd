@@ -1,0 +1,29 @@
+# Main Definition
+
+Consider a matrix ${\X} \in \R^{n\times p}$ of  real data (discrete or
+continuous), where $p$ is the number of  columns (variables) and $n$ is the
+sample size (number of individuals). We assume the individuals are not related
+and therefore the rows of ${\X}$ are independent.
+
+For $j\in \{1,\dotsc, p\}$ we denote by ${\X}^{j}$ the $j$th column of
+${\bf X}$ and given an interval of contiguous variables $I\subset\{1,\dotsc, p\}$ we
+denote by ${\X}_I$ the sub-matrix with columns corresponding to elements of
+$I$.
+
+In this context we assume there is a sequence of intervals (a partition)
+$S_0=\{I_1,\dotsc, I_k\}$ covering the entire range of variables  such that  the
+distribution of ${\X}$ is `homogeneous` inside each block $I$, that is
+${\X}^j_i \sim f_{I(j)} \quad\text{ for all }i=1,\dotsc, n$, where $I(j)$ is
+the unique interval in $S_0$ containing  marker $j$.
+
+The function  $f_{I(j)}$ represents a density function in the case of continuous
+random variables or a probability mass function in the case of discrete random
+variables.  Moreover we assume the sequence $S_0=\{I_1,\dots, I_k\}$ is
+`minimal` in the sense that we can not merge two subsequent intervals and
+obtain an equivalent model. This is equivalent to assume that
+$f_{I_\ell}\neq f_{I_{\ell+1}}$ for all $\ell=1, \dots, k-1$.
+
+Observe that we are not assuming independence between the columns of ${\X}$,
+this is an additional assumption that depends on the specific application.
+Moreover, the independence between the rows of ${\X}$ could also be ignored,
+but we assume it by simplicity.

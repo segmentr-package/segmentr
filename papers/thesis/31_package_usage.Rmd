@@ -1,0 +1,57 @@
+# (APPENDIX) Appendix {-}
+
+# Package Usage
+
+The purpose of this work is too have the `segmentr` to be as accessible as possible.
+Because of that, extra care was put into making it easy to install and use.
+
+## Instalation
+
+Given the algorithms and their applications discussed in [@base-paper],
+the Segmentr package for R is proposed to help researchers segment their
+data sets. Installation can be done using the default `install.packages` command,
+like shown below.
+
+```{r, echo=TRUE, eval=FALSE}
+install.packages("segmentr")
+```
+
+## Usage
+
+The package can be used with [segment()]. It takes a `data` argument containing a bi-dimensional matrix
+in which the rows represent different samples and the columns represent the comprehension of the data set
+we wish to segment. The function also accepts a `algorithm` argument, which can be `exact`, `hierarchical`
+or `hybrid`, that specifies the type of algorithm will be used when exploring the data set. Finally, it's
+also necessary to specify a `likelihood` function as argument, as it is used to compare and pick segments
+that are better fit according to the given likelihood's chosen criteria.
+
+```{r, echo=TRUE}
+require("segmentr")
+
+data <- rbind(
+  c(1, 1, 0, 0, 0, 1023, 134521, 12324),
+  c(1, 1, 0, 0, 0, -20941, 1423, 14334),
+  c(1, 1, 0, 0, 0, 2398439, 1254, 146324),
+  c(1, 1, 0, 0, 0, 24134, 1, 15323),
+  c(1, 1, 0, 0, 0, -231, 1256, 13445),
+  c(1, 1, 0, 0, 0, 10000, 1121, 331)
+)
+
+segment(
+  data,
+  algorithm = "exact",
+  likelihood = function(X) multivariate(X) - 0.01*exp(ncol(X))
+)
+```
+
+## Tutorial
+
+In order to learn how to use the package to
+analyze data, a vignette version of Chapter
+\@ref(real-data-examples) is provided, such that
+it can be used to follow the examples and learn
+how to use the package.
+
+```{r eval=FALSE}
+vignette("segmentr")
+```

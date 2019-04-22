@@ -1,0 +1,229 @@
+# Simulations
+
+In order to exemplify the utility of this package, a handful of hypothetical
+data will be presented, together with a proposal of an appropriate likelihood
+function that is expected to segment the data in an expected manner.
+
+## Correlated random variables
+
+Let $C_1$, $C_2$, ..., $C_n$ a sequence of $n$ vectors of data points, each with $m$
+observations represented by $C_k = \{c_{k1},\ c_{k2},\ ...,\ c_{km}\}$, with
+$1 \le k \le n$. Assume that each $C_k$ is a function of an unknown set of independent
+random variables $X$, such that $C_k = f_k(X)$. When used together with a multivariate
+likelihood [@park2017fundamentals], for which an implementation is provided in
+the `segmentr` package as the `multivariate()` function, it's possible to identify
+the set of $N_b$ change points
+$b_1, ..., b_{N_b}$, with $b_0 = 1$ and $b_{N_b + 1} = n + 1$, such that all $f_k$, for
+$b_i \le k \le b_{i+1}-1$ is a function of the same set of independent random variables $X$,
+or each $1 \le i \le N_b$.
+
+Let $X_1, ..., X_6$ be independent random variables and $C_1, ..., C_{15}$ be
+defined as in \@ref(eq:examplecolumns) . It's possible to see the first segment $C_1, ..., C_5$
+depend on $X_1, X_2$, the second segment $C_6, ..., C_{10}$ depend on $X_3, X_4$ and the third
+and last segment $C_{11}, ..., C_{15}$ depend on $X_4, X_5$. Therefore, the change points would
+be $b_1 = 6$ and $b_2 = 11$.
+
+\begin{equation}
+\begin{aligned}
+C_1 & = X_1 \\
+C_2 & = X_1 - X_2 \\
+C_3 & = X_2 \\
+C_4 & = X_1 + X_2 \\
+C_5 & = X_1 \\
+C_6 & = X_3 \\
+C_7 & = X_3 - X_4 \\
+C_8 & = X_4 \\
+C_9 & = X_3 + X_4 \\
+C_{10} & = X_3 \\
+C_{11} & = X_5 \\
+C_{12} & = X_5 - X_6 \\
+C_{13} & = X_6 \\
+C_{14} & = X_5 + X_6 \\
+C_{15} & = X_5
+\end{aligned}
+(\#eq:examplecolumns)
+\end{equation}
+
+To illustrate, consider the following code, which defines $X_1, ..., X_6$ and $C_1, ..., C_{15}$ as specified in \@ref(eq:examplecolumns), and also consider the matrix $D$ as the column binding of the vectors $C_1, ..., C_{15}$.
+
+(ref:sample-columns-caption) Sample values of the correlated random variables defined in \@ref(eq:examplecolumns).
+
+```{r sample-columns}
+n <- 100
+X1 <- sample(1:2, n, replace = TRUE)
+X2 <- sample(1:2, n, replace = TRUE)
+X3 <- sample(1:2, n, replace = TRUE)
+X4 <- sample(1:2, n, replace = TRUE)
+X5 <- sample(1:2, n, replace = TRUE)
+X6 <- sample(1:2, n, replace = TRUE)
+
+C1 <- X1
+C2 <- X1 - X2
+C3 <- X2
+C4 <- X1 + X2
+C5 <- X1
+C6 <- X3
+C7 <- X3 - X4
+C8 <- X4
+C9 <- X3 + X4
+C10 <- X3
+C11 <- X5
+C12 <- X5 - X6
+C13 <- X6
+C14 <- X5 + X6
+C15 <- X5
+D <- cbind(C1, C2, C3, C4, C5, C6, C7, C8,
+           C9, C10, C11, C12, C13, C14, C15)
+head(D) %>%
+  kable(caption="Sample values of the correlated random
+        variables defined in (ref:eq-examplecolumns).")
+```
+
+It's possible to identify the segments in the matrix $D$ with a penalized version of the
+`multivariate` function included in the package.
+
+
+(ref:eq-examplecolumns) \@ref(eq:examplecolumns)
+
+```{r results-columns}
+print_results_table <- function(results, caption) {
+  index <- seq(length(results$segments))
+  starts <- sapply(results$segments, head, 1)
+  ends <- sapply(results$segments, tail, 1)
+  header <- c(2)
+  names(header) <- paste0(
+    "Segments (total of",
+    length(results$segments),
+    ")"
+  )
+  tibble(
+    `Segment no.`=index,
+    `First index`=starts,
+    `Last index`=ends
+  ) %>%
+    kable(caption=caption)
+}
+
+penalized = function(X) multivariate(X) - 2 ^ ncol(X)
+segment(D, likelihood = penalized, algorithm = "exact") %>%
+  print_results_table(
+    caption="Segment tables as defined in
+    (ref:eq-examplecolumns).")
+```
+
+Notice it's important to use a penalized likelihood version of the `multivariate` function because
+the original function favors bigger segments. The answer provided by the `segment` package
+in that scenario would actually be all the columns in the $D$ matrix.
+
+```{r}
+segment(D, likelihood = multivariate, algorithm = "exact") %>%
+  print_results_table(
+    caption="Results of segmentation usign a non-penalized
+      multivariate likelihood")
+```
+
+## Segments with similar averages
+
+Segmentr can be use to segment random variables $C_1, ..., C_n$ that represent
+genetic data, encoded as zero for homozygosity and
+one for heterozygosity. In this scenario a researcher might be interested in finding
+segments of homozygosity in the data, so it's desireable to segment the data
+according to the homogeneity of values within a segment of DNA.
+
+It's possible to use `segmentr` to find segments
+that maximize the homogeneity of a segment with a "mean" likelihood function, i.e. a
+function that maximizes the likelihood of segments whose elements approximate the
+segment average. One such function is defined in \@ref(eq:mean-likelihood).
+
+Therefore, it's possible to have `segmentr` find the change points in the data using
+the adequate functions. It's necessary to penalize the likelihood function because
+single columns segments actually maximize the function, which is not desirable.
+Therefore, a constant penalty is included in order to penalize too many segments
+as the final output.
+
+Consider the simple example defined in \@ref(eq:geneticexample), in which
+$X_i$ for $i \in \{1, \dots, 20\}$ represent each a column indexed by $i$ of a
+data set $D$, and $\text{Bern(p)}$ representing the Berlinlli distribution wit
+probability $p$. A penalized version of \@ref(eq:mean-likelihood) is defined in
+\@ref(eq:penalizedmeanlikelihood), with the goal of punishing single column
+segments, which would be the mathematical maximum of segmentation. By applying
+the likelihood function defined in \@ref(eq:penalizedmeanlikelihood) to
+the data set defined in \@ref(eq:geneticexample), the results obtained are
+shown in Table \@ref(tab:results-penalized-mean).
+
+\begin{equation}
+L_{\mu}(X)=-\sum_i(x_i-E[X])^2 \;\bigg|\; x_i \in X
+(\#eq:mean-likelihood)
+\end{equation}
+
+\begin{equation}
+P_{L_{\mu}}(X)=L_{\mu}(X)-1
+(\#eq:penalizedmeanlikelihood)
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+X_{1} & \sim \text{Bern}(0.9) \\
+X_{2} & \sim \text{Bern}(0.9) \\
+X_{3} & \sim \text{Bern}(0.9) \\
+X_{4} & \sim \text{Bern}(0.9) \\
+X_{5} & \sim \text{Bern}(0.9) \\
+X_{6} & \sim \text{Bern}(0.1) \\
+X_{7} & \sim \text{Bern}(0.1) \\
+X_{8} & \sim \text{Bern}(0.1) \\
+X_{9} & \sim \text{Bern}(0.1) \\
+X_{10} & \sim \text{Bern}(0.1) \\
+X_{11} & \sim \text{Bern}(0.1) \\
+X_{12} & \sim \text{Bern}(0.1) \\
+X_{13} & \sim \text{Bern}(0.1) \\
+X_{14} & \sim \text{Bern}(0.1) \\
+X_{15} & \sim \text{Bern}(0.1) \\
+X_{16} & \sim \text{Bern}(0.9) \\
+X_{17} & \sim \text{Bern}(0.9) \\
+X_{18} & \sim \text{Bern}(0.9) \\
+X_{19} & \sim \text{Bern}(0.9) \\
+X_{20} & \sim \text{Bern}(0.9)
+\end{aligned}
+(\#eq:geneticexample)
+\end{equation}
+
+(ref:results-penalized-mean-caption) Results of segmentation by aplying the likelihood function defined in \@ref(eq:penalizedmeanlikelihood) to a sample of size 10 of the model defined in \@ref(eq:geneticexample).
+
+(ref:eq-penalizedmeanlikelihood) \@ref(eq:penalizedmeanlikelihood)
+
+(ref:eq-geneticexample) \@ref(eq:geneticexample)
+
+```{r results-penalized-mean}
+mean_likelihood <- function(X) {
+  mean_value <- mean(X, na.rm = T)
+  if (is.na(mean_value)) {
+    0
+  } else {
+    -sum((X - mean_value)^2)
+  }
+}
+
+make_segment <- function(n, p) {
+  matrix(rbinom(100 * n, 1, p), nrow = 100)
+}
+
+D <- cbind(
+  make_segment(5, 0.9),
+  make_segment(10, 0.1),
+  make_segment(5, 0.9)
+)
+
+segment(
+  D,
+  likelihood = function(X) mean_likelihood(X) - 1,
+  algorithm = "hieralg"
+) %>%
+  print_results_table(
+    caption="Results of segmentation by aplying the
+      likelihood function defined in
+      (ref:eq-penalizedmeanlikelihood) to a sample of size
+      10 of the model defined in (ref:eq-geneticexample).
+    ")
+```
+
+

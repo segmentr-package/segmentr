@@ -1,0 +1,99 @@
+@anual{R-lang,
+  title = {R: A Language and Environment for Statistical Computing},
+  author = {{R Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2018},
+  url = {https://www.R-project.org/},
+}
+
+@book{park2017fundamentals,
+  title={Fundamentals of Probability and Stochastic Processes with Applications to Communications},
+  author={Park, K.I.},
+  isbn={9783319680743},
+  lccn={2017953254},
+  url={https://books.google.com.br/books?id=cd2SswEACAAJ},
+  year={2017},
+  publisher={Springer International Publishing}
+}
+
+@article{base-paper,
+title = "A model selection approach for multiple sequence segmentation and dimensionality reduction",
+journal = "Journal of Multivariate Analysis",
+volume = "167",
+pages = "319 - 330",
+year = "2018",
+issn = "0047-259X",
+doi = "https://doi.org/10.1016/j.jmva.2018.05.006",
+url = "http://www.sciencedirect.com/science/article/pii/S0047259X18302331",
+author = "Bruno M. Castro and Renan B. Lemes and Jonatas Cesar and Tábita Hünemeier and Florencia Leonardi",
+abstract = "In this paper we consider the problem of segmenting n aligned random sequences of equal length m into a finite number of independent blocks. We propose a penalized maximum likelihood criterion to infer simultaneously the number of points of independence as well as the position of each point. We show how to compute exactly the estimator by means of a dynamic programming algorithm with time complexity O(m2n). We also propose another method, called hierarchical algorithm, that provides an approximation to the estimator when the sample size increases and runs in time O{mln(m)n}. Our main theoretical results are the strong consistency of both estimators when the sample size n grows to infinity. We illustrate the convergence of these algorithms through some simulation examples and we apply the method to identify recombination hotspots in real SNPs data."
+}
+
+@book{r-package-tutorial,
+ author = {Wickham, Hadley},
+ title = {R Packages},
+ year = {2015},
+ isbn = {1491910593, 9781491910597},
+ edition = {1st},
+ publisher = {O'Reilly Media, Inc.},
+ url = "http://r-pkgs.had.co.nz/"
+}
+
+@Manual{segmentr-cran,
+    title = {segmentr: Segment Data With Maximum Likelihood},
+    author = {Thales Mello and Florencia Leonardi},
+    year = {2019},
+    note = {R package version 0.1.1},
+    url = {https://CRAN.R-project.org/package=segmentr},
+  }
+
+
+@misc{segmentr-github,
+  author = {Mello, Thales},
+  title = {Segmentr: An R package to search for independent segments in a sequence (aka change points)},
+  year = {2019},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/thalesmello/segmentr}},
+}
+
+@Article{rcpp,
+  title = {{Rcpp}: Seamless {R} and {C++} Integration},
+  author = {Dirk Eddelbuettel and Romain Fran\c{c}ois},
+  journal = {Journal of Statistical Software},
+  year = {2011},
+  volume = {40},
+  number = {8},
+  pages = {1--18},
+  url = {http://www.jstatsoft.org/v40/i08/},
+  doi = {10.18637/jss.v040.i08},
+}
+
+
+@Article{fpop,
+  author="Maidstone, Robert
+  and Hocking, Toby
+  and Rigaill, Guillem
+  and Fearnhead, Paul",
+  title="On optimal multiple changepoint algorithms for large data",
+  journal="Statistics and Computing",
+  year="2017",
+  month="Mar",
+  day="01",
+  volume="27",
+  number="2",
+  pages="519--533",
+  abstract="Many common approaches to detecting changepoints, for example based on statistical criteria such as penalised likelihood or minimum description length, can be formulated in terms of minimising a cost over segmentations. We focus on a class of dynamic programming algorithms that can solve the resulting minimisation problem exactly, and thus find the optimal segmentation under the given statistical criteria. The standard implementation of these dynamic programming methods have a computational cost that scales at least quadratically in the length of the time-series. Recently pruning ideas have been suggested that can speed up the dynamic programming algorithms, whilst still being guaranteed to be optimal, in that they find the true minimum of the cost function. Here we extend these pruning methods, and introduce two new algorithms for segmenting data: FPOP and SNIP. Empirical results show that FPOP is substantially faster than existing dynamic programming methods, and unlike the existing methods its computational efficiency is robust to the number of changepoints in the data. We evaluate the method for detecting copy number variations and observe that FPOP has a computational cost that is even competitive with that of binary segmentation, but can give much more accurate segmentations.",
+  issn="1573-1375",
+  doi="10.1007/s11222-016-9636-3",
+  url="https://doi.org/10.1007/s11222-016-9636-3"
+}
+
+@misc{dwd,
+  author = {Deutscher Wetterdienst},
+  title = {Climate Data Center - FTP Server},
+  year = {2019},
+  publisher = {Deutscher Wetterdienst},
+  howpublished = {\url{https://www.dwd.de/EN/climate_environment/cdc/cdc.html}},
+}
