@@ -11,3 +11,4 @@ thesis_files
 *.idx
 _bookdown_files/
 thesis_cache
+libs/

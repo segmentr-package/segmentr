@@ -26,7 +26,7 @@ also necessary to specify a `likelihood` function as argument, as it is used to 
 that are better fit according to the given likelihood's chosen criteria.
 
 ```{r, echo=TRUE}
-require("segmentr")
+library("segmentr")
 
 data <- rbind(
   c(1, 1, 0, 0, 0, 1023, 134521, 12324),

@@ -13,13 +13,13 @@ trade-offs. This example walks rough the main concepts regarding its usage, usin
 temperature data from Berlin as an example.
 
 ```{r message=FALSE}
-require(segmentr)
-require(tidyr)
-require(tibble)
-require(dplyr)
-require(lubridate)
-require(magrittr)
-require(purrr)
+library(segmentr)
+library(tidyr)
+library(tibble)
+library(dplyr)
+library(lubridate)
+library(magrittr)
+library(purrr)
 ```
 
 ## Understanding the data

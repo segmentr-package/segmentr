@@ -82,10 +82,13 @@ acknowledgements-text: |
 ---
 
 ```{r message=FALSE, echo=FALSE}
-require(knitr)
-require(kableExtra)
+library(knitr)
+library(kableExtra)
+library(segmentr)
+library(tibble)
+library(magrittr)
 knitr::opts_chunk$set(
-  cache=TRUE,
+  cache=FALSE,
   echo=FALSE
 )
 ```

@@ -10,7 +10,7 @@ Therefore it's going to be used in this package to compare the performance of di
 code snippets.
 
 ```{r, message=FALSE}
-require(microbenchmark)
+library(microbenchmark)
 ```
 
 ## Native Code
