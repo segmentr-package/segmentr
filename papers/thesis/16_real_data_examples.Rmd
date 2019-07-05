@@ -1,5 +1,8 @@
 # Real Data Examples
 
+```{r, code = readLines("helper.R")}
+```
+
 In order to exemplify how Segmentr is used in real situations, an example on weather
 data is provided in this paper. The data was obtained using data found in [@dwd].
 
@@ -20,6 +23,8 @@ library(dplyr)
 library(lubridate)
 library(magrittr)
 library(purrr)
+library(knitr)
+library(kableExtra)
 ```
 
 ## Understanding the data
@@ -63,24 +68,22 @@ which suggests it's possible to fit linear regressions for each of the upwards o
 trend segments. So, a "linear regression likelihood" function is proposed, which should
 return a higher value the better a linear regression fits in a given segment. By intuition,
 we expect the likelihood function to segment the dataset approximately to the way the vertical
-lines are placed in Figure \@ref(fig:berlin-ideal).
+lines are placed in Figure \@ref(fig:berlin-ideal). The indices picked to represent each segment are available in Table \@ref(tab:berlin-ideal-table).
 
 ```{r berlin-ideal, fig.cap = "Manual segmentation of the weather data picked according to intuition"}
-plot_results <- function(results, data) {
-  dates <- colnames(data) %>% ymd()
+expected_berlin <- list(
+  changepoints=c(200, 360, 570),
+  segments=list(1:199, 360:569, 570:ncol(berlin))
+)
 
-  data %>%
-    colMeans() %>%
-    enframe("time", "temperature") %>%
-    mutate_at(vars(time), ymd) %>%
-    with({
-      plot(time, temperature, cex=0.2)
-      abline(v=dates[results$changepoints],
-             col="red", lty=2)
-    })
-}
+plot_results(expected_berlin, berlin)
+```
 
-plot_results(list(changepoints=c(200, 360, 570)), berlin)
+```{r berlin-ideal-table}
+print_results_table(
+  expected_berlin,
+  caption="Expected values to be found when segmenting the Berlin dataset"
+)
 ```
 
 ## Building the likelihood
@@ -195,13 +198,6 @@ $\frac{L}{2}$. To visualize, consider a sample penalty function, with $C_1 =
 C_2 = 1$, $s_1 = s_2 = 0.3$ and $L = 100$, plotted in Figure \@ref(fig:penalty-curve).
 
 ```{r penalty-curve, fig.cap="Example curve of the penalty function for $C_1 = C_2 = 1$, $s_1 = s_2 = 0.3$ and $L = 100$"}
-plot_curve <- function(expr, from, to,
-                       points = 100, plot_func=plot,
-                       ...) {
-  x <- floor(seq(from, to, length.out = 100))
-  y <- map_dbl(x, expr)
-  plot_func(x, y, ...)
-}
 
 plot_curve(~ exp(0.3*(. - 50)) + exp(0.3 * (-. + 50)),
            from = 0, to = 100, type="l")
@@ -272,20 +268,20 @@ penalized_likelihood <- auto_penalize(
   lm_likelihood,
   big_segment_penalty = 1000
 )
-results <- segment(
+results_berlin <- segment(
   berlin,
   likelihood = penalized_likelihood,
   algorithm = "hierarchical"
 )
 print_results_table(
-  results,
+  results_berlin,
   caption="Results of the segmentation algorithm
   using an adjusted penalized likelihood function"
 )
 ```
 
 ```{r berlin-adjusted-penalized, fig.cap="Berlin weather data segmented using an adjusted penalized likelihood function"}
-plot_results(results, berlin)
+plot_results(results_berlin, berlin)
 ```
 
 Even with the new adjusted `penalized_likelihood`, the segments seen in Figure

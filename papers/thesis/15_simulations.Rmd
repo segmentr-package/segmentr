@@ -1,5 +1,9 @@
 # Simulations
 
+```{r}
+source("helper.R")
+```
+
 In order to exemplify the utility of this package, a handful of hypothetical
 data will be presented, together with a proposal of an appropriate likelihood
 function that is expected to segment the data in an expected manner.
@@ -86,24 +90,6 @@ It's possible to identify the segments in the matrix $D$ with a penalized versio
 (ref:eq-examplecolumns) \@ref(eq:examplecolumns)
 
 ```{r results-columns}
-print_results_table <- function(results, caption) {
-  index <- seq(length(results$segments))
-  starts <- sapply(results$segments, head, 1)
-  ends <- sapply(results$segments, tail, 1)
-  header <- c(2)
-  names(header) <- paste0(
-    "Segments (total of",
-    length(results$segments),
-    ")"
-  )
-  tibble(
-    `Segment no.`=index,
-    `First index`=starts,
-    `Last index`=ends
-  ) %>%
-    kable(caption=caption)
-}
-
 penalized = function(X) multivariate(X) - 2 ^ ncol(X)
 segment(D, likelihood = penalized, algorithm = "exact") %>%
   print_results_table(
