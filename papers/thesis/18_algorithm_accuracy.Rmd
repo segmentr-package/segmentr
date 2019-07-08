@@ -1,0 +1,111 @@
+# Accuracy of algorithms
+
+```{r}
+source("helper.R")
+```
+
+Given different solutions obtained by the `segment` function, it's often necessary to compare them with each other. Therefore, it's useful to define a distance measure to compare two sets of estimated change points.
+
+## The Hausdorff distance
+
+As defined in [@topology], the Haurdorff distance is a measure of
+how far two subsets from a metric space are from one another. It's
+defined as the biggest of all the distances from a point in one
+set to the closest point in the other set, which is expressed
+mathematically by the equation defined in
+\@ref(eq:hausdorffformula), in which $X$ and $Y$ represent sets
+given as inputs to the function, $d(x, y)$ represents a distance
+function defined in the metric space $S$ such that $x, y \in S$.
+
+\begin{equation}
+d_H(X,Y) = \max\left\{\,\sup_{x \in X} \inf_{y \in Y} d(x,y)\, ,\, \sup_{y \in Y} \inf_{x \in X} d(x,y)\,\right\}
+(\#eq:hausdorffformula)
+\end{equation}
+
+Therefore, considering that a set of change points is a subset of
+the indices of the column indices in a data set, if we define the
+distance $d$ as the absolute value of two given numbers, we can
+define the distance between two change points as the Hausdorff
+distance between change point sets. One interesting application
+of this is that it can be used to measure the distance of
+an estimated set of change points to a reference solution.
+
+## Accuracy of estimates for the Berlin dataset
+
+In Chapter \@ref(real-data-examples) the data set of weather temperatures in
+Berlin was presented, and there was a walk through on different ways to use
+Segmentr to find a good estimate set of segments for it. Table
+\@ref(tab:berlinexpectedtable) lists the considered the ideal solution to the
+problem, at the same time as different solutions with different tables were
+found in Tables \@ref(tab:resultsnonpenalized), \@ref(tab:resultsautopenalized)
+and \@ref(tab:downresautopenalized). Considering this, the
+Hausdorff distance can be used to measure how far each estimate is from
+the ideal solution described in Table \@ref(tab:berlinexpectedtable).
+In Table \@ref(tab:hausdorff-real-data-comparison) we can see the results
+of the comparison, in which we can see the distance of each estimate
+calculated.
+
+
+```{r}
+hausdorff <- function(set_a, set_b) {
+  distance <- Vectorize(function(p1, p2) abs(p1 - p2))
+
+  distance_1_to_2 <- function(set_1, set_2) {
+    max(sapply(set_1, function(p1) min(distance(p1, set_2))))
+  }
+
+  max(distance_1_to_2(set_a, set_b), distance_1_to_2(set_b, set_a))
+}
+
+segment_distance <- function(changepoints1, changepoints2) {
+  hausdorff(c(1, changepoints1), c(1, changepoints2))
+}
+```
+
+(ref:table-berlin-expected) \@ref(tab:berlinexpectedtable)
+
+(ref:table-non-penalized) \@ref(tab:resultsnonpenalized)
+
+(ref:table-auto-penalized) \@ref(tab:resultsautopenalized)
+
+(ref:table-adjusted-penalized) \@ref(tab:resultsadjustedpenalized)
+
+(ref:table-rescaled) \@ref(tab:resultsrescaled)
+
+```{r hausdorff-real-data-comparison}
+deviation <- partial(
+  segment_distance,
+  changepoints2=expected_berlin$changepoints
+)
+
+tribble(
+  ~`Results referenced`,
+    ~`Estimated Changepoints`,
+      ~`Hausdorff Distance to Ideal`,
+  "Table (ref:table-berlin-expected)",
+    comma_format(expected_berlin$changepoints),
+      deviation(expected_berlin$changepoints),
+  "Table (ref:table-non-penalized)",
+    comma_format(results_non_penalized$changepoints),
+      deviation(results_non_penalized$changepoints),
+  "Table (ref:table-auto-penalized)",
+    comma_format(results_auto_penalized$changepoints),
+      deviation(results_auto_penalized$changepoints),
+  "Table (ref:table-adjusted-penalized)",
+    comma_format(results_adjusted_penalized$changepoints),
+      deviation(results_adjusted_penalized$changepoints),
+  "Table (ref:table-rescaled)",
+    comma_format(results_rescaled$changepoints),
+      deviation(results_rescaled$changepoints)
+) %>% kable(
+  caption="Hausdorff distance for different
+  segmentation attepmts over the Berlin weather data set"
+) %>% column_spec(2, width="15em")
+```
+
+In Table \@ref(tab:hausdorff-real-data-comparison) we can see
+the distance to the ideal is gradually decreased more adequate
+parameters are used to compute the segment estimates for the
+segmentation estimate. This improvement reflects the progress
+that can be observed in gradually in Figures \@ref(fig:berlin-non-penalized), \@ref(fig:berlin-auto-penalized), \@ref(fig:berlin-adjusted-penalized) and \@ref(fig:plot-results-rescaled).
+
