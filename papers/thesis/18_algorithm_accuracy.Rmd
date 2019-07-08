@@ -113,9 +113,9 @@ the progress that can be observed in gradually in Figures
 ## Accuracy of algorithms using different algorithms
 
 We want to measure how well the different algorithms provided in the Segmentr
-package find the segments in the example simulation described in
-\@ref(eq:examplecolumns). Since the simulation was arbitrarily built, we know
-what the exact solution to the segmentation problem is.
+package find the segments in the example correlated columns simulated data set
+described in \@ref(eq:examplecolumns). Since the simulation was arbitrarily
+built, we know what the exact solution to the segmentation problem is.
 
 
 ```{r hausdorff-multivariate-comparison}
@@ -187,4 +187,69 @@ works by either adopting the exact or the hierarchical algorithm depending on
 the threshold and the size of the segment being analyzed. When the threshold
 argument is large, it applies the exact algorithm to the data set, whereas when
 the threshold is small, it applies the hierarchical algorithm instead.
+
+Consider now the simulated data set of segments with similar averages described
+in equation (ref:eq-geneticexample). We do the same algorithm comparison with
+this data set in Table \@ref(tab:hausdorff-mean-comparison). In contrast with
+the previous experiment, all the algorithms manage to find the expected solution
+to the problem.
+
+```{r hausdorff-mean-comparison}
+expected_mean_example <- c(6, 16)
+
+deviation <- partial(
+  segment_distance,
+  changepoints2=expected_mean_example
+)
+
+exact_mean_changepoints <- segment(
+  D_genetic,
+  likelihood = penalized_mean_likelihood,
+  algorithm = "exact"
+)$changepoints
+
+hieralg_mean_changepoints <- segment(
+  D_genetic,
+  likelihood = penalized_mean_likelihood,
+  algorithm = "hierarchical"
+)$changepoints
+
+hybrid_mean_changepoints <- segment(
+  D_genetic,
+  likelihood = penalized_mean_likelihood,
+  algorithm = "hybrid"
+)$changepoints
+
+hybrid_mean_changepoints_threshold <- segment(
+  D_genetic,
+  likelihood = penalized_mean_likelihood,
+  algorithm = "hybrid",
+  threshold = 4
+)$changepoints
+
+tribble(
+  ~`Description`,
+    ~`Changepoints`,
+      ~`Hausdorff Distance`,
+  "Expected solution",
+    comma_format(expected_mean_example),
+      deviation(expected_mean_example),
+  "Exact algorithm estimate",
+    comma_format(exact_mean_changepoints),
+      deviation(exact_mean_changepoints),
+  "Hierarchical algorithm estimate",
+    comma_format(hieralg_mean_changepoints),
+      deviation(hieralg_mean_changepoints),
+  "Hybrid algorithm estimate with threshold 50",
+    comma_format(hybrid_mean_changepoints),
+      deviation(hybrid_mean_changepoints),
+  "Hybrid algorithm estimate with threshold 4",
+    comma_format(hybrid_mean_changepoints_threshold),
+      deviation(hybrid_mean_changepoints_threshold)
+) %>%
+  kable(caption="Comparison of solutions of different algorithms
+to segmenting the data set described in (ref:eq-geneticexample),
+measuring how far each solution is from the ideal
+solution using the Hausdorff distance.")
+```
 
