@@ -76,9 +76,9 @@ C12 <- X5 - X6
 C13 <- X6
 C14 <- X5 + X6
 C15 <- X5
-D <- cbind(C1, C2, C3, C4, C5, C6, C7, C8,
+D_example <- cbind(C1, C2, C3, C4, C5, C6, C7, C8,
            C9, C10, C11, C12, C13, C14, C15)
-head(D) %>%
+head(D_example) %>%
   kable(caption="Sample values of the correlated random
         variables defined in (ref:eq-examplecolumns).")
 ```
@@ -90,11 +90,11 @@ It's possible to identify the segments in the matrix $D$ with a penalized versio
 (ref:eq-examplecolumns) \@ref(eq:examplecolumns)
 
 ```{r results-multivariate-penalized}
-penalized = function(X) multivariate(X) - 2 ^ ncol(X)
+penalized_multivariate = function(X) multivariate(X) - 2 ^ ncol(X)
 
 results_multivariate_penalized <- segment(
-  D,
-  likelihood = penalized,
+  D_example,
+  likelihood = penalized_multivariate,
   algorithm = "exact"
 )
 
@@ -110,7 +110,7 @@ the original function favors bigger segments. The answer provided by the `segmen
 in that scenario would actually be all the columns in the $D$ matrix, as shown in Table \@ref(tab:results-multivariate-non-penalized).
 
 ```{r results-multivariate-non-penalized}
-segment(D, likelihood = multivariate, algorithm = "exact") %>%
+segment(D_example, likelihood = multivariate, algorithm = "exact") %>%
   print_results_table(
     caption="Results of segmentation usign a non-penalized
       multivariate likelihood")

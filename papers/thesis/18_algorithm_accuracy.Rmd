@@ -103,9 +103,88 @@ tribble(
 ) %>% column_spec(2, width="15em")
 ```
 
-In Table \@ref(tab:hausdorff-real-data-comparison) we can see
-the distance to the ideal is gradually decreased more adequate
-parameters are used to compute the segment estimates for the
-segmentation estimate. This improvement reflects the progress
-that can be observed in gradually in Figures \@ref(fig:berlin-non-penalized), \@ref(fig:berlin-auto-penalized), \@ref(fig:berlin-adjusted-penalized) and \@ref(fig:plot-results-rescaled).
+In Table \@ref(tab:hausdorff-real-data-comparison) we can see the distance to
+the ideal is gradually decreased more adequate parameters are used to compute
+the segment estimates for the segmentation estimate. This improvement reflects
+the progress that can be observed in gradually in Figures
+\@ref(fig:berlin-non-penalized), \@ref(fig:berlin-auto-penalized),
+\@ref(fig:berlin-adjusted-penalized) and \@ref(fig:plot-results-rescaled).
+
+## Accuracy of algorithms using different algorithms
+
+We want to measure how well the different algorithms provided in the Segmentr
+package find the segments in the example simulation described in
+\@ref(eq:examplecolumns). Since the simulation was arbitrarily built, we know
+what the exact solution to the segmentation problem is.
+
+
+```{r hausdorff-multivariate-comparison}
+expected_multivariate_example <- c(6, 11)
+
+deviation <- partial(
+  segment_distance,
+  changepoints2=expected_multivariate_example
+)
+
+exact_multivariate_changepoints <- segment(
+  D_example,
+  likelihood = penalized_multivariate,
+  algorithm = "exact"
+)$changepoints
+
+hieralg_multivariate_changepoints <- segment(
+  D_example,
+  likelihood = penalized_multivariate,
+  algorithm = "hierarchical"
+)$changepoints
+
+hybrid_multivariate_changepoints <- segment(
+  D_example,
+  likelihood = penalized_multivariate,
+  algorithm = "hybrid"
+)$changepoints
+
+hybrid_multivariate_changepoints_threshold <- segment(
+  D_example,
+  likelihood = penalized_multivariate,
+  algorithm = "hybrid",
+  threshold = 4
+)$changepoints
+
+tribble(
+  ~`Description`,
+    ~`Changepoints`,
+      ~`Hausdorff Distance`,
+  "Expected solution",
+    comma_format(expected_multivariate_example),
+      deviation(expected_multivariate_example),
+  "Exact algorithm estimate",
+    comma_format(exact_multivariate_changepoints),
+      deviation(exact_multivariate_changepoints),
+  "Hierarchical algorithm estimate",
+    comma_format(hieralg_multivariate_changepoints),
+      deviation(hieralg_multivariate_changepoints),
+  "Hybrid algorithm estimate with threshold 50",
+    comma_format(hybrid_multivariate_changepoints),
+      deviation(hybrid_multivariate_changepoints),
+  "Hybrid algorithm estimate with threshold 4",
+    comma_format(hybrid_multivariate_changepoints_threshold),
+      deviation(hybrid_multivariate_changepoints_threshold)
+) %>%
+  kable(caption="Comparison of solutions of different algorithms
+to segmenting the data set described in (ref:eq-examplecolumns),
+measuring how far each solution is from the ideal
+solution using the Hausdorff distance.")
+```
+
+Therefore, in Table \@ref(tab:hausdorff-multivariate-comparison) we can see the
+comparison of different algorithms with different parameters. We notice the
+"exact" algorithm manages to properly match the expected change points
+solution, whereas the "hierarchical" algorithm find an extra segment, which
+causes the Hausdorff distance to be bigger than zero. The two "hybrid"
+algorithm cases are interesting in the sense it that it shows how to algorithm
+works by either adopting the exact or the hierarchical algorithm depending on
+the threshold and the size of the segment being analyzed. When the threshold
+argument is large, it applies the exact algorithm to the data set, whereas when
+the threshold is small, it applies the hierarchical algorithm instead.
 
