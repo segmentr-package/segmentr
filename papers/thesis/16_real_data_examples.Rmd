@@ -68,7 +68,7 @@ which suggests it's possible to fit linear regressions for each of the upwards o
 trend segments. So, a "linear regression likelihood" function is proposed, which should
 return a higher value the better a linear regression fits in a given segment. By intuition,
 we expect the likelihood function to segment the dataset approximately to the way the vertical
-lines are placed in Figure \@ref(fig:berlin-ideal). The indices picked to represent each segment are available in Table \@ref(tab:berlin-ideal-table).
+lines are placed in Figure \@ref(fig:berlin-ideal). The indices picked to represent each segment are available in Table \@ref(tab:berlinexpectedtable).
 
 ```{r berlin-ideal, fig.cap = "Manual segmentation of the weather data picked according to intuition"}
 expected_berlin <- list(
@@ -79,7 +79,7 @@ expected_berlin <- list(
 plot_results(expected_berlin, berlin)
 ```
 
-```{r berlin-ideal-table}
+```{r berlinexpectedtable}
 print_results_table(
   expected_berlin,
   caption="Expected values to be found when segmenting the Berlin dataset"
@@ -147,25 +147,25 @@ multivariate likelihood, assumes the segments' likelihoods to be structured in
 a hierarchical manner, with a combination of two neighboring segments having
 being selected as an intermediate step before evaluating the ideal change
 points of the data set. The segmentation results can be seen in Table
-\@ref(tab:results-non-penalized), and they are also plotted togetheer with the
+\@ref(tab:resultsnonpenalized), and they are also plotted togetheer with the
 weather data in Figure \@ref(fig:berlin-non-penalized).
 
-```{r results-non-penalized}
-results <- segment(
+```{r resultsnonpenalized}
+results_non_penalized <- segment(
   berlin,
   likelihood = lm_likelihood,
   algorithm = "hierarchical"
 )
 
 print_results_table(
-  results,
+  results_non_penalized,
   caption="Results of the segmentation algorithm
   using a non-penalized likelihood function"
 )
 ```
 
 ```{r berlin-non-penalized, fig.cap = "Berlin weather data segmented using a non-penalized likelihood function"}
-plot_results(results, berlin)
+plot_results(results_non_penalized, berlin)
 ```
 
 In Figure \@ref(fig:berlin-non-penalized), it's possible see many very short
@@ -231,21 +231,21 @@ s_2 & = \frac{4 \log(P_s)}{L}
 
 So, a penalized likelihood version of the function is created with
 `auto_penalize()` and then used with `segment()`. The results of the
-segmentation can be seen in Table \@ref(tab:results-auto-penalized), and it's
+segmentation can be seen in Table \@ref(tab:resultsautopenalized), and it's
 possible to the segments with the weather data in Figure
 \@ref(fig:berlin-auto-penalized).
 
-```{r results-auto-penalized}
+```{r resultsautopenalized}
 penalized_likelihood <- auto_penalize(berlin,
                                       lm_likelihood)
-results <- segment(
+results_auto_penalized <- segment(
   berlin,
   likelihood = penalized_likelihood,
   algorithm = "hierarchical"
 )
 
 print_results_table(
-  results,
+  results_auto_penalized,
   caption="Results of the segmentation algorithm
   using an auto-penalized likelihood function"
 )
@@ -253,35 +253,35 @@ print_results_table(
 
 
 ```{r berlin-auto-penalized, fig.cap = "Berlin weather data segmented using an auto-penalized likelihood function"}
-plot_results(results, berlin)
+plot_results(results_auto_penalized, berlin)
 ```
 
 The function above found two segments, the last of which was still quite large, which suggests the
 `big_segment_penalty` argument needs to be increased to avoid that type of segment in the function.
 So, by increasing it's value, from the default of $10$, all the way up to $100$, we run the results
-again with the `segment()` function. The results can be seen in \@ref(tab:results-adjusted-penalized),
+again with the `segment()` function. The results can be seen in \@ref(tab:resultsadjustedpenalized),
 and it's possible to the segments with the weather data in Figure \@ref(fig:berlin-adjusted-penalized).
 
-```{r results-adjusted-penalized}
+```{r resultsadjustedpenalized}
 penalized_likelihood <- auto_penalize(
   berlin,
   lm_likelihood,
   big_segment_penalty = 1000
 )
-results_berlin <- segment(
+results_adjusted_penalized <- segment(
   berlin,
   likelihood = penalized_likelihood,
   algorithm = "hierarchical"
 )
 print_results_table(
-  results_berlin,
+  results_adjusted_penalized,
   caption="Results of the segmentation algorithm
   using an adjusted penalized likelihood function"
 )
 ```
 
 ```{r berlin-adjusted-penalized, fig.cap="Berlin weather data segmented using an adjusted penalized likelihood function"}
-plot_results(results_berlin, berlin)
+plot_results(results_adjusted_penalized, berlin)
 ```
 
 Even with the new adjusted `penalized_likelihood`, the segments seen in Figure
@@ -326,24 +326,24 @@ monthly_berlin %>%
 
 A new `penalized_function` is then built and applied to the monthly data set
 using `segment()`, with the results being shown in Table
-\@ref(tab:downres-auto-penalized), and with we also plot it with weather data
+\@ref(tab:downresautopenalized), and with we also plot it with weather data
 in Figure \@ref(fig:downsampled-auto-penalized).
 
-```{r downres-auto-penalized}
+```{r downresautopenalized}
 penalized_likelihood <- auto_penalize(
   monthly_berlin,
   lm_likelihood,
   small_segment_penalty = 100
 )
 
-results <- segment(
+results_downscaled <- segment(
   monthly_berlin,
   likelihood = penalized_likelihood,
   algorithm = "exact"
 )
 
 print_results_table(
-  results,
+  results_downscaled,
   caption="Results of the segmentation algorithm
     using an auto-penalized likelihood function over
     downsampled berlin data"
@@ -351,11 +351,59 @@ print_results_table(
 ```
 
 ```{r downsampled-auto-penalized, fig.cap="Downsampled Berlin monthly weather data segmented using an auto penalized likelihood function"}
-plot_results(results, monthly_berlin)
+plot_results(results_downscaled, monthly_berlin)
 ```
 
-With the exact solution, made possible with the granularity reduction, we noticed the data set is segmented closer
-to what the ideal solution would be, as the algorithm as able to evaluate all of the possibilities.
+In order to make the solution comparison clearer, it's possible to
+rescale the `exact` solution to the monthly sampled dataset to the
+daily sampled dataset by applying a linear trasformation of
+multiplying all the change points for the number of columns in the
+daily dataset and dividing it by the number of columns in the
+monthly dataset, i.e. each rescaled change point $C_i$ relates to
+the original change point $c_i$ as described in equation
+\@ref(eq:rescaled-change-points), in which $i$ is the index of
+each change point estimated with the monthly data set, $N_M$
+represents the number of columns in the monthly Berlin weather
+data set and $N_B$ represents the number of columns in the daily
+Berlin data set, in the original form provided by the Segmentr
+package.
+
+\begin{equation}
+C_i = \left \lfloor{c_i \frac{N_B}{N_M}} \right \rfloor
+(\#eq:rescaled-change-points)
+\end{equation}
+
+After applying that transformation, the results can be seen in
+Table \@ref(tab:resultsrescaled), as well as the plot along with
+the daily graph in Figure \@ref(fig:plot-results-rescaled)
+
+```{r resultsrescaled}
+rescaled_changepoints <- round(
+  results_downscaled$changepoints
+  * ncol(berlin) / ncol(monthly_berlin)
+)
+
+results_rescaled <- with_segments(
+  changepoints=rescaled_changepoints,
+  len=ncol(berlin)
+)
+
+print_results_table(
+  results_rescaled,
+  caption="Results of the segmentation algorithm
+    using an auto-penalized likelihood function over
+    downsampled berlin data, but rescaled to fit the
+    original data dimensions"
+)
+```
+
+```{r plot-results-rescaled, fig.cap="Rescaled segments estimated for a downsampled monthly weather data of the Berlin data set using an auto penalized likelihood function"}
+plot_results(results_rescaled, berlin)
+```
+
+With the exact solution, made possible with the granularity reduction, we
+noticed the data set is segmented closer to what the ideal solution would be,
+as the algorithm as able to evaluate all of the possibilities.
 
 ## A non-usual likelihood function
 

@@ -59,3 +59,16 @@ plot_curve <- function(expr, from, to,
   y <- map_dbl(x, expr)
   plot_func(x, y, ...)
 }
+
+comma_format <- function (vec) paste(vec, collapse=", ")
+
+with_segments <- function (changepoints, len) {
+  starts <- c(1, changepoints)
+  ends <- c(changepoints - 1, len)
+  segments <- mapply(seq, starts, ends, SIMPLIFY=FALSE)
+
+  list(
+    segments=segments,
+    changepoints=changepoints
+  )
+}

@@ -88,7 +88,7 @@ library(segmentr)
 library(tibble)
 library(magrittr)
 knitr::opts_chunk$set(
-  cache=FALSE,
+  cache=TRUE,
   echo=FALSE
 )
 ```
