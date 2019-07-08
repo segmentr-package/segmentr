@@ -1,6 +1,7 @@
 # Considerations on performance
 
-```{r, code = readLines("helper.R")}
+```{r}
+source("helper.R")
 ```
 
 This code shows a handful of attempts that were made in actually trying to execution
