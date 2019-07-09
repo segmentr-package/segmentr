@@ -1,29 +1,51 @@
 # Main Definition
 
-Consider a matrix ${\X} \in \R^{n\times p}$ of  real data (discrete or
-continuous), where $p$ is the number of  columns (variables) and $n$ is the
-sample size (number of individuals). We assume the individuals are not related
-and therefore the rows of ${\X}$ are independent.
+In this chapter we explain the problem by providing definitions of consepts
+and build equations that gradually help us explain the problem and make the
+case for our solution.
 
-For $j\in \{1,\dotsc, p\}$ we denote by ${\X}^{j}$ the $j$th column of
-${\bf X}$ and given an interval of contiguous variables $I\subset\{1,\dotsc, p\}$ we
-denote by ${\X}_I$ the sub-matrix with columns corresponding to elements of
-$I$.
+## A sequence of random variables and its segments
 
-In this context we assume there is a sequence of intervals (a partition)
-$S_0=\{I_1,\dotsc, I_k\}$ covering the entire range of variables  such that  the
-distribution of ${\X}$ is `homogeneous` inside each block $I$, that is
-${\X}^j_i \sim f_{I(j)} \quad\text{ for all }i=1,\dotsc, n$, where $I(j)$ is
-the unique interval in $S_0$ containing  marker $j$.
+Let $X = (X_1, \dots , X_m)$ be a vector of random variables whose values are
+taken on a set of interest $S$, representing the problem to be analyzed. Let
+each random variable $X_j$, with $1 \le j \le m$, has its own probability
+distribution. We say an index $2 \le c_k \le m$ is a *change point* if the
+random variables $X_1, \dots, X_{c_k - 1}$ are independent from random
+variables $X_{c_k}, \dots, X_m$, with $c_k \in C$ and $C = \{c_1, \dots, c_t\}$
+representing the set of a total of $t$ change points that can exist in $X$.
 
-The function  $f_{I(j)}$ represents a density function in the case of continuous
-random variables or a probability mass function in the case of discrete random
-variables.  Moreover we assume the sequence $S_0=\{I_1,\dots, I_k\}$ is
-`minimal` in the sense that we can not merge two subsequent intervals and
-obtain an equivalent model. This is equivalent to assume that
-$f_{I_\ell}\neq f_{I_{\ell+1}}$ for all $\ell=1, \dots, k-1$.
+For the sake of simplicity, let $c_0 = 1$ and $c_{t+1} = m + 1$. Then, we
+define a segment as being the sequence of random variables $S_k = X_{c_k},
+\dots, X_{c_{k+1}-1}$, with $0 \le k \le m$. Also, because the random variables
+in each segment are independent from the ones in the other segments, we say the
+segments are independent from each other.
 
-Observe that we are not assuming independence between the columns of ${\X}$,
-this is an additional assumption that depends on the specific application.
-Moreover, the independence between the rows of ${\X}$ could also be ignored,
-but we assume it by simplicity.
+## The segmentation problem
+
+Let $D$ be a $n \times m$ matrix with n rows and m columns, in which each
+column $D_j$, with $1 \le j \le m$, is a vector of observations of the
+random variable $X_j$, i.e. $D$ is a set of $n$ observations of the
+random variables vector $X$, with each row representing a different
+observation.
+
+Given $D$ as being known, the segmentation problem is defined as estimating the
+set of change points $C$ which maximize the total likelihood of all segments in
+the problem. In other words, $C = arg\,max\left\{\mathcal{L}(C|X=D)\right\}$,
+in which the argument is the value each ${c_1,\dots\, c_t}$ and $L$ is the
+likelihood function of the entire data set. Since the segments are independent
+from each other, then $\mathcal{L}(C) = \sum_{k=1}^t L(S_k)$, in which $L(S_k)$
+represents the likelihood of the segment $L(S_k)$. Notice the segment
+likelihood function $L$ is left as an input variable to the segmentation
+problem, which ultimately the set of change points $C$ is a function os $L$ and
+the data set that represents $X$, i.e. $C = s(L, X)$, in which $s(L, X)$ is a
+segmentation function and Segmentr provides a few implementations of
+segmentation function.
+
+Notice that Segmentr is a generalization of the work described in [@base-paper],
+in which the random variables of $X$ have values taken from finite alphabets
+and $L$ is the multivariate estimate of discrete variables. Even though an
+efficient version of the multivariate function is provided in Segmentr, the
+fact $L$ is an input to the function means it can be applied to many different
+scenarios in which $X$ can manifest itself, e.g. correlation of segments
+in genetic data, runs of homozygosis in genetic data or even upwards or downwards
+trends in weather data, all of which have examples shown in this paper.
