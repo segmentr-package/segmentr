@@ -24,56 +24,59 @@ paperize: a4
 fontsize: 11pt
 abstract-text: |
   \chapter*{Abstract}
-  
+
   \noindent Mello, Thales. \textbf{An R Package for Change Point Detection}.
   2019. 61 f.
   Dissertação (Mestrado) - Instituto de Matemática e Estatística,
   Universidade de São Paulo, São Paulo, 2010.
-  
+
   This dissertation explores the development of a package in the R
   programming language in order to detect change points in a data set to
   be analyzed, by using a user-defined likelihood function to validate
   the set of segments according to with a desired criterion.
-  
+
   In this work we describe the search algorithms implemented by the
   package, exact, hierarchical and mixed, each one having characteristics of
   performance and quality of the results distinct from the others.
-  
+
   Finally, we explore some use-cases for the package, as well as some
   attempts at performance optimization, exploring the implementation of
   critical sections of code in low-level programming languages, as try to
   make use of parallel computing.
-  
+
   \noindent \textbf{Keywords:} segment, change-point, likelihood, R-package.
 
 resumo-text: |
   \chapter*{Resumo}
-  
+
   \noindent Mello, Thales. \textbf{Um pacote R para detectar pontos de mudança}.
   2019. 61 f.
   Dissertação (Mestrado) - Instituto de Matemática e Estatística,
   Universidade de São Paulo, São Paulo, 2010.
-  
-  Esta dissertação explora o desenvolvimento de um pacote da lingaugem
-  de programação R com o objetivo de detectar pontos de mudança em um
-  conjunto de dados a ser analizado e utilizando para tal uma função de
-  verossimilhança definida pelo usuário para fazer a validação do
-  conjunto de segmentos de acordo com um critério desejado.
-  
+
+  Esta dissertação explora o desenvolvimento de um pacote da linguagem de
+  programação R com o objetivo de detectar pontos de mudança em um conjunto
+  de dados a ser analisado. Os pontos de mudança são estimados com base em
+  uma função de verossimilhança de segmentos, a qual é escolhida de acordo
+  com o tipo de problema que se deseja analisar. Os casos de uso abordados
+  neste trabalho são (i) segmentos como blocos independentes de variáveis
+  aleatória discretas e (ii) segmentos como blocos de variáveis aleatórias
+  com mesmo parâmetro de regressão, sendo demonstrado um exemplo com
+  regressão linear e outro com a média dos valores numéricos do segmento.
+
   Neste trabalho são descritos os algorítmos de busca implementados pelo
-  pacote, exato, hierárquico e misto, em que cada um possui
-  características de performance e qualidade dos resultados encontrdos
-  diferentes.
-  
+  pacote (exato, hierárquico e misto), em que cada um possui características
+  de performance e exatidão das estimativas próprios de cada algoritmo.
+
   Por fim, são exploradas algumas aplicações de uso do pacote, bem como
   algumas tentativas de otimização de performance, explorando
   implementação de trechos críticos do código em linguagens de baixo
   nível, bem como valendo-se também do uso de computação paralela.
-  
+
   \noindent \textbf{Palavras-chave:} segment, change-point, likelihood, R-package.
 acknowledgements-text: |
   \chapter*{Acknowledgements}
-  
+
   I thank Handley Wickham, for his work in several R packages and his
   tutorial on the development of R packages, Yihui Xie for his work in
   the bookdown package, Bruno M. Castro and Florencia Leonardi, for their
