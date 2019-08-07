@@ -1,25 +1,9 @@
 # Solution Estimation
 
-In this chapter, we describe the equation that gives an answer to finding the minimal
-set of intervals $S_0=\{I_1,\dotsc, I_k\}$, and we also we explore the solutions
-are implemented at the same time as giving some alternatives to simplify the search
-path and find an approximate solution.
-
-## Model Selection Criterion
-
-We propose a method to estimate this minimal set of intervals $S_0=\{I_1,\dotsc, I_k\}$
-by optimizing a criterion over all possible sets of intervals, namely
-
-\begin{equation}\label{opprob}
-\hat S \;=\; \underset{S}{\arg\max}\; \Bigl\{ \sum_{I\in S} ( \text{pen}({\X}_I)) \Bigr\}\,,
-\end{equation}
-where **lik** is a likelihood function of the ${\X}_I$ segment.
-
-The solution so the equation is usually done with dynamic programming, however the
-search path the algorithm takes might take a long time evaluating all the possible
-combinations to give the best result, or might as well make some assumptions to
-prune the search path and give an approximate result. A few alternatives are
-explored.
+In this chapter, we discuss the process to solve \@ref(eq:definesegmentation)
+and explore an solution involving dynamic programming. Because the exact
+solution to this problem has quadratic complexity, we also discuss some
+alternatives that simplify the search path and provide an approximate solution.
 
 ## Exact Algorithm
 
@@ -63,7 +47,7 @@ is described below.
 - for each column $i$ in the data set
 - compute the total likelihood $l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})$ if $i \ne 1$
 - find $i$ for which $l_i$ is maximum
-- if $l_i < \text{lik}(X_{1:p})$ return empty set as result of current function call
+- if $l_i \lt \text{lik}(X_{1:p})$ return empty set as result of current function call
 - recursively find the set of change points $C_L$ by calling the algorithm on the left segment $X_{1:i-1}$
 - recursively find the set of change points $C_R$ by calling the algorithm on the right segment $X_{i:p}$
 - return $C=C_L \cup C_R \cup \{i\}$ as result of current function call
@@ -74,19 +58,19 @@ because of the strong assumption the data set has a hierarchical likelihood beha
 doesn't hold true for many situations, as it will be seen in more detail in the next chapters,
 and the use of this algorithm should done with care.
 
-## Hybrid lgorithm
+## Hybrid algorithm
 
 The hybrid algorithm is a modified version of the hierarchical algorithm, in which it will start searching the
 combinations using the hierarchical approach, and if the segments become smaller than a certain threshold,
 it will try to find the exact segments with the exact algorithm. The procedure would be as follow:
 
 - let $d$ be the current data set we want to segment
-- if the number of columns of $d$ is $p_d < k$, in which $k$ is a predefined threshold, return the set of
+- if the number of columns of $d$ is $p_d \lt k$, in which $k$ is a predefined threshold, return the set of
   change points calculated by the exact algorithm.
 - for each column $i$ in the data set
 - compute the total likelihood $l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})$ if $i \ne 1$
 - find $i$ for which $l_i$ is maximum
-- if $l_i < \text{lik}(X_{1:p})$ return empty set as result of current function call
+- if $l_i \lt \text{lik}(X_{1:p})$ return empty set as result of current function call
 - recursively find the set of change points $C_L$ by calling the algorithm on the left segment $X_{1:i-1}$
 - recursively find the set of change points $C_R$ by calling the algorithm on the right segment $X_{i:p}$
 - return $C=C_L \cup C_R \cup \{i\}$ as result of current function call
