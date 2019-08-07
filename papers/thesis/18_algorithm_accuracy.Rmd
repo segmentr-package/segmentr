@@ -4,31 +4,10 @@
 source("helper.R")
 ```
 
-Given different solutions obtained by the `segment` function, it's often necessary to compare them with each other. Therefore, it's useful to define a distance measure to compare two sets of estimated change points.
-
-## The Hausdorff distance
-
-As defined in [@topology], the Haurdorff distance is a measure of
-how far two subsets from a metric space are from one another. It's
-defined as the biggest of all the distances from a point in one
-set to the closest point in the other set, which is expressed
-mathematically by the equation defined in
-\@ref(eq:hausdorffformula), in which $X$ and $Y$ represent sets
-given as inputs to the function, $d(x, y)$ represents a distance
-function defined in the metric space $S$ such that $x, y \in S$.
-
-\begin{equation}
-d_H(X,Y) = \max\left\{\,\sup_{x \in X} \inf_{y \in Y} d(x,y)\, ,\, \sup_{y \in Y} \inf_{x \in X} d(x,y)\,\right\}
-(\#eq:hausdorffformula)
-\end{equation}
-
-Therefore, considering that a set of change points is a subset of
-the indices of the column indices in a data set, if we define the
-distance $d$ as the absolute value of two given numbers, we can
-define the distance between two change points as the Hausdorff
-distance between change point sets. One interesting application
-of this is that it can be used to measure the distance of
-an estimated set of change points to a reference solution.
+Given different solutions obtained by the `segment` function, it's often
+necessary to compare them with each other. For that, the Hausdorff distance,
+defined in Chapter \@ref(the-hausdorff-distance), can be used to measure a
+distance between two sets of estimated change points.
 
 ## Accuracy of estimates for the Berlin dataset
 

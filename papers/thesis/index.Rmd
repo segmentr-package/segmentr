@@ -78,10 +78,11 @@ acknowledgements-text: |
   \chapter*{Acknowledgements}
 
   I thank Bruno M. Castro and Florencia Leonardi, for their work in the paper
-  that inspired this project,Handley Wickham, for his work in several R packages
-  and his tutorial on the development of R packages, Yihui Xie for his work in
-  the bookdown package, . Without their contributions to the community, none of
-  this would be possible.
+  that inspired this project. I also thank specially Handley Wickham, for his
+  work in several R packages and his tutorial on the development of R packages,
+  and Yihui Xie for his work in the bookdown package. Without their
+  contributions to the R community, none of this would be possible.
+
 ---
 
 ```{r message=FALSE, echo=FALSE}

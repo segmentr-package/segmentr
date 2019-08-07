@@ -29,7 +29,7 @@ X_j\sim F(\Theta_j)
 Putting it all together in \@ref(eq:definesegments), a data set $X$ with $t$
 change points has each segment represented by the sequence $S_k = X_{c_k},
 \dots, X_{c_{k+1}-1}$, with $c_k$ each representing a change point. In order to
-simplify equations, let $c_0 = 1$ and $c_{t+1} = m + 1$ even though they are
+simplify equations, let $c_0 = 1$ and $c_{t+1} = m + 1$, even though they are
 not change points.
 
 
@@ -125,3 +125,30 @@ many different scenarios in which $X$ can manifest itself, e.g. correlation of
 segments in genetic data, runs of homozygosis in genetic data or even upwards
 or downwards trends in weather data, all of which have examples shown in this
 paper.
+
+## The Hausdorff distance
+
+As the solution estimated by the segmentation function is a set of points, a
+measure is made necessary to compare the estimations provided by the different
+estimation algorithms that will be presented in Chapter
+\@ref(solution-estimation). The Hausdorff distance is commonly used as a
+measure of distance between two distinct sets, and will be used to to compare
+change point sets with differing number of elements each.
+
+[@topology] defines the Haurdorff distance as measure of how far two subsets
+from a metric space are from one another. It's defined as the biggest of all
+the distances from a point in one set to the closest point in the other set,
+which is expressed mathematically by the equation defined in
+\@ref(eq:hausdorffformula), in which $X$ and $Y$ represent sets given as inputs
+to the function, $d(x, y)$ represents a distance function defined in the metric
+space $S$ such that $x, y \in S$.
+
+\begin{equation}
+d_H(X,Y) = \max\left\{\,\sup_{x \in X} \inf_{y \in Y} d(x,y)\, ,\, \sup_{y \in Y} \inf_{x \in X} d(x,y)\,\right\}
+(\#eq:hausdorffformula)
+\end{equation}
+
+Since a set of change points is a subset of the column indices in a data set,
+we define the distance $d$ as the absolute value of two given numbers for
+the use cases analyzed in this paper.
+
