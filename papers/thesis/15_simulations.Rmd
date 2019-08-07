@@ -8,7 +8,10 @@ In order to exemplify the utility of this package, a handful of hypothetical
 data will be presented, together with a proposal of an appropriate likelihood
 function that is expected to segment the data in an expected manner.
 
-## Correlated random variables
+## Segments of Independent Variables
+
+In order to show compatibility with the work presented in [@base-paper], we analyze the
+same problem presented in their work.
 
 Let $C_1$, $C_2$, ..., $C_n$ a sequence of $n$ vectors of data points, each with $m$
 observations represented by $C_k = \{c_{k1},\ c_{k2},\ ...,\ c_{km}\}$, with

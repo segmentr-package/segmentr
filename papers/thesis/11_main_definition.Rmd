@@ -118,13 +118,12 @@ C = s(L, X) = arg\,max \left\{ \sum_{k=0}^t L(\Theta | S_k) \right\}
 
 In summary, Segmentr is a generalization of the work described in
 [@base-paper], in which the random variables of $X$ are taken from finite
-alphabets and $L$ is the multivariate estimate of discrete variables. Even
-though an efficient version of the multivariate function is provided in
-Segmentr, the fact $L$ is an input to the function means it can be applied to
-many different scenarios in which $X$ can manifest itself, e.g. correlation of
-segments in genetic data, runs of homozygosis in genetic data or even upwards
-or downwards trends in weather data, all of which have examples shown in this
-paper.
+alphabets and $L$ is the multivariate estimate of discrete variables. In this
+work, besides analyzing the same problem described in [@base-paper], the fact
+$L$ is a parameter the segmentation function means it can be applied to many
+different scenarios in which $X$ can manifest itself, e.g. segments with changes
+in the mean of columns, segments with different linear regression parameters.
+These cases are discussed in \@ref(simulations) and \@ref(real-data-examples).
 
 ## The Hausdorff distance
 
