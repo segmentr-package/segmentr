@@ -30,13 +30,17 @@ abstract-text: |
   Dissertação (Mestrado) - Instituto de Matemática e Estatística,
   Universidade de São Paulo, São Paulo, 2010.
 
-  This dissertation explores the development of a package in the R
-  programming language in order to detect change points in a data set to
-  be analyzed, by using a user-defined likelihood function to validate
-  the set of segments according to with a desired criterion.
+  This dissertation explores the development of a package for the R programming
+  language that allows the user to detect change points in a given data set.
+  The change points are estimated using a segment likelihood function, which is
+  chosen to suit the type of problem analyzed. The use cases mentioned in this
+  work are (i) segments as blocks of independent discrete variables; and (ii)
+  segments of random variables with a common regrassion parameter, for which a
+  case of linear regression blocks and a case of Bernoulli distribution blocks
+  are exemplified in this work.
 
-  In this work we describe the search algorithms implemented by the
-  package, exact, hierarchical and mixed, each one having characteristics of
+  This work also describes the search algorithms implemented by the
+  package (exact, hierarchical and mixed), each one having characteristics of
   performance and quality of the results distinct from the others.
 
   Finally, we explore some use-cases for the package, as well as some
