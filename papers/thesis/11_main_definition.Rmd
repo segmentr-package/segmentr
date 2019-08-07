@@ -27,9 +27,10 @@ X_j\sim F(\Theta_j)
 \end{equation}
 
 Putting it all together in \@ref(eq:definesegments), a data set $X$ with $t$
-change points has each segment represented by the sequence $S_k = X_{c_k}, \dots,
-X_{c_{k+1}-1}$, with $c_k$ each representing a change point. In order to simplify
-equations, let $c_0 = 1$ and $c_{t+1} = m + 1$ even though they are not change points.
+change points has each segment represented by the sequence $S_k = X_{c_k},
+\dots, X_{c_{k+1}-1}$, with $c_k$ each representing a change point. In order to
+simplify equations, let $c_0 = 1$ and $c_{t+1} = m + 1$ even though they are
+not change points.
 
 
 \begin{equation}
@@ -53,10 +54,10 @@ corresponding to the random variable $X_j$. Let $C$, defined in
 \@ref(eq:definechangepointset), be the set of change points in the data set.
 Since we have that all random variables within a segment have the same
 probability function parameter, let $L$ be the likelihood function whose
-maximizing argument, when given a segment $S_k$, is the probability distribution
-parameter $\Theta_k$, as shown in \@ref(eq:definesegmentlikelihood). Therefore,
-the segmentation problem is defined as the process of estimating the set of
-change points $C$.
+maximizing argument, when given a segment $S_k$, is the probability
+distribution parameter $\Theta_k$, as shown in
+\@ref(eq:definesegmentlikelihood). Therefore, the segmentation problem is
+defined as the process of estimating the set of change points $C$.
 
 \begin{equation}
 D =
@@ -77,7 +78,7 @@ C = \{ c_1, \dots, c_t \}
 \end{equation}
 
 \begin{equation}
-\Theta_k = arg\,min\left\{L(\Theta|S_k)\right\}
+\Theta_k = arg\,max\left\{L(\Theta|S_k)\right\}
 (\#eq:definesegmentlikelihood)
 \end{equation}
 
@@ -86,17 +87,18 @@ One approach to find the change points set $C$ is to maximize a likelihood
 function over the data set $D$ as shown in \@ref(eq:definemaximization).
 Considering the data set is compound by all the segments, and that each
 individual segment $S_k$ will maximize the likelihood $L$ for that portion of
-the data set, the likelihood of change points set $C$ can be defined as the sum of the
-likelihoods of all the segments as shown in \@ref(eq:definelikelihoodsum).
+the data set, the likelihood of change points set $C$ can be defined as the sum
+of the likelihoods of all the segments as shown in
+\@ref(eq:definelikelihoodsum).
 
 
 Notice that, in \@ref(eq:definemaximization) and in
 \@ref(eq:definelikelihoodsum), the segment likelihood function $L$ and the data
 set $X$ are parameters to the segmentation problem, which will ultimately be
-used to search for the set of change points $C$ using dynamic programming.
-So, let $s$ be a segmentation function such that $C = s(L, X)$. Segmentr
-provides a few implementations of segmentation function that can be used to
-solve the segmentation problem.
+used to search for the set of change points $C$ using dynamic programming. So,
+let $s$ be a segmentation function such that $C = s(L, X)$, as defined in \@ref(eq:definesegmentation). Segmentr provides a
+few implementations of segmentation function that can be used to solve the
+segmentation problem.
 
 \begin{equation}
 C = arg\,max\left\{ \lik \left(C | X = D\right)\right\}
@@ -104,15 +106,22 @@ C = arg\,max\left\{ \lik \left(C | X = D\right)\right\}
 \end{equation}
 
 \begin{equation}
-\lik (C) = \sum_{k=0}^t L(S_k) = \sum_{k=0}^t L(F(\Theta_{c_k} | S_k))
+\lik (C) = \sum_{k=0}^t L(S_k) = \sum_{k=0}^t L(\Theta | S_k)
 (\#eq:definelikelihoodsum)
 \end{equation}
 
-In summary, Segmentr is a generalization of the work described in [@base-paper],
-in which the random variables of $X$ have values taken from finite alphabets
-and $L$ is the multivariate estimate of discrete variables. Even though an
-efficient version of the multivariate function is provided in Segmentr, the
-fact $L$ is an input to the function means it can be applied to many different
-scenarios in which $X$ can manifest itself, e.g. correlation of segments
-in genetic data, runs of homozygosis in genetic data or even upwards or downwards
-trends in weather data, all of which have examples shown in this paper.
+\begin{equation}
+C = s(L, X) = arg\,max \left\{ \sum_{k=0}^t L(\Theta | S_k) \right\}
+(\#eq:definesegmentation)
+\end{equation}
+
+
+In summary, Segmentr is a generalization of the work described in
+[@base-paper], in which the random variables of $X$ are taken from finite
+alphabets and $L$ is the multivariate estimate of discrete variables. Even
+though an efficient version of the multivariate function is provided in
+Segmentr, the fact $L$ is an input to the function means it can be applied to
+many different scenarios in which $X$ can manifest itself, e.g. correlation of
+segments in genetic data, runs of homozygosis in genetic data or even upwards
+or downwards trends in weather data, all of which have examples shown in this
+paper.
