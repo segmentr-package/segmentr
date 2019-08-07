@@ -5,7 +5,7 @@
 The purpose of this work is too have the `segmentr` to be as accessible as possible.
 Because of that, extra care was put into making it easy to install and use.
 
-## Instalation
+## Installation
 
 Given the algorithms and their applications discussed in [@base-paper],
 the Segmentr package for R is proposed to help researchers segment their
@@ -44,13 +44,8 @@ segment(
 )
 ```
 
-## Tutorial
-
-In order to learn how to use the package to
-analyze data, a vignette version of Chapter
-\@ref(real-data-examples) is provided, such that
-it can be used to follow the examples and learn
-how to use the package.
+Also, a vignette version of Chapter \@ref(real-data-examples) is provided, and the user of the package can
+open it directly in R with embedded code examples and follow along the analysis of the data set.
 
 ```{r eval=FALSE}
 vignette("segmentr")

@@ -48,9 +48,12 @@ C_{15} & = X_5
 (\#eq:examplecolumns)
 \end{equation}
 
-To illustrate, consider the following code, which defines $X_1, ..., X_6$ and $C_1, ..., C_{15}$ as specified in \@ref(eq:examplecolumns), and also consider the matrix $D$ as the column binding of the vectors $C_1, ..., C_{15}$.
+To illustrate, consider the following code, which defines $X_1, ..., X_6$ and
+$C_1, ..., C_{15}$ as specified in \@ref(eq:examplecolumns), and also consider
+the matrix $D$ as the column binding of the vectors $C_1, ..., C_{15}$.
 
-(ref:sample-columns-caption) Sample values of the correlated random variables defined in \@ref(eq:examplecolumns).
+(ref:sample-columns-caption) Sample values of the correlated random variables
+defined in \@ref(eq:examplecolumns).
 
 ```{r sample-columns}
 n <- 100
@@ -105,9 +108,11 @@ print_results_table(
 )
 ```
 
-Notice it's important to use a penalized likelihood version of the `multivariate` function because
-the original function favors bigger segments. The answer provided by the `segment` package
-in that scenario would actually be all the columns in the $D$ matrix, as shown in Table \@ref(tab:results-multivariate-non-penalized).
+Notice it's important to use a penalized likelihood version of the
+`multivariate` function because the original function favors bigger segments.
+The answer provided by the `segment` package in that scenario would actually be
+all the columns in the $D$ matrix, as shown in Table
+\@ref(tab:results-multivariate-non-penalized).
 
 ```{r results-multivariate-non-penalized}
 segment(D_example, likelihood = multivariate, algorithm = "exact") %>%
@@ -118,13 +123,13 @@ segment(D_example, likelihood = multivariate, algorithm = "exact") %>%
 
 ## Segments with similar averages
 
-[@homozygosity] describes a process on how to find windows of
-contiguous homozygosity, i.e. segments in the genetic data in which the alleles
-are of the same type. This is of interest for a researching investigating
-diseases. Considering this problems scenario, Segmentr can be used to segment
-random variables $C_1, ..., C_n$ that represent genetic data, encoded as zero
-for homozygosity and one for heterozygosity, i.e. zero when the alleles are of
-the same type and one when the alleles are different.
+[@homozygosity] describes a process on how to find windows of contiguous
+homozygosity, i.e. segments in the genetic data in which the alleles are of the
+same type. This is of interest for a researching investigating diseases.
+Considering this problems scenario, Segmentr can be used to segment random
+variables $C_1, ..., C_n$ that represent genetic data, encoded as zero for
+homozygosity and one for heterozygosity, i.e. zero when the alleles are of the
+same type and one when the alleles are different.
 
 So, in order to use Segmentr to solve this problem, it's necessary
 to find a likelihood function that favors segments the homogeneity
@@ -186,7 +191,7 @@ X_{20} & \sim \text{Bern}(0.9)
 (\#eq:geneticexample)
 \end{equation}
 
-(ref:results-penalized-mean-caption) Results of segmentation by aplying the likelihood function defined in \@ref(eq:penalizedmeanlikelihood) to a sample of size 10 of the model defined in \@ref(eq:geneticexample).
+(ref:results-penalized-mean-caption) Results of segmentation by applying the likelihood function defined in \@ref(eq:penalizedmeanlikelihood) to a sample of size 10 of the model defined in \@ref(eq:geneticexample).
 
 (ref:eq-penalizedmeanlikelihood) \@ref(eq:penalizedmeanlikelihood)
 
@@ -226,5 +231,3 @@ segment(
       10 of the model defined in (ref:eq-geneticexample).
     ")
 ```
-
-

@@ -47,8 +47,8 @@ S_k = X_{c_k}, \dots, X_{c_{k+1}-1}
 
 ## The segmentation problem
 
-Let $D$ be a $n \times m$ matrix defined in \@ref(eq:definematrixd), with n
-rows and m columns. The matrix is comprised of $n$ samples of the vector of
+Let $D$ be a $n \times m$ matrix defined in \@ref(eq:definematrixd), with $n$
+rows and $m$ columns. The matrix is comprised of $n$ samples of the vector of
 random variables $X$, i.e. the column $j$ in the matrix has values
 corresponding to the random variable $X_j$. Let $C$, defined in
 \@ref(eq:definechangepointset), be the set of change points in the data set.
@@ -96,9 +96,9 @@ Notice that, in \@ref(eq:definemaximization) and in
 \@ref(eq:definelikelihoodsum), the segment likelihood function $L$ and the data
 set $X$ are parameters to the segmentation problem, which will ultimately be
 used to search for the set of change points $C$ using dynamic programming. So,
-let $s$ be a segmentation function such that $C = s(L, X)$, as defined in \@ref(eq:definesegmentation). Segmentr provides a
-few implementations of segmentation function that can be used to solve the
-segmentation problem.
+let $s$ be a segmentation function such that $C = s(L, X)$, as defined in
+\@ref(eq:definesegmentation). Segmentr provides a few implementations of
+segmentation function that can be used to solve the segmentation problem.
 
 \begin{equation}
 C = arg\,max\left\{ \lik \left(C | X = D\right)\right\}

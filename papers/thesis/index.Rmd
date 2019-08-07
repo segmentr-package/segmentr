@@ -4,7 +4,7 @@ title-formatted: "An R Package for \\linebreak Change Point Detection"
 main-author: "Thales Mello"
 advisor: "Florencia Leonardi"
 author:
-  - "Thales Melo"
+  - "Thales Mello"
   - "Florencia Leonardi"
 valuation-committee:
   - "Professor 1"
@@ -77,11 +77,11 @@ resumo-text: |
 acknowledgements-text: |
   \chapter*{Acknowledgements}
 
-  I thank Handley Wickham, for his work in several R packages and his
-  tutorial on the development of R packages, Yihui Xie for his work in
-  the bookdown package, Bruno M. Castro and Florencia Leonardi, for their
-  work in the paper that inspired this project. Without their
-  contributions to the community, none of this would be possible.
+  I thank Bruno M. Castro and Florencia Leonardi, for their work in the paper
+  that inspired this project,Handley Wickham, for his work in several R packages
+  and his tutorial on the development of R packages, Yihui Xie for his work in
+  the bookdown package, . Without their contributions to the community, none of
+  this would be possible.
 ---
 
 ```{r message=FALSE, echo=FALSE}
