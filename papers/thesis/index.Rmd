@@ -71,7 +71,7 @@ resumo-text: |
   Por fim, são exploradas algumas aplicações de uso do pacote, bem como
   algumas tentativas de otimização de performance, explorando
   implementação de trechos críticos do código em linguagens de baixo
-  nível, bem como valendo-se também do uso de computação paralela.
+  nível, bem como se valendo também do uso de computação paralela.
 
   \noindent \textbf{Palavras-chave:} segment, change-point, likelihood, R-package.
 acknowledgements-text: |
@@ -114,4 +114,8 @@ knitr::opts_chunk$set(
 \newcommand{\rs}{r\!:\!s}
 \newcommand{\1}{\mathbf 1}
 \newcommand{\R}{\mathbb R}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\lik}{\mathcal{L}}
+\newcommand{\lt}{<}
+\newcommand{\gt}{>}
 

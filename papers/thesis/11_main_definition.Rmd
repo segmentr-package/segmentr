@@ -1,47 +1,114 @@
 # Main Definition
 
-In this chapter we explain the problem by providing definitions of consepts
-and build equations that gradually help us explain the problem and make the
-case for our solution.
+In this chapter we explain the problem by providing definitions of concepts and
+build equations that gradually help us explain the problem and make the case
+for our solution.
 
 ## A sequence of random variables and its segments
 
-Let $X = (X_1, \dots , X_m)$ be a vector of random variables whose values are
-taken on a set of interest $S$, representing the problem to be analyzed. Let
-each random variable $X_j$, with $1 \le j \le m$, has its own probability
-distribution. We say an index $2 \le c_k \le m$ is a *change point* if the
-random variables $X_1, \dots, X_{c_k - 1}$ are independent from random
-variables $X_{c_k}, \dots, X_m$, with $c_k \in C$ and $C = \{c_1, \dots, c_t\}$
-representing the set of a total of $t$ change points that can exist in $X$.
+Let $X$ be a vector of random variables defined in
+\@ref(eq:definerandomvector), in which each $X_j$ belong a set $S$. The
+equation also shows all random variables $X_j$ have probability distribution
+$F$, each with parameter $\Theta_j$, such that $X_j \sim F(\Theta_j)$. A
+segment is defined as a sequence of indices such that $\Theta_a = \Theta_{a+1}
+= \dots = \Theta_b$ such that $1 \le a \le b \le m$, in each $a$ and $b$
+represent the first and last index of the segment, respectively. We also define
+a change point $c$ as being an index in which there is a change in the
+probability distribution parameters, i.e. $\Theta_{c-1} \ne \Theta_c$, for $c
+\ge 2$.
 
-For the sake of simplicity, let $c_0 = 1$ and $c_{t+1} = m + 1$. Then, we
-define a segment as being the sequence of random variables $S_k = X_{c_k},
-\dots, X_{c_{k+1}-1}$, with $0 \le k \le m$. Also, because the random variables
-in each segment are independent from the ones in the other segments, we say the
-segments are independent from each other.
+\begin{equation}
+\begin{gathered}
+X= (X_1, \dots , X_m) \\
+X_j\in S, \text{ for } 1 \le j \le m \text{ and } j \in \Z \\
+X_j\sim F(\Theta_j)
+\end{gathered}
+(\#eq:definerandomvector)
+\end{equation}
+
+Putting it all together in \@ref(eq:definesegments), a data set $X$ with $t$
+change points has each segment represented by the sequence $S_k = X_{c_k}, \dots,
+X_{c_{k+1}-1}$, with $c_k$ each representing a change point. In order to simplify
+equations, let $c_0 = 1$ and $c_{t+1} = m + 1$ even though they are not change points.
+
+
+\begin{equation}
+\begin{gathered}
+c_0 = 1\\
+c_{t+1} = m + 1 \\
+1 \lt c_{1} \lt \dots \lt c_k \lt \dots \lt c_t \lt m + 1 \\, \text{ for } 0 \le k \le t \text{ and } k \in \Z \\
+\Theta_{c_k} = \Theta_{c_k+1} = \dots = \Theta_{c_{k+1}-1} \\
+\Theta_{c_k - 1} \ne \Theta_{c_k}, \text{ for } 1 \le k \le t \text{ and } k \in \Z \\
+S_k = X_{c_k}, \dots, X_{c_{k+1}-1}
+\end{gathered}
+(\#eq:definesegments)
+\end{equation}
 
 ## The segmentation problem
 
-Let $D$ be a $n \times m$ matrix with n rows and m columns, in which each
-column $D_j$, with $1 \le j \le m$, is a vector of observations of the
-random variable $X_j$, i.e. $D$ is a set of $n$ observations of the
-random variables vector $X$, with each row representing a different
-observation.
+Let $D$ be a $n \times m$ matrix defined in \@ref(eq:definematrixd), with n
+rows and m columns. The matrix is comprised of $n$ samples of the vector of
+random variables $X$, i.e. the column $j$ in the matrix has values
+corresponding to the random variable $X_j$. Let $C$, defined in
+\@ref(eq:definechangepointset), be the set of change points in the data set.
+Since we have that all random variables within a segment have the same
+probability function parameter, let $L$ be the likelihood function whose
+maximizing argument, when given a segment $S_k$, is the probability distribution
+parameter $\Theta_k$, as shown in \@ref(eq:definesegmentlikelihood). Therefore,
+the segmentation problem is defined as the process of estimating the set of
+change points $C$.
 
-Given $D$ as being known, the segmentation problem is defined as estimating the
-set of change points $C$ which maximize the total likelihood of all segments in
-the problem. In other words, $C = arg\,max\left\{\mathcal{L}(C|X=D)\right\}$,
-in which the argument is the value each ${c_1,\dots\, c_t}$ and $L$ is the
-likelihood function of the entire data set. Since the segments are independent
-from each other, then $\mathcal{L}(C) = \sum_{k=1}^t L(S_k)$, in which $L(S_k)$
-represents the likelihood of the segment $L(S_k)$. Notice the segment
-likelihood function $L$ is left as an input variable to the segmentation
-problem, which ultimately the set of change points $C$ is a function os $L$ and
-the data set that represents $X$, i.e. $C = s(L, X)$, in which $s(L, X)$ is a
-segmentation function and Segmentr provides a few implementations of
-segmentation function.
+\begin{equation}
+D =
+  \begin{bmatrix}
+    x_{11} & \dots & x_{1j} & \dots & x_{1m} \\
+    \dots  & \dots & \dots  & \dots & \dots  \\
+    x_{i1} & \dots & x_{ij} & \dots & x_{im} \\
+    \dots  & \dots & \dots  & \dots & \dots  \\
+    x_{n1} & \dots & x_{nj} & \dots & x_{nm}
+  \end{bmatrix}_{n \times m}
+(\#eq:definematrixd)
+\end{equation}
 
-Notice that Segmentr is a generalization of the work described in [@base-paper],
+
+\begin{equation}
+C = \{ c_1, \dots, c_t \}
+(\#eq:definechangepointset)
+\end{equation}
+
+\begin{equation}
+\Theta_k = arg\,min\left\{L(\Theta|S_k)\right\}
+(\#eq:definesegmentlikelihood)
+\end{equation}
+
+
+One approach to find the change points set $C$ is to maximize a likelihood
+function over the data set $D$ as shown in \@ref(eq:definemaximization).
+Considering the data set is compound by all the segments, and that each
+individual segment $S_k$ will maximize the likelihood $L$ for that portion of
+the data set, the likelihood of change points set $C$ can be defined as the sum of the
+likelihoods of all the segments as shown in \@ref(eq:definelikelihoodsum).
+
+
+Notice that, in \@ref(eq:definemaximization) and in
+\@ref(eq:definelikelihoodsum), the segment likelihood function $L$ and the data
+set $X$ are parameters to the segmentation problem, which will ultimately be
+used to search for the set of change points $C$ using dynamic programming.
+So, let $s$ be a segmentation function such that $C = s(L, X)$. Segmentr
+provides a few implementations of segmentation function that can be used to
+solve the segmentation problem.
+
+\begin{equation}
+C = arg\,max\left\{ \lik \left(C | X = D\right)\right\}
+(\#eq:definemaximization)
+\end{equation}
+
+\begin{equation}
+\lik (C) = \sum_{k=0}^t L(S_k) = \sum_{k=0}^t L(F(\Theta_{c_k} | S_k))
+(\#eq:definelikelihoodsum)
+\end{equation}
+
+In summary, Segmentr is a generalization of the work described in [@base-paper],
 in which the random variables of $X$ have values taken from finite alphabets
 and $L$ is the multivariate estimate of discrete variables. Even though an
 efficient version of the multivariate function is provided in Segmentr, the
