@@ -1,7 +1,9 @@
 slice_segment <- function(data, start, end) data[, start:end, drop = FALSE]
 
 calculate_segments <- function(changepoints, num_variables) {
-  if (num_variables <= 0) return(list())
+  if (num_variables <= 0) {
+    return(list())
+  }
 
   points <- c(1, changepoints, num_variables + 1)
   foreach(start = head(points, -1), end = tail(points - 1, -1)) %do% start:end
@@ -15,7 +17,9 @@ calculate_segment_likelihoods <- function(results, newdata, likelihood) {
 }
 
 chunk <- function(x, n) {
-  if (n <= 1) return(list(x))
+  if (n <= 1) {
+    return(list(x))
+  }
   suppressWarnings(split(x, 1:n))
 }
 

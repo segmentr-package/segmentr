@@ -10,7 +10,9 @@ exact_segments <- function(
     max_segments <- num_variables
   }
 
-  if (num_variables == 0 || nrow(data) == 0) return(NULL)
+  if (num_variables == 0 || nrow(data) == 0) {
+    return(NULL)
+  }
 
   segment_likelihoods <- matrix(nrow = max_segments, ncol = num_variables)
   max_likehood_pos <- matrix(nrow = max_segments, ncol = num_variables)

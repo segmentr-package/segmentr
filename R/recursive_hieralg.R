@@ -6,7 +6,9 @@ recursive_hieralg <- function(
                               recursive_fn) {
   num_variables <- ncol(data)
 
-  if (num_variables == 0 || nrow(data) == 0) return(NULL)
+  if (num_variables == 0 || nrow(data) == 0) {
+    return(NULL)
+  }
 
   segment_likelihood <- function(start, end) {
     segment <- slice_segment(data, start, end)
@@ -31,7 +33,9 @@ recursive_hieralg <- function(
 
   current_position <- which.max(segment_likelihoods)
 
-  if (current_position == 1) return(NULL)
+  if (current_position == 1) {
+    return(NULL)
+  }
 
   segment_left <- slice_segment(data, 1, current_position - 1)
   positions_left <- recursive_fn(
