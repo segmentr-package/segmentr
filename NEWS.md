@@ -1,3 +1,10 @@
+# segmentr 0.2.0
+
+Iteration of the package, improving on the following:
+
+- Rewrite vignette improving on the method of research
+- Fix bug in the `exact` algorithm
+
 # segmentr 0.1.1
 
 Minor changes to documentation to solve release issues.
