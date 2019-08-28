@@ -244,7 +244,7 @@ to evaluate all of the possibilities.
 
 The exact algorithm does precisely compute all of the possibilities, but its $O(n^2)$ time complexity
 is quite prohibitive to run the computation on the entire data set. So we can actually make the computation
-timetolerable by reducing the granularity of the data, getting the monthly averages for each of the the
+time tolerable by reducing the granularity of the data, getting the monthly averages for each of the the
 measurement stations.
 
 ## Reducing granularity
@@ -365,7 +365,7 @@ With the adjusted parameters, the new penalized `rsquared_likelihood` was able t
 in a more accurate manner, despite the nature of the hierarchical algorithm. As discussed previously,
 we point the hierarchical algorithm is not adequate for the linear likelihood, as the grouping of
 neighboring segments under a macro-segment, an intermediate segment state under the hierarchical algorithm,
-has a unatractive likelihood, due to the presence of alternating trends. Because of this, the macro-segment
+has a unattractive likelihood, due to the presence of alternating trends. Because of this, the macro-segment
 is never picked by the algorithm during the computation process, and so the ideal change points are never
 picked at their ideal positions. In order to see it more clearly, take the first 547 data points of the Berlin
 data set, roughly one year and a half.

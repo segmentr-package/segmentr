@@ -11,3 +11,5 @@
 ^revdep$
 ^README\.Rmd$
 ^README-.*\.png$
+^doc$
+^Meta$
