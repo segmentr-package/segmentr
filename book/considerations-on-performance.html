@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2 Main Definition | An R Package for Change Point Detection</title>
-  <meta name="description" content="2 Main Definition | An R Package for Change Point Detection" />
+  <title>6 Considerations on performance | An R Package for Change Point Detection</title>
+  <meta name="description" content="6 Considerations on performance | An R Package for Change Point Detection" />
   <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2 Main Definition | An R Package for Change Point Detection" />
+  <meta property="og:title" content="6 Considerations on performance | An R Package for Change Point Detection" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2 Main Definition | An R Package for Change Point Detection" />
+  <meta name="twitter:title" content="6 Considerations on performance | An R Package for Change Point Detection" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="introduction.html"/>
-<link rel="next" href="solution-estimation.html"/>
+<link rel="prev" href="real-data-examples.html"/>
+<link rel="next" href="accuracy-of-algorithms.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -184,144 +184,258 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="main-definition" class="section level1">
-<h1><span class="header-section-number">2</span> Main Definition</h1>
-<p>In this chapter we explain the problem by providing definitions of concepts and
-build equations that gradually help us explain the problem and make the case
-for our solution.</p>
-<div id="a-sequence-of-random-variables-and-its-segments" class="section level2">
-<h2><span class="header-section-number">2.1</span> A sequence of random variables and its segments</h2>
-<p>Let <span class="math inline">\(X\)</span> be a vector of random variables defined in
-<a href="main-definition.html#eq:definerandomvector">(2.1)</a>, in which each <span class="math inline">\(X_j\)</span> belong a set <span class="math inline">\(S\)</span>. The
-equation also shows all random variables <span class="math inline">\(X_j\)</span> have probability distribution
-<span class="math inline">\(F\)</span>, each with parameter <span class="math inline">\(\Theta_j\)</span>, such that <span class="math inline">\(X_j \sim F(\Theta_j)\)</span>. A
-segment is defined as a sequence of indices such that <span class="math inline">\(\Theta_a = \Theta_{a+1} = \dots = \Theta_b\)</span> such that <span class="math inline">\(1 \le a \le b \le m\)</span>, in each <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>
-represent the first and last index of the segment, respectively. We also define
-a change point <span class="math inline">\(c\)</span> as being an index in which there is a change in the
-probability distribution parameters, i.e. <span class="math inline">\(\Theta_{c-1} \ne \Theta_c\)</span>, for <span class="math inline">\(c \ge 2\)</span>.</p>
-<p><span class="math display" id="eq:definerandomvector">\[\begin{equation}
-\begin{gathered}
-X= (X_1, \dots , X_m) \\
-X_j\in S, \text{ for } 1 \le j \le m \text{ and } j \in \mathbb Z\\
-X_j\sim F(\Theta_j)
-\end{gathered}
-\tag{2.1}
-\end{equation}\]</span></p>
-<p>Putting it all together in <a href="main-definition.html#eq:definesegments">(2.2)</a>, a data set <span class="math inline">\(X\)</span> with <span class="math inline">\(t\)</span>
-change points has each segment represented by the sequence <span class="math inline">\(S_k = X_{c_k}, \dots, X_{c_{k+1}-1}\)</span>, with <span class="math inline">\(c_k\)</span> each representing a change point. In order to
-simplify equations, let <span class="math inline">\(c_0 = 1\)</span> and <span class="math inline">\(c_{t+1} = m + 1\)</span>, even though they are
-not change points.</p>
-<p><span class="math display" id="eq:definesegments">\[\begin{equation}
-\begin{gathered}
-c_0 = 1\\
-c_{t+1} = m + 1 \\
-1 &lt;c_{1} &lt;\dots &lt;c_k &lt;\dots &lt;c_t &lt;m + 1 \\, \text{ for } 0 \le k \le t \text{ and } k \in \mathbb Z\\
-\Theta_{c_k} = \Theta_{c_k+1} = \dots = \Theta_{c_{k+1}-1} \\
-\Theta_{c_k - 1} \ne \Theta_{c_k}, \text{ for } 1 \le k \le t \text{ and } k \in \mathbb Z\\
-S_k = X_{c_k}, \dots, X_{c_{k+1}-1}
-\end{gathered}
-\tag{2.2}
-\end{equation}\]</span></p>
+<div id="considerations-on-performance" class="section level1">
+<h1><span class="header-section-number">6</span> Considerations on performance</h1>
+<p>This code shows a handful of attempts that were made in actually trying to execution
+time of the algorithms implemented by the package.</p>
+<div id="benchmark-the-code" class="section level2">
+<h2><span class="header-section-number">6.1</span> Benchmark the code</h2>
+<p>The package <code>microbenchmark</code> allows us to execute the code and compare different run-times.
+Therefore it’s going to be used in this package to compare the performance of different
+code snippets.</p>
 </div>
-<div id="the-segmentation-problem" class="section level2">
-<h2><span class="header-section-number">2.2</span> The segmentation problem</h2>
-<p>Let <span class="math inline">\(D\)</span> be a <span class="math inline">\(n \times m\)</span> matrix defined in <a href="main-definition.html#eq:definematrixd">(2.3)</a>, with <span class="math inline">\(n\)</span>
-rows and <span class="math inline">\(m\)</span> columns. The matrix is comprised of <span class="math inline">\(n\)</span> samples of the vector of
-random variables <span class="math inline">\(X\)</span>, i.e. the column <span class="math inline">\(j\)</span> in the matrix has values
-corresponding to the random variable <span class="math inline">\(X_j\)</span>. Let <span class="math inline">\(C\)</span>, defined in
-<a href="main-definition.html#eq:definechangepointset">(2.4)</a>, be the set of change points in the data set.
-Since we have that all random variables within a segment have the same
-probability function parameter, let <span class="math inline">\(L\)</span> be the likelihood function whose
-maximizing argument, when given a segment <span class="math inline">\(S_k\)</span>, is the probability
-distribution parameter <span class="math inline">\(\Theta_k\)</span>, as shown in
-<a href="main-definition.html#eq:definesegmentlikelihood">(2.5)</a>. Therefore, the segmentation problem is
-defined as the process of estimating the set of change points <span class="math inline">\(C\)</span>.</p>
-<p><span class="math display" id="eq:definematrixd">\[\begin{equation}
-D =
-  \begin{bmatrix}
-    x_{11} &amp; \dots &amp; x_{1j} &amp; \dots &amp; x_{1m} \\
-    \dots  &amp; \dots &amp; \dots  &amp; \dots &amp; \dots  \\
-    x_{i1} &amp; \dots &amp; x_{ij} &amp; \dots &amp; x_{im} \\
-    \dots  &amp; \dots &amp; \dots  &amp; \dots &amp; \dots  \\
-    x_{n1} &amp; \dots &amp; x_{nj} &amp; \dots &amp; x_{nm}
-  \end{bmatrix}_{n \times m}
-\tag{2.3}
-\end{equation}\]</span></p>
-<p><span class="math display" id="eq:definechangepointset">\[\begin{equation}
-C = \{ c_1, \dots, c_t \}
-\tag{2.4}
-\end{equation}\]</span></p>
-<p><span class="math display" id="eq:definesegmentlikelihood">\[\begin{equation}
-\Theta_k = arg\,max\left\{L(\Theta|S_k)\right\}
-\tag{2.5}
-\end{equation}\]</span></p>
-<p>One approach to find the change points set <span class="math inline">\(C\)</span> is to maximize a likelihood
-function over the data set <span class="math inline">\(D\)</span> as shown in <a href="main-definition.html#eq:definemaximization">(2.6)</a>.
-Considering the data set is compound by all the segments, and that each
-individual segment <span class="math inline">\(S_k\)</span> will maximize the likelihood <span class="math inline">\(L\)</span> for that portion of
-the data set, the likelihood of change points set <span class="math inline">\(C\)</span> can be defined as the sum
-of the likelihoods of all the segments as shown in
-<a href="main-definition.html#eq:definelikelihoodsum">(2.7)</a>.</p>
-<p>Notice that, in <a href="main-definition.html#eq:definemaximization">(2.6)</a> and in
-<a href="main-definition.html#eq:definelikelihoodsum">(2.7)</a>, the segment likelihood function <span class="math inline">\(L\)</span> and the data
-set <span class="math inline">\(X\)</span> are parameters to the segmentation problem, which will ultimately be
-used to search for the set of change points <span class="math inline">\(C\)</span> using dynamic programming. So,
-let <span class="math inline">\(s\)</span> be a segmentation function such that <span class="math inline">\(C = s(L, X)\)</span>, as defined in
-<a href="main-definition.html#eq:definesegmentation">(2.8)</a>. Segmentr provides a few implementations of
-segmentation function that can be used to solve the segmentation problem.</p>
-<p><span class="math display" id="eq:definemaximization">\[\begin{equation}
-C = arg\,max\left\{ \mathcal{L}\left(C | X = D\right)\right\}
-\tag{2.6}
-\end{equation}\]</span></p>
-<p><span class="math display" id="eq:definelikelihoodsum">\[\begin{equation}
-\mathcal{L}(C) = \sum_{k=0}^t L(S_k) = \sum_{k=0}^t L(\Theta | S_k)
-\tag{2.7}
-\end{equation}\]</span></p>
-<p><span class="math display" id="eq:definesegmentation">\[\begin{equation}
-C = s(L, X) = arg\,max \left\{ \sum_{k=0}^t L(\Theta | S_k) \right\}
-\tag{2.8}
-\end{equation}\]</span></p>
-<p>In summary, Segmentr is a generalization of the work described in
-<span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>, in which the random variables of <span class="math inline">\(X\)</span> are taken from finite
-alphabets and <span class="math inline">\(L\)</span> is the multivariate estimate of discrete variables. In this
-work, besides analyzing the same problem described in <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>, the fact
-<span class="math inline">\(L\)</span> is a parameter the segmentation function means it can be applied to many
-different scenarios in which <span class="math inline">\(X\)</span> can manifest itself, e.g. segments with changes
-in the mean of columns, segments with different linear regression parameters.
-These cases are discussed in <a href="simulations.html#simulations">4</a> and <a href="real-data-examples.html#real-data-examples">5</a>.</p>
+<div id="native-code" class="section level2">
+<h2><span class="header-section-number">6.2</span> Native Code</h2>
+<p>In the algorithms chapter, we discussed the time complexity of the different types of
+algorithms. In that scenario, the most relevant variable is the number of columns
+in the data set, which dictates whether the computation of the exact algorithm will
+be prohibitive or not. However, the number of samples does influence the computation
+time linearly. Given the most performed operation in any of the algorithms described
+in the chapter is the likelihood function, it’s in essence the bottleneck of the
+whole computation. Therefore, real performance gains can be obtained depending on
+the performance of the application.</p>
+<p>In R statistical programming, it’s common place to use the functions provided by the
+programming environment, which are usually performant algorithms implemented in compiled
+programming languages such as C. However, there are times the programmer must implement
+a custom function in R, which in turn is a dynamically, and typically slower execution
+environment.</p>
+<p>Therefore, in a first attempt to make the code execution run faster, and compare different
+results, Segmentr implements the [multivariate()] likelihood function in compiled C++ programming language,
+as well as it implements [r_multivariate()] which implements the same algorithm in the R
+programming environment.</p>
+<table>
+<caption>
+<span id="tab:benchmark-native">Table 6.1: </span>Execution time comparison
+between native C++ and interpreted R code
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+expr
+</th>
+<th style="text-align:right;">
+time (ms)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “exact”)
+</td>
+<td style="text-align:right;">
+7881.319
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = r_multivariate, algorithm = “exact”)
+</td>
+<td style="text-align:right;">
+57114.342
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “hierarchical”)
+</td>
+<td style="text-align:right;">
+28.589
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = r_multivariate, algorithm = “exact”)
+</td>
+<td style="text-align:right;">
+57052.827
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “hierarchical”)
+</td>
+<td style="text-align:right;">
+34.011
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = r_multivariate, algorithm = “hierarchical”)
+</td>
+<td style="text-align:right;">
+100.790
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = r_multivariate, algorithm = “hierarchical”)
+</td>
+<td style="text-align:right;">
+102.360
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “exact”)
+</td>
+<td style="text-align:right;">
+7904.321
+</td>
+</tr>
+</tbody>
+</table>
+<p>In the scenario above, we notice performance improvements in the native [multivariate()]
+function, with the biggest performance improvement taking place in the <code>exact</code> algorithm
+results. Therefore, whenever the resources are available, it’s recommended to implement
+the likelihood function directly in a native programming language such as C++. We recommend
+the RCpp package, which makes it easy to implement functions which interface easily with
+the R programming environment.</p>
 </div>
-<div id="the-hausdorff-distance" class="section level2">
-<h2><span class="header-section-number">2.3</span> The Hausdorff distance</h2>
-<p>As the solution estimated by the segmentation function is a set of points, a
-measure is made necessary to compare the estimations provided by the different
-estimation algorithms that will be presented in Chapter
-<a href="solution-estimation.html#solution-estimation">3</a>. The Hausdorff distance is commonly used as a
-measure of distance between two distinct sets, and will be used to to compare
-change point sets with differing number of elements each.</p>
-<p><span class="citation">(Munkres <a href="#ref-topology" role="doc-biblioref">2000</a>)</span> defines the Haurdorff distance as measure of how far two subsets
-from a metric space are from one another. It’s defined as the biggest of all
-the distances from a point in one set to the closest point in the other set,
-which is expressed mathematically by the equation defined in
-<a href="main-definition.html#eq:hausdorffformula">(2.9)</a>, in which <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> represent sets given as inputs
-to the function, <span class="math inline">\(d(x, y)\)</span> represents a distance function defined in the metric
-space <span class="math inline">\(S\)</span> such that <span class="math inline">\(x, y \in S\)</span>.</p>
-<p><span class="math display" id="eq:hausdorffformula">\[\begin{equation}
-d_H(X,Y) = \max\left\{\,\sup_{x \in X} \inf_{y \in Y} d(x,y)\, ,\, \sup_{y \in Y} \inf_{x \in X} d(x,y)\,\right\}
-\tag{2.9}
-\end{equation}\]</span></p>
-<p>Since a set of change points is a subset of the column indices in a data set,
-we define the distance <span class="math inline">\(d\)</span> as the absolute value of two given numbers for
-the use cases analyzed in this paper.</p>
+<div id="parallelization" class="section level2">
+<h2><span class="header-section-number">6.3</span> Parallelization</h2>
+<p>Given the increasing trend of parallel programming in the past few years, it’s natural
+to try to take advantage of that by parallelizing the algorithm execution. In the
+algorithms implemented in this paper, parallelization is a bit complicated because
+a lot of the execution steps in the algorithm iterations depend on values computed
+in previous steps, and the golden rule of parallel computing is that faster results
+are generally obtained when computation steps are independent from one another, i.e.
+no dependency between the task, hence they can be performed in parallel. Yet, there are
+a few steps of the computation that can be performed in parallel, and its parallelization
+was implemented with the help of the <code>foreach</code> package.</p>
+<p>Therefore, whether or not the computation will be performed depends on whether there is
+a parallel cluster registered in the R session with packages such as <code>doMC</code>, and whether
+the <code>allow_parallel</code> argument is true or false. With that in mind, a few comparisons are evaluated.</p>
+<table>
+<caption>
+<span id="tab:benchmark-parallel-narrow">Table 6.2: </span>Execution time comparison
+between parralel and single-threaded computation
+with a data set of 100 samples and 10 columns
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+expr
+</th>
+<th style="text-align:right;">
+time (ms)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “hierarchical”, allow_parallel = TRUE)
+</td>
+<td style="text-align:right;">
+54.587
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel = TRUE)
+</td>
+<td style="text-align:right;">
+250.468
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “hierarchical”, allow_parallel = FALSE)
+</td>
+<td style="text-align:right;">
+17.774
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel = FALSE)
+</td>
+<td style="text-align:right;">
+122.209
+</td>
+</tr>
+</tbody>
+</table>
+<p>Analyzing the results above, we notice good improvements, especially for the “exact” algorithm.
+However, in a situation in which the number of rows isn’t very large in comparison with the
+number of columns, the results of the parallel computation are a lot more modest.
+Consider the following case.</p>
+<table>
+<caption>
+<span id="tab:benchmark-parallel-wide">Table 6.3: </span>Execution time comparison
+between parralel and single-threaded computation
+with a data set of 5 samples and 100 columns
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+expr
+</th>
+<th style="text-align:right;">
+time (ms)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “hierarchical”, allow_parallel = FALSE)
+</td>
+<td style="text-align:right;">
+39.936
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “hierarchical”, allow_parallel = TRUE)
+</td>
+<td style="text-align:right;">
+45.299
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel = TRUE)
+</td>
+<td style="text-align:right;">
+5660.419
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel = FALSE)
+</td>
+<td style="text-align:right;">
+5903.643
+</td>
+</tr>
+</tbody>
+</table>
+<p>In the result above, parallelization achieved the opposite effect, actually making the
+computation slower, as there is now a lot of work done synchronizing necessary information
+between all the processes in the cluster. That takes more time than is saved by running
+the algorithm in parallel.</p>
+<p>Taking all of that in consideration, the decision of whether or not to use parallelization
+relies on the user after evaluating the nature of the data set. For data sets with few samples
+and many columns, parallelization is not recommended. In the case there are lots of samples,
+parallelization might give better computation times.</p>
+<p>An alternative not developed in this project would be to use a genetic algorithm approach to
+the minimal set estimation, which is a probabilistic process that converges to the result
+after enough computation time have passed. The main advantage of such method is that computations
+can be more easily parallelized. Such development might be explored in future developments of
+this package.</p>
 
-</div>
-</div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-base-paper">
-<p>Castro, Bruno M., Renan B. Lemes, Jonatas Cesar, Tábita Hünemeier, and Florencia Leonardi. 2018. “A Model Selection Approach for Multiple Sequence Segmentation and Dimensionality Reduction.” <em>Journal of Multivariate Analysis</em> 167: 319–30. <a href="https://doi.org/https://doi.org/10.1016/j.jmva.2018.05.006">https://doi.org/https://doi.org/10.1016/j.jmva.2018.05.006</a>.</p>
-</div>
-<div id="ref-topology">
-<p>Munkres, J. R. 2000. <em>Topology</em>. Featured Titles for Topology Series. Prentice Hall, Incorporated. <a href="https://books.google.com.br/books?id=XjoZAQAAIAAJ">https://books.google.com.br/books?id=XjoZAQAAIAAJ</a>.</p>
 </div>
 </div>
             </section>
@@ -329,8 +443,8 @@ the use cases analyzed in this paper.</p>
           </div>
         </div>
       </div>
-<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="solution-estimation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="real-data-examples.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="accuracy-of-algorithms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -367,7 +481,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["thesis.pdf"],
+"download": null,
 "toc": {
 "collapse": "subsection"
 }

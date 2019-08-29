@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3 Solution Estimation | An R Package for Change Point Detection</title>
-  <meta name="description" content="3 Solution Estimation | An R Package for Change Point Detection" />
+  <title>8 Conclusion | An R Package for Change Point Detection</title>
+  <meta name="description" content="8 Conclusion | An R Package for Change Point Detection" />
   <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3 Solution Estimation | An R Package for Change Point Detection" />
+  <meta property="og:title" content="8 Conclusion | An R Package for Change Point Detection" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3 Solution Estimation | An R Package for Change Point Detection" />
+  <meta name="twitter:title" content="8 Conclusion | An R Package for Change Point Detection" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="main-definition.html"/>
-<link rel="next" href="simulations.html"/>
+<link rel="prev" href="accuracy-of-algorithms.html"/>
+<link rel="next" href="package-usage.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -184,99 +184,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="solution-estimation" class="section level1">
-<h1><span class="header-section-number">3</span> Solution Estimation</h1>
-<p>In this chapter, we discuss the process to solve <a href="main-definition.html#eq:definesegmentation">(2.8)</a>
-and explore an solution involving dynamic programming. Because the exact
-solution to this problem has quadratic complexity, we also discuss some
-alternatives that simplify the search path and provide an approximate solution.</p>
-<div id="exact-algorithm" class="section level2">
-<h2><span class="header-section-number">3.1</span> Exact Algorithm</h2>
-<p>The first attempt to try to solve the equation would be to actually search all the possible alternatives
-in order to find the correct minimal set of intervals that maximize the total likelihood of the system.
-It’s done iteratively by:</p>
-<ul>
-<li>for each column index <span class="math inline">\(i \in \{1, \dots, p\}\)</span></li>
-<li>for each column index <span class="math inline">\(j \in \{i, \dots, p\}\)</span></li>
-<li>compute <span class="math inline">\(l_{i:j}=\text{lik}(X_{i:j})\)</span></li>
-<li>store the likelihood <span class="math inline">\(l_{i:j}\)</span> and the index <span class="math inline">\(j\)</span> for the highest value of <span class="math inline">\(l_{i:j}\)</span> for later comparison</li>
-</ul>
-<p>Finally, after computing all of the possible combinations of likelihood segments,
-the procedure to find the optimal solution would be as following:</p>
-<ul>
-<li>let <span class="math inline">\(j = p\)</span></li>
-<li>while <span class="math inline">\(j &gt; 1\)</span>, repeat the steps below</li>
-<li>search the stored values for <span class="math inline">\(i = \underset{i}{\arg\max} (l_{i:j})\)</span></li>
-<li>store <span class="math inline">\(i\)</span> in the set of change points <span class="math inline">\(C\)</span> if <span class="math inline">\(i \ne 1\)</span></li>
-<li>let <span class="math inline">\(j = i\)</span> and repeat until <span class="math inline">\(j = 1\)</span></li>
-</ul>
-<p>Given the indices in the change points set <span class="math inline">\(C\)</span>, let <span class="math inline">\(c_0 = 1\)</span>, <span class="math inline">\(c_{k+1}=p\)</span> and <span class="math inline">\(c_i\in C\)</span>
-be the sequence of sorted elements of <span class="math inline">\(C\)</span>, for <span class="math inline">\(i = 1, \dots, k\)</span>. The minimal set of
-intervals would be defined as <span class="math inline">\(S_0 = \{ c_{i-1}:c_i, \text{ for } i=1,\dots,k+1 \}\)</span>
-in which <span class="math inline">\(c_{i-1}:c_i=\{\text{contiguous sequence of number from } c_{i-1} \text{ to } c_i\}\)</span>.</p>
-<p>The described algorithm will provide the correct answer for the equation, precisely because it
-analyses all the possible combinations. However, that has a time complexity in Big-O notation of
-<span class="math inline">\(O(np^2)\)</span> in which <span class="math inline">\(n\)</span> is the number of samples in the data set and <span class="math inline">\(p\)</span> is the number of columns.
-Because a lot of use cases for data segmentation has usually a large number of columns and not
-many data samples, e.g. DNA data, computation time can be very prohibitive.</p>
-</div>
-<div id="hierarchical-algorithm" class="section level2">
-<h2><span class="header-section-number">3.2</span> Hierarchical Algorithm</h2>
-<p>In order to try to simplify the search path of the algorithm, <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span> also proposes a technique
-that relies on assuming the data to be hierarchical, i.e. it assumes the minimal solution set can
-me estimated by only searching the data for the optimal change point segmentation once. The algorithm
-is described below.</p>
-<ul>
-<li>let <span class="math inline">\(d\)</span> be the current data set we want to segment</li>
-<li>for each column <span class="math inline">\(i\)</span> in the data set</li>
-<li>compute the total likelihood <span class="math inline">\(l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})\)</span> if <span class="math inline">\(i \ne 1\)</span></li>
-<li>find <span class="math inline">\(i\)</span> for which <span class="math inline">\(l_i\)</span> is maximum</li>
-<li>if <span class="math inline">\(l_i &lt;\text{lik}(X_{1:p})\)</span> return empty set as result of current function call</li>
-<li>recursively find the set of change points <span class="math inline">\(C_L\)</span> by calling the algorithm on the left segment <span class="math inline">\(X_{1:i-1}\)</span></li>
-<li>recursively find the set of change points <span class="math inline">\(C_R\)</span> by calling the algorithm on the right segment <span class="math inline">\(X_{i:p}\)</span></li>
-<li>return <span class="math inline">\(C=C_L \cup C_R \cup \{i\}\)</span> as result of current function call</li>
-</ul>
-<p>Implementing the algorithm described above will allow for a time complexity of <span class="math inline">\(O(np\log(p))\)</span> where <span class="math inline">\(n\)</span> is
-the number of samples, <span class="math inline">\(p\)</span> is the number of columns. The reduction in time complexity is only possible
-because of the strong assumption the data set has a hierarchical likelihood behavior. However, that
-doesn’t hold true for many situations, as it will be seen in more detail in the next chapters,
-and the use of this algorithm should done with care.</p>
-</div>
-<div id="hybrid-algorithm" class="section level2">
-<h2><span class="header-section-number">3.3</span> Hybrid algorithm</h2>
-<p>The hybrid algorithm is a modified version of the hierarchical algorithm, in which it will start searching the
-combinations using the hierarchical approach, and if the segments become smaller than a certain threshold,
-it will try to find the exact segments with the exact algorithm. The procedure would be as follow:</p>
-<ul>
-<li>let <span class="math inline">\(d\)</span> be the current data set we want to segment</li>
-<li>if the number of columns of <span class="math inline">\(d\)</span> is <span class="math inline">\(p_d &lt;k\)</span>, in which <span class="math inline">\(k\)</span> is a predefined threshold, return the set of
-change points calculated by the exact algorithm.</li>
-<li>for each column <span class="math inline">\(i\)</span> in the data set</li>
-<li>compute the total likelihood <span class="math inline">\(l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})\)</span> if <span class="math inline">\(i \ne 1\)</span></li>
-<li>find <span class="math inline">\(i\)</span> for which <span class="math inline">\(l_i\)</span> is maximum</li>
-<li>if <span class="math inline">\(l_i &lt;\text{lik}(X_{1:p})\)</span> return empty set as result of current function call</li>
-<li>recursively find the set of change points <span class="math inline">\(C_L\)</span> by calling the algorithm on the left segment <span class="math inline">\(X_{1:i-1}\)</span></li>
-<li>recursively find the set of change points <span class="math inline">\(C_R\)</span> by calling the algorithm on the right segment <span class="math inline">\(X_{i:p}\)</span></li>
-<li>return <span class="math inline">\(C=C_L \cup C_R \cup \{i\}\)</span> as result of current function call</li>
-</ul>
-<p>The only difference of this procedure and the hierarchical procedure is the presence of the conditional
-step in the beginning of the procedure that tests whether of not to use the hybrid algorithm.</p>
+<div id="conclusion" class="section level1">
+<h1><span class="header-section-number">8</span> Conclusion</h1>
+<p>This work describes the segmentation problem, provides a theoretical model to work
+with the segmentation of data, and goes on to describe a few algorithms to try to
+estimate the set of points that optimally segment a given data set, explaining
+the differences between them.</p>
+<p>Then we proceed and describe the actually implementation of such algorithms
+in an actual R package, in an attempt to make its use easier for researchers.
+We provide a few applications with simulated data, and also provide a real analysis
+with a real weather data set. Finally, performance considerations are taken into
+consideration when trying to have the code run faster.</p>
+<p>In summary, there are a lot of decisions involved in the problem of segmentation,
+such as picking the right likelihood function for the evaluation, which
+algorithm to pick, and whether or not parallelization can help in running the computation
+faster. By providing a common set of tools, we hope to make the life of the researcher
+easier.</p>
 
 </div>
-</div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-base-paper">
-<p>Castro, Bruno M., Renan B. Lemes, Jonatas Cesar, Tábita Hünemeier, and Florencia Leonardi. 2018. “A Model Selection Approach for Multiple Sequence Segmentation and Dimensionality Reduction.” <em>Journal of Multivariate Analysis</em> 167: 319–30. <a href="https://doi.org/https://doi.org/10.1016/j.jmva.2018.05.006">https://doi.org/https://doi.org/10.1016/j.jmva.2018.05.006</a>.</p>
-</div>
-</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="main-definition.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="simulations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="accuracy-of-algorithms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="package-usage.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -313,7 +248,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["thesis.pdf"],
+"download": null,
 "toc": {
 "collapse": "subsection"
 }

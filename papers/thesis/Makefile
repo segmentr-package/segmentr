@@ -5,7 +5,7 @@ pdf:
 .PHONY: pdf
 
 web:
-	R -e 'require("segmentr"); bookdown::render_book(".", bookdown::gitbook(template="ime.tex", citation_package="natbib"))'
+	R -e 'require("segmentr"); bookdown::render_book(".", bookdown::gitbook(citation_package="natbib"), output_dir="../../book/")'
 .PHONE: web
 
 clean:
