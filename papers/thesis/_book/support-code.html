@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>B Support Code | An R Package for Change Point Detection</title>
+  <meta name="description" content="B Support Code | An R Package for Change Point Detection" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="B Support Code | An R Package for Change Point Detection" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="B Support Code | An R Package for Change Point Detection" />
+  
+  
+  
+
+<meta name="author" content="Thales Mello" />
+<meta name="author" content="Florencia Leonardi" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="package-usage.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#related-work"><i class="fa fa-check"></i><b>1.1</b> Related Work</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="main-definition.html"><a href="main-definition.html"><i class="fa fa-check"></i><b>2</b> Main Definition</a><ul>
+<li class="chapter" data-level="2.1" data-path="main-definition.html"><a href="main-definition.html#a-sequence-of-random-variables-and-its-segments"><i class="fa fa-check"></i><b>2.1</b> A sequence of random variables and its segments</a></li>
+<li class="chapter" data-level="2.2" data-path="main-definition.html"><a href="main-definition.html#the-segmentation-problem"><i class="fa fa-check"></i><b>2.2</b> The segmentation problem</a></li>
+<li class="chapter" data-level="2.3" data-path="main-definition.html"><a href="main-definition.html#the-hausdorff-distance"><i class="fa fa-check"></i><b>2.3</b> The Hausdorff distance</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="solution-estimation.html"><a href="solution-estimation.html"><i class="fa fa-check"></i><b>3</b> Solution Estimation</a><ul>
+<li class="chapter" data-level="3.1" data-path="solution-estimation.html"><a href="solution-estimation.html#exact-algorithm"><i class="fa fa-check"></i><b>3.1</b> Exact Algorithm</a></li>
+<li class="chapter" data-level="3.2" data-path="solution-estimation.html"><a href="solution-estimation.html#hierarchical-algorithm"><i class="fa fa-check"></i><b>3.2</b> Hierarchical Algorithm</a></li>
+<li class="chapter" data-level="3.3" data-path="solution-estimation.html"><a href="solution-estimation.html#hybrid-algorithm"><i class="fa fa-check"></i><b>3.3</b> Hybrid algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>4</b> Simulations</a><ul>
+<li class="chapter" data-level="4.1" data-path="simulations.html"><a href="simulations.html#segments-of-independent-variables"><i class="fa fa-check"></i><b>4.1</b> Segments of Independent Variables</a></li>
+<li class="chapter" data-level="4.2" data-path="simulations.html"><a href="simulations.html#segments-with-similar-averages"><i class="fa fa-check"></i><b>4.2</b> Segments with similar averages</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="real-data-examples.html"><a href="real-data-examples.html"><i class="fa fa-check"></i><b>5</b> Real Data Examples</a><ul>
+<li class="chapter" data-level="5.1" data-path="real-data-examples.html"><a href="real-data-examples.html#understanding-the-data"><i class="fa fa-check"></i><b>5.1</b> Understanding the data</a></li>
+<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-likelihood"><i class="fa fa-check"></i><b>5.2</b> Building the likelihood</a></li>
+<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-likelihood-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the likelihood function</a></li>
+<li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing granularity</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-likelihood-function"><i class="fa fa-check"></i><b>5.5</b> A non-usual likelihood function</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on performance</a><ul>
+<li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the code</a></li>
+<li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
+<li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html"><i class="fa fa-check"></i><b>7</b> Accuracy of algorithms</a><ul>
+<li class="chapter" data-level="7.1" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>7.1</b> Accuracy of estimates for the Berlin dataset</a></li>
+<li class="chapter" data-level="7.2" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>7.2</b> Accuracy of algorithms using different algorithms</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="package-usage.html"><a href="package-usage.html"><i class="fa fa-check"></i><b>A</b> Package Usage</a><ul>
+<li class="chapter" data-level="A.1" data-path="package-usage.html"><a href="package-usage.html#installation"><i class="fa fa-check"></i><b>A.1</b> Installation</a></li>
+<li class="chapter" data-level="A.2" data-path="package-usage.html"><a href="package-usage.html#usage"><i class="fa fa-check"></i><b>A.2</b> Usage</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="support-code.html"><a href="support-code.html"><i class="fa fa-check"></i><b>B</b> Support Code</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An R Package for Change Point Detection</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="support-code" class="section level1">
+<h1><span class="header-section-number">B</span> Support Code</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="support-code.html#cb4-1"></a><span class="kw">library</span>(knitr)</span>
+<span id="cb4-2"><a href="support-code.html#cb4-2"></a><span class="kw">library</span>(kableExtra)</span>
+<span id="cb4-3"><a href="support-code.html#cb4-3"></a><span class="kw">library</span>(segmentr)</span>
+<span id="cb4-4"><a href="support-code.html#cb4-4"></a><span class="kw">library</span>(tibble)</span>
+<span id="cb4-5"><a href="support-code.html#cb4-5"></a><span class="kw">library</span>(magrittr)</span>
+<span id="cb4-6"><a href="support-code.html#cb4-6"></a>knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(</span>
+<span id="cb4-7"><a href="support-code.html#cb4-7"></a>  <span class="dt">cache=</span><span class="ot">TRUE</span>,</span>
+<span id="cb4-8"><a href="support-code.html#cb4-8"></a>  <span class="dt">echo=</span><span class="ot">FALSE</span></span>
+<span id="cb4-9"><a href="support-code.html#cb4-9"></a>)</span>
+<span id="cb4-10"><a href="support-code.html#cb4-10"></a><span class="kw">source</span>(<span class="st">&quot;helper.R&quot;</span>)</span>
+<span id="cb4-11"><a href="support-code.html#cb4-11"></a>n &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb4-12"><a href="support-code.html#cb4-12"></a>X1 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-13"><a href="support-code.html#cb4-13"></a>X2 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-14"><a href="support-code.html#cb4-14"></a>X3 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-15"><a href="support-code.html#cb4-15"></a>X4 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-16"><a href="support-code.html#cb4-16"></a>X5 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-17"><a href="support-code.html#cb4-17"></a>X6 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-18"><a href="support-code.html#cb4-18"></a></span>
+<span id="cb4-19"><a href="support-code.html#cb4-19"></a>C1 &lt;-<span class="st"> </span>X1</span>
+<span id="cb4-20"><a href="support-code.html#cb4-20"></a>C2 &lt;-<span class="st"> </span>X1 <span class="op">-</span><span class="st"> </span>X2</span>
+<span id="cb4-21"><a href="support-code.html#cb4-21"></a>C3 &lt;-<span class="st"> </span>X2</span>
+<span id="cb4-22"><a href="support-code.html#cb4-22"></a>C4 &lt;-<span class="st"> </span>X1 <span class="op">+</span><span class="st"> </span>X2</span>
+<span id="cb4-23"><a href="support-code.html#cb4-23"></a>C5 &lt;-<span class="st"> </span>X1</span>
+<span id="cb4-24"><a href="support-code.html#cb4-24"></a>C6 &lt;-<span class="st"> </span>X3</span>
+<span id="cb4-25"><a href="support-code.html#cb4-25"></a>C7 &lt;-<span class="st"> </span>X3 <span class="op">-</span><span class="st"> </span>X4</span>
+<span id="cb4-26"><a href="support-code.html#cb4-26"></a>C8 &lt;-<span class="st"> </span>X4</span>
+<span id="cb4-27"><a href="support-code.html#cb4-27"></a>C9 &lt;-<span class="st"> </span>X3 <span class="op">+</span><span class="st"> </span>X4</span>
+<span id="cb4-28"><a href="support-code.html#cb4-28"></a>C10 &lt;-<span class="st"> </span>X3</span>
+<span id="cb4-29"><a href="support-code.html#cb4-29"></a>C11 &lt;-<span class="st"> </span>X5</span>
+<span id="cb4-30"><a href="support-code.html#cb4-30"></a>C12 &lt;-<span class="st"> </span>X5 <span class="op">-</span><span class="st"> </span>X6</span>
+<span id="cb4-31"><a href="support-code.html#cb4-31"></a>C13 &lt;-<span class="st"> </span>X6</span>
+<span id="cb4-32"><a href="support-code.html#cb4-32"></a>C14 &lt;-<span class="st"> </span>X5 <span class="op">+</span><span class="st"> </span>X6</span>
+<span id="cb4-33"><a href="support-code.html#cb4-33"></a>C15 &lt;-<span class="st"> </span>X5</span>
+<span id="cb4-34"><a href="support-code.html#cb4-34"></a>D_example &lt;-<span class="st"> </span><span class="kw">cbind</span>(C1, C2, C3, C4, C5, C6, C7, C8,</span>
+<span id="cb4-35"><a href="support-code.html#cb4-35"></a>           C9, C10, C11, C12, C13, C14, C15)</span>
+<span id="cb4-36"><a href="support-code.html#cb4-36"></a><span class="kw">head</span>(D_example) <span class="op">%&gt;%</span></span>
+<span id="cb4-37"><a href="support-code.html#cb4-37"></a><span class="st">  </span><span class="kw">kable</span>(<span class="dt">caption=</span><span class="st">&quot;Sample values of the correlated random</span></span>
+<span id="cb4-38"><a href="support-code.html#cb4-38"></a><span class="st">        variables defined in <a href="simulations.html#eq:examplecolumns">(4.1)</a>.&quot;</span>)</span>
+<span id="cb4-39"><a href="support-code.html#cb4-39"></a>penalized_multivariate =<span class="st"> </span><span class="cf">function</span>(X) <span class="kw">multivariate</span>(X) <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">^</span><span class="st"> </span><span class="kw">ncol</span>(X)</span>
+<span id="cb4-40"><a href="support-code.html#cb4-40"></a></span>
+<span id="cb4-41"><a href="support-code.html#cb4-41"></a>results_multivariate_penalized &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-42"><a href="support-code.html#cb4-42"></a>  D_example,</span>
+<span id="cb4-43"><a href="support-code.html#cb4-43"></a>  <span class="dt">likelihood =</span> penalized_multivariate,</span>
+<span id="cb4-44"><a href="support-code.html#cb4-44"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span></span>
+<span id="cb4-45"><a href="support-code.html#cb4-45"></a>)</span>
+<span id="cb4-46"><a href="support-code.html#cb4-46"></a></span>
+<span id="cb4-47"><a href="support-code.html#cb4-47"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-48"><a href="support-code.html#cb4-48"></a>  results_multivariate_penalized,</span>
+<span id="cb4-49"><a href="support-code.html#cb4-49"></a>  <span class="dt">caption=</span><span class="st">&quot;Segment tables as defined in</span></span>
+<span id="cb4-50"><a href="support-code.html#cb4-50"></a><span class="st">  <a href="simulations.html#eq:examplecolumns">(4.1)</a>.&quot;</span></span>
+<span id="cb4-51"><a href="support-code.html#cb4-51"></a>)</span>
+<span id="cb4-52"><a href="support-code.html#cb4-52"></a><span class="kw">segment</span>(D_example, <span class="dt">likelihood =</span> multivariate, <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-53"><a href="support-code.html#cb4-53"></a><span class="st">  </span><span class="kw">print_results_table</span>(</span>
+<span id="cb4-54"><a href="support-code.html#cb4-54"></a>    <span class="dt">caption=</span><span class="st">&quot;Results of segmentation usign a non-penalized</span></span>
+<span id="cb4-55"><a href="support-code.html#cb4-55"></a><span class="st">      multivariate likelihood&quot;</span>)</span>
+<span id="cb4-56"><a href="support-code.html#cb4-56"></a>mean_likelihood &lt;-<span class="st"> </span><span class="cf">function</span>(X) {</span>
+<span id="cb4-57"><a href="support-code.html#cb4-57"></a>  mean_value &lt;-<span class="st"> </span><span class="kw">mean</span>(X, <span class="dt">na.rm =</span> T)</span>
+<span id="cb4-58"><a href="support-code.html#cb4-58"></a>  <span class="cf">if</span> (<span class="kw">is.na</span>(mean_value)) {</span>
+<span id="cb4-59"><a href="support-code.html#cb4-59"></a>    <span class="dv">0</span></span>
+<span id="cb4-60"><a href="support-code.html#cb4-60"></a>  } <span class="cf">else</span> {</span>
+<span id="cb4-61"><a href="support-code.html#cb4-61"></a>    <span class="op">-</span><span class="kw">sum</span>((X <span class="op">-</span><span class="st"> </span>mean_value)<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb4-62"><a href="support-code.html#cb4-62"></a>  }</span>
+<span id="cb4-63"><a href="support-code.html#cb4-63"></a>}</span>
+<span id="cb4-64"><a href="support-code.html#cb4-64"></a></span>
+<span id="cb4-65"><a href="support-code.html#cb4-65"></a>penalized_mean_likelihood &lt;-<span class="st"> </span><span class="cf">function</span>(X) <span class="kw">mean_likelihood</span>(X) <span class="op">-</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb4-66"><a href="support-code.html#cb4-66"></a></span>
+<span id="cb4-67"><a href="support-code.html#cb4-67"></a>make_segment &lt;-<span class="st"> </span><span class="cf">function</span>(n, p) {</span>
+<span id="cb4-68"><a href="support-code.html#cb4-68"></a>  <span class="kw">matrix</span>(<span class="kw">rbinom</span>(<span class="dv">100</span> <span class="op">*</span><span class="st"> </span>n, <span class="dv">1</span>, p), <span class="dt">nrow =</span> <span class="dv">100</span>)</span>
+<span id="cb4-69"><a href="support-code.html#cb4-69"></a>}</span>
+<span id="cb4-70"><a href="support-code.html#cb4-70"></a></span>
+<span id="cb4-71"><a href="support-code.html#cb4-71"></a>D_genetic &lt;-<span class="st"> </span><span class="kw">cbind</span>(</span>
+<span id="cb4-72"><a href="support-code.html#cb4-72"></a>  <span class="kw">make_segment</span>(<span class="dv">5</span>, <span class="fl">0.9</span>),</span>
+<span id="cb4-73"><a href="support-code.html#cb4-73"></a>  <span class="kw">make_segment</span>(<span class="dv">10</span>, <span class="fl">0.1</span>),</span>
+<span id="cb4-74"><a href="support-code.html#cb4-74"></a>  <span class="kw">make_segment</span>(<span class="dv">5</span>, <span class="fl">0.9</span>)</span>
+<span id="cb4-75"><a href="support-code.html#cb4-75"></a>)</span>
+<span id="cb4-76"><a href="support-code.html#cb4-76"></a></span>
+<span id="cb4-77"><a href="support-code.html#cb4-77"></a><span class="kw">segment</span>(</span>
+<span id="cb4-78"><a href="support-code.html#cb4-78"></a>  D_genetic,</span>
+<span id="cb4-79"><a href="support-code.html#cb4-79"></a>  <span class="dt">likelihood =</span> penalized_mean_likelihood,</span>
+<span id="cb4-80"><a href="support-code.html#cb4-80"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hieralg&quot;</span></span>
+<span id="cb4-81"><a href="support-code.html#cb4-81"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb4-82"><a href="support-code.html#cb4-82"></a><span class="st">  </span><span class="kw">print_results_table</span>(</span>
+<span id="cb4-83"><a href="support-code.html#cb4-83"></a>    <span class="dt">caption=</span><span class="st">&quot;Results of segmentation by aplying the</span></span>
+<span id="cb4-84"><a href="support-code.html#cb4-84"></a><span class="st">      likelihood function defined in</span></span>
+<span id="cb4-85"><a href="support-code.html#cb4-85"></a><span class="st">      <a href="simulations.html#eq:penalizedmeanlikelihood">(4.3)</a> to a sample of size</span></span>
+<span id="cb4-86"><a href="support-code.html#cb4-86"></a><span class="st">      10 of the model defined in <a href="simulations.html#eq:geneticexample">(4.4)</a>.</span></span>
+<span id="cb4-87"><a href="support-code.html#cb4-87"></a><span class="st">    &quot;</span>)</span>
+<span id="cb4-88"><a href="support-code.html#cb4-88"></a><span class="kw">library</span>(segmentr)</span>
+<span id="cb4-89"><a href="support-code.html#cb4-89"></a><span class="kw">library</span>(tidyr)</span>
+<span id="cb4-90"><a href="support-code.html#cb4-90"></a><span class="kw">library</span>(tibble)</span>
+<span id="cb4-91"><a href="support-code.html#cb4-91"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb4-92"><a href="support-code.html#cb4-92"></a><span class="kw">library</span>(lubridate)</span>
+<span id="cb4-93"><a href="support-code.html#cb4-93"></a><span class="kw">library</span>(magrittr)</span>
+<span id="cb4-94"><a href="support-code.html#cb4-94"></a><span class="kw">library</span>(purrr)</span>
+<span id="cb4-95"><a href="support-code.html#cb4-95"></a><span class="kw">library</span>(knitr)</span>
+<span id="cb4-96"><a href="support-code.html#cb4-96"></a><span class="kw">library</span>(kableExtra)</span>
+<span id="cb4-97"><a href="support-code.html#cb4-97"></a><span class="kw">data</span>(berlin)</span>
+<span id="cb4-98"><a href="support-code.html#cb4-98"></a><span class="kw">as_tibble</span>(berlin, <span class="dt">rownames=</span><span class="st">&quot;station&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-99"><a href="support-code.html#cb4-99"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">..</span><span class="st">`</span>=<span class="st">&quot;..&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-100"><a href="support-code.html#cb4-100"></a><span class="st">  </span><span class="kw">select</span>(station, <span class="st">`</span><span class="dt">2010-01-01</span><span class="st">`</span><span class="op">:</span><span class="st">`</span><span class="dt">2010-01-03</span><span class="st">`</span>,</span>
+<span id="cb4-101"><a href="support-code.html#cb4-101"></a>         <span class="st">`</span><span class="dt">..</span><span class="st">`</span>, <span class="st">`</span><span class="dt">2011-12-29</span><span class="st">`</span><span class="op">:</span><span class="st">`</span><span class="dt">2011-12-31</span><span class="st">`</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-102"><a href="support-code.html#cb4-102"></a><span class="st">  </span><span class="kw">kable</span>(<span class="dt">caption=</span><span class="st">&quot;</span></span>
+<span id="cb4-103"><a href="support-code.html#cb4-103"></a><span class="st">    First and last columns of the `berlin` dataset</span></span>
+<span id="cb4-104"><a href="support-code.html#cb4-104"></a><span class="st">  &quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-105"><a href="support-code.html#cb4-105"></a><span class="st">  </span><span class="kw">column_spec</span>(<span class="dv">1</span>, <span class="dt">width=</span><span class="st">&quot;5em&quot;</span>)</span>
+<span id="cb4-106"><a href="support-code.html#cb4-106"></a>berlin <span class="op">%&gt;%</span></span>
+<span id="cb4-107"><a href="support-code.html#cb4-107"></a><span class="st">  </span><span class="kw">colMeans</span>() <span class="op">%&gt;%</span></span>
+<span id="cb4-108"><a href="support-code.html#cb4-108"></a><span class="st">  </span><span class="kw">enframe</span>(<span class="st">&quot;time&quot;</span>, <span class="st">&quot;temperature&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-109"><a href="support-code.html#cb4-109"></a><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(time), ymd) <span class="op">%&gt;%</span></span>
+<span id="cb4-110"><a href="support-code.html#cb4-110"></a><span class="st">  </span><span class="kw">with</span>(<span class="kw">plot</span>(time, temperature, <span class="dt">cex=</span><span class="fl">0.2</span>))</span>
+<span id="cb4-111"><a href="support-code.html#cb4-111"></a>expected_berlin &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb4-112"><a href="support-code.html#cb4-112"></a>  <span class="dt">changepoints=</span><span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">360</span>, <span class="dv">570</span>),</span>
+<span id="cb4-113"><a href="support-code.html#cb4-113"></a>  <span class="dt">segments=</span><span class="kw">list</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">199</span>, <span class="dv">360</span><span class="op">:</span><span class="dv">569</span>, <span class="dv">570</span><span class="op">:</span><span class="kw">ncol</span>(berlin))</span>
+<span id="cb4-114"><a href="support-code.html#cb4-114"></a>)</span>
+<span id="cb4-115"><a href="support-code.html#cb4-115"></a></span>
+<span id="cb4-116"><a href="support-code.html#cb4-116"></a><span class="kw">plot_results</span>(expected_berlin, berlin)</span>
+<span id="cb4-117"><a href="support-code.html#cb4-117"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-118"><a href="support-code.html#cb4-118"></a>  expected_berlin,</span>
+<span id="cb4-119"><a href="support-code.html#cb4-119"></a>  <span class="dt">caption=</span><span class="st">&quot;Expected values to be found when segmenting the Berlin dataset&quot;</span></span>
+<span id="cb4-120"><a href="support-code.html#cb4-120"></a>)</span>
+<span id="cb4-121"><a href="support-code.html#cb4-121"></a>lm_likelihood &lt;-<span class="st"> </span><span class="cf">function</span> (data) {</span>
+<span id="cb4-122"><a href="support-code.html#cb4-122"></a>  fit &lt;-<span class="st"> </span><span class="kw">t</span>(data) <span class="op">%&gt;%</span></span>
+<span id="cb4-123"><a href="support-code.html#cb4-123"></a><span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></span>
+<span id="cb4-124"><a href="support-code.html#cb4-124"></a><span class="st">    </span><span class="kw">rowid_to_column</span>() <span class="op">%&gt;%</span></span>
+<span id="cb4-125"><a href="support-code.html#cb4-125"></a><span class="st">    </span><span class="kw">gather</span>(station, temperature, <span class="op">-</span>rowid) <span class="op">%&gt;%</span></span>
+<span id="cb4-126"><a href="support-code.html#cb4-126"></a><span class="st">    </span><span class="kw">with</span>(<span class="kw">lm</span>(temperature <span class="op">~</span><span class="st"> </span>rowid))</span>
+<span id="cb4-127"><a href="support-code.html#cb4-127"></a></span>
+<span id="cb4-128"><a href="support-code.html#cb4-128"></a>  <span class="op">-</span><span class="kw">mean</span>(fit<span class="op">$</span>residuals <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</span>
+<span id="cb4-129"><a href="support-code.html#cb4-129"></a>}</span>
+<span id="cb4-130"><a href="support-code.html#cb4-130"></a></span>
+<span id="cb4-131"><a href="support-code.html#cb4-131"></a><span class="kw">tibble</span>(</span>
+<span id="cb4-132"><a href="support-code.html#cb4-132"></a>  <span class="st">`</span><span class="dt">Small Size</span><span class="st">`</span>=<span class="kw">lm_likelihood</span>(berlin[, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]),</span>
+<span id="cb4-133"><a href="support-code.html#cb4-133"></a>  <span class="st">`</span><span class="dt">Medium Size</span><span class="st">`</span>=<span class="kw">lm_likelihood</span>(berlin[, <span class="dv">1</span><span class="op">:</span><span class="dv">150</span>]),</span>
+<span id="cb4-134"><a href="support-code.html#cb4-134"></a>  <span class="st">`</span><span class="dt">Large Size</span><span class="st">`</span>=<span class="kw">lm_likelihood</span>(berlin)</span>
+<span id="cb4-135"><a href="support-code.html#cb4-135"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb4-136"><a href="support-code.html#cb4-136"></a><span class="st">  </span><span class="kw">kable</span>(</span>
+<span id="cb4-137"><a href="support-code.html#cb4-137"></a>    <span class="dt">caption=</span><span class="st">&quot;Sample values of the linear regression</span></span>
+<span id="cb4-138"><a href="support-code.html#cb4-138"></a><span class="st">    likelihood function for different sizes of segment</span></span>
+<span id="cb4-139"><a href="support-code.html#cb4-139"></a><span class="st">    candidates&quot;</span></span>
+<span id="cb4-140"><a href="support-code.html#cb4-140"></a>  )</span>
+<span id="cb4-141"><a href="support-code.html#cb4-141"></a>results_non_penalized &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-142"><a href="support-code.html#cb4-142"></a>  berlin,</span>
+<span id="cb4-143"><a href="support-code.html#cb4-143"></a>  <span class="dt">likelihood =</span> lm_likelihood,</span>
+<span id="cb4-144"><a href="support-code.html#cb4-144"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-145"><a href="support-code.html#cb4-145"></a>)</span>
+<span id="cb4-146"><a href="support-code.html#cb4-146"></a></span>
+<span id="cb4-147"><a href="support-code.html#cb4-147"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-148"><a href="support-code.html#cb4-148"></a>  results_non_penalized,</span>
+<span id="cb4-149"><a href="support-code.html#cb4-149"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-150"><a href="support-code.html#cb4-150"></a><span class="st">  using a non-penalized likelihood function&quot;</span></span>
+<span id="cb4-151"><a href="support-code.html#cb4-151"></a>)</span>
+<span id="cb4-152"><a href="support-code.html#cb4-152"></a><span class="kw">plot_results</span>(results_non_penalized, berlin)</span>
+<span id="cb4-153"><a href="support-code.html#cb4-153"></a></span>
+<span id="cb4-154"><a href="support-code.html#cb4-154"></a><span class="kw">plot_curve</span>(<span class="op">~</span><span class="st"> </span><span class="kw">exp</span>(<span class="fl">0.3</span><span class="op">*</span>(. <span class="op">-</span><span class="st"> </span><span class="dv">50</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(<span class="fl">0.3</span> <span class="op">*</span><span class="st"> </span>(<span class="op">-</span>. <span class="op">+</span><span class="st"> </span><span class="dv">50</span>)),</span>
+<span id="cb4-155"><a href="support-code.html#cb4-155"></a>           <span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">100</span>, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span>
+<span id="cb4-156"><a href="support-code.html#cb4-156"></a>penalized_likelihood &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(berlin,</span>
+<span id="cb4-157"><a href="support-code.html#cb4-157"></a>                                      lm_likelihood)</span>
+<span id="cb4-158"><a href="support-code.html#cb4-158"></a>results_auto_penalized &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-159"><a href="support-code.html#cb4-159"></a>  berlin,</span>
+<span id="cb4-160"><a href="support-code.html#cb4-160"></a>  <span class="dt">likelihood =</span> penalized_likelihood,</span>
+<span id="cb4-161"><a href="support-code.html#cb4-161"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-162"><a href="support-code.html#cb4-162"></a>)</span>
+<span id="cb4-163"><a href="support-code.html#cb4-163"></a></span>
+<span id="cb4-164"><a href="support-code.html#cb4-164"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-165"><a href="support-code.html#cb4-165"></a>  results_auto_penalized,</span>
+<span id="cb4-166"><a href="support-code.html#cb4-166"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-167"><a href="support-code.html#cb4-167"></a><span class="st">  using an auto-penalized likelihood function&quot;</span></span>
+<span id="cb4-168"><a href="support-code.html#cb4-168"></a>)</span>
+<span id="cb4-169"><a href="support-code.html#cb4-169"></a><span class="kw">plot_results</span>(results_auto_penalized, berlin)</span>
+<span id="cb4-170"><a href="support-code.html#cb4-170"></a>penalized_likelihood &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
+<span id="cb4-171"><a href="support-code.html#cb4-171"></a>  berlin,</span>
+<span id="cb4-172"><a href="support-code.html#cb4-172"></a>  lm_likelihood,</span>
+<span id="cb4-173"><a href="support-code.html#cb4-173"></a>  <span class="dt">big_segment_penalty =</span> <span class="dv">1000</span></span>
+<span id="cb4-174"><a href="support-code.html#cb4-174"></a>)</span>
+<span id="cb4-175"><a href="support-code.html#cb4-175"></a>results_adjusted_penalized &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-176"><a href="support-code.html#cb4-176"></a>  berlin,</span>
+<span id="cb4-177"><a href="support-code.html#cb4-177"></a>  <span class="dt">likelihood =</span> penalized_likelihood,</span>
+<span id="cb4-178"><a href="support-code.html#cb4-178"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-179"><a href="support-code.html#cb4-179"></a>)</span>
+<span id="cb4-180"><a href="support-code.html#cb4-180"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-181"><a href="support-code.html#cb4-181"></a>  results_adjusted_penalized,</span>
+<span id="cb4-182"><a href="support-code.html#cb4-182"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-183"><a href="support-code.html#cb4-183"></a><span class="st">  using an adjusted penalized likelihood function&quot;</span></span>
+<span id="cb4-184"><a href="support-code.html#cb4-184"></a>)</span>
+<span id="cb4-185"><a href="support-code.html#cb4-185"></a><span class="kw">plot_results</span>(results_adjusted_penalized, berlin)</span>
+<span id="cb4-186"><a href="support-code.html#cb4-186"></a>monthly_berlin &lt;-<span class="st"> </span>berlin <span class="op">%&gt;%</span></span>
+<span id="cb4-187"><a href="support-code.html#cb4-187"></a><span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames =</span> <span class="st">&quot;station&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-188"><a href="support-code.html#cb4-188"></a><span class="st">  </span><span class="kw">gather</span>(time, temperature, <span class="op">-</span>station) <span class="op">%&gt;%</span></span>
+<span id="cb4-189"><a href="support-code.html#cb4-189"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">month =</span> <span class="kw">floor_date</span>(<span class="kw">ymd</span>(time), <span class="st">&quot;month&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb4-190"><a href="support-code.html#cb4-190"></a><span class="st">  </span><span class="kw">group_by</span>(station, month) <span class="op">%&gt;%</span></span>
+<span id="cb4-191"><a href="support-code.html#cb4-191"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">temperature =</span> <span class="kw">mean</span>(temperature)) <span class="op">%&gt;%</span></span>
+<span id="cb4-192"><a href="support-code.html#cb4-192"></a><span class="st">  </span><span class="kw">spread</span>(month, temperature) <span class="op">%&gt;%</span><span class="st"> </span>{</span>
+<span id="cb4-193"><a href="support-code.html#cb4-193"></a>    stations &lt;-<span class="st"> </span>.<span class="op">$</span>station</span>
+<span id="cb4-194"><a href="support-code.html#cb4-194"></a>    result &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(.[, <span class="dv">-1</span>])</span>
+<span id="cb4-195"><a href="support-code.html#cb4-195"></a>    <span class="kw">rownames</span>(result) &lt;-<span class="st"> </span>stations</span>
+<span id="cb4-196"><a href="support-code.html#cb4-196"></a>    result</span>
+<span id="cb4-197"><a href="support-code.html#cb4-197"></a>  }</span>
+<span id="cb4-198"><a href="support-code.html#cb4-198"></a></span>
+<span id="cb4-199"><a href="support-code.html#cb4-199"></a>monthly_berlin <span class="op">%&gt;%</span></span>
+<span id="cb4-200"><a href="support-code.html#cb4-200"></a><span class="st">  </span><span class="kw">colMeans</span>() <span class="op">%&gt;%</span></span>
+<span id="cb4-201"><a href="support-code.html#cb4-201"></a><span class="st">  </span><span class="kw">enframe</span>(<span class="st">&quot;time&quot;</span>, <span class="st">&quot;temperature&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-202"><a href="support-code.html#cb4-202"></a><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(time), ymd) <span class="op">%&gt;%</span></span>
+<span id="cb4-203"><a href="support-code.html#cb4-203"></a><span class="st">  </span><span class="kw">with</span>(<span class="kw">plot</span>(time, temperature, <span class="dt">cex=</span><span class="fl">0.2</span>))</span>
+<span id="cb4-204"><a href="support-code.html#cb4-204"></a>penalized_likelihood &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
+<span id="cb4-205"><a href="support-code.html#cb4-205"></a>  monthly_berlin,</span>
+<span id="cb4-206"><a href="support-code.html#cb4-206"></a>  lm_likelihood,</span>
+<span id="cb4-207"><a href="support-code.html#cb4-207"></a>  <span class="dt">small_segment_penalty =</span> <span class="dv">100</span></span>
+<span id="cb4-208"><a href="support-code.html#cb4-208"></a>)</span>
+<span id="cb4-209"><a href="support-code.html#cb4-209"></a></span>
+<span id="cb4-210"><a href="support-code.html#cb4-210"></a>results_downscaled &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-211"><a href="support-code.html#cb4-211"></a>  monthly_berlin,</span>
+<span id="cb4-212"><a href="support-code.html#cb4-212"></a>  <span class="dt">likelihood =</span> penalized_likelihood,</span>
+<span id="cb4-213"><a href="support-code.html#cb4-213"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span></span>
+<span id="cb4-214"><a href="support-code.html#cb4-214"></a>)</span>
+<span id="cb4-215"><a href="support-code.html#cb4-215"></a></span>
+<span id="cb4-216"><a href="support-code.html#cb4-216"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-217"><a href="support-code.html#cb4-217"></a>  results_downscaled,</span>
+<span id="cb4-218"><a href="support-code.html#cb4-218"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-219"><a href="support-code.html#cb4-219"></a><span class="st">    using an auto-penalized likelihood function over</span></span>
+<span id="cb4-220"><a href="support-code.html#cb4-220"></a><span class="st">    downsampled berlin data&quot;</span></span>
+<span id="cb4-221"><a href="support-code.html#cb4-221"></a>)</span>
+<span id="cb4-222"><a href="support-code.html#cb4-222"></a><span class="kw">plot_results</span>(results_downscaled, monthly_berlin)</span>
+<span id="cb4-223"><a href="support-code.html#cb4-223"></a>rescaled_changepoints &lt;-<span class="st"> </span><span class="kw">round</span>(</span>
+<span id="cb4-224"><a href="support-code.html#cb4-224"></a>  results_downscaled<span class="op">$</span>changepoints</span>
+<span id="cb4-225"><a href="support-code.html#cb4-225"></a>  <span class="op">*</span><span class="st"> </span><span class="kw">ncol</span>(berlin) <span class="op">/</span><span class="st"> </span><span class="kw">ncol</span>(monthly_berlin)</span>
+<span id="cb4-226"><a href="support-code.html#cb4-226"></a>)</span>
+<span id="cb4-227"><a href="support-code.html#cb4-227"></a></span>
+<span id="cb4-228"><a href="support-code.html#cb4-228"></a>results_rescaled &lt;-<span class="st"> </span><span class="kw">with_segments</span>(</span>
+<span id="cb4-229"><a href="support-code.html#cb4-229"></a>  <span class="dt">changepoints=</span>rescaled_changepoints,</span>
+<span id="cb4-230"><a href="support-code.html#cb4-230"></a>  <span class="dt">len=</span><span class="kw">ncol</span>(berlin)</span>
+<span id="cb4-231"><a href="support-code.html#cb4-231"></a>)</span>
+<span id="cb4-232"><a href="support-code.html#cb4-232"></a></span>
+<span id="cb4-233"><a href="support-code.html#cb4-233"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-234"><a href="support-code.html#cb4-234"></a>  results_rescaled,</span>
+<span id="cb4-235"><a href="support-code.html#cb4-235"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-236"><a href="support-code.html#cb4-236"></a><span class="st">    using an auto-penalized likelihood function over</span></span>
+<span id="cb4-237"><a href="support-code.html#cb4-237"></a><span class="st">    downsampled berlin data, but rescaled to fit the</span></span>
+<span id="cb4-238"><a href="support-code.html#cb4-238"></a><span class="st">    original data dimensions&quot;</span></span>
+<span id="cb4-239"><a href="support-code.html#cb4-239"></a>)</span>
+<span id="cb4-240"><a href="support-code.html#cb4-240"></a><span class="kw">plot_results</span>(results_rescaled, berlin)</span>
+<span id="cb4-241"><a href="support-code.html#cb4-241"></a>rsquared_likelihood &lt;-<span class="st"> </span><span class="cf">function</span> (data) {</span>
+<span id="cb4-242"><a href="support-code.html#cb4-242"></a>  <span class="kw">as_tibble</span>(<span class="kw">t</span>(data)) <span class="op">%&gt;%</span></span>
+<span id="cb4-243"><a href="support-code.html#cb4-243"></a><span class="st">    </span><span class="kw">rowid_to_column</span>() <span class="op">%&gt;%</span></span>
+<span id="cb4-244"><a href="support-code.html#cb4-244"></a><span class="st">    </span><span class="kw">gather</span>(station, temperature, <span class="op">-</span>rowid) <span class="op">%&gt;%</span></span>
+<span id="cb4-245"><a href="support-code.html#cb4-245"></a><span class="st">    </span><span class="kw">with</span>(<span class="kw">lm</span>(temperature <span class="op">~</span><span class="st"> </span>rowid)) <span class="op">%&gt;%</span></span>
+<span id="cb4-246"><a href="support-code.html#cb4-246"></a><span class="st">    </span>summary <span class="op">%&gt;%</span></span>
+<span id="cb4-247"><a href="support-code.html#cb4-247"></a><span class="st">    </span>.<span class="op">$</span>adj.r.squared</span>
+<span id="cb4-248"><a href="support-code.html#cb4-248"></a>}</span>
+<span id="cb4-249"><a href="support-code.html#cb4-249"></a></span>
+<span id="cb4-250"><a href="support-code.html#cb4-250"></a><span class="kw">tibble</span>(</span>
+<span id="cb4-251"><a href="support-code.html#cb4-251"></a>  <span class="st">`</span><span class="dt">Small Size</span><span class="st">`</span>=<span class="kw">rsquared_likelihood</span>(berlin[, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]),</span>
+<span id="cb4-252"><a href="support-code.html#cb4-252"></a>  <span class="st">`</span><span class="dt">Medium Size</span><span class="st">`</span>=<span class="kw">rsquared_likelihood</span>(berlin[, <span class="dv">1</span><span class="op">:</span><span class="dv">150</span>]),</span>
+<span id="cb4-253"><a href="support-code.html#cb4-253"></a>  <span class="st">`</span><span class="dt">Large Size</span><span class="st">`</span>=<span class="kw">rsquared_likelihood</span>(berlin)</span>
+<span id="cb4-254"><a href="support-code.html#cb4-254"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb4-255"><a href="support-code.html#cb4-255"></a><span class="st">  </span><span class="kw">kable</span>(</span>
+<span id="cb4-256"><a href="support-code.html#cb4-256"></a>    <span class="dt">caption=</span><span class="st">&quot;Sample values of the R-squared</span></span>
+<span id="cb4-257"><a href="support-code.html#cb4-257"></a><span class="st">    likelihood function for different sizes of segment</span></span>
+<span id="cb4-258"><a href="support-code.html#cb4-258"></a><span class="st">    candidates&quot;</span></span>
+<span id="cb4-259"><a href="support-code.html#cb4-259"></a>  )</span>
+<span id="cb4-260"><a href="support-code.html#cb4-260"></a>penalized_likelihood &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
+<span id="cb4-261"><a href="support-code.html#cb4-261"></a>  berlin,</span>
+<span id="cb4-262"><a href="support-code.html#cb4-262"></a>  rsquared_likelihood</span>
+<span id="cb4-263"><a href="support-code.html#cb4-263"></a>)</span>
+<span id="cb4-264"><a href="support-code.html#cb4-264"></a>results &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-265"><a href="support-code.html#cb4-265"></a>  berlin,</span>
+<span id="cb4-266"><a href="support-code.html#cb4-266"></a>  <span class="dt">likelihood =</span> penalized_likelihood,</span>
+<span id="cb4-267"><a href="support-code.html#cb4-267"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-268"><a href="support-code.html#cb4-268"></a>)</span>
+<span id="cb4-269"><a href="support-code.html#cb4-269"></a></span>
+<span id="cb4-270"><a href="support-code.html#cb4-270"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-271"><a href="support-code.html#cb4-271"></a>  results,</span>
+<span id="cb4-272"><a href="support-code.html#cb4-272"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-273"><a href="support-code.html#cb4-273"></a><span class="st">    using an auto-penalized R-squared likelihood function over</span></span>
+<span id="cb4-274"><a href="support-code.html#cb4-274"></a><span class="st">    Berlin data&quot;</span></span>
+<span id="cb4-275"><a href="support-code.html#cb4-275"></a>)</span>
+<span id="cb4-276"><a href="support-code.html#cb4-276"></a><span class="kw">plot_results</span>(results, berlin)</span>
+<span id="cb4-277"><a href="support-code.html#cb4-277"></a>penalized_likelihood &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
+<span id="cb4-278"><a href="support-code.html#cb4-278"></a>  berlin,</span>
+<span id="cb4-279"><a href="support-code.html#cb4-279"></a>  rsquared_likelihood,</span>
+<span id="cb4-280"><a href="support-code.html#cb4-280"></a>  <span class="dt">small_segment_penalty =</span> <span class="fl">1.5</span></span>
+<span id="cb4-281"><a href="support-code.html#cb4-281"></a>)</span>
+<span id="cb4-282"><a href="support-code.html#cb4-282"></a>results &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-283"><a href="support-code.html#cb4-283"></a>  berlin,</span>
+<span id="cb4-284"><a href="support-code.html#cb4-284"></a>  <span class="dt">likelihood =</span> penalized_likelihood,</span>
+<span id="cb4-285"><a href="support-code.html#cb4-285"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-286"><a href="support-code.html#cb4-286"></a>)</span>
+<span id="cb4-287"><a href="support-code.html#cb4-287"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-288"><a href="support-code.html#cb4-288"></a>  results,</span>
+<span id="cb4-289"><a href="support-code.html#cb4-289"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-290"><a href="support-code.html#cb4-290"></a><span class="st">    using an adjusted penalized R-squared likelihood</span></span>
+<span id="cb4-291"><a href="support-code.html#cb4-291"></a><span class="st">    function over Berlin data&quot;</span></span>
+<span id="cb4-292"><a href="support-code.html#cb4-292"></a>)</span>
+<span id="cb4-293"><a href="support-code.html#cb4-293"></a><span class="kw">plot_results</span>(results, berlin)</span>
+<span id="cb4-294"><a href="support-code.html#cb4-294"></a>sub_berlin &lt;-<span class="st"> </span>berlin[, <span class="dv">1</span><span class="op">:</span><span class="dv">547</span>]</span>
+<span id="cb4-295"><a href="support-code.html#cb4-295"></a>penalized_likelihood &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
+<span id="cb4-296"><a href="support-code.html#cb4-296"></a>  sub_berlin,</span>
+<span id="cb4-297"><a href="support-code.html#cb4-297"></a>  rsquared_likelihood</span>
+<span id="cb4-298"><a href="support-code.html#cb4-298"></a>)</span>
+<span id="cb4-299"><a href="support-code.html#cb4-299"></a>results &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-300"><a href="support-code.html#cb4-300"></a>  sub_berlin,</span>
+<span id="cb4-301"><a href="support-code.html#cb4-301"></a>  <span class="dt">likelihood =</span> penalized_likelihood,</span>
+<span id="cb4-302"><a href="support-code.html#cb4-302"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-303"><a href="support-code.html#cb4-303"></a>)</span>
+<span id="cb4-304"><a href="support-code.html#cb4-304"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-305"><a href="support-code.html#cb4-305"></a>  results,</span>
+<span id="cb4-306"><a href="support-code.html#cb4-306"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-307"><a href="support-code.html#cb4-307"></a><span class="st">    using an auto-penalized R-squared likelihood</span></span>
+<span id="cb4-308"><a href="support-code.html#cb4-308"></a><span class="st">    function over a subset of Berlin data&quot;</span></span>
+<span id="cb4-309"><a href="support-code.html#cb4-309"></a>)</span>
+<span id="cb4-310"><a href="support-code.html#cb4-310"></a><span class="kw">plot_results</span>(results, sub_berlin)</span>
+<span id="cb4-311"><a href="support-code.html#cb4-311"></a><span class="kw">source</span>(<span class="st">&quot;helper.R&quot;</span>)</span>
+<span id="cb4-312"><a href="support-code.html#cb4-312"></a><span class="kw">library</span>(microbenchmark)</span>
+<span id="cb4-313"><a href="support-code.html#cb4-313"></a>data &lt;-<span class="st"> </span><span class="kw">makeRandom</span>(<span class="dv">20</span>, <span class="dv">100</span>)</span>
+<span id="cb4-314"><a href="support-code.html#cb4-314"></a></span>
+<span id="cb4-315"><a href="support-code.html#cb4-315"></a>bench &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</span>
+<span id="cb4-316"><a href="support-code.html#cb4-316"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-317"><a href="support-code.html#cb4-317"></a>          <span class="dt">likelihood =</span> multivariate,</span>
+<span id="cb4-318"><a href="support-code.html#cb4-318"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>),</span>
+<span id="cb4-319"><a href="support-code.html#cb4-319"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-320"><a href="support-code.html#cb4-320"></a>          <span class="dt">likelihood =</span> r_multivariate,</span>
+<span id="cb4-321"><a href="support-code.html#cb4-321"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>),</span>
+<span id="cb4-322"><a href="support-code.html#cb4-322"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-323"><a href="support-code.html#cb4-323"></a>          <span class="dt">likelihood =</span> multivariate,</span>
+<span id="cb4-324"><a href="support-code.html#cb4-324"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>),</span>
+<span id="cb4-325"><a href="support-code.html#cb4-325"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-326"><a href="support-code.html#cb4-326"></a>          <span class="dt">likelihood =</span> r_multivariate,</span>
+<span id="cb4-327"><a href="support-code.html#cb4-327"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>),</span>
+<span id="cb4-328"><a href="support-code.html#cb4-328"></a>  <span class="dt">times =</span> <span class="dv">2</span></span>
+<span id="cb4-329"><a href="support-code.html#cb4-329"></a>)</span>
+<span id="cb4-330"><a href="support-code.html#cb4-330"></a></span>
+<span id="cb4-331"><a href="support-code.html#cb4-331"></a><span class="kw">print_benchmark</span>(</span>
+<span id="cb4-332"><a href="support-code.html#cb4-332"></a>  bench,</span>
+<span id="cb4-333"><a href="support-code.html#cb4-333"></a>  <span class="dt">caption=</span><span class="st">&quot;Execution time comparison</span></span>
+<span id="cb4-334"><a href="support-code.html#cb4-334"></a><span class="st">    between native C++ and interpreted R code&quot;</span></span>
+<span id="cb4-335"><a href="support-code.html#cb4-335"></a>)</span>
+<span id="cb4-336"><a href="support-code.html#cb4-336"></a>data &lt;-<span class="st"> </span><span class="kw">makeRandom</span>(<span class="dv">100</span>, <span class="dv">10</span>)</span>
+<span id="cb4-337"><a href="support-code.html#cb4-337"></a>doMC<span class="op">::</span><span class="kw">registerDoMC</span>(<span class="dv">4</span>)</span>
+<span id="cb4-338"><a href="support-code.html#cb4-338"></a>bench &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</span>
+<span id="cb4-339"><a href="support-code.html#cb4-339"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-340"><a href="support-code.html#cb4-340"></a>          <span class="dt">likelihood =</span> multivariate,</span>
+<span id="cb4-341"><a href="support-code.html#cb4-341"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
+<span id="cb4-342"><a href="support-code.html#cb4-342"></a>          <span class="dt">allow_parallel =</span> <span class="ot">FALSE</span>),</span>
+<span id="cb4-343"><a href="support-code.html#cb4-343"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-344"><a href="support-code.html#cb4-344"></a>          <span class="dt">likelihood =</span> multivariate,</span>
+<span id="cb4-345"><a href="support-code.html#cb4-345"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
+<span id="cb4-346"><a href="support-code.html#cb4-346"></a>          <span class="dt">allow_parallel =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb4-347"><a href="support-code.html#cb4-347"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-348"><a href="support-code.html#cb4-348"></a>          <span class="dt">likelihood =</span> multivariate,</span>
+<span id="cb4-349"><a href="support-code.html#cb4-349"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>,</span>
+<span id="cb4-350"><a href="support-code.html#cb4-350"></a>          <span class="dt">allow_parallel =</span> <span class="ot">FALSE</span>),</span>
+<span id="cb4-351"><a href="support-code.html#cb4-351"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-352"><a href="support-code.html#cb4-352"></a>          <span class="dt">likelihood =</span> multivariate,</span>
+<span id="cb4-353"><a href="support-code.html#cb4-353"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>,</span>
+<span id="cb4-354"><a href="support-code.html#cb4-354"></a>          <span class="dt">allow_parallel =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb4-355"><a href="support-code.html#cb4-355"></a>  <span class="dt">times =</span> <span class="dv">1</span></span>
+<span id="cb4-356"><a href="support-code.html#cb4-356"></a>)</span>
+<span id="cb4-357"><a href="support-code.html#cb4-357"></a><span class="kw">print_benchmark</span>(</span>
+<span id="cb4-358"><a href="support-code.html#cb4-358"></a>  bench,</span>
+<span id="cb4-359"><a href="support-code.html#cb4-359"></a>  <span class="dt">caption=</span><span class="st">&quot;Execution time comparison</span></span>
+<span id="cb4-360"><a href="support-code.html#cb4-360"></a><span class="st">    between parralel and single-threaded computation</span></span>
+<span id="cb4-361"><a href="support-code.html#cb4-361"></a><span class="st">    with a data set of 100 samples and 10 columns&quot;</span></span>
+<span id="cb4-362"><a href="support-code.html#cb4-362"></a>)</span>
+<span id="cb4-363"><a href="support-code.html#cb4-363"></a>data &lt;-<span class="st"> </span><span class="kw">makeRandom</span>(<span class="dv">5</span>, <span class="dv">100</span>)</span>
+<span id="cb4-364"><a href="support-code.html#cb4-364"></a>doMC<span class="op">::</span><span class="kw">registerDoMC</span>(<span class="dv">4</span>)</span>
+<span id="cb4-365"><a href="support-code.html#cb4-365"></a>bench &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</span>
+<span id="cb4-366"><a href="support-code.html#cb4-366"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-367"><a href="support-code.html#cb4-367"></a>          <span class="dt">likelihood =</span> multivariate,</span>
+<span id="cb4-368"><a href="support-code.html#cb4-368"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
+<span id="cb4-369"><a href="support-code.html#cb4-369"></a>          <span class="dt">allow_parallel =</span> <span class="ot">FALSE</span>),</span>
+<span id="cb4-370"><a href="support-code.html#cb4-370"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-371"><a href="support-code.html#cb4-371"></a>          <span class="dt">likelihood =</span> multivariate,</span>
+<span id="cb4-372"><a href="support-code.html#cb4-372"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
+<span id="cb4-373"><a href="support-code.html#cb4-373"></a>          <span class="dt">allow_parallel =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb4-374"><a href="support-code.html#cb4-374"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-375"><a href="support-code.html#cb4-375"></a>          <span class="dt">likelihood =</span> multivariate,</span>
+<span id="cb4-376"><a href="support-code.html#cb4-376"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>,</span>
+<span id="cb4-377"><a href="support-code.html#cb4-377"></a>          <span class="dt">allow_parallel =</span> <span class="ot">FALSE</span>),</span>
+<span id="cb4-378"><a href="support-code.html#cb4-378"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-379"><a href="support-code.html#cb4-379"></a>          <span class="dt">likelihood =</span> multivariate,</span>
+<span id="cb4-380"><a href="support-code.html#cb4-380"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>,</span>
+<span id="cb4-381"><a href="support-code.html#cb4-381"></a>          <span class="dt">allow_parallel =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb4-382"><a href="support-code.html#cb4-382"></a>  <span class="dt">times =</span> <span class="dv">1</span></span>
+<span id="cb4-383"><a href="support-code.html#cb4-383"></a>)</span>
+<span id="cb4-384"><a href="support-code.html#cb4-384"></a></span>
+<span id="cb4-385"><a href="support-code.html#cb4-385"></a><span class="kw">print_benchmark</span>(</span>
+<span id="cb4-386"><a href="support-code.html#cb4-386"></a>  bench,</span>
+<span id="cb4-387"><a href="support-code.html#cb4-387"></a>  <span class="dt">caption=</span><span class="st">&quot;Execution time comparison</span></span>
+<span id="cb4-388"><a href="support-code.html#cb4-388"></a><span class="st">    between parralel and single-threaded computation</span></span>
+<span id="cb4-389"><a href="support-code.html#cb4-389"></a><span class="st">    with a data set of 5 samples and 100 columns&quot;</span></span>
+<span id="cb4-390"><a href="support-code.html#cb4-390"></a>)</span>
+<span id="cb4-391"><a href="support-code.html#cb4-391"></a><span class="kw">source</span>(<span class="st">&quot;helper.R&quot;</span>)</span>
+<span id="cb4-392"><a href="support-code.html#cb4-392"></a>hausdorff &lt;-<span class="st"> </span><span class="cf">function</span>(set_a, set_b) {</span>
+<span id="cb4-393"><a href="support-code.html#cb4-393"></a>  distance &lt;-<span class="st"> </span><span class="kw">Vectorize</span>(<span class="cf">function</span>(p1, p2) <span class="kw">abs</span>(p1 <span class="op">-</span><span class="st"> </span>p2))</span>
+<span id="cb4-394"><a href="support-code.html#cb4-394"></a></span>
+<span id="cb4-395"><a href="support-code.html#cb4-395"></a>  distance_<span class="dv">1</span>_to_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="cf">function</span>(set_<span class="dv">1</span>, set_<span class="dv">2</span>) {</span>
+<span id="cb4-396"><a href="support-code.html#cb4-396"></a>    <span class="kw">max</span>(<span class="kw">sapply</span>(set_<span class="dv">1</span>, <span class="cf">function</span>(p1) <span class="kw">min</span>(<span class="kw">distance</span>(p1, set_<span class="dv">2</span>))))</span>
+<span id="cb4-397"><a href="support-code.html#cb4-397"></a>  }</span>
+<span id="cb4-398"><a href="support-code.html#cb4-398"></a></span>
+<span id="cb4-399"><a href="support-code.html#cb4-399"></a>  <span class="kw">max</span>(<span class="kw">distance_1_to_2</span>(set_a, set_b), <span class="kw">distance_1_to_2</span>(set_b, set_a))</span>
+<span id="cb4-400"><a href="support-code.html#cb4-400"></a>}</span>
+<span id="cb4-401"><a href="support-code.html#cb4-401"></a></span>
+<span id="cb4-402"><a href="support-code.html#cb4-402"></a>segment_distance &lt;-<span class="st"> </span><span class="cf">function</span>(changepoints1, changepoints2) {</span>
+<span id="cb4-403"><a href="support-code.html#cb4-403"></a>  <span class="kw">hausdorff</span>(<span class="kw">c</span>(<span class="dv">1</span>, changepoints1), <span class="kw">c</span>(<span class="dv">1</span>, changepoints2))</span>
+<span id="cb4-404"><a href="support-code.html#cb4-404"></a>}</span>
+<span id="cb4-405"><a href="support-code.html#cb4-405"></a>deviation &lt;-<span class="st"> </span><span class="kw">partial</span>(</span>
+<span id="cb4-406"><a href="support-code.html#cb4-406"></a>  segment_distance,</span>
+<span id="cb4-407"><a href="support-code.html#cb4-407"></a>  <span class="dt">changepoints2=</span>expected_berlin<span class="op">$</span>changepoints</span>
+<span id="cb4-408"><a href="support-code.html#cb4-408"></a>)</span>
+<span id="cb4-409"><a href="support-code.html#cb4-409"></a></span>
+<span id="cb4-410"><a href="support-code.html#cb4-410"></a><span class="kw">tribble</span>(</span>
+<span id="cb4-411"><a href="support-code.html#cb4-411"></a>  <span class="op">~</span><span class="st">`</span><span class="dt">Results referenced</span><span class="st">`</span>,</span>
+<span id="cb4-412"><a href="support-code.html#cb4-412"></a>    <span class="op">~</span><span class="st">`</span><span class="dt">Estimated Changepoints</span><span class="st">`</span>,</span>
+<span id="cb4-413"><a href="support-code.html#cb4-413"></a>      <span class="op">~</span><span class="st">`</span><span class="dt">Hausdorff Distance to Ideal</span><span class="st">`</span>,</span>
+<span id="cb4-414"><a href="support-code.html#cb4-414"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:berlinexpectedtable">5.2</a>&quot;</span>,</span>
+<span id="cb4-415"><a href="support-code.html#cb4-415"></a>    <span class="kw">comma_format</span>(expected_berlin<span class="op">$</span>changepoints),</span>
+<span id="cb4-416"><a href="support-code.html#cb4-416"></a>      <span class="kw">deviation</span>(expected_berlin<span class="op">$</span>changepoints),</span>
+<span id="cb4-417"><a href="support-code.html#cb4-417"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:resultsnonpenalized">5.4</a>&quot;</span>,</span>
+<span id="cb4-418"><a href="support-code.html#cb4-418"></a>    <span class="kw">comma_format</span>(results_non_penalized<span class="op">$</span>changepoints),</span>
+<span id="cb4-419"><a href="support-code.html#cb4-419"></a>      <span class="kw">deviation</span>(results_non_penalized<span class="op">$</span>changepoints),</span>
+<span id="cb4-420"><a href="support-code.html#cb4-420"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:resultsautopenalized">5.5</a>&quot;</span>,</span>
+<span id="cb4-421"><a href="support-code.html#cb4-421"></a>    <span class="kw">comma_format</span>(results_auto_penalized<span class="op">$</span>changepoints),</span>
+<span id="cb4-422"><a href="support-code.html#cb4-422"></a>      <span class="kw">deviation</span>(results_auto_penalized<span class="op">$</span>changepoints),</span>
+<span id="cb4-423"><a href="support-code.html#cb4-423"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:resultsadjustedpenalized">5.6</a>&quot;</span>,</span>
+<span id="cb4-424"><a href="support-code.html#cb4-424"></a>    <span class="kw">comma_format</span>(results_adjusted_penalized<span class="op">$</span>changepoints),</span>
+<span id="cb4-425"><a href="support-code.html#cb4-425"></a>      <span class="kw">deviation</span>(results_adjusted_penalized<span class="op">$</span>changepoints),</span>
+<span id="cb4-426"><a href="support-code.html#cb4-426"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:resultsrescaled">5.8</a>&quot;</span>,</span>
+<span id="cb4-427"><a href="support-code.html#cb4-427"></a>    <span class="kw">comma_format</span>(results_rescaled<span class="op">$</span>changepoints),</span>
+<span id="cb4-428"><a href="support-code.html#cb4-428"></a>      <span class="kw">deviation</span>(results_rescaled<span class="op">$</span>changepoints)</span>
+<span id="cb4-429"><a href="support-code.html#cb4-429"></a>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(</span>
+<span id="cb4-430"><a href="support-code.html#cb4-430"></a>  <span class="dt">caption=</span><span class="st">&quot;Hausdorff distance for different</span></span>
+<span id="cb4-431"><a href="support-code.html#cb4-431"></a><span class="st">  segmentation attepmts over the Berlin weather data set&quot;</span></span>
+<span id="cb4-432"><a href="support-code.html#cb4-432"></a>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">column_spec</span>(<span class="dv">2</span>, <span class="dt">width=</span><span class="st">&quot;15em&quot;</span>)</span>
+<span id="cb4-433"><a href="support-code.html#cb4-433"></a>expected_multivariate_example &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">11</span>)</span>
+<span id="cb4-434"><a href="support-code.html#cb4-434"></a></span>
+<span id="cb4-435"><a href="support-code.html#cb4-435"></a>deviation &lt;-<span class="st"> </span><span class="kw">partial</span>(</span>
+<span id="cb4-436"><a href="support-code.html#cb4-436"></a>  segment_distance,</span>
+<span id="cb4-437"><a href="support-code.html#cb4-437"></a>  <span class="dt">changepoints2=</span>expected_multivariate_example</span>
+<span id="cb4-438"><a href="support-code.html#cb4-438"></a>)</span>
+<span id="cb4-439"><a href="support-code.html#cb4-439"></a></span>
+<span id="cb4-440"><a href="support-code.html#cb4-440"></a>exact_multivariate_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-441"><a href="support-code.html#cb4-441"></a>  D_example,</span>
+<span id="cb4-442"><a href="support-code.html#cb4-442"></a>  <span class="dt">likelihood =</span> penalized_multivariate,</span>
+<span id="cb4-443"><a href="support-code.html#cb4-443"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span></span>
+<span id="cb4-444"><a href="support-code.html#cb4-444"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-445"><a href="support-code.html#cb4-445"></a></span>
+<span id="cb4-446"><a href="support-code.html#cb4-446"></a>hieralg_multivariate_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-447"><a href="support-code.html#cb4-447"></a>  D_example,</span>
+<span id="cb4-448"><a href="support-code.html#cb4-448"></a>  <span class="dt">likelihood =</span> penalized_multivariate,</span>
+<span id="cb4-449"><a href="support-code.html#cb4-449"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-450"><a href="support-code.html#cb4-450"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-451"><a href="support-code.html#cb4-451"></a></span>
+<span id="cb4-452"><a href="support-code.html#cb4-452"></a>hybrid_multivariate_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-453"><a href="support-code.html#cb4-453"></a>  D_example,</span>
+<span id="cb4-454"><a href="support-code.html#cb4-454"></a>  <span class="dt">likelihood =</span> penalized_multivariate,</span>
+<span id="cb4-455"><a href="support-code.html#cb4-455"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hybrid&quot;</span></span>
+<span id="cb4-456"><a href="support-code.html#cb4-456"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-457"><a href="support-code.html#cb4-457"></a></span>
+<span id="cb4-458"><a href="support-code.html#cb4-458"></a>hybrid_multivariate_changepoints_threshold &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-459"><a href="support-code.html#cb4-459"></a>  D_example,</span>
+<span id="cb4-460"><a href="support-code.html#cb4-460"></a>  <span class="dt">likelihood =</span> penalized_multivariate,</span>
+<span id="cb4-461"><a href="support-code.html#cb4-461"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hybrid&quot;</span>,</span>
+<span id="cb4-462"><a href="support-code.html#cb4-462"></a>  <span class="dt">threshold =</span> <span class="dv">4</span></span>
+<span id="cb4-463"><a href="support-code.html#cb4-463"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-464"><a href="support-code.html#cb4-464"></a></span>
+<span id="cb4-465"><a href="support-code.html#cb4-465"></a><span class="kw">tribble</span>(</span>
+<span id="cb4-466"><a href="support-code.html#cb4-466"></a>  <span class="op">~</span><span class="st">`</span><span class="dt">Description</span><span class="st">`</span>,</span>
+<span id="cb4-467"><a href="support-code.html#cb4-467"></a>    <span class="op">~</span><span class="st">`</span><span class="dt">Changepoints</span><span class="st">`</span>,</span>
+<span id="cb4-468"><a href="support-code.html#cb4-468"></a>      <span class="op">~</span><span class="st">`</span><span class="dt">Hausdorff Distance</span><span class="st">`</span>,</span>
+<span id="cb4-469"><a href="support-code.html#cb4-469"></a>  <span class="st">&quot;Expected solution&quot;</span>,</span>
+<span id="cb4-470"><a href="support-code.html#cb4-470"></a>    <span class="kw">comma_format</span>(expected_multivariate_example),</span>
+<span id="cb4-471"><a href="support-code.html#cb4-471"></a>      <span class="kw">deviation</span>(expected_multivariate_example),</span>
+<span id="cb4-472"><a href="support-code.html#cb4-472"></a>  <span class="st">&quot;Exact algorithm estimate&quot;</span>,</span>
+<span id="cb4-473"><a href="support-code.html#cb4-473"></a>    <span class="kw">comma_format</span>(exact_multivariate_changepoints),</span>
+<span id="cb4-474"><a href="support-code.html#cb4-474"></a>      <span class="kw">deviation</span>(exact_multivariate_changepoints),</span>
+<span id="cb4-475"><a href="support-code.html#cb4-475"></a>  <span class="st">&quot;Hierarchical algorithm estimate&quot;</span>,</span>
+<span id="cb4-476"><a href="support-code.html#cb4-476"></a>    <span class="kw">comma_format</span>(hieralg_multivariate_changepoints),</span>
+<span id="cb4-477"><a href="support-code.html#cb4-477"></a>      <span class="kw">deviation</span>(hieralg_multivariate_changepoints),</span>
+<span id="cb4-478"><a href="support-code.html#cb4-478"></a>  <span class="st">&quot;Hybrid algorithm estimate with threshold 50&quot;</span>,</span>
+<span id="cb4-479"><a href="support-code.html#cb4-479"></a>    <span class="kw">comma_format</span>(hybrid_multivariate_changepoints),</span>
+<span id="cb4-480"><a href="support-code.html#cb4-480"></a>      <span class="kw">deviation</span>(hybrid_multivariate_changepoints),</span>
+<span id="cb4-481"><a href="support-code.html#cb4-481"></a>  <span class="st">&quot;Hybrid algorithm estimate with threshold 4&quot;</span>,</span>
+<span id="cb4-482"><a href="support-code.html#cb4-482"></a>    <span class="kw">comma_format</span>(hybrid_multivariate_changepoints_threshold),</span>
+<span id="cb4-483"><a href="support-code.html#cb4-483"></a>      <span class="kw">deviation</span>(hybrid_multivariate_changepoints_threshold)</span>
+<span id="cb4-484"><a href="support-code.html#cb4-484"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb4-485"><a href="support-code.html#cb4-485"></a><span class="st">  </span><span class="kw">kable</span>(<span class="dt">caption=</span><span class="st">&quot;Comparison of solutions of different algorithms</span></span>
+<span id="cb4-486"><a href="support-code.html#cb4-486"></a><span class="st">to segmenting the data set described in <a href="simulations.html#eq:examplecolumns">(4.1)</a>,</span></span>
+<span id="cb4-487"><a href="support-code.html#cb4-487"></a><span class="st">measuring how far each solution is from the ideal</span></span>
+<span id="cb4-488"><a href="support-code.html#cb4-488"></a><span class="st">solution using the Hausdorff distance.&quot;</span>)</span>
+<span id="cb4-489"><a href="support-code.html#cb4-489"></a>expected_mean_example &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">16</span>)</span>
+<span id="cb4-490"><a href="support-code.html#cb4-490"></a></span>
+<span id="cb4-491"><a href="support-code.html#cb4-491"></a>deviation &lt;-<span class="st"> </span><span class="kw">partial</span>(</span>
+<span id="cb4-492"><a href="support-code.html#cb4-492"></a>  segment_distance,</span>
+<span id="cb4-493"><a href="support-code.html#cb4-493"></a>  <span class="dt">changepoints2=</span>expected_mean_example</span>
+<span id="cb4-494"><a href="support-code.html#cb4-494"></a>)</span>
+<span id="cb4-495"><a href="support-code.html#cb4-495"></a></span>
+<span id="cb4-496"><a href="support-code.html#cb4-496"></a>exact_mean_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-497"><a href="support-code.html#cb4-497"></a>  D_genetic,</span>
+<span id="cb4-498"><a href="support-code.html#cb4-498"></a>  <span class="dt">likelihood =</span> penalized_mean_likelihood,</span>
+<span id="cb4-499"><a href="support-code.html#cb4-499"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span></span>
+<span id="cb4-500"><a href="support-code.html#cb4-500"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-501"><a href="support-code.html#cb4-501"></a></span>
+<span id="cb4-502"><a href="support-code.html#cb4-502"></a>hieralg_mean_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-503"><a href="support-code.html#cb4-503"></a>  D_genetic,</span>
+<span id="cb4-504"><a href="support-code.html#cb4-504"></a>  <span class="dt">likelihood =</span> penalized_mean_likelihood,</span>
+<span id="cb4-505"><a href="support-code.html#cb4-505"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-506"><a href="support-code.html#cb4-506"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-507"><a href="support-code.html#cb4-507"></a></span>
+<span id="cb4-508"><a href="support-code.html#cb4-508"></a>hybrid_mean_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-509"><a href="support-code.html#cb4-509"></a>  D_genetic,</span>
+<span id="cb4-510"><a href="support-code.html#cb4-510"></a>  <span class="dt">likelihood =</span> penalized_mean_likelihood,</span>
+<span id="cb4-511"><a href="support-code.html#cb4-511"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hybrid&quot;</span></span>
+<span id="cb4-512"><a href="support-code.html#cb4-512"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-513"><a href="support-code.html#cb4-513"></a></span>
+<span id="cb4-514"><a href="support-code.html#cb4-514"></a>hybrid_mean_changepoints_threshold &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-515"><a href="support-code.html#cb4-515"></a>  D_genetic,</span>
+<span id="cb4-516"><a href="support-code.html#cb4-516"></a>  <span class="dt">likelihood =</span> penalized_mean_likelihood,</span>
+<span id="cb4-517"><a href="support-code.html#cb4-517"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hybrid&quot;</span>,</span>
+<span id="cb4-518"><a href="support-code.html#cb4-518"></a>  <span class="dt">threshold =</span> <span class="dv">4</span></span>
+<span id="cb4-519"><a href="support-code.html#cb4-519"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-520"><a href="support-code.html#cb4-520"></a></span>
+<span id="cb4-521"><a href="support-code.html#cb4-521"></a><span class="kw">tribble</span>(</span>
+<span id="cb4-522"><a href="support-code.html#cb4-522"></a>  <span class="op">~</span><span class="st">`</span><span class="dt">Description</span><span class="st">`</span>,</span>
+<span id="cb4-523"><a href="support-code.html#cb4-523"></a>    <span class="op">~</span><span class="st">`</span><span class="dt">Changepoints</span><span class="st">`</span>,</span>
+<span id="cb4-524"><a href="support-code.html#cb4-524"></a>      <span class="op">~</span><span class="st">`</span><span class="dt">Hausdorff Distance</span><span class="st">`</span>,</span>
+<span id="cb4-525"><a href="support-code.html#cb4-525"></a>  <span class="st">&quot;Expected solution&quot;</span>,</span>
+<span id="cb4-526"><a href="support-code.html#cb4-526"></a>    <span class="kw">comma_format</span>(expected_mean_example),</span>
+<span id="cb4-527"><a href="support-code.html#cb4-527"></a>      <span class="kw">deviation</span>(expected_mean_example),</span>
+<span id="cb4-528"><a href="support-code.html#cb4-528"></a>  <span class="st">&quot;Exact algorithm estimate&quot;</span>,</span>
+<span id="cb4-529"><a href="support-code.html#cb4-529"></a>    <span class="kw">comma_format</span>(exact_mean_changepoints),</span>
+<span id="cb4-530"><a href="support-code.html#cb4-530"></a>      <span class="kw">deviation</span>(exact_mean_changepoints),</span>
+<span id="cb4-531"><a href="support-code.html#cb4-531"></a>  <span class="st">&quot;Hierarchical algorithm estimate&quot;</span>,</span>
+<span id="cb4-532"><a href="support-code.html#cb4-532"></a>    <span class="kw">comma_format</span>(hieralg_mean_changepoints),</span>
+<span id="cb4-533"><a href="support-code.html#cb4-533"></a>      <span class="kw">deviation</span>(hieralg_mean_changepoints),</span>
+<span id="cb4-534"><a href="support-code.html#cb4-534"></a>  <span class="st">&quot;Hybrid algorithm estimate with threshold 50&quot;</span>,</span>
+<span id="cb4-535"><a href="support-code.html#cb4-535"></a>    <span class="kw">comma_format</span>(hybrid_mean_changepoints),</span>
+<span id="cb4-536"><a href="support-code.html#cb4-536"></a>      <span class="kw">deviation</span>(hybrid_mean_changepoints),</span>
+<span id="cb4-537"><a href="support-code.html#cb4-537"></a>  <span class="st">&quot;Hybrid algorithm estimate with threshold 4&quot;</span>,</span>
+<span id="cb4-538"><a href="support-code.html#cb4-538"></a>    <span class="kw">comma_format</span>(hybrid_mean_changepoints_threshold),</span>
+<span id="cb4-539"><a href="support-code.html#cb4-539"></a>      <span class="kw">deviation</span>(hybrid_mean_changepoints_threshold)</span>
+<span id="cb4-540"><a href="support-code.html#cb4-540"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb4-541"><a href="support-code.html#cb4-541"></a><span class="st">  </span><span class="kw">kable</span>(<span class="dt">caption=</span><span class="st">&quot;Comparison of solutions of different algorithms</span></span>
+<span id="cb4-542"><a href="support-code.html#cb4-542"></a><span class="st">to segmenting the data set described in <a href="simulations.html#eq:geneticexample">(4.4)</a>,</span></span>
+<span id="cb4-543"><a href="support-code.html#cb4-543"></a><span class="st">measuring how far each solution is from the ideal</span></span>
+<span id="cb4-544"><a href="support-code.html#cb4-544"></a><span class="st">solution using the Hausdorff distance.&quot;</span>)</span>
+<span id="cb4-545"><a href="support-code.html#cb4-545"></a><span class="kw">install.packages</span>(<span class="st">&quot;segmentr&quot;</span>)</span>
+<span id="cb4-546"><a href="support-code.html#cb4-546"></a><span class="kw">library</span>(<span class="st">&quot;segmentr&quot;</span>)</span>
+<span id="cb4-547"><a href="support-code.html#cb4-547"></a></span>
+<span id="cb4-548"><a href="support-code.html#cb4-548"></a>data &lt;-<span class="st"> </span><span class="kw">rbind</span>(</span>
+<span id="cb4-549"><a href="support-code.html#cb4-549"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1023</span>, <span class="dv">134521</span>, <span class="dv">12324</span>),</span>
+<span id="cb4-550"><a href="support-code.html#cb4-550"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">-20941</span>, <span class="dv">1423</span>, <span class="dv">14334</span>),</span>
+<span id="cb4-551"><a href="support-code.html#cb4-551"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2398439</span>, <span class="dv">1254</span>, <span class="dv">146324</span>),</span>
+<span id="cb4-552"><a href="support-code.html#cb4-552"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">24134</span>, <span class="dv">1</span>, <span class="dv">15323</span>),</span>
+<span id="cb4-553"><a href="support-code.html#cb4-553"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">-231</span>, <span class="dv">1256</span>, <span class="dv">13445</span>),</span>
+<span id="cb4-554"><a href="support-code.html#cb4-554"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">10000</span>, <span class="dv">1121</span>, <span class="dv">331</span>)</span>
+<span id="cb4-555"><a href="support-code.html#cb4-555"></a>)</span>
+<span id="cb4-556"><a href="support-code.html#cb4-556"></a></span>
+<span id="cb4-557"><a href="support-code.html#cb4-557"></a><span class="kw">segment</span>(</span>
+<span id="cb4-558"><a href="support-code.html#cb4-558"></a>  data,</span>
+<span id="cb4-559"><a href="support-code.html#cb4-559"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
+<span id="cb4-560"><a href="support-code.html#cb4-560"></a>  <span class="dt">likelihood =</span> <span class="cf">function</span>(X) <span class="kw">multivariate</span>(X) <span class="op">-</span><span class="st"> </span><span class="fl">0.01</span><span class="op">*</span><span class="kw">exp</span>(<span class="kw">ncol</span>(X))</span>
+<span id="cb4-561"><a href="support-code.html#cb4-561"></a>)</span>
+<span id="cb4-562"><a href="support-code.html#cb4-562"></a><span class="kw">vignette</span>(<span class="st">&quot;segmentr&quot;</span>)</span></code></pre></div>
+
+<div id="refs" class="references">
+<div>
+<p>Castro, Bruno M., Renan B. Lemes, Jonatas Cesar, Tábita Hünemeier, and Florencia Leonardi. 2018. “A Model Selection Approach for Multiple Sequence Segmentation and Dimensionality Reduction.” <em>Journal of Multivariate Analysis</em> 167: 319–30. <a href="https://doi.org/https://doi.org/10.1016/j.jmva.2018.05.006">https://doi.org/https://doi.org/10.1016/j.jmva.2018.05.006</a>.</p>
+</div>
+<div>
+<p>Ceballos, Francisco, Peter Joshi, David W. Clark, Michèle Ramsay, and James F. Wilson. 2018. “Runs of Homozygosity: Windows into Population History and Trait Architecture.” <em>Nature Reviews Genetics</em> 19 (January). <a href="https://doi.org/10.1038/nrg.2017.109">https://doi.org/10.1038/nrg.2017.109</a>.</p>
+</div>
+<div>
+<p>Eddelbuettel, Dirk, and Romain François. 2011. “Rcpp: Seamless R and C++ Integration.” <em>Journal of Statistical Software</em> 40 (8): 1–18. <a href="https://doi.org/10.18637/jss.v040.i08">https://doi.org/10.18637/jss.v040.i08</a>.</p>
+</div>
+<div>
+<p>Maidstone, Robert, Toby Hocking, Guillem Rigaill, and Paul Fearnhead. 2017. “On Optimal Multiple Changepoint Algorithms for Large Data.” <em>Statistics and Computing</em> 27 (2): 519–33. <a href="https://doi.org/10.1007/s11222-016-9636-3">https://doi.org/10.1007/s11222-016-9636-3</a>.</p>
+</div>
+<div>
+<p>Mello, Thales. 2019. “Segmentr: An R Package to Search for Independent Segments in a Sequence (Aka Change Points).” <em>GitHub Repository</em>. <a href="https://github.com/thalesmello/segmentr">https://github.com/thalesmello/segmentr</a>; GitHub.</p>
+</div>
+<div>
+<p>Mello, Thales, and Florencia Leonardi. 2019. <em>Segmentr: Segment Data with Maximum Likelihood</em>. <a href="https://CRAN.R-project.org/package=segmentr">https://CRAN.R-project.org/package=segmentr</a>.</p>
+</div>
+<div>
+<p>Munkres, J. R. 2000. <em>Topology</em>. Featured Titles for Topology Series. Prentice Hall, Incorporated. <a href="https://books.google.com.br/books?id=XjoZAQAAIAAJ">https://books.google.com.br/books?id=XjoZAQAAIAAJ</a>.</p>
+</div>
+<div>
+<p>Park, K. I. 2017. <em>Fundamentals of Probability and Stochastic Processes with Applications to Communications</em>. Springer International Publishing. <a href="https://books.google.com.br/books?id=cd2SswEACAAJ">https://books.google.com.br/books?id=cd2SswEACAAJ</a>.</p>
+</div>
+<div>
+<p>R Core Team. 2018. “R: A Language and Environment for Statistical Computing.” Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</p>
+</div>
+<div>
+<p>Wetterdienst, Deutscher. 2019. “Climate Data Center - Ftp Server.” <a href="https://www.dwd.de/EN/climate_environment/cdc/cdc.html">https://www.dwd.de/EN/climate_environment/cdc/cdc.html</a>; Deutscher Wetterdienst.</p>
+</div>
+<div>
+<p>Wickham, Hadley. 2015. <em>R Packages</em>. 1st ed. O’Reilly Media, Inc. <a href="http://r-pkgs.had.co.nz/">http://r-pkgs.had.co.nz/</a>.</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="package-usage.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["thesis.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

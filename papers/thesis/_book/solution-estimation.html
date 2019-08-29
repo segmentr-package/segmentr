@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Solution Estimation | An R Package for Change Point Detection</title>
+  <meta name="description" content="3 Solution Estimation | An R Package for Change Point Detection" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Solution Estimation | An R Package for Change Point Detection" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Solution Estimation | An R Package for Change Point Detection" />
+  
+  
+  
+
+<meta name="author" content="Thales Mello" />
+<meta name="author" content="Florencia Leonardi" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="main-definition.html"/>
+<link rel="next" href="simulations.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#related-work"><i class="fa fa-check"></i><b>1.1</b> Related Work</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="main-definition.html"><a href="main-definition.html"><i class="fa fa-check"></i><b>2</b> Main Definition</a><ul>
+<li class="chapter" data-level="2.1" data-path="main-definition.html"><a href="main-definition.html#a-sequence-of-random-variables-and-its-segments"><i class="fa fa-check"></i><b>2.1</b> A sequence of random variables and its segments</a></li>
+<li class="chapter" data-level="2.2" data-path="main-definition.html"><a href="main-definition.html#the-segmentation-problem"><i class="fa fa-check"></i><b>2.2</b> The segmentation problem</a></li>
+<li class="chapter" data-level="2.3" data-path="main-definition.html"><a href="main-definition.html#the-hausdorff-distance"><i class="fa fa-check"></i><b>2.3</b> The Hausdorff distance</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="solution-estimation.html"><a href="solution-estimation.html"><i class="fa fa-check"></i><b>3</b> Solution Estimation</a><ul>
+<li class="chapter" data-level="3.1" data-path="solution-estimation.html"><a href="solution-estimation.html#exact-algorithm"><i class="fa fa-check"></i><b>3.1</b> Exact Algorithm</a></li>
+<li class="chapter" data-level="3.2" data-path="solution-estimation.html"><a href="solution-estimation.html#hierarchical-algorithm"><i class="fa fa-check"></i><b>3.2</b> Hierarchical Algorithm</a></li>
+<li class="chapter" data-level="3.3" data-path="solution-estimation.html"><a href="solution-estimation.html#hybrid-algorithm"><i class="fa fa-check"></i><b>3.3</b> Hybrid algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>4</b> Simulations</a><ul>
+<li class="chapter" data-level="4.1" data-path="simulations.html"><a href="simulations.html#segments-of-independent-variables"><i class="fa fa-check"></i><b>4.1</b> Segments of Independent Variables</a></li>
+<li class="chapter" data-level="4.2" data-path="simulations.html"><a href="simulations.html#segments-with-similar-averages"><i class="fa fa-check"></i><b>4.2</b> Segments with similar averages</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="real-data-examples.html"><a href="real-data-examples.html"><i class="fa fa-check"></i><b>5</b> Real Data Examples</a><ul>
+<li class="chapter" data-level="5.1" data-path="real-data-examples.html"><a href="real-data-examples.html#understanding-the-data"><i class="fa fa-check"></i><b>5.1</b> Understanding the data</a></li>
+<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-likelihood"><i class="fa fa-check"></i><b>5.2</b> Building the likelihood</a></li>
+<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-likelihood-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the likelihood function</a></li>
+<li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing granularity</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-likelihood-function"><i class="fa fa-check"></i><b>5.5</b> A non-usual likelihood function</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on performance</a><ul>
+<li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the code</a></li>
+<li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
+<li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html"><i class="fa fa-check"></i><b>7</b> Accuracy of algorithms</a><ul>
+<li class="chapter" data-level="7.1" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>7.1</b> Accuracy of estimates for the Berlin dataset</a></li>
+<li class="chapter" data-level="7.2" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>7.2</b> Accuracy of algorithms using different algorithms</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="package-usage.html"><a href="package-usage.html"><i class="fa fa-check"></i><b>A</b> Package Usage</a><ul>
+<li class="chapter" data-level="A.1" data-path="package-usage.html"><a href="package-usage.html#installation"><i class="fa fa-check"></i><b>A.1</b> Installation</a></li>
+<li class="chapter" data-level="A.2" data-path="package-usage.html"><a href="package-usage.html#usage"><i class="fa fa-check"></i><b>A.2</b> Usage</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="support-code.html"><a href="support-code.html"><i class="fa fa-check"></i><b>B</b> Support Code</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An R Package for Change Point Detection</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="solution-estimation" class="section level1">
+<h1><span class="header-section-number">3</span> Solution Estimation</h1>
+<p>In this chapter, we discuss the process to solve <a href="main-definition.html#eq:definesegmentation">(2.8)</a>
+and explore an solution involving dynamic programming. Because the exact
+solution to this problem has quadratic complexity, we also discuss some
+alternatives that simplify the search path and provide an approximate solution.</p>
+<div id="exact-algorithm" class="section level2">
+<h2><span class="header-section-number">3.1</span> Exact Algorithm</h2>
+<p>The first attempt to try to solve the equation would be to actually search all the possible alternatives
+in order to find the correct minimal set of intervals that maximize the total likelihood of the system.
+It’s done iteratively by:</p>
+<ul>
+<li>for each column index <span class="math inline">\(i \in \{1, \dots, p\}\)</span></li>
+<li>for each column index <span class="math inline">\(j \in \{i, \dots, p\}\)</span></li>
+<li>compute <span class="math inline">\(l_{i:j}=\text{lik}(X_{i:j})\)</span></li>
+<li>store the likelihood <span class="math inline">\(l_{i:j}\)</span> and the index <span class="math inline">\(j\)</span> for the highest value of <span class="math inline">\(l_{i:j}\)</span> for later comparison</li>
+</ul>
+<p>Finally, after computing all of the possible combinations of likelihood segments,
+the procedure to find the optimal solution would be as following:</p>
+<ul>
+<li>let <span class="math inline">\(j = p\)</span></li>
+<li>while <span class="math inline">\(j &gt; 1\)</span>, repeat the steps below</li>
+<li>search the stored values for <span class="math inline">\(i = \underset{i}{\arg\max} (l_{i:j})\)</span></li>
+<li>store <span class="math inline">\(i\)</span> in the set of change points <span class="math inline">\(C\)</span> if <span class="math inline">\(i \ne 1\)</span></li>
+<li>let <span class="math inline">\(j = i\)</span> and repeat until <span class="math inline">\(j = 1\)</span></li>
+</ul>
+<p>Given the indices in the change points set <span class="math inline">\(C\)</span>, let <span class="math inline">\(c_0 = 1\)</span>, <span class="math inline">\(c_{k+1}=p\)</span> and <span class="math inline">\(c_i\in C\)</span>
+be the sequence of sorted elements of <span class="math inline">\(C\)</span>, for <span class="math inline">\(i = 1, \dots, k\)</span>. The minimal set of
+intervals would be defined as <span class="math inline">\(S_0 = \{ c_{i-1}:c_i, \text{ for } i=1,\dots,k+1 \}\)</span>
+in which <span class="math inline">\(c_{i-1}:c_i=\{\text{contiguous sequence of number from } c_{i-1} \text{ to } c_i\}\)</span>.</p>
+<p>The described algorithm will provide the correct answer for the equation, precisely because it
+analyses all the possible combinations. However, that has a time complexity in Big-O notation of
+<span class="math inline">\(O(np^2)\)</span> in which <span class="math inline">\(n\)</span> is the number of samples in the data set and <span class="math inline">\(p\)</span> is the number of columns.
+Because a lot of use cases for data segmentation has usually a large number of columns and not
+many data samples, e.g. DNA data, computation time can be very prohibitive.</p>
+</div>
+<div id="hierarchical-algorithm" class="section level2">
+<h2><span class="header-section-number">3.2</span> Hierarchical Algorithm</h2>
+<p>In order to try to simplify the search path of the algorithm, <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span> also proposes a technique
+that relies on assuming the data to be hierarchical, i.e. it assumes the minimal solution set can
+me estimated by only searching the data for the optimal change point segmentation once. The algorithm
+is described below.</p>
+<ul>
+<li>let <span class="math inline">\(d\)</span> be the current data set we want to segment</li>
+<li>for each column <span class="math inline">\(i\)</span> in the data set</li>
+<li>compute the total likelihood <span class="math inline">\(l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})\)</span> if <span class="math inline">\(i \ne 1\)</span></li>
+<li>find <span class="math inline">\(i\)</span> for which <span class="math inline">\(l_i\)</span> is maximum</li>
+<li>if <span class="math inline">\(l_i &lt;\text{lik}(X_{1:p})\)</span> return empty set as result of current function call</li>
+<li>recursively find the set of change points <span class="math inline">\(C_L\)</span> by calling the algorithm on the left segment <span class="math inline">\(X_{1:i-1}\)</span></li>
+<li>recursively find the set of change points <span class="math inline">\(C_R\)</span> by calling the algorithm on the right segment <span class="math inline">\(X_{i:p}\)</span></li>
+<li>return <span class="math inline">\(C=C_L \cup C_R \cup \{i\}\)</span> as result of current function call</li>
+</ul>
+<p>Implementing the algorithm described above will allow for a time complexity of <span class="math inline">\(O(np\log(p))\)</span> where <span class="math inline">\(n\)</span> is
+the number of samples, <span class="math inline">\(p\)</span> is the number of columns. The reduction in time complexity is only possible
+because of the strong assumption the data set has a hierarchical likelihood behavior. However, that
+doesn’t hold true for many situations, as it will be seen in more detail in the next chapters,
+and the use of this algorithm should done with care.</p>
+</div>
+<div id="hybrid-algorithm" class="section level2">
+<h2><span class="header-section-number">3.3</span> Hybrid algorithm</h2>
+<p>The hybrid algorithm is a modified version of the hierarchical algorithm, in which it will start searching the
+combinations using the hierarchical approach, and if the segments become smaller than a certain threshold,
+it will try to find the exact segments with the exact algorithm. The procedure would be as follow:</p>
+<ul>
+<li>let <span class="math inline">\(d\)</span> be the current data set we want to segment</li>
+<li>if the number of columns of <span class="math inline">\(d\)</span> is <span class="math inline">\(p_d &lt;k\)</span>, in which <span class="math inline">\(k\)</span> is a predefined threshold, return the set of
+change points calculated by the exact algorithm.</li>
+<li>for each column <span class="math inline">\(i\)</span> in the data set</li>
+<li>compute the total likelihood <span class="math inline">\(l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})\)</span> if <span class="math inline">\(i \ne 1\)</span></li>
+<li>find <span class="math inline">\(i\)</span> for which <span class="math inline">\(l_i\)</span> is maximum</li>
+<li>if <span class="math inline">\(l_i &lt;\text{lik}(X_{1:p})\)</span> return empty set as result of current function call</li>
+<li>recursively find the set of change points <span class="math inline">\(C_L\)</span> by calling the algorithm on the left segment <span class="math inline">\(X_{1:i-1}\)</span></li>
+<li>recursively find the set of change points <span class="math inline">\(C_R\)</span> by calling the algorithm on the right segment <span class="math inline">\(X_{i:p}\)</span></li>
+<li>return <span class="math inline">\(C=C_L \cup C_R \cup \{i\}\)</span> as result of current function call</li>
+</ul>
+<p>The only difference of this procedure and the hierarchical procedure is the presence of the conditional
+step in the beginning of the procedure that tests whether of not to use the hybrid algorithm.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-base-paper">
+<p>Castro, Bruno M., Renan B. Lemes, Jonatas Cesar, Tábita Hünemeier, and Florencia Leonardi. 2018. “A Model Selection Approach for Multiple Sequence Segmentation and Dimensionality Reduction.” <em>Journal of Multivariate Analysis</em> 167: 319–30. <a href="https://doi.org/https://doi.org/10.1016/j.jmva.2018.05.006">https://doi.org/https://doi.org/10.1016/j.jmva.2018.05.006</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="main-definition.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="simulations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["thesis.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

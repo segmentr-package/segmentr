@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Considerations on performance | An R Package for Change Point Detection</title>
+  <meta name="description" content="6 Considerations on performance | An R Package for Change Point Detection" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Considerations on performance | An R Package for Change Point Detection" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Considerations on performance | An R Package for Change Point Detection" />
+  
+  
+  
+
+<meta name="author" content="Thales Mello" />
+<meta name="author" content="Florencia Leonardi" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="real-data-examples.html"/>
+<link rel="next" href="accuracy-of-algorithms.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#related-work"><i class="fa fa-check"></i><b>1.1</b> Related Work</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="main-definition.html"><a href="main-definition.html"><i class="fa fa-check"></i><b>2</b> Main Definition</a><ul>
+<li class="chapter" data-level="2.1" data-path="main-definition.html"><a href="main-definition.html#a-sequence-of-random-variables-and-its-segments"><i class="fa fa-check"></i><b>2.1</b> A sequence of random variables and its segments</a></li>
+<li class="chapter" data-level="2.2" data-path="main-definition.html"><a href="main-definition.html#the-segmentation-problem"><i class="fa fa-check"></i><b>2.2</b> The segmentation problem</a></li>
+<li class="chapter" data-level="2.3" data-path="main-definition.html"><a href="main-definition.html#the-hausdorff-distance"><i class="fa fa-check"></i><b>2.3</b> The Hausdorff distance</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="solution-estimation.html"><a href="solution-estimation.html"><i class="fa fa-check"></i><b>3</b> Solution Estimation</a><ul>
+<li class="chapter" data-level="3.1" data-path="solution-estimation.html"><a href="solution-estimation.html#exact-algorithm"><i class="fa fa-check"></i><b>3.1</b> Exact Algorithm</a></li>
+<li class="chapter" data-level="3.2" data-path="solution-estimation.html"><a href="solution-estimation.html#hierarchical-algorithm"><i class="fa fa-check"></i><b>3.2</b> Hierarchical Algorithm</a></li>
+<li class="chapter" data-level="3.3" data-path="solution-estimation.html"><a href="solution-estimation.html#hybrid-algorithm"><i class="fa fa-check"></i><b>3.3</b> Hybrid algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>4</b> Simulations</a><ul>
+<li class="chapter" data-level="4.1" data-path="simulations.html"><a href="simulations.html#segments-of-independent-variables"><i class="fa fa-check"></i><b>4.1</b> Segments of Independent Variables</a></li>
+<li class="chapter" data-level="4.2" data-path="simulations.html"><a href="simulations.html#segments-with-similar-averages"><i class="fa fa-check"></i><b>4.2</b> Segments with similar averages</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="real-data-examples.html"><a href="real-data-examples.html"><i class="fa fa-check"></i><b>5</b> Real Data Examples</a><ul>
+<li class="chapter" data-level="5.1" data-path="real-data-examples.html"><a href="real-data-examples.html#understanding-the-data"><i class="fa fa-check"></i><b>5.1</b> Understanding the data</a></li>
+<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-likelihood"><i class="fa fa-check"></i><b>5.2</b> Building the likelihood</a></li>
+<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-likelihood-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the likelihood function</a></li>
+<li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing granularity</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-likelihood-function"><i class="fa fa-check"></i><b>5.5</b> A non-usual likelihood function</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on performance</a><ul>
+<li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the code</a></li>
+<li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
+<li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html"><i class="fa fa-check"></i><b>7</b> Accuracy of algorithms</a><ul>
+<li class="chapter" data-level="7.1" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>7.1</b> Accuracy of estimates for the Berlin dataset</a></li>
+<li class="chapter" data-level="7.2" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>7.2</b> Accuracy of algorithms using different algorithms</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="package-usage.html"><a href="package-usage.html"><i class="fa fa-check"></i><b>A</b> Package Usage</a><ul>
+<li class="chapter" data-level="A.1" data-path="package-usage.html"><a href="package-usage.html#installation"><i class="fa fa-check"></i><b>A.1</b> Installation</a></li>
+<li class="chapter" data-level="A.2" data-path="package-usage.html"><a href="package-usage.html#usage"><i class="fa fa-check"></i><b>A.2</b> Usage</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="support-code.html"><a href="support-code.html"><i class="fa fa-check"></i><b>B</b> Support Code</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An R Package for Change Point Detection</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="considerations-on-performance" class="section level1">
+<h1><span class="header-section-number">6</span> Considerations on performance</h1>
+<p>This code shows a handful of attempts that were made in actually trying to execution
+time of the algorithms implemented by the package.</p>
+<div id="benchmark-the-code" class="section level2">
+<h2><span class="header-section-number">6.1</span> Benchmark the code</h2>
+<p>The package <code>microbenchmark</code> allows us to execute the code and compare different run-times.
+Therefore it’s going to be used in this package to compare the performance of different
+code snippets.</p>
+</div>
+<div id="native-code" class="section level2">
+<h2><span class="header-section-number">6.2</span> Native Code</h2>
+<p>In the algorithms chapter, we discussed the time complexity of the different types of
+algorithms. In that scenario, the most relevant variable is the number of columns
+in the data set, which dictates whether the computation of the exact algorithm will
+be prohibitive or not. However, the number of samples does influence the computation
+time linearly. Given the most performed operation in any of the algorithms described
+in the chapter is the likelihood function, it’s in essence the bottleneck of the
+whole computation. Therefore, real performance gains can be obtained depending on
+the performance of the application.</p>
+<p>In R statistical programming, it’s common place to use the functions provided by the
+programming environment, which are usually performant algorithms implemented in compiled
+programming languages such as C. However, there are times the programmer must implement
+a custom function in R, which in turn is a dynamically, and typically slower execution
+environment.</p>
+<p>Therefore, in a first attempt to make the code execution run faster, and compare different
+results, Segmentr implements the [multivariate()] likelihood function in compiled C++ programming language,
+as well as it implements [r_multivariate()] which implements the same algorithm in the R
+programming environment.</p>
+<table>
+<caption>
+<span id="tab:benchmark-native">Table 6.1: </span>Execution time comparison
+between native C++ and interpreted R code
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+expr
+</th>
+<th style="text-align:right;">
+time (ms)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “exact”)
+</td>
+<td style="text-align:right;">
+7881.319
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = r_multivariate, algorithm = “exact”)
+</td>
+<td style="text-align:right;">
+57114.342
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “hierarchical”)
+</td>
+<td style="text-align:right;">
+28.589
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = r_multivariate, algorithm = “exact”)
+</td>
+<td style="text-align:right;">
+57052.827
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “hierarchical”)
+</td>
+<td style="text-align:right;">
+34.011
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = r_multivariate, algorithm = “hierarchical”)
+</td>
+<td style="text-align:right;">
+100.790
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = r_multivariate, algorithm = “hierarchical”)
+</td>
+<td style="text-align:right;">
+102.360
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “exact”)
+</td>
+<td style="text-align:right;">
+7904.321
+</td>
+</tr>
+</tbody>
+</table>
+<p>In the scenario above, we notice performance improvements in the native [multivariate()]
+function, with the biggest performance improvement taking place in the <code>exact</code> algorithm
+results. Therefore, whenever the resources are available, it’s recommended to implement
+the likelihood function directly in a native programming language such as C++. We recommend
+the RCpp package, which makes it easy to implement functions which interface easily with
+the R programming environment.</p>
+</div>
+<div id="parallelization" class="section level2">
+<h2><span class="header-section-number">6.3</span> Parallelization</h2>
+<p>Given the increasing trend of parallel programming in the past few years, it’s natural
+to try to take advantage of that by parallelizing the algorithm execution. In the
+algorithms implemented in this paper, parallelization is a bit complicated because
+a lot of the execution steps in the algorithm iterations depend on values computed
+in previous steps, and the golden rule of parallel computing is that faster results
+are generally obtained when computation steps are independent from one another, i.e.
+no dependency between the task, hence they can be performed in parallel. Yet, there are
+a few steps of the computation that can be performed in parallel, and its parallelization
+was implemented with the help of the <code>foreach</code> package.</p>
+<p>Therefore, whether or not the computation will be performed depends on whether there is
+a parallel cluster registered in the R session with packages such as <code>doMC</code>, and whether
+the <code>allow_parallel</code> argument is true or false. With that in mind, a few comparisons are evaluated.</p>
+<table>
+<caption>
+<span id="tab:benchmark-parallel-narrow">Table 6.2: </span>Execution time comparison
+between parralel and single-threaded computation
+with a data set of 100 samples and 10 columns
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+expr
+</th>
+<th style="text-align:right;">
+time (ms)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “hierarchical”, allow_parallel = TRUE)
+</td>
+<td style="text-align:right;">
+54.587
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel = TRUE)
+</td>
+<td style="text-align:right;">
+250.468
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “hierarchical”, allow_parallel = FALSE)
+</td>
+<td style="text-align:right;">
+17.774
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel = FALSE)
+</td>
+<td style="text-align:right;">
+122.209
+</td>
+</tr>
+</tbody>
+</table>
+<p>Analyzing the results above, we notice good improvements, especially for the “exact” algorithm.
+However, in a situation in which the number of rows isn’t very large in comparison with the
+number of columns, the results of the parallel computation are a lot more modest.
+Consider the following case.</p>
+<table>
+<caption>
+<span id="tab:benchmark-parallel-wide">Table 6.3: </span>Execution time comparison
+between parralel and single-threaded computation
+with a data set of 5 samples and 100 columns
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+expr
+</th>
+<th style="text-align:right;">
+time (ms)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “hierarchical”, allow_parallel = FALSE)
+</td>
+<td style="text-align:right;">
+39.936
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “hierarchical”, allow_parallel = TRUE)
+</td>
+<td style="text-align:right;">
+45.299
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel = TRUE)
+</td>
+<td style="text-align:right;">
+5660.419
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel = FALSE)
+</td>
+<td style="text-align:right;">
+5903.643
+</td>
+</tr>
+</tbody>
+</table>
+<p>In the result above, parallelization achieved the opposite effect, actually making the
+computation slower, as there is now a lot of work done synchronizing necessary information
+between all the processes in the cluster. That takes more time than is saved by running
+the algorithm in parallel.</p>
+<p>Taking all of that in consideration, the decision of whether or not to use parallelization
+relies on the user after evaluating the nature of the data set. For data sets with few samples
+and many columns, parallelization is not recommended. In the case there are lots of samples,
+parallelization might give better computation times.</p>
+<p>An alternative not developed in this project would be to use a genetic algorithm approach to
+the minimal set estimation, which is a probabilistic process that converges to the result
+after enough computation time have passed. The main advantage of such method is that computations
+can be more easily parallelized. Such development might be explored in future developments of
+this package.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="real-data-examples.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="accuracy-of-algorithms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["thesis.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

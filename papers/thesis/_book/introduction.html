@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>An R Package for Change Point Detection</title>
+  <meta name="description" content="An R Package for Change Point Detection" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="An R Package for Change Point Detection" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="An R Package for Change Point Detection" />
+  
+  
+  
+
+<meta name="author" content="Thales Mello" />
+<meta name="author" content="Florencia Leonardi" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="main-definition.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#related-work"><i class="fa fa-check"></i><b>1.1</b> Related Work</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="main-definition.html"><a href="main-definition.html"><i class="fa fa-check"></i><b>2</b> Main Definition</a><ul>
+<li class="chapter" data-level="2.1" data-path="main-definition.html"><a href="main-definition.html#a-sequence-of-random-variables-and-its-segments"><i class="fa fa-check"></i><b>2.1</b> A sequence of random variables and its segments</a></li>
+<li class="chapter" data-level="2.2" data-path="main-definition.html"><a href="main-definition.html#the-segmentation-problem"><i class="fa fa-check"></i><b>2.2</b> The segmentation problem</a></li>
+<li class="chapter" data-level="2.3" data-path="main-definition.html"><a href="main-definition.html#the-hausdorff-distance"><i class="fa fa-check"></i><b>2.3</b> The Hausdorff distance</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="solution-estimation.html"><a href="solution-estimation.html"><i class="fa fa-check"></i><b>3</b> Solution Estimation</a><ul>
+<li class="chapter" data-level="3.1" data-path="solution-estimation.html"><a href="solution-estimation.html#exact-algorithm"><i class="fa fa-check"></i><b>3.1</b> Exact Algorithm</a></li>
+<li class="chapter" data-level="3.2" data-path="solution-estimation.html"><a href="solution-estimation.html#hierarchical-algorithm"><i class="fa fa-check"></i><b>3.2</b> Hierarchical Algorithm</a></li>
+<li class="chapter" data-level="3.3" data-path="solution-estimation.html"><a href="solution-estimation.html#hybrid-algorithm"><i class="fa fa-check"></i><b>3.3</b> Hybrid algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>4</b> Simulations</a><ul>
+<li class="chapter" data-level="4.1" data-path="simulations.html"><a href="simulations.html#segments-of-independent-variables"><i class="fa fa-check"></i><b>4.1</b> Segments of Independent Variables</a></li>
+<li class="chapter" data-level="4.2" data-path="simulations.html"><a href="simulations.html#segments-with-similar-averages"><i class="fa fa-check"></i><b>4.2</b> Segments with similar averages</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="real-data-examples.html"><a href="real-data-examples.html"><i class="fa fa-check"></i><b>5</b> Real Data Examples</a><ul>
+<li class="chapter" data-level="5.1" data-path="real-data-examples.html"><a href="real-data-examples.html#understanding-the-data"><i class="fa fa-check"></i><b>5.1</b> Understanding the data</a></li>
+<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-likelihood"><i class="fa fa-check"></i><b>5.2</b> Building the likelihood</a></li>
+<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-likelihood-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the likelihood function</a></li>
+<li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing granularity</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-likelihood-function"><i class="fa fa-check"></i><b>5.5</b> A non-usual likelihood function</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on performance</a><ul>
+<li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the code</a></li>
+<li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
+<li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html"><i class="fa fa-check"></i><b>7</b> Accuracy of algorithms</a><ul>
+<li class="chapter" data-level="7.1" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>7.1</b> Accuracy of estimates for the Berlin dataset</a></li>
+<li class="chapter" data-level="7.2" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>7.2</b> Accuracy of algorithms using different algorithms</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="package-usage.html"><a href="package-usage.html"><i class="fa fa-check"></i><b>A</b> Package Usage</a><ul>
+<li class="chapter" data-level="A.1" data-path="package-usage.html"><a href="package-usage.html#installation"><i class="fa fa-check"></i><b>A.1</b> Installation</a></li>
+<li class="chapter" data-level="A.2" data-path="package-usage.html"><a href="package-usage.html#usage"><i class="fa fa-check"></i><b>A.2</b> Usage</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="support-code.html"><a href="support-code.html"><i class="fa fa-check"></i><b>B</b> Support Code</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An R Package for Change Point Detection</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">An R Package for Change Point Detection</h1>
+<p class="author"><em>Thales Mello</em></p>
+<p class="author"><em>Florencia Leonardi</em></p>
+<p class="date"><em>São Paulo, 16 de Abril de 2019</em></p>
+</div>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p><span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span> describe a method of segmenting a data set of a finite alphabet
+into blocks of independent variables. This work expands on that by generalizing
+the likelihood function used in the solution, showing it can be used for other
+use-cases, e.g. segments with homogeneous values (see Chapter
+<a href="simulations.html#segments-with-similar-averages">4.2</a>), segments that have the same linear
+regression trend <a href="real-data-examples.html#real-data-examples">5</a>.</p>
+<p>This work was developed as an R Programming Language <span class="citation">(R Core Team <a href="#ref-R-lang" role="doc-biblioref">2018</a>)</span> package. The
+packaging of the code into redistributable software was based on instructions
+provided by <span class="citation">(Wickham <a href="#ref-r-package-tutorial" role="doc-biblioref">2015</a>)</span>, and the final code is made available as an R
+package <span class="citation">(Mello and Leonardi <a href="#ref-segmentr-cran" role="doc-biblioref">2019</a>)</span>. This was made with the goal of making it as easy as
+possible to for researchers and R programmers to use this software. Source code
+for the package is also available as an open source software <span class="citation">Mello (<a href="#ref-segmentr-github" role="doc-biblioref">2019</a>)</span>.
+Finally, as a special implementation for the use case described by
+<span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span> of segmenting finite alphabets, a specialized version of the
+multivariate likelihood function is implemented in native code using Rcpp
+<span class="citation">(Eddelbuettel and François <a href="#ref-rcpp" role="doc-biblioref">2011</a>)</span>.</p>
+<div id="related-work" class="section level2">
+<h2><span class="header-section-number">1.1</span> Related Work</h2>
+<p><span class="citation">(Maidstone et al. <a href="#ref-fpop" role="doc-biblioref">2017</a>)</span> also talks about optimally segmenting a data set, given a <em>cost</em>
+function to be minimized for the segments the data set is going to be split
+into. That is analogous to the segment likelihood used in this work, with the
+difference being that we look forward to maximize the likelihood function in
+this paper rather than minimize.</p>
+<p>In their paper, they discuss search path algorithms different than the ones
+shown in this work. In their case, if the cost function satisfies certain
+conditions, the <code>fpop</code> and <code>snip</code> search algorithms can prune search path in a
+way that is mathematically optimal. They claim the algorithms presented in
+their work provide better results than previous work.</p>
+<p>Notice that, because the approach used by <span class="citation">(Maidstone et al. <a href="#ref-fpop" role="doc-biblioref">2017</a>)</span> is different than the one
+used by <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>, the <code>fpop</code> and <code>snip</code> algorithms couldn’t be
+investigated and validated in time to be implemented in the Segmentr package.
+However, if in future works those algorithms provide good results estimation
+and performance compared to the currently implemented algorithms, they can be
+included in the Segmentr package. That will allow users to use the newly
+implemented algorithms with minimal code modification, by changing a single
+parameter.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-base-paper">
+<p>Castro, Bruno M., Renan B. Lemes, Jonatas Cesar, Tábita Hünemeier, and Florencia Leonardi. 2018. “A Model Selection Approach for Multiple Sequence Segmentation and Dimensionality Reduction.” <em>Journal of Multivariate Analysis</em> 167: 319–30. <a href="https://doi.org/https://doi.org/10.1016/j.jmva.2018.05.006">https://doi.org/https://doi.org/10.1016/j.jmva.2018.05.006</a>.</p>
+</div>
+<div id="ref-rcpp">
+<p>Eddelbuettel, Dirk, and Romain François. 2011. “Rcpp: Seamless R and C++ Integration.” <em>Journal of Statistical Software</em> 40 (8): 1–18. <a href="https://doi.org/10.18637/jss.v040.i08">https://doi.org/10.18637/jss.v040.i08</a>.</p>
+</div>
+<div id="ref-fpop">
+<p>Maidstone, Robert, Toby Hocking, Guillem Rigaill, and Paul Fearnhead. 2017. “On Optimal Multiple Changepoint Algorithms for Large Data.” <em>Statistics and Computing</em> 27 (2): 519–33. <a href="https://doi.org/10.1007/s11222-016-9636-3">https://doi.org/10.1007/s11222-016-9636-3</a>.</p>
+</div>
+<div id="ref-segmentr-github">
+<p>Mello, Thales. 2019. “Segmentr: An R Package to Search for Independent Segments in a Sequence (Aka Change Points).” <em>GitHub Repository</em>. <a href="https://github.com/thalesmello/segmentr">https://github.com/thalesmello/segmentr</a>; GitHub.</p>
+</div>
+<div id="ref-segmentr-cran">
+<p>Mello, Thales, and Florencia Leonardi. 2019. <em>Segmentr: Segment Data with Maximum Likelihood</em>. <a href="https://CRAN.R-project.org/package=segmentr">https://CRAN.R-project.org/package=segmentr</a>.</p>
+</div>
+<div id="ref-R-lang">
+<p>R Core Team. 2018. “R: A Language and Environment for Statistical Computing.” Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</p>
+</div>
+<div id="ref-r-package-tutorial">
+<p>Wickham, Hadley. 2015. <em>R Packages</em>. 1st ed. O’Reilly Media, Inc. <a href="http://r-pkgs.had.co.nz/">http://r-pkgs.had.co.nz/</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="main-definition.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["thesis.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
