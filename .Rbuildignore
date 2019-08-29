@@ -13,3 +13,5 @@
 ^README-.*\.png$
 ^doc$
 ^Meta$
+^index.html$
+^book/
