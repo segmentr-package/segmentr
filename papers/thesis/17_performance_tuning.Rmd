@@ -55,7 +55,7 @@ bench <- microbenchmark(
   segment(data,
           likelihood = r_multivariate,
           algorithm = "hierarchical"),
-  times = 2
+  times = 1
 )
 
 print_benchmark(
