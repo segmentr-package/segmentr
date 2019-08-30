@@ -11,8 +11,8 @@ Let $X$ be a vector of random variables defined in
 equation also shows all random variables $X_j$ have probability distribution
 $F$, each with parameter $\Theta_j$, such that $X_j \sim F(\Theta_j)$. A
 segment is defined as a sequence of indices such that $\Theta_a = \Theta_{a+1}
-= \dots = \Theta_b$ such that $1 \le a \le b \le m$, in each $a$ and $b$
-represent the first and last index of the segment, respectively. We also define
+= \dots = \Theta_b$ such that $1 \le a \le b \le m$, in which $a$ and $b$
+represent the first and last indices of the segment, respectively. We also define
 a change point $c$ as being an index in which there is a change in the
 probability distribution parameters, i.e. $\Theta_{c-1} \ne \Theta_c$, for $c
 \ge 2$.
@@ -28,9 +28,10 @@ X_j\sim F(\Theta_j)
 
 Putting it all together in \@ref(eq:definesegments), a data set $X$ with $t$
 change points has each segment represented by the sequence $S_k = X_{c_k},
-\dots, X_{c_{k+1}-1}$, with $c_k$ each representing a change point. In order to
-simplify equations, let $c_0 = 1$ and $c_{t+1} = m + 1$, even though they are
-not change points.
+\dots, X_{c_{k+1}-1}$, with $c_k$ each representing a change point when $k \le
+1$. In order to simplify equations, let $c_0 = 1$ and $c_{t+1} = m + 1$, even
+though they are not change points. With it we say $S_{c_0} = S_1$ represents
+the first segment of the data set, even though $c_0$ is not a change point.
 
 
 \begin{equation}

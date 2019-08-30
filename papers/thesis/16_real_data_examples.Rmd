@@ -256,17 +256,21 @@ print_results_table(
 plot_results(results_auto_penalized, berlin)
 ```
 
-The function above found two segments, the last of which was still quite large, which suggests the
-`big_segment_penalty` argument needs to be increased to avoid that type of segment in the function.
-So, by increasing it's value, from the default of $10$, all the way up to $100$, we run the results
-again with the `segment()` function. The results can be seen in \@ref(tab:resultsadjustedpenalized),
-and it's possible to the segments with the weather data in Figure \@ref(fig:berlin-adjusted-penalized).
+We now get a reduced number of segments estimated by the new penalized
+likelihood function in Figure \@ref(fig:berlin-auto-penalized) found by the new
+penalized likelihood, though it's also over segmenting some downward trends. It
+suggests the `big_segment_penalty` argument needs to be decreased to allow for
+larger segments to be estimated by the solution. So, by decreasing it's value,
+from the default of $10$, down to $2$, we run the results again with the
+`segment()` function. The results can be seen in
+\@ref(tab:resultsadjustedpenalized), and it's possible to the segments with the
+weather data in Figure \@ref(fig:berlin-adjusted-penalized).
 
 ```{r resultsadjustedpenalized}
 penalized_likelihood <- auto_penalize(
   berlin,
   lm_likelihood,
-  big_segment_penalty = 1000
+  big_segment_penalty = 2
 )
 results_adjusted_penalized <- segment(
   berlin,
@@ -284,11 +288,14 @@ print_results_table(
 plot_results(results_adjusted_penalized, berlin)
 ```
 
-Even with the new adjusted `penalized_likelihood`, the segments seen in Figure
-\@ref(fig:berlin-adjusted-penalized) aren't similar to what we are looking for as
-shown in Figure \@ref(fig:berlin-ideal). The reason behind this, as discussed
-earlier. So, in order to segment the data ideally, it's necessary to evaluate
-all of the possibilities.
+
+Though we got a reduced number of segments in the new adjusted
+`penalized_likelihood`, the segments seen in Figure
+\@ref(fig:berlin-adjusted-penalized) still aren't similar to what we are
+looking for as shown in Figure \@ref(fig:berlin-ideal). The reason behind this,
+as discussed earlier, is due to the incorrect assumption the data is
+hierarchical. So, in order to segment the data ideally, it's necessary to
+evaluate all of the possibilities.
 
 The exact algorithm does precisely compute all of the possibilities, but its $O(n^2)$ time complexity
 is quite prohibitive to run the computation on the entire data set. So we can actually make the computation

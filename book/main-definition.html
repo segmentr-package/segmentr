@@ -195,8 +195,8 @@ for our solution.</p>
 <a href="main-definition.html#eq:definerandomvector">(2.1)</a>, in which each <span class="math inline">\(X_j\)</span> belong a set <span class="math inline">\(S\)</span>. The
 equation also shows all random variables <span class="math inline">\(X_j\)</span> have probability distribution
 <span class="math inline">\(F\)</span>, each with parameter <span class="math inline">\(\Theta_j\)</span>, such that <span class="math inline">\(X_j \sim F(\Theta_j)\)</span>. A
-segment is defined as a sequence of indices such that <span class="math inline">\(\Theta_a = \Theta_{a+1} = \dots = \Theta_b\)</span> such that <span class="math inline">\(1 \le a \le b \le m\)</span>, in each <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>
-represent the first and last index of the segment, respectively. We also define
+segment is defined as a sequence of indices such that <span class="math inline">\(\Theta_a = \Theta_{a+1} = \dots = \Theta_b\)</span> such that <span class="math inline">\(1 \le a \le b \le m\)</span>, in which <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>
+represent the first and last indices of the segment, respectively. We also define
 a change point <span class="math inline">\(c\)</span> as being an index in which there is a change in the
 probability distribution parameters, i.e. <span class="math inline">\(\Theta_{c-1} \ne \Theta_c\)</span>, for <span class="math inline">\(c \ge 2\)</span>.</p>
 <p><span class="math display" id="eq:definerandomvector">\[\begin{equation}
@@ -208,9 +208,9 @@ X_j\sim F(\Theta_j)
 \tag{2.1}
 \end{equation}\]</span></p>
 <p>Putting it all together in <a href="main-definition.html#eq:definesegments">(2.2)</a>, a data set <span class="math inline">\(X\)</span> with <span class="math inline">\(t\)</span>
-change points has each segment represented by the sequence <span class="math inline">\(S_k = X_{c_k}, \dots, X_{c_{k+1}-1}\)</span>, with <span class="math inline">\(c_k\)</span> each representing a change point. In order to
-simplify equations, let <span class="math inline">\(c_0 = 1\)</span> and <span class="math inline">\(c_{t+1} = m + 1\)</span>, even though they are
-not change points.</p>
+change points has each segment represented by the sequence <span class="math inline">\(S_k = X_{c_k}, \dots, X_{c_{k+1}-1}\)</span>, with <span class="math inline">\(c_k\)</span> each representing a change point when <span class="math inline">\(k \le 1\)</span>. In order to simplify equations, let <span class="math inline">\(c_0 = 1\)</span> and <span class="math inline">\(c_{t+1} = m + 1\)</span>, even
+though they are not change points. With it we say <span class="math inline">\(S_{c_0} = S_1\)</span> represents
+the first segment of the data set, even though <span class="math inline">\(c_0\)</span> is not a change point.</p>
 <p><span class="math display" id="eq:definesegments">\[\begin{equation}
 \begin{gathered}
 c_0 = 1\\

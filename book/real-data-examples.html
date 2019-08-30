@@ -957,11 +957,15 @@ Last index
 Figure 5.5: Berlin weather data segmented using an auto-penalized likelihood function
 </p>
 </div>
-<p>The function above found two segments, the last of which was still quite large, which suggests the
-<code>big_segment_penalty</code> argument needs to be increased to avoid that type of segment in the function.
-So, by increasing it’s value, from the default of <span class="math inline">\(10\)</span>, all the way up to <span class="math inline">\(100\)</span>, we run the results
-again with the <code>segment()</code> function. The results can be seen in <a href="real-data-examples.html#tab:resultsadjustedpenalized">5.6</a>,
-and it’s possible to the segments with the weather data in Figure <a href="real-data-examples.html#fig:berlin-adjusted-penalized">5.6</a>.</p>
+<p>We now get a reduced number of segments estimated by the new penalized
+likelihood function in Figure <a href="real-data-examples.html#fig:berlin-auto-penalized">5.5</a> found by the new
+penalized likelihood, though it’s also over segmenting some downward trends. It
+suggests the <code>big_segment_penalty</code> argument needs to be decreased to allow for
+larger segments to be estimated by the solution. So, by decreasing it’s value,
+from the default of <span class="math inline">\(10\)</span>, down to <span class="math inline">\(2\)</span>, we run the results again with the
+<code>segment()</code> function. The results can be seen in
+<a href="real-data-examples.html#tab:resultsadjustedpenalized">5.6</a>, and it’s possible to the segments with the
+weather data in Figure <a href="real-data-examples.html#fig:berlin-adjusted-penalized">5.6</a>.</p>
 <table>
 <caption>
 <span id="tab:resultsadjustedpenalized">Table 5.6: </span>Results of the segmentation algorithm
@@ -989,7 +993,7 @@ Last index
 1
 </td>
 <td style="text-align:right;">
-239
+237
 </td>
 </tr>
 <tr>
@@ -997,10 +1001,10 @@ Last index
 2
 </td>
 <td style="text-align:right;">
-240
+238
 </td>
 <td style="text-align:right;">
-327
+453
 </td>
 </tr>
 <tr>
@@ -1008,18 +1012,7 @@ Last index
 3
 </td>
 <td style="text-align:right;">
-328
-</td>
-<td style="text-align:right;">
-644
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-645
+454
 </td>
 <td style="text-align:right;">
 730
@@ -1033,11 +1026,13 @@ Last index
 Figure 5.6: Berlin weather data segmented using an adjusted penalized likelihood function
 </p>
 </div>
-<p>Even with the new adjusted <code>penalized_likelihood</code>, the segments seen in Figure
-<a href="real-data-examples.html#fig:berlin-adjusted-penalized">5.6</a> aren’t similar to what we are looking for as
-shown in Figure <a href="real-data-examples.html#fig:berlin-ideal">5.2</a>. The reason behind this, as discussed
-earlier. So, in order to segment the data ideally, it’s necessary to evaluate
-all of the possibilities.</p>
+<p>Though we got a reduced number of segments in the new adjusted
+<code>penalized_likelihood</code>, the segments seen in Figure
+<a href="real-data-examples.html#fig:berlin-adjusted-penalized">5.6</a> still aren’t similar to what we are
+looking for as shown in Figure <a href="real-data-examples.html#fig:berlin-ideal">5.2</a>. The reason behind this,
+as discussed earlier, is due to the incorrect assumption the data is
+hierarchical. So, in order to segment the data ideally, it’s necessary to
+evaluate all of the possibilities.</p>
 <p>The exact algorithm does precisely compute all of the possibilities, but its <span class="math inline">\(O(n^2)\)</span> time complexity
 is quite prohibitive to run the computation on the entire data set. So we can actually make the computation
 tolerable by reducing the granularity of the data, getting the monthly averages for each of the
