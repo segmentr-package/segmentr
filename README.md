@@ -44,6 +44,11 @@ segment(data, likelihood = mean_lik, algorithm = "hieralg")
 
 For an in depth step-by-step, please check `vignette("segmentr")`.
 
+## Dissertation
+
+The work behind this package is available as a [web
+book](https://thalesmello.github.io/segmentr/book/).
+
 ## Acknowledgments
 
 This package is part of a Master’s degree research thesis at
