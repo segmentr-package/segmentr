@@ -1,6 +1,6 @@
 # Main Definition
 
-In this chapter we explain the problem by providing definitions of concepts and
+In this chapter, we explain the problem by providing definitions of concepts and
 build equations that gradually help us explain the problem and make the case
 for our solution.
 
@@ -87,7 +87,7 @@ C = \{ c_1, \dots, c_t \}
 One approach to find the change points set $C$ is to maximize a likelihood
 function over the data set $D$ as shown in \@ref(eq:definemaximization).
 Considering the data set is compound by all the segments, and that each
-individual segment $S_k$ will maximize the likelihood $L$ for that portion of
+individual segment $S_k$ will maximize the likelihood function $L$ for that portion of
 the data set, the likelihood of change points set $C$ can be defined as the sum
 of the likelihoods of all the segments as shown in
 \@ref(eq:definelikelihoodsum).
@@ -133,9 +133,9 @@ measure is made necessary to compare the estimations provided by the different
 estimation algorithms that will be presented in Chapter
 \@ref(solution-estimation). The Hausdorff distance is commonly used as a
 measure of distance between two distinct sets, and will be used to to compare
-change point sets with differing number of elements each.
+change point sets with differing numbers of elements each.
 
-[@topology] defines the Haurdorff distance as measure of how far two subsets
+[@topology] defines the Hausdorff distance as a measure of how far two subsets
 from a metric space are from one another. It's defined as the biggest of all
 the distances from a point in one set to the closest point in the other set,
 which is expressed mathematically by the equation defined in

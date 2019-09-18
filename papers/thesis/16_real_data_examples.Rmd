@@ -3,16 +3,16 @@
 ```{r, code = readLines("helper.R")}
 ```
 
-In order to exemplify how Segmentr is used in real situations, an example on weather
+To exemplify how Segmentr is used in real situations, an example of weather
 data is provided in this paper. The data was obtained using data found in [@dwd].
 
 Segmentr is a package that implements a handful of algorithms to segment a given data set, by finding
 the change points that maximize the collective likelihood of the segments according to an arbitrary
 likelihood function. So, the user of this package has to find an adequate likelihood for
-the segmentation problem to be solved, possibly having to penalize it in order to avoid either an
-overparametrized or underparametrized model, i.e. one with too many or too few change points,
+the segmentation problem to be solved, possibly having to penalize it to avoid either an
+over parametrized or under parameterized model, i.e. one with too many or too few change points,
 respectively. Also, it's important to consider the computation time of each algorithm and its
-trade-offs. This example walks rough the main concepts regarding its usage, using historical
+trade-offs. This example walks through the main concepts regarding its usage, using historical
 temperature data from Berlin as an example.
 
 ```{r message=FALSE}
@@ -49,10 +49,10 @@ as_tibble(berlin, rownames="station") %>%
   column_spec(1, width="5em")
 ```
 
-In order to grasp the behavior of the weather data, in Figure
+To grasp the behavior of the weather data, in Figure
 \@ref(fig:berlin-curve) the daily average temperature of all the weather
 stations, i.e., the mean value of each column in the data set as a time series
-graph in order to observe how the average temperature of Berlin behaves over
+graph to observe how the average temperature of Berlin behaves over
 time.
 
 ```{r berlin-curve, fig.cap = "Average daily temperature over time as measured by different stations in Berlin"}
@@ -90,10 +90,10 @@ print_results_table(
 
 An adequate likelihood function should be able to rank a given set of possible segments and pick
 the best one given the evaluation criteria. Since the goal is to select segments with a good
-linear regression fit, the method's own standard log-likelihood function, i.e.
-the negative of the squared sum of residuals, is a good candidate for our segment likelihood function.
+linear regression fit, the method's standard log-likelihood function (i.e.
+the negative of the squared sum of residuals) is a good candidate for our segment likelihood function.
 However, the sum of
-residuals tend to increase with the amount of points in a segment. Instead, we pick the negative mean of the
+residuals tend to increase with the number of points in a segment. Instead, we pick the negative mean of the
 squared residuals, because it normalizes the likelihoods based on the length of the segment. So, in
 Equation \@ref(eq:linear-regression-likelihood), $L_{lm}$ is the linear regression likelihood function, $X$ is the set of points
 that belong to the segment, $x_i$ and $y_i$ are the points that belong to $X$ for each index $i$,
@@ -110,9 +110,8 @@ returns the estimated likelihood for the candidate. Therefore, equation
 \@ref(eq:linear-regression-likelihood) is implemented as an R function called
 `lm_likelihood`, such that it obeys the argument contract by taking a matrix as
 argument and returning the negative mean of the squared residuals of a linear
-regression over the candidate segment. In order to get a sense of how the function
-behaves with the `berlin` data set, sample likelihoods a small, a medium,
-and a large segment are provided in \@ref(tab:likelihood-samples).
+regression over the candidate segment. To get a sense of how the function
+behaves with the `berlin` data set, sample likelihoods for a small, a medium, and a large segment are provided in \@ref(tab:likelihood-samples).
 
 ```{r likelihood-samples}
 lm_likelihood <- function (data) {
@@ -137,15 +136,12 @@ tibble(
   )
 ```
 
-With the likelihood function defined, it can now be applied to `segment()` in
-order to get the segments for the data set. Since the time complexity of the
+With the likelihood function defined, it can now be applied to `segment()` to get the segments for the data set. Since the time complexity of the
 exact algorithm is $O(n^2)$ and the number of points in the data set is high,
 the execution time required for the computation is quite prohibitive. So, for
 demonstration purposes, we use the hierarchical algorithm, due to its
-$O(n \log(n))$. We point the hierarchical algorithm, generally suitable for the
-multivariate likelihood, assumes the segments' likelihoods to be structured in
-a hierarchical manner, with a combination of two neighboring segments having
-being selected as an intermediate step before evaluating the ideal change
+$O(n \log(n))$. We point the hierarchical algorithm (generally suitable for the
+multivariate likelihood) assumes the segments' likelihoods to be structured hierarchically, with a combination of two neighboring segments being selected as an intermediate step before evaluating the ideal change
 points of the data set. The segmentation results can be seen in Table
 \@ref(tab:resultsnonpenalized), and they are also plotted together with the
 weather data in Figure \@ref(fig:berlin-non-penalized).
@@ -168,7 +164,7 @@ print_results_table(
 plot_results(results_non_penalized, berlin)
 ```
 
-In Figure \@ref(fig:berlin-non-penalized), it's possible see many very short
+In Figure \@ref(fig:berlin-non-penalized), it's possible to see many very short
 segments, and a very large last segment. This is a result of the algorithm
 used, as well as the fact the `lm_likelihood` function tends to favor very
 short segments, as they usually have smaller residual error. So, to not get
@@ -215,7 +211,7 @@ higher the parameter, the more penalized the related type of segment size is.
 
 Let $P_s$ be the `small_segment_penalty`, $P_b$ be the `big_segment_penalty`,
 $\mu_s$ be the average likelihood for the sampled small segments and $\mu_b$ be
-the average likelihood for the samples big segments. The relationship between
+the average likelihood for the sample's big segments. The relationship between
 the parameters, as defined by the `auto_penalize()` function, is defined in
 \@ref(eq:penalty-parametrization).
 
@@ -263,7 +259,7 @@ suggests the `big_segment_penalty` argument needs to be decreased to allow for
 larger segments to be estimated by the solution. So, by decreasing it's value,
 from the default of $10$, down to $2$, we run the results again with the
 `segment()` function. The results can be seen in
-\@ref(tab:resultsadjustedpenalized), and it's possible to the segments with the
+\@ref(tab:resultsadjustedpenalized), and it's possible for the segments with the
 weather data in Figure \@ref(fig:berlin-adjusted-penalized).
 
 ```{r resultsadjustedpenalized}
@@ -294,19 +290,19 @@ Though we got a reduced number of segments in the new adjusted
 \@ref(fig:berlin-adjusted-penalized) still aren't similar to what we are
 looking for as shown in Figure \@ref(fig:berlin-ideal). The reason behind this,
 as discussed earlier, is due to the incorrect assumption the data is
-hierarchical. So, in order to segment the data ideally, it's necessary to
+hierarchical. So, to segment the data ideally, it's necessary to
 evaluate all of the possibilities.
 
 The exact algorithm does precisely compute all of the possibilities, but its $O(n^2)$ time complexity
-is quite prohibitive to run the computation on the entire data set. So we can actually make the computation
+is quite prohibitive to run the computation on the entire data set. So we can make the computation
 tolerable by reducing the granularity of the data, getting the monthly averages for each of the
 measurement stations.
 
 ## Reducing granularity
 
-The data set needs to be resampled in order to represent the monthly weather averages. It is done by
+The data set needs to be resampled to represent the monthly weather averages. It is done by
 computing the average temperature for each combination of month and weather station. With the granularity reduction,
-the data set will have 24 columns, one for each month in the two years period comprehended.
+the data set will have 24 columns, one for each month in the two years comprehended.
 The plot of the monthly average temperature of the temperatures of all the data points is plotted in figure
 \@ref(fig:downsampled-curve)
 
@@ -361,7 +357,7 @@ print_results_table(
 plot_results(results_downscaled, monthly_berlin)
 ```
 
-In order to make the solution comparison clearer, it's possible to
+To make the solution comparison clearer, it's possible to
 rescale the `exact` solution to the monthly sampled dataset to the
 daily sampled dataset by applying a linear transformation of
 multiplying all the change points for the number of columns in the
@@ -414,14 +410,14 @@ as the algorithm as able to evaluate all of the possibilities.
 
 ## A non-usual likelihood function
 
-Take notice the picking of the likelihood just have be able to rank segments in
+Notice the only requirement on the likelihood function is for it to be able to rank segments in
 a desired manner. Therefore, there's freedom to pick a non-conventional
 likelihood function. For example, the R-squared statistic of the linear
 regression in each segment is conventionally used to infer how well the linear
 model fits the points in the data. It ranges from zero to one and the closer it
 is to one, the better it predicts the points in the data. Therefore, we propose
 the implementation of a `rsquared_likelihood`, which fits a linear regression
-against the data set received as input in the function, and then returns the
+against the data set received as input in the function and then returns the
 R-squared statistic as the "likelihood" value of the segment. The defined
 function is applied against different segment sizes of the `berlin` data set,
 analogous to Table \@ref(tab:likelihood-samples), and the results are shown in
@@ -480,10 +476,9 @@ plot_results(results, berlin)
 ```
 
 The default penalized `rsquared_likelihood` split the data set in three
-segments, roughly the same size each. Since the penalty model applied by
-`auto_penalize`, it applies the least penalty for values segments closer to
-about half the total length, so increasing the `big_penalty_segment` will have
-no effect. In fact, smaller segments are being over penalized. Because of this,
+segments, roughly the same size each. It makes sense because the penalty applied by
+the default `auto_penalize` funtion has the lowest penalty for segments of sizes closer to
+about half the total length. So, increasing the `big_penalty_segment` argument will not affect solution estimation anymore. In contrast, smaller segments are being over penalized. Because of this,
 it's necessary to reduce the `small_segment_penalty` segment, which we decrease
 to $1.5$, from the default of $10$. The results of the new segmentation can be
 seen in Table \@ref(tab:rsquaredres-adjusted-penalized), and the plot in Figure
@@ -518,10 +513,10 @@ seemingly accurate manner, despite the nature of the hierarchical algorithm. As
 discussed previously, we point the hierarchical algorithm is not adequate for
 the linear likelihood, as the grouping of neighboring segments under a
 macro-segment, an intermediate segment state under the hierarchical algorithm,
-has a unattractive likelihood, due to the presence of alternating trends.
+has an unattractive likelihood, due to the presence of alternating trends.
 Because of this, the macro-segment is never picked by the algorithm during the
 computation process, and so the ideal change points are never picked at their
-ideal positions. In order to see it more clearly, take the first 547 data
+ideal positions. To see it more clearly, take the first 547 data
 points of the Berlin data set, roughly one year and a half. The results
 of the segmentation with that portion of the `berlin` data set can be seen in
 Table \@ref(tab:subberlinres-penalized), and the plot can be seen in Figure
@@ -550,7 +545,7 @@ print_results_table(
 plot_results(results, sub_berlin)
 ```
 
-In Figure \@ref(fig:subberlinplot-penalized), we can clearly see the segments
+In Figure \@ref(fig:subberlinplot-penalized), we can see the segments
 do not match our expectations, as the algorithm is not able to bisect a
 macro-segment before finding the ideal segments in the next algorithm
 iteration.

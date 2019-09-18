@@ -4,13 +4,13 @@
 source("helper.R")
 ```
 
-In order to exemplify the utility of this package, a handful of hypothetical
+To exemplify the utility of this package, a handful of hypothetical
 data will be presented, together with a proposal of an appropriate likelihood
-function that is expected to segment the data in an expected manner.
+function that is expected to segment the data expectedly.
 
 ## Segments of Independent Variables
 
-In order to show compatibility with the work presented in [@base-paper], we analyze the
+To show compatibility with the work presented in [@base-paper], we analyze the
 same problem presented in their work.
 
 Let $C_1$, $C_2$, ..., $C_n$ a sequence of $n$ vectors of data points, each with $m$
@@ -113,7 +113,7 @@ print_results_table(
 
 Notice it's important to use a penalized likelihood version of the
 `multivariate` function because the original function favors bigger segments.
-The answer provided by the `segment` package in that scenario would actually be
+The answer provided by the `segment` package in that scenario would be
 all the columns in the $D$ matrix, as shown in Table
 \@ref(tab:results-multivariate-non-penalized).
 
@@ -128,13 +128,13 @@ segment(D_example, likelihood = multivariate, algorithm = "exact") %>%
 
 [@homozygosity] describes a process on how to find windows of contiguous
 homozygosity, i.e. segments in the genetic data in which the alleles are of the
-same type. This is of interest for a researching investigating diseases.
+same type. This is of interest to a researcher investigating diseases.
 Considering this problems scenario, Segmentr can be used to segment random
 variables $C_1, ..., C_n$ that represent genetic data, encoded as zero for
 homozygosity and one for heterozygosity, i.e. zero when the alleles are of the
 same type and one when the alleles are different.
 
-So, in order to use Segmentr to solve this problem, it's necessary
+So, to use Segmentr to solve this problem, it's necessary
 to find a likelihood function that favors segments the homogeneity
 of a given segment. That problem is approached by proposing a
 "mean" likelihood function, i.e. a function that maximizes the
@@ -143,7 +143,7 @@ average. One such function is defined in
 \@ref(eq:mean-likelihood). Notice, however, the likelihood
 function proposed favors a single column segments, as it's logically
 the entity whose elements most approximate the average of the
-entire window. In order to counter this undesirable behavior, we
+entire window. To counter this undesirable behavior, we
 penalized the function by subtracting from it a single constant,
 as described in \@ref(eq:penalizedmeanlikelihood). The constant
 factor has the effect of adding up when too many segments are
@@ -228,7 +228,7 @@ segment(
   algorithm = "hieralg"
 ) %>%
   print_results_table(
-    caption="Results of segmentation by aplying the
+    caption="Results of segmentation by applying the
       likelihood function defined in
       (ref:eq-penalizedmeanlikelihood) to a sample of size
       10 of the model defined in (ref:eq-geneticexample).

@@ -12,10 +12,10 @@ distance between two sets of estimated change points.
 ## Accuracy of estimates for the Berlin dataset
 
 In Chapter \@ref(real-data-examples) the data set of weather temperatures in
-Berlin was presented, and there was a walk through on different ways to use
+Berlin was presented, and there was a walkthrough on different ways to use
 Segmentr to find a good estimate set of segments for it. Table
-\@ref(tab:berlinexpectedtable) lists the considered the ideal solution to the
-problem, at the same time as different solutions with different tables were
+\@ref(tab:berlinexpectedtable) lists the considered solution considered ideal to the
+problem, at the same time as different solutions were
 found in Tables \@ref(tab:resultsnonpenalized), \@ref(tab:resultsautopenalized)
 and \@ref(tab:downresautopenalized). Considering this, the
 Hausdorff distance can be used to measure how far each estimate is from
@@ -151,7 +151,7 @@ tribble(
       deviation(hybrid_multivariate_changepoints_threshold)
 ) %>%
   kable(caption="Comparison of solutions of different algorithms
-to segmenting the data set described in (ref:eq-examplecolumns),
+to segment the data set described in (ref:eq-examplecolumns),
 measuring how far each solution is from the ideal
 solution using the Hausdorff distance.")
 ```
@@ -159,7 +159,7 @@ solution using the Hausdorff distance.")
 Therefore, in Table \@ref(tab:hausdorff-multivariate-comparison) we can see the
 comparison of different algorithms with different parameters. We notice the
 "exact" algorithm manages to properly match the expected change points
-solution, whereas the "hierarchical" algorithm find an extra segment, which
+solution, whereas the "hierarchical" algorithm finds an extra segment, which
 causes the Hausdorff distance to be bigger than zero. The two "hybrid"
 algorithm cases are interesting in the sense it that it shows how to algorithm
 works by either adopting the exact or the hierarchical algorithm depending on
@@ -227,7 +227,7 @@ tribble(
       deviation(hybrid_mean_changepoints_threshold)
 ) %>%
   kable(caption="Comparison of solutions of different algorithms
-to segmenting the data set described in (ref:eq-geneticexample),
+to segment the data set described in (ref:eq-geneticexample),
 measuring how far each solution is from the ideal
 solution using the Hausdorff distance.")
 ```

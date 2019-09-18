@@ -24,11 +24,11 @@ algorithms. In that scenario, the most relevant variable is the number of column
 in the data set, which dictates whether the computation of the exact algorithm will
 be prohibitive or not. However, the number of samples does influence the computation
 time linearly. Given the most performed operation in any of the algorithms described
-in the chapter is the likelihood function, it's in essence the bottleneck of the
+in the chapter is the likelihood function, it's, in essence, the bottleneck of the
 whole computation. Therefore, real performance gains can be obtained depending on
 the performance of the application.
 
-In R statistical programming, it's common place to use the functions provided by the
+In R statistical programming, it's commonplace to use the functions provided by the
 programming environment, which are usually performant algorithms implemented in compiled
 programming languages such as C. However, there are times the programmer must implement
 a custom function in R, which in turn is a dynamically, and typically slower execution
@@ -69,7 +69,7 @@ In the scenario above, we notice performance improvements in the native [multiva
 function, with the biggest performance improvement taking place in the `exact` algorithm
 results. Therefore, whenever the resources are available, it's recommended to implement
 the likelihood function directly in a native programming language such as C++. We recommend
-the RCpp package, which makes it easy to implement functions which interface easily with
+the RCpp package, which makes it easy to implement functions that interface easily with
 the R programming environment.
 
 ## Parallelization
@@ -113,7 +113,7 @@ bench <- microbenchmark(
 print_benchmark(
   bench,
   caption="Execution time comparison
-    between parralel and single-threaded computation
+    between parallel and single-threaded computation
     with a data set of 100 samples and 10 columns"
 )
 ```
@@ -149,7 +149,7 @@ bench <- microbenchmark(
 print_benchmark(
   bench,
   caption="Execution time comparison
-    between parralel and single-threaded computation
+    between parallel and single-threaded computation
     with a data set of 5 samples and 100 columns"
 )
 ```
@@ -159,13 +159,13 @@ computation slower, as there is now a lot of work done synchronizing necessary i
 between all the processes in the cluster. That takes more time than is saved by running
 the algorithm in parallel.
 
-Taking all of that in consideration, the decision of whether or not to use parallelization
+Taking all of that into consideration, the decision of whether or not to use parallelization
 relies on the user after evaluating the nature of the data set. For data sets with few samples
 and many columns, parallelization is not recommended. In the case there are lots of samples,
 parallelization might give better computation times.
 
 An alternative not developed in this project would be to use a genetic algorithm approach to
 the minimal set estimation, which is a probabilistic process that converges to the result
-after enough computation time have passed. The main advantage of such method is that computations
-can be more easily parallelized. Such development might be explored in future developments of
+after enough computation time has passed. The main advantage of such a method is that computations
+can be more easily parallelized. Such development might be explored in future developments in
 this package.

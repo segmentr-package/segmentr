@@ -35,7 +35,7 @@ abstract-text: |
   The change points are estimated using a segment likelihood function, which is
   chosen to suit the type of problem analyzed. The use cases mentioned in this
   work are (i) segments as blocks of independent discrete variables; and (ii)
-  segments of random variables with a common regrassion parameter, for which a
+  segments of random variables with a common regression parameter, for which a
   case of linear regression blocks and a case of Bernoulli distribution blocks
   are exemplified in this work.
 

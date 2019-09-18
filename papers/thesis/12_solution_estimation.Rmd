@@ -1,14 +1,14 @@
 # Solution Estimation
 
 In this chapter, we discuss the process to solve \@ref(eq:definesegmentation)
-and explore an solution involving dynamic programming. Because the exact
+and explore a solution involving dynamic programming. Because the exact
 solution to this problem has quadratic complexity, we also discuss some
 alternatives that simplify the search path and provide an approximate solution.
 
 ## Exact Algorithm
 
-The first attempt to try to solve the equation would be to actually search all the possible alternatives
-in order to find the correct minimal set of intervals that maximize the total likelihood of the system.
+The first attempt to solve the equation would be to search all the possible alternatives
+to find the correct minimal set of intervals that maximize the total likelihood of the system.
 It's done iteratively by:
 
 - for each column index $i \in \{1, \dots, p\}$
@@ -38,9 +38,9 @@ many data samples, e.g. DNA data, computation time can be very prohibitive.
 
 ## Hierarchical Algorithm
 
-In order to try to simplify the search path of the algorithm, [@base-paper] also proposes a technique
+To try to simplify the search path of the algorithm, [@base-paper] also proposes a technique
 that relies on assuming the data to be hierarchical, i.e. it assumes the minimal solution set can
-me estimated by only searching the data for the optimal change point segmentation once. The algorithm
+be estimated by only searching the data for the optimal change-point segmentation once. The algorithm
 is described below.
 
 - let $d$ be the current data set we want to segment
@@ -55,8 +55,8 @@ is described below.
 Implementing the algorithm described above will allow for a time complexity of $O(np\log(p))$ where $n$ is
 the number of samples, $p$ is the number of columns. The reduction in time complexity is only possible
 because of the strong assumption the data set has a hierarchical likelihood behavior. However, that
-doesn't hold true for many situations, as it will be seen in more detail in the next chapters,
-and the use of this algorithm should done with care.
+doesn't hold for many situations, as it will be seen in more detail in the next chapters,
+so the solution estimated with this algorithm should be considered with care.
 
 ## Hybrid algorithm
 
@@ -75,5 +75,5 @@ it will try to find the exact segments with the exact algorithm. The procedure w
 - recursively find the set of change points $C_R$ by calling the algorithm on the right segment $X_{i:p}$
 - return $C=C_L \cup C_R \cup \{i\}$ as result of current function call
 
-The only difference of this procedure and the hierarchical procedure is the presence of the conditional
-step in the beginning of the procedure that tests whether of not to use the hybrid algorithm.
+The only difference between this and the hierarchical procedure is the presence of the conditional
+step in the beginning of the procedure that tests whether or not to use the hybrid algorithm.

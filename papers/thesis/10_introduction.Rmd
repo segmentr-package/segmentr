@@ -10,9 +10,9 @@ regression trend \@ref(real-data-examples).
 This work was developed as an R Programming Language [@R-lang] package. The
 packaging of the code into redistributable software was based on instructions
 provided by [@r-package-tutorial], and the final code is made available as an R
-package [@segmentr-cran]. This was made with the goal of making it as easy as
-possible to for researchers and R programmers to use this software. Source code
-for the package is also available as an open source software @segmentr-github.
+package [@segmentr-cran]. The goal was to make it as easy as
+possible for researchers and R programmers to use this software. The source code
+for the package is also available as an open-source software @segmentr-github.
 Finally, as a special implementation for the use case described by
 [@base-paper] of segmenting finite alphabets, a specialized version of the
 multivariate likelihood function is implemented in native code using Rcpp
@@ -24,13 +24,12 @@ multivariate likelihood function is implemented in native code using Rcpp
 [@fpop] also talks about optimally segmenting a data set, given a *cost*
 function to be minimized for the segments the data set is going to be split
 into. That is analogous to the segment likelihood used in this work, with the
-difference being that we look forward to maximize the likelihood function in
-this paper rather than minimize.
+difference that we look forward to maximizing the likelihood function in
+this paper rather than minimizing it.
 
 In their paper, they discuss search path algorithms different than the ones
 shown in this work. In their case, if the cost function satisfies certain
-conditions, the `fpop` and `snip` search algorithms can prune search path in a
-way that is mathematically optimal. They claim the algorithms presented in
+conditions, the `fpop` and `snip` search algorithms can prune the search path in a mathematically optimal way. They claim the algorithms presented in
 their work provide better results than previous work.
 
 Notice that, because the approach used by [@fpop] is different than the one
