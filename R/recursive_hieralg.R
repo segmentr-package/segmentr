@@ -1,7 +1,7 @@
 recursive_hieralg <- function(
                               data,
                               initial_position,
-                              likelihood,
+                              cost,
                               allow_parallel,
                               recursive_fn) {
   num_variables <- ncol(data)
@@ -10,28 +10,28 @@ recursive_hieralg <- function(
     return(NULL)
   }
 
-  segment_likelihood <- function(start, end) {
+  segment_cost <- function(start, end) {
     segment <- slice_segment(data, start, end)
-    likelihood_value <- likelihood(segment)
+    cost_value <- cost(segment)
 
-    handle_nan(likelihood_value, start + initial_position - 1, end + initial_position - 1)
+    handle_nan(cost_value, start + initial_position - 1, end + initial_position - 1)
 
-    likelihood_value
+    cost_value
   }
 
-  segment_likelihoods <- chuncked_foreach(1:num_variables, allow_parallel, function(i) {
-    likelihood_left <- if (i > 1) {
-      segment_likelihood(1, i - 1)
+  segment_costs <- chuncked_foreach(1:num_variables, allow_parallel, function(i) {
+    cost_left <- if (i > 1) {
+      segment_cost(1, i - 1)
     } else {
       0
     }
 
-    likelihood_right <- segment_likelihood(i, num_variables)
+    cost_right <- segment_cost(i, num_variables)
 
-    likelihood_left + likelihood_right
+    cost_left + cost_right
   })
 
-  current_position <- which.max(segment_likelihoods)
+  current_position <- which.min(segment_costs)
 
   if (current_position == 1) {
     return(NULL)
@@ -41,7 +41,7 @@ recursive_hieralg <- function(
   positions_left <- recursive_fn(
     data = segment_left,
     initial_position = initial_position,
-    likelihood = likelihood,
+    cost = cost,
     allow_parallel = allow_parallel,
     recursive_fn = recursive_fn
   )
@@ -50,7 +50,7 @@ recursive_hieralg <- function(
   positions_right <- recursive_fn(
     data = segment_right,
     initial_position = initial_position + current_position - 1,
-    likelihood = likelihood,
+    cost = cost,
     allow_parallel = allow_parallel,
     recursive_fn = recursive_fn
   )

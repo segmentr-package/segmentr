@@ -16,6 +16,13 @@ calculate_segment_likelihoods <- function(results, newdata, likelihood) {
   }
 }
 
+calculate_segment_costs <- function(results, newdata, cost) {
+  points <- c(1, results$changepoints, ncol(newdata) + 1)
+  foreach(start = head(points, -1), end = tail(points - 1, -1), .combine = c) %do% {
+    cost(slice_segment(newdata, start, end))
+  }
+}
+
 chunk <- function(x, n) {
   if (n <= 1) {
     return(list(x))
@@ -33,7 +40,7 @@ get_operator <- function(allow_parallel) {
 
 handle_nan <- function(likelihood_value, start, end) {
   if (is.nan(likelihood_value)) {
-    stop(paste0("likelihood returned a NaN when called with likelihood(data[, ", start, ":", end, "])"))
+    stop(paste0("cost returned a NaN when called with cost(data[, ", start, ":", end, "])"))
   }
 }
 
@@ -80,3 +87,24 @@ seg_end <- NULL
 changepoint <- NULL
 previous_changepoint <- NULL
 index <- NULL
+
+# Wrapper to have backwards compatibility for
+# likelihood function
+get_cost <- function(cost, likelihood) {
+  if (missing(likelihood)) {
+    cost
+  } else {
+    warning("argument `likelihood` is deprecated; please use `cost` instead.",
+      call. = FALSE
+    )
+
+    if (missing(cost)) {
+      function(...) -likelihood(...)
+    } else {
+      warning("`cost` is provided, so likelihood is ignored",
+        call. = FALSE
+      )
+      cost
+    }
+  }
+}

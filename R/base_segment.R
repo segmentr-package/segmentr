@@ -4,7 +4,13 @@
 #'
 #' @keywords internal
 #' @param data matrix for which to find the change points
-#' @param likelihood a function receives the segment matrix as argument
+#' @param cost a function receives the segment matrix as argument
+#'   and returns a cost for the segment. This function is used to calculate the
+#'   change points that minimize the total cost. Depending on the algorithm
+#'   being used, this function is likely to be executed many times, in which
+#'   case it's also likely to be the bottleneck of the function execution, so
+#'   it's good for this function to have a fast implementation.
+#' @param likelihood deprecated: use cost instead.  function receives the segment matrix as argument
 #'   and returns a likelihood estimation. This function is used to calculate the
 #'   change points that maximize the total likelihood. Depending on the algorithm
 #'   being used, this function is likely to be executed many times, in which
@@ -21,6 +27,7 @@
 #'   that identifies a segment.
 base_segment <- function(
                          data,
+                         cost,
                          likelihood,
                          max_segments,
                          allow_parallel) NULL

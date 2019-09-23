@@ -4,13 +4,20 @@
 \alias{hybridalg}
 \title{Segment data into change points using a mixed hierarchical-exact approach}
 \usage{
-hybridalg(data, likelihood, allow_parallel = TRUE,
+hybridalg(data, cost, likelihood, allow_parallel = TRUE,
   max_segments = ncol(data), threshold = 50)
 }
 \arguments{
 \item{data}{matrix for which to find the change points}
 
-\item{likelihood}{a function receives the segment matrix as argument
+\item{cost}{a function receives the segment matrix as argument
+and returns a cost for the segment. This function is used to calculate the
+change points that minimize the total cost. Depending on the algorithm
+being used, this function is likely to be executed many times, in which
+case it's also likely to be the bottleneck of the function execution, so
+it's good for this function to have a fast implementation.}
+
+\item{likelihood}{deprecated: use cost instead.  function receives the segment matrix as argument
 and returns a likelihood estimation. This function is used to calculate the
 change points that maximize the total likelihood. Depending on the algorithm
 being used, this function is likely to be executed many times, in which

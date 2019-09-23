@@ -4,13 +4,20 @@
 \alias{exactalg}
 \title{Segment data into exact change points}
 \usage{
-exactalg(data, likelihood, max_segments = ncol(data),
+exactalg(data, cost, likelihood, max_segments = ncol(data),
   allow_parallel = TRUE)
 }
 \arguments{
 \item{data}{matrix for which to find the change points}
 
-\item{likelihood}{a function receives the segment matrix as argument
+\item{cost}{a function receives the segment matrix as argument
+and returns a cost for the segment. This function is used to calculate the
+change points that minimize the total cost. Depending on the algorithm
+being used, this function is likely to be executed many times, in which
+case it's also likely to be the bottleneck of the function execution, so
+it's good for this function to have a fast implementation.}
+
+\item{likelihood}{deprecated: use cost instead.  function receives the segment matrix as argument
 and returns a likelihood estimation. This function is used to calculate the
 change points that maximize the total likelihood. Depending on the algorithm
 being used, this function is likely to be executed many times, in which
@@ -33,15 +40,15 @@ that identifies a segment.
 }
 }
 \description{
-Find changes points in data calculating the penalized likelihood for all possible
+Find changes points with minimal total cost comparing all possible
 segment combinations
 }
 \details{
 Function that implements the dynamic programming algorithm, with the intent
-of finding points of independent change points for which the likelihood
-function is maximized. It analyzes all possible combinations, returning the
-change points that are guaranteed to segment the data matrix in the maximum
-likelihood independent change points. Because it analyzes all possible combinations
+of finding points of independent change points for which the cost
+function is minimized. It analyzes all possible combinations, returning the
+change points that are guaranteed to segment the data matrix in the change points
+minimize total cost. Because it analyzes all possible combinations
 of change points, it has a O-squared algorithm complexity, meaning it works
 in an acceptable computation time for small datasets, but it takes quite
 longer for datasets with many columns. For big datasets, \code{\link[=hieralg]{hieralg()}} might

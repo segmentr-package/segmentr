@@ -4,13 +4,20 @@
 \alias{segment}
 \title{Segment data into change points}
 \usage{
-segment(data, likelihood, max_segments = ncol(data),
+segment(data, cost, likelihood, max_segments = ncol(data),
   allow_parallel = TRUE, algorithm = "exact", ...)
 }
 \arguments{
 \item{data}{matrix for which to find the change points}
 
-\item{likelihood}{a function receives the segment matrix as argument
+\item{cost}{a function receives the segment matrix as argument
+and returns a cost for the segment. This function is used to calculate the
+change points that minimize the total cost. Depending on the algorithm
+being used, this function is likely to be executed many times, in which
+case it's also likely to be the bottleneck of the function execution, so
+it's good for this function to have a fast implementation.}
+
+\item{likelihood}{deprecated: use cost instead.  function receives the segment matrix as argument
 and returns a likelihood estimation. This function is used to calculate the
 change points that maximize the total likelihood. Depending on the algorithm
 being used, this function is likely to be executed many times, in which
@@ -49,8 +56,8 @@ might be more adequate than the others.
 
 make_segment <- function(n, p) matrix(rbinom(100 * n, 1, p), nrow = 100)
 data <- cbind(make_segment(5, 0.1), make_segment(10, 0.9), make_segment(2, 0.1))
-mean_lik <- function(X) abs(mean(X) - 0.5) * ncol(X)^2
-segment(data, likelihood = mean_lik, algorithm = "hieralg")
+heterogeneity_cost <- function(X) sum((X - mean(X))^2) + 1
+segment(data, cost = heterogeneity_cost, algorithm = "hieralg")
 }
 \seealso{
 \code{\link[=exactalg]{exactalg()}} for the exact algorithm, \code{\link[=hieralg]{hieralg()}} for the

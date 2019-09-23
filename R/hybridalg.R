@@ -16,28 +16,30 @@
 #' @export
 hybridalg <- function(
                       data,
+                      cost,
                       likelihood,
                       allow_parallel = TRUE,
                       max_segments = ncol(data),
                       threshold = 50) {
+  cost <- get_cost(cost, likelihood)
   recursive_hybrid <- function(
                                  data,
                                  initial_position,
-                                 likelihood,
+                                 cost,
                                  allow_parallel,
                                  recursive_fn) {
     if (ncol(data) > threshold) {
       recursive_hieralg(
         data = data,
         initial_position = initial_position,
-        likelihood = likelihood,
+        cost = cost,
         allow_parallel = allow_parallel,
         recursive_fn = recursive_hybrid
       )
     } else {
       exact_segments(
         data = data,
-        likelihood = likelihood,
+        cost = cost,
         max_segments = max_segments,
         allow_parallel = allow_parallel,
         initial_position = initial_position
@@ -48,7 +50,7 @@ hybridalg <- function(
   segs <- recursive_hybrid(
     data = data,
     initial_position = 1,
-    likelihood = likelihood,
+    cost = cost,
     allow_parallel = allow_parallel,
     recursive_fn = recursive_hybrid
   )
@@ -60,9 +62,9 @@ hybridalg <- function(
 
   if (length(changepoints) > 0 && length(changepoints) + 1 > max_segments) {
     temp_results <- list(changepoints = changepoints)
-    likelihoods <- calculate_segment_likelihoods(temp_results, data, likelihood = likelihood)
-    changepoints_with_likelihood <- data.frame(changepoint = changepoints, likelihood = head(likelihoods, -1))
-    changepoints <- with(changepoints_with_likelihood, changepoint[order(-likelihood)[1:(max_segments - 1)]])
+    costs <- calculate_segment_costs(temp_results, data, cost = cost)
+    changepoints_with_cost <- data.frame(changepoint = changepoints, cost = head(cost, -1))
+    changepoints <- with(changepoints_with_cost, changepoint[order(-cost)[1:(max_segments - 1)]])
   }
 
   results <- list(

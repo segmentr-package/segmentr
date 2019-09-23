@@ -2,15 +2,18 @@
 % Please edit documentation in R/auto_penalize.R
 \name{auto_penalize}
 \alias{auto_penalize}
-\title{Penalize a likelihood function with a guessed penalty function}
+\title{Penalize a cost function with a guessed penalty function}
 \usage{
-auto_penalize(data, likelihood, big_segment_penalty = 10,
+auto_penalize(data, likelihood, cost, big_segment_penalty = 10,
   small_segment_penalty = 10)
 }
 \arguments{
 \item{data}{dataset to be segmented by the \code{\link[=segment]{segment()}} function}
 
 \item{likelihood}{function to be maximized using the \code{\link[=segment]{segment()}} function.
+It's used to find out the scale of the values in the segment function. Deprecated.}
+
+\item{cost}{function to be minimized using the \code{\link[=segment]{segment()}} function.
 It's used to find out the scale of the values in the segment function}
 
 \item{big_segment_penalty}{penalty factor for big segments. The bigger it is, the bigger the penalty on big segments. Must be greater than or equal to 1. Penalty on big segments is constant when it's equal to 1. Default: 10}
@@ -21,13 +24,13 @@ It's used to find out the scale of the values in the segment function}
 the likelihood function with the guessed penalty function applied
 }
 \description{
-Given a dataset, a likelihood function and penalty parameters on how to
+Given a dataset, a cost function and penalty parameters on how to
 penalize big and small segments, this function makes an educated guess
-on a penalty function for the likelihood function.
+on a added penalty for the cost function.
 }
 \details{
 This function tries to fit a sum of two exponential functions to values inferred
-from the dataset and the likelihood function. The model for the penalty function
+from the dataset and the penalty function. The model for the penalty function
 we try to fit is in the form:
 
 \deqn{C1 exp(s1(x - L/2)) + C2 exp(s2(-x + L/2))}
@@ -38,13 +41,13 @@ whereas \eqn{C2} and \eqn{s2} are the equivalent ones for
 big segments. \eqn{L} is the number of columns in the \code{data} matrix.
 
 Assuming the penalty function to be as such, the parameters are estimated
-considering the scale of values yielded by the likelihood function for small
+considering the scale of values yielded by the cost function for small
 and big segments, also taking into account the \code{big_segment_penalty} and
 \code{small_segment_penalty} tuning parameters, which can be used to adjust
 the effect of the penalty function over big and small segments, respectively.
 }
 \examples{
 \dontrun{
-penalized_likelihood <- auto_penalize(berlin, multivariate)
+penalized_cost <- auto_penalize(berlin, multivariate)
 }
 }

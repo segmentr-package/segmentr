@@ -4,13 +4,20 @@
 \alias{hieralg}
 \title{Segment data into change points assuming hierarchical structure}
 \usage{
-hieralg(data, likelihood, max_segments = ncol(data),
+hieralg(data, cost, likelihood, max_segments = ncol(data),
   allow_parallel = TRUE)
 }
 \arguments{
 \item{data}{matrix for which to find the change points}
 
-\item{likelihood}{a function receives the segment matrix as argument
+\item{cost}{a function receives the segment matrix as argument
+and returns a cost for the segment. This function is used to calculate the
+change points that minimize the total cost. Depending on the algorithm
+being used, this function is likely to be executed many times, in which
+case it's also likely to be the bottleneck of the function execution, so
+it's good for this function to have a fast implementation.}
+
+\item{likelihood}{deprecated: use cost instead.  function receives the segment matrix as argument
 and returns a likelihood estimation. This function is used to calculate the
 change points that maximize the total likelihood. Depending on the algorithm
 being used, this function is likely to be executed many times, in which
@@ -42,5 +49,5 @@ simplifying by reducing the search possibilities by assuming data split in an
 hierarchical structure, i.e. a segment found in a first trial is assumed to
 contain only segments independent of the rest of the data. This algorithm
 usually runs very fast, but is known to yield less accurate results, possibly
-not finding the exact change points that would maximize likelihood.
+not finding the exact change points that would minimize cost.
 }

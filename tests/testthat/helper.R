@@ -46,12 +46,12 @@ make_segmented <- function(segments, rows = 100, p = 0.9) {
   }
 }
 
-mean_likelihood <- function(X) {
+heterogeneity_cost <- function(X) {
   mean_value <- mean(X, na.rm = T)
   if (is.na(mean_value)) {
     0
   } else {
-    -sum((X - mean_value)^2)
+    sum((X - mean_value)^2)
   }
 }
 

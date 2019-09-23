@@ -1,13 +1,13 @@
 #' Segment data into exact change points
 #'
-#' Find changes points in data calculating the penalized likelihood for all possible
+#' Find changes points with minimal total cost comparing all possible
 #' segment combinations
 #'
 #' Function that implements the dynamic programming algorithm, with the intent
-#' of finding points of independent change points for which the likelihood
-#' function is maximized. It analyzes all possible combinations, returning the
-#' change points that are guaranteed to segment the data matrix in the maximum
-#' likelihood independent change points. Because it analyzes all possible combinations
+#' of finding points of independent change points for which the cost
+#' function is minimized. It analyzes all possible combinations, returning the
+#' change points that are guaranteed to segment the data matrix in the change points
+#' minimize total cost. Because it analyzes all possible combinations
 #' of change points, it has a O-squared algorithm complexity, meaning it works
 #' in an acceptable computation time for small datasets, but it takes quite
 #' longer for datasets with many columns. For big datasets, [hieralg()] might
@@ -17,13 +17,15 @@
 #' @export
 exactalg <- function(
                      data,
+                     cost,
                      likelihood,
                      max_segments = ncol(data),
                      allow_parallel = TRUE) {
+  cost <- get_cost(cost, likelihood)
   changepoints <- exact_segments(
     data = data,
     max_segments = max_segments,
-    likelihood = likelihood,
+    cost = cost,
     allow_parallel = allow_parallel,
     initial_position = 1
   )

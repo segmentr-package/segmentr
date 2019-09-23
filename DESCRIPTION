@@ -1,6 +1,6 @@
 Package: segmentr
 Type: Package
-Title: Segment Data With Maximum Likelihood
+Title: Segment Data With Minimizing a Cost Function
 Version: 0.2.0
 Authors@R: c(
     person("Thales", "Mello", email = "thalesmello@gmail.com", role = c("aut", "cre", "cph")),
@@ -9,9 +9,9 @@ Authors@R: c(
     person("Deutscher Wetterdienst", role = c("cph"))
     )
 Maintainer: Thales Mello <thalesmello@gmail.com>
-Description: Given a likelihood provided by the user, this package applies it
+Description: Given a cost function provided by the user, this package applies it
     to a given matrix dataset in order to find change points in the data that
-    maximize the sum of the likelihoods of all the segments. This package provides
+    minimize the sum of the costs of all the segments. This package provides
     a handful of algorithms with different time complexities and assumption compromises
     so the user is able to choose the best one for the problem at hand. The implementation
     of the segmentation algorithms in this package are based on the paper by Bruno M. de Castro,
