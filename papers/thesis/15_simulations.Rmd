@@ -125,9 +125,11 @@ print_results_table(
 ```
 
 ```{r results-multivariate-non-penalized}
-segment(D_example, cost = function(X) -multivariate(X), algorithm = "exact") %>%
+segment(D_example,
+        cost = function(X) -multivariate(X),
+        algorithm = "exact") %>%
   print_results_table(
-    caption="Results of segmentation usign a non-penalized
+    caption="Results of segmentation using a non-penalized
       multivariate cost")
 ```
 

@@ -82,7 +82,8 @@ plot_results(expected_berlin, berlin)
 ```{r berlinexpectedtable}
 print_results_table(
   expected_berlin,
-  caption="Expected values to be found when segmenting the Berlin dataset"
+  caption="Expected values to be found when segmenting
+           the Berlin dataset"
 )
 ```
 
