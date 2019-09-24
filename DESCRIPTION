@@ -1,6 +1,6 @@
 Package: segmentr
 Type: Package
-Title: Segment Data With Minimizing a Cost Function
+Title: Segment Data Minimizing a Cost Function
 Version: 0.2.0
 Authors@R: c(
     person("Thales", "Mello", email = "thalesmello@gmail.com", role = c("aut", "cre", "cph")),
