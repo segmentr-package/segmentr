@@ -233,23 +233,7 @@ time (ms)
 segment(data, cost = function(x) -r_multivariate(x), algorithm = “hierarchical”)
 </td>
 <td style="text-align:right;">
-104.103
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 30em; ">
-segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”)
-</td>
-<td style="text-align:right;">
-31.353
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 30em; ">
-segment(data, cost = function(x) -r_multivariate(x), algorithm = “exact”)
-</td>
-<td style="text-align:right;">
-58629.763
+95.917
 </td>
 </tr>
 <tr>
@@ -257,7 +241,23 @@ segment(data, cost = function(x) -r_multivariate(x), algorithm = “exact”)
 segment(data, cost = function(x) -multivariate(x), algorithm = “exact”)
 </td>
 <td style="text-align:right;">
-8919.367
+6964.327
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”)
+</td>
+<td style="text-align:right;">
+28.875
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, cost = function(x) -r_multivariate(x), algorithm = “exact”)
+</td>
+<td style="text-align:right;">
+47227.872
 </td>
 </tr>
 </tbody>
@@ -302,26 +302,10 @@ time (ms)
 <tbody>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = TRUE)
-</td>
-<td style="text-align:right;">
-38.638
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 30em; ">
 segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = TRUE)
 </td>
 <td style="text-align:right;">
-287.124
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 30em; ">
-segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = FALSE)
-</td>
-<td style="text-align:right;">
-155.071
+270.114
 </td>
 </tr>
 <tr>
@@ -329,7 +313,23 @@ segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allo
 segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = FALSE)
 </td>
 <td style="text-align:right;">
-19.471
+19.172
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = FALSE)
+</td>
+<td style="text-align:right;">
+110.847
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = TRUE)
+</td>
+<td style="text-align:right;">
+23.924
 </td>
 </tr>
 </tbody>
@@ -357,26 +357,18 @@ time (ms)
 <tbody>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = FALSE)
-</td>
-<td style="text-align:right;">
-45.443
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 30em; ">
 segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = TRUE)
 </td>
 <td style="text-align:right;">
-6962.734
+5819.846
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = FALSE)
+segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = FALSE)
 </td>
 <td style="text-align:right;">
-6337.147
+38.069
 </td>
 </tr>
 <tr>
@@ -384,7 +376,15 @@ segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allo
 segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = TRUE)
 </td>
 <td style="text-align:right;">
-44.920
+34.965
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = FALSE)
+</td>
+<td style="text-align:right;">
+5114.566
 </td>
 </tr>
 </tbody>

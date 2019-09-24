@@ -236,504 +236,507 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-50"><a href="support-code.html#cb4-50"></a>  <span class="dt">caption=</span><span class="st">&quot;Segment tables as defined in</span></span>
 <span id="cb4-51"><a href="support-code.html#cb4-51"></a><span class="st">  <a href="simulations.html#eq:examplecolumns">(4.1)</a>.&quot;</span></span>
 <span id="cb4-52"><a href="support-code.html#cb4-52"></a>)</span>
-<span id="cb4-53"><a href="support-code.html#cb4-53"></a><span class="kw">segment</span>(D_example, <span class="dt">cost =</span> <span class="cf">function</span>(X) <span class="op">-</span><span class="kw">multivariate</span>(X), <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb4-54"><a href="support-code.html#cb4-54"></a><span class="st">  </span><span class="kw">print_results_table</span>(</span>
-<span id="cb4-55"><a href="support-code.html#cb4-55"></a>    <span class="dt">caption=</span><span class="st">&quot;Results of segmentation usign a non-penalized</span></span>
-<span id="cb4-56"><a href="support-code.html#cb4-56"></a><span class="st">      multivariate cost&quot;</span>)</span>
-<span id="cb4-57"><a href="support-code.html#cb4-57"></a>heterogeneity_cost &lt;-<span class="st"> </span><span class="cf">function</span>(X) {</span>
-<span id="cb4-58"><a href="support-code.html#cb4-58"></a>  mean_value &lt;-<span class="st"> </span><span class="kw">mean</span>(X, <span class="dt">na.rm =</span> T)</span>
-<span id="cb4-59"><a href="support-code.html#cb4-59"></a>  <span class="cf">if</span> (<span class="kw">is.na</span>(mean_value)) {</span>
-<span id="cb4-60"><a href="support-code.html#cb4-60"></a>    <span class="dv">0</span></span>
-<span id="cb4-61"><a href="support-code.html#cb4-61"></a>  } <span class="cf">else</span> {</span>
-<span id="cb4-62"><a href="support-code.html#cb4-62"></a>    <span class="kw">sum</span>((X <span class="op">-</span><span class="st"> </span>mean_value)<span class="op">^</span><span class="dv">2</span>)</span>
-<span id="cb4-63"><a href="support-code.html#cb4-63"></a>  }</span>
-<span id="cb4-64"><a href="support-code.html#cb4-64"></a>}</span>
-<span id="cb4-65"><a href="support-code.html#cb4-65"></a></span>
-<span id="cb4-66"><a href="support-code.html#cb4-66"></a>penalized_heterogeneity_cost &lt;-<span class="st"> </span><span class="cf">function</span>(X) <span class="kw">heterogeneity_cost</span>(X) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb4-53"><a href="support-code.html#cb4-53"></a><span class="kw">segment</span>(D_example,</span>
+<span id="cb4-54"><a href="support-code.html#cb4-54"></a>        <span class="dt">cost =</span> <span class="cf">function</span>(X) <span class="op">-</span><span class="kw">multivariate</span>(X),</span>
+<span id="cb4-55"><a href="support-code.html#cb4-55"></a>        <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-56"><a href="support-code.html#cb4-56"></a><span class="st">  </span><span class="kw">print_results_table</span>(</span>
+<span id="cb4-57"><a href="support-code.html#cb4-57"></a>    <span class="dt">caption=</span><span class="st">&quot;Results of segmentation using a non-penalized</span></span>
+<span id="cb4-58"><a href="support-code.html#cb4-58"></a><span class="st">      multivariate cost&quot;</span>)</span>
+<span id="cb4-59"><a href="support-code.html#cb4-59"></a>heterogeneity_cost &lt;-<span class="st"> </span><span class="cf">function</span>(X) {</span>
+<span id="cb4-60"><a href="support-code.html#cb4-60"></a>  mean_value &lt;-<span class="st"> </span><span class="kw">mean</span>(X, <span class="dt">na.rm =</span> T)</span>
+<span id="cb4-61"><a href="support-code.html#cb4-61"></a>  <span class="cf">if</span> (<span class="kw">is.na</span>(mean_value)) {</span>
+<span id="cb4-62"><a href="support-code.html#cb4-62"></a>    <span class="dv">0</span></span>
+<span id="cb4-63"><a href="support-code.html#cb4-63"></a>  } <span class="cf">else</span> {</span>
+<span id="cb4-64"><a href="support-code.html#cb4-64"></a>    <span class="kw">sum</span>((X <span class="op">-</span><span class="st"> </span>mean_value)<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb4-65"><a href="support-code.html#cb4-65"></a>  }</span>
+<span id="cb4-66"><a href="support-code.html#cb4-66"></a>}</span>
 <span id="cb4-67"><a href="support-code.html#cb4-67"></a></span>
-<span id="cb4-68"><a href="support-code.html#cb4-68"></a>make_segment &lt;-<span class="st"> </span><span class="cf">function</span>(n, p) {</span>
-<span id="cb4-69"><a href="support-code.html#cb4-69"></a>  <span class="kw">matrix</span>(<span class="kw">rbinom</span>(<span class="dv">100</span> <span class="op">*</span><span class="st"> </span>n, <span class="dv">1</span>, p), <span class="dt">nrow =</span> <span class="dv">100</span>)</span>
-<span id="cb4-70"><a href="support-code.html#cb4-70"></a>}</span>
-<span id="cb4-71"><a href="support-code.html#cb4-71"></a></span>
-<span id="cb4-72"><a href="support-code.html#cb4-72"></a>D_genetic &lt;-<span class="st"> </span><span class="kw">cbind</span>(</span>
-<span id="cb4-73"><a href="support-code.html#cb4-73"></a>  <span class="kw">make_segment</span>(<span class="dv">5</span>, <span class="fl">0.9</span>),</span>
-<span id="cb4-74"><a href="support-code.html#cb4-74"></a>  <span class="kw">make_segment</span>(<span class="dv">10</span>, <span class="fl">0.1</span>),</span>
-<span id="cb4-75"><a href="support-code.html#cb4-75"></a>  <span class="kw">make_segment</span>(<span class="dv">5</span>, <span class="fl">0.9</span>)</span>
-<span id="cb4-76"><a href="support-code.html#cb4-76"></a>)</span>
-<span id="cb4-77"><a href="support-code.html#cb4-77"></a></span>
-<span id="cb4-78"><a href="support-code.html#cb4-78"></a><span class="kw">segment</span>(</span>
-<span id="cb4-79"><a href="support-code.html#cb4-79"></a>  D_genetic,</span>
-<span id="cb4-80"><a href="support-code.html#cb4-80"></a>  <span class="dt">cost =</span> penalized_heterogeneity_cost,</span>
-<span id="cb4-81"><a href="support-code.html#cb4-81"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hieralg&quot;</span></span>
-<span id="cb4-82"><a href="support-code.html#cb4-82"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb4-83"><a href="support-code.html#cb4-83"></a><span class="st">  </span><span class="kw">print_results_table</span>(</span>
-<span id="cb4-84"><a href="support-code.html#cb4-84"></a>    <span class="dt">caption=</span><span class="st">&quot;Results of segmentation by applying the</span></span>
-<span id="cb4-85"><a href="support-code.html#cb4-85"></a><span class="st">      cost function defined in</span></span>
-<span id="cb4-86"><a href="support-code.html#cb4-86"></a><span class="st">      <a href="simulations.html#eq:penalizedheterogeneitycost">(4.5)</a> to a sample of size</span></span>
-<span id="cb4-87"><a href="support-code.html#cb4-87"></a><span class="st">      10 of the model defined in <a href="simulations.html#eq:geneticexample">(4.6)</a>.</span></span>
-<span id="cb4-88"><a href="support-code.html#cb4-88"></a><span class="st">    &quot;</span>)</span>
-<span id="cb4-89"><a href="support-code.html#cb4-89"></a>expected_multivariate_example &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">11</span>)</span>
-<span id="cb4-90"><a href="support-code.html#cb4-90"></a></span>
-<span id="cb4-91"><a href="support-code.html#cb4-91"></a>deviation &lt;-<span class="st"> </span><span class="kw">partial</span>(</span>
-<span id="cb4-92"><a href="support-code.html#cb4-92"></a>  segment_distance,</span>
-<span id="cb4-93"><a href="support-code.html#cb4-93"></a>  <span class="dt">changepoints2=</span>expected_multivariate_example</span>
-<span id="cb4-94"><a href="support-code.html#cb4-94"></a>)</span>
-<span id="cb4-95"><a href="support-code.html#cb4-95"></a></span>
-<span id="cb4-96"><a href="support-code.html#cb4-96"></a>exact_multivariate_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-97"><a href="support-code.html#cb4-97"></a>  D_example,</span>
-<span id="cb4-98"><a href="support-code.html#cb4-98"></a>  <span class="dt">cost =</span> multivariate_cost,</span>
-<span id="cb4-99"><a href="support-code.html#cb4-99"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span></span>
-<span id="cb4-100"><a href="support-code.html#cb4-100"></a>)<span class="op">$</span>changepoints</span>
-<span id="cb4-101"><a href="support-code.html#cb4-101"></a></span>
-<span id="cb4-102"><a href="support-code.html#cb4-102"></a>hieralg_multivariate_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-103"><a href="support-code.html#cb4-103"></a>  D_example,</span>
-<span id="cb4-104"><a href="support-code.html#cb4-104"></a>  <span class="dt">cost =</span> multivariate_cost,</span>
-<span id="cb4-105"><a href="support-code.html#cb4-105"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
-<span id="cb4-106"><a href="support-code.html#cb4-106"></a>)<span class="op">$</span>changepoints</span>
-<span id="cb4-107"><a href="support-code.html#cb4-107"></a></span>
-<span id="cb4-108"><a href="support-code.html#cb4-108"></a>hybrid_multivariate_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-109"><a href="support-code.html#cb4-109"></a>  D_example,</span>
-<span id="cb4-110"><a href="support-code.html#cb4-110"></a>  <span class="dt">cost =</span> multivariate_cost,</span>
-<span id="cb4-111"><a href="support-code.html#cb4-111"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hybrid&quot;</span></span>
-<span id="cb4-112"><a href="support-code.html#cb4-112"></a>)<span class="op">$</span>changepoints</span>
-<span id="cb4-113"><a href="support-code.html#cb4-113"></a></span>
-<span id="cb4-114"><a href="support-code.html#cb4-114"></a>hybrid_multivariate_changepoints_threshold &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-115"><a href="support-code.html#cb4-115"></a>  D_example,</span>
-<span id="cb4-116"><a href="support-code.html#cb4-116"></a>  <span class="dt">cost =</span> multivariate_cost,</span>
-<span id="cb4-117"><a href="support-code.html#cb4-117"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hybrid&quot;</span>,</span>
-<span id="cb4-118"><a href="support-code.html#cb4-118"></a>  <span class="dt">threshold =</span> <span class="dv">4</span></span>
-<span id="cb4-119"><a href="support-code.html#cb4-119"></a>)<span class="op">$</span>changepoints</span>
-<span id="cb4-120"><a href="support-code.html#cb4-120"></a></span>
-<span id="cb4-121"><a href="support-code.html#cb4-121"></a><span class="kw">tribble</span>(</span>
-<span id="cb4-122"><a href="support-code.html#cb4-122"></a>  <span class="op">~</span><span class="st">`</span><span class="dt">Description</span><span class="st">`</span>,</span>
-<span id="cb4-123"><a href="support-code.html#cb4-123"></a>    <span class="op">~</span><span class="st">`</span><span class="dt">Changepoints</span><span class="st">`</span>,</span>
-<span id="cb4-124"><a href="support-code.html#cb4-124"></a>      <span class="op">~</span><span class="st">`</span><span class="dt">Hausdorff Distance</span><span class="st">`</span>,</span>
-<span id="cb4-125"><a href="support-code.html#cb4-125"></a>  <span class="st">&quot;Expected solution&quot;</span>,</span>
-<span id="cb4-126"><a href="support-code.html#cb4-126"></a>    <span class="kw">comma_format</span>(expected_multivariate_example),</span>
-<span id="cb4-127"><a href="support-code.html#cb4-127"></a>      <span class="kw">deviation</span>(expected_multivariate_example),</span>
-<span id="cb4-128"><a href="support-code.html#cb4-128"></a>  <span class="st">&quot;Exact algorithm estimate&quot;</span>,</span>
-<span id="cb4-129"><a href="support-code.html#cb4-129"></a>    <span class="kw">comma_format</span>(exact_multivariate_changepoints),</span>
-<span id="cb4-130"><a href="support-code.html#cb4-130"></a>      <span class="kw">deviation</span>(exact_multivariate_changepoints),</span>
-<span id="cb4-131"><a href="support-code.html#cb4-131"></a>  <span class="st">&quot;Hierarchical algorithm estimate&quot;</span>,</span>
-<span id="cb4-132"><a href="support-code.html#cb4-132"></a>    <span class="kw">comma_format</span>(hieralg_multivariate_changepoints),</span>
-<span id="cb4-133"><a href="support-code.html#cb4-133"></a>      <span class="kw">deviation</span>(hieralg_multivariate_changepoints),</span>
-<span id="cb4-134"><a href="support-code.html#cb4-134"></a>  <span class="st">&quot;Hybrid algorithm estimate with threshold 50&quot;</span>,</span>
-<span id="cb4-135"><a href="support-code.html#cb4-135"></a>    <span class="kw">comma_format</span>(hybrid_multivariate_changepoints),</span>
-<span id="cb4-136"><a href="support-code.html#cb4-136"></a>      <span class="kw">deviation</span>(hybrid_multivariate_changepoints),</span>
-<span id="cb4-137"><a href="support-code.html#cb4-137"></a>  <span class="st">&quot;Hybrid algorithm estimate with threshold 4&quot;</span>,</span>
-<span id="cb4-138"><a href="support-code.html#cb4-138"></a>    <span class="kw">comma_format</span>(hybrid_multivariate_changepoints_threshold),</span>
-<span id="cb4-139"><a href="support-code.html#cb4-139"></a>      <span class="kw">deviation</span>(hybrid_multivariate_changepoints_threshold)</span>
-<span id="cb4-140"><a href="support-code.html#cb4-140"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb4-141"><a href="support-code.html#cb4-141"></a><span class="st">  </span><span class="kw">kable</span>(<span class="dt">caption=</span><span class="st">&quot;Comparison of solutions of different algorithms</span></span>
-<span id="cb4-142"><a href="support-code.html#cb4-142"></a><span class="st">to segment the data set described in <a href="simulations.html#eq:examplecolumns">(4.1)</a>,</span></span>
-<span id="cb4-143"><a href="support-code.html#cb4-143"></a><span class="st">measuring how far each solution is from the ideal</span></span>
-<span id="cb4-144"><a href="support-code.html#cb4-144"></a><span class="st">solution using the Hausdorff distance.&quot;</span>)</span>
-<span id="cb4-145"><a href="support-code.html#cb4-145"></a>expected_mean_example &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">16</span>)</span>
-<span id="cb4-146"><a href="support-code.html#cb4-146"></a></span>
-<span id="cb4-147"><a href="support-code.html#cb4-147"></a>deviation &lt;-<span class="st"> </span><span class="kw">partial</span>(</span>
-<span id="cb4-148"><a href="support-code.html#cb4-148"></a>  segment_distance,</span>
-<span id="cb4-149"><a href="support-code.html#cb4-149"></a>  <span class="dt">changepoints2=</span>expected_mean_example</span>
-<span id="cb4-150"><a href="support-code.html#cb4-150"></a>)</span>
-<span id="cb4-151"><a href="support-code.html#cb4-151"></a></span>
-<span id="cb4-152"><a href="support-code.html#cb4-152"></a>exact_mean_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-153"><a href="support-code.html#cb4-153"></a>  D_genetic,</span>
-<span id="cb4-154"><a href="support-code.html#cb4-154"></a>  <span class="dt">cost =</span> penalized_heterogeneity_cost,</span>
-<span id="cb4-155"><a href="support-code.html#cb4-155"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span></span>
-<span id="cb4-156"><a href="support-code.html#cb4-156"></a>)<span class="op">$</span>changepoints</span>
-<span id="cb4-157"><a href="support-code.html#cb4-157"></a></span>
-<span id="cb4-158"><a href="support-code.html#cb4-158"></a>hieralg_mean_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-159"><a href="support-code.html#cb4-159"></a>  D_genetic,</span>
-<span id="cb4-160"><a href="support-code.html#cb4-160"></a>  <span class="dt">cost =</span> penalized_heterogeneity_cost,</span>
-<span id="cb4-161"><a href="support-code.html#cb4-161"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
-<span id="cb4-162"><a href="support-code.html#cb4-162"></a>)<span class="op">$</span>changepoints</span>
-<span id="cb4-163"><a href="support-code.html#cb4-163"></a></span>
-<span id="cb4-164"><a href="support-code.html#cb4-164"></a>hybrid_mean_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-165"><a href="support-code.html#cb4-165"></a>  D_genetic,</span>
-<span id="cb4-166"><a href="support-code.html#cb4-166"></a>  <span class="dt">cost =</span> penalized_heterogeneity_cost,</span>
-<span id="cb4-167"><a href="support-code.html#cb4-167"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hybrid&quot;</span></span>
-<span id="cb4-168"><a href="support-code.html#cb4-168"></a>)<span class="op">$</span>changepoints</span>
-<span id="cb4-169"><a href="support-code.html#cb4-169"></a></span>
-<span id="cb4-170"><a href="support-code.html#cb4-170"></a>hybrid_mean_changepoints_threshold &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-171"><a href="support-code.html#cb4-171"></a>  D_genetic,</span>
-<span id="cb4-172"><a href="support-code.html#cb4-172"></a>  <span class="dt">cost =</span> penalized_heterogeneity_cost,</span>
-<span id="cb4-173"><a href="support-code.html#cb4-173"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hybrid&quot;</span>,</span>
-<span id="cb4-174"><a href="support-code.html#cb4-174"></a>  <span class="dt">threshold =</span> <span class="dv">4</span></span>
-<span id="cb4-175"><a href="support-code.html#cb4-175"></a>)<span class="op">$</span>changepoints</span>
-<span id="cb4-176"><a href="support-code.html#cb4-176"></a></span>
-<span id="cb4-177"><a href="support-code.html#cb4-177"></a><span class="kw">tribble</span>(</span>
-<span id="cb4-178"><a href="support-code.html#cb4-178"></a>  <span class="op">~</span><span class="st">`</span><span class="dt">Description</span><span class="st">`</span>,</span>
-<span id="cb4-179"><a href="support-code.html#cb4-179"></a>    <span class="op">~</span><span class="st">`</span><span class="dt">Changepoints</span><span class="st">`</span>,</span>
-<span id="cb4-180"><a href="support-code.html#cb4-180"></a>      <span class="op">~</span><span class="st">`</span><span class="dt">Hausdorff Distance</span><span class="st">`</span>,</span>
-<span id="cb4-181"><a href="support-code.html#cb4-181"></a>  <span class="st">&quot;Expected solution&quot;</span>,</span>
-<span id="cb4-182"><a href="support-code.html#cb4-182"></a>    <span class="kw">comma_format</span>(expected_mean_example),</span>
-<span id="cb4-183"><a href="support-code.html#cb4-183"></a>      <span class="kw">deviation</span>(expected_mean_example),</span>
-<span id="cb4-184"><a href="support-code.html#cb4-184"></a>  <span class="st">&quot;Exact algorithm estimate&quot;</span>,</span>
-<span id="cb4-185"><a href="support-code.html#cb4-185"></a>    <span class="kw">comma_format</span>(exact_mean_changepoints),</span>
-<span id="cb4-186"><a href="support-code.html#cb4-186"></a>      <span class="kw">deviation</span>(exact_mean_changepoints),</span>
-<span id="cb4-187"><a href="support-code.html#cb4-187"></a>  <span class="st">&quot;Hierarchical algorithm estimate&quot;</span>,</span>
-<span id="cb4-188"><a href="support-code.html#cb4-188"></a>    <span class="kw">comma_format</span>(hieralg_mean_changepoints),</span>
-<span id="cb4-189"><a href="support-code.html#cb4-189"></a>      <span class="kw">deviation</span>(hieralg_mean_changepoints),</span>
-<span id="cb4-190"><a href="support-code.html#cb4-190"></a>  <span class="st">&quot;Hybrid algorithm estimate with threshold 50&quot;</span>,</span>
-<span id="cb4-191"><a href="support-code.html#cb4-191"></a>    <span class="kw">comma_format</span>(hybrid_mean_changepoints),</span>
-<span id="cb4-192"><a href="support-code.html#cb4-192"></a>      <span class="kw">deviation</span>(hybrid_mean_changepoints),</span>
-<span id="cb4-193"><a href="support-code.html#cb4-193"></a>  <span class="st">&quot;Hybrid algorithm estimate with threshold 4&quot;</span>,</span>
-<span id="cb4-194"><a href="support-code.html#cb4-194"></a>    <span class="kw">comma_format</span>(hybrid_mean_changepoints_threshold),</span>
-<span id="cb4-195"><a href="support-code.html#cb4-195"></a>      <span class="kw">deviation</span>(hybrid_mean_changepoints_threshold)</span>
-<span id="cb4-196"><a href="support-code.html#cb4-196"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb4-197"><a href="support-code.html#cb4-197"></a><span class="st">  </span><span class="kw">kable</span>(<span class="dt">caption=</span><span class="st">&quot;Comparison of solutions of different algorithms</span></span>
-<span id="cb4-198"><a href="support-code.html#cb4-198"></a><span class="st">to segment the data set described in <a href="simulations.html#eq:geneticexample">(4.6)</a>,</span></span>
-<span id="cb4-199"><a href="support-code.html#cb4-199"></a><span class="st">measuring how far each solution is from the ideal</span></span>
-<span id="cb4-200"><a href="support-code.html#cb4-200"></a><span class="st">solution using the Hausdorff distance.&quot;</span>)</span>
-<span id="cb4-201"><a href="support-code.html#cb4-201"></a><span class="kw">library</span>(segmentr)</span>
-<span id="cb4-202"><a href="support-code.html#cb4-202"></a><span class="kw">library</span>(tidyr)</span>
-<span id="cb4-203"><a href="support-code.html#cb4-203"></a><span class="kw">library</span>(tibble)</span>
-<span id="cb4-204"><a href="support-code.html#cb4-204"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb4-205"><a href="support-code.html#cb4-205"></a><span class="kw">library</span>(lubridate)</span>
-<span id="cb4-206"><a href="support-code.html#cb4-206"></a><span class="kw">library</span>(magrittr)</span>
-<span id="cb4-207"><a href="support-code.html#cb4-207"></a><span class="kw">library</span>(purrr)</span>
-<span id="cb4-208"><a href="support-code.html#cb4-208"></a><span class="kw">library</span>(knitr)</span>
-<span id="cb4-209"><a href="support-code.html#cb4-209"></a><span class="kw">library</span>(kableExtra)</span>
-<span id="cb4-210"><a href="support-code.html#cb4-210"></a><span class="kw">data</span>(berlin)</span>
-<span id="cb4-211"><a href="support-code.html#cb4-211"></a><span class="kw">as_tibble</span>(berlin, <span class="dt">rownames=</span><span class="st">&quot;station&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb4-212"><a href="support-code.html#cb4-212"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">..</span><span class="st">`</span>=<span class="st">&quot;..&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb4-213"><a href="support-code.html#cb4-213"></a><span class="st">  </span><span class="kw">select</span>(station, <span class="st">`</span><span class="dt">2010-01-01</span><span class="st">`</span><span class="op">:</span><span class="st">`</span><span class="dt">2010-01-03</span><span class="st">`</span>,</span>
-<span id="cb4-214"><a href="support-code.html#cb4-214"></a>         <span class="st">`</span><span class="dt">..</span><span class="st">`</span>, <span class="st">`</span><span class="dt">2011-12-29</span><span class="st">`</span><span class="op">:</span><span class="st">`</span><span class="dt">2011-12-31</span><span class="st">`</span>) <span class="op">%&gt;%</span></span>
-<span id="cb4-215"><a href="support-code.html#cb4-215"></a><span class="st">  </span><span class="kw">kable</span>(<span class="dt">caption=</span><span class="st">&quot;</span></span>
-<span id="cb4-216"><a href="support-code.html#cb4-216"></a><span class="st">    First and last columns of the `berlin` dataset</span></span>
-<span id="cb4-217"><a href="support-code.html#cb4-217"></a><span class="st">  &quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb4-218"><a href="support-code.html#cb4-218"></a><span class="st">  </span><span class="kw">column_spec</span>(<span class="dv">1</span>, <span class="dt">width=</span><span class="st">&quot;5em&quot;</span>)</span>
-<span id="cb4-219"><a href="support-code.html#cb4-219"></a>berlin <span class="op">%&gt;%</span></span>
-<span id="cb4-220"><a href="support-code.html#cb4-220"></a><span class="st">  </span><span class="kw">colMeans</span>() <span class="op">%&gt;%</span></span>
-<span id="cb4-221"><a href="support-code.html#cb4-221"></a><span class="st">  </span><span class="kw">enframe</span>(<span class="st">&quot;time&quot;</span>, <span class="st">&quot;temperature&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb4-222"><a href="support-code.html#cb4-222"></a><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(time), ymd) <span class="op">%&gt;%</span></span>
-<span id="cb4-223"><a href="support-code.html#cb4-223"></a><span class="st">  </span><span class="kw">with</span>(<span class="kw">plot</span>(time, temperature, <span class="dt">cex=</span><span class="fl">0.2</span>))</span>
-<span id="cb4-224"><a href="support-code.html#cb4-224"></a>expected_berlin &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb4-225"><a href="support-code.html#cb4-225"></a>  <span class="dt">changepoints=</span><span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">360</span>, <span class="dv">570</span>),</span>
-<span id="cb4-226"><a href="support-code.html#cb4-226"></a>  <span class="dt">segments=</span><span class="kw">list</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">199</span>, <span class="dv">360</span><span class="op">:</span><span class="dv">569</span>, <span class="dv">570</span><span class="op">:</span><span class="kw">ncol</span>(berlin))</span>
-<span id="cb4-227"><a href="support-code.html#cb4-227"></a>)</span>
-<span id="cb4-228"><a href="support-code.html#cb4-228"></a></span>
-<span id="cb4-229"><a href="support-code.html#cb4-229"></a><span class="kw">plot_results</span>(expected_berlin, berlin)</span>
-<span id="cb4-230"><a href="support-code.html#cb4-230"></a><span class="kw">print_results_table</span>(</span>
-<span id="cb4-231"><a href="support-code.html#cb4-231"></a>  expected_berlin,</span>
-<span id="cb4-232"><a href="support-code.html#cb4-232"></a>  <span class="dt">caption=</span><span class="st">&quot;Expected values to be found when segmenting the Berlin dataset&quot;</span></span>
-<span id="cb4-233"><a href="support-code.html#cb4-233"></a>)</span>
-<span id="cb4-234"><a href="support-code.html#cb4-234"></a>residual_cost &lt;-<span class="st"> </span><span class="cf">function</span> (data) {</span>
-<span id="cb4-235"><a href="support-code.html#cb4-235"></a>  fit &lt;-<span class="st"> </span><span class="kw">t</span>(data) <span class="op">%&gt;%</span></span>
-<span id="cb4-236"><a href="support-code.html#cb4-236"></a><span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></span>
-<span id="cb4-237"><a href="support-code.html#cb4-237"></a><span class="st">    </span><span class="kw">rowid_to_column</span>() <span class="op">%&gt;%</span></span>
-<span id="cb4-238"><a href="support-code.html#cb4-238"></a><span class="st">    </span><span class="kw">gather</span>(station, temperature, <span class="op">-</span>rowid) <span class="op">%&gt;%</span></span>
-<span id="cb4-239"><a href="support-code.html#cb4-239"></a><span class="st">    </span><span class="kw">with</span>(<span class="kw">lm</span>(temperature <span class="op">~</span><span class="st"> </span>rowid))</span>
-<span id="cb4-240"><a href="support-code.html#cb4-240"></a></span>
-<span id="cb4-241"><a href="support-code.html#cb4-241"></a>  <span class="kw">mean</span>(fit<span class="op">$</span>residuals <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</span>
-<span id="cb4-242"><a href="support-code.html#cb4-242"></a>}</span>
+<span id="cb4-68"><a href="support-code.html#cb4-68"></a>penalized_heterogeneity_cost &lt;-<span class="st"> </span><span class="cf">function</span>(X) <span class="kw">heterogeneity_cost</span>(X) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb4-69"><a href="support-code.html#cb4-69"></a></span>
+<span id="cb4-70"><a href="support-code.html#cb4-70"></a>make_segment &lt;-<span class="st"> </span><span class="cf">function</span>(n, p) {</span>
+<span id="cb4-71"><a href="support-code.html#cb4-71"></a>  <span class="kw">matrix</span>(<span class="kw">rbinom</span>(<span class="dv">100</span> <span class="op">*</span><span class="st"> </span>n, <span class="dv">1</span>, p), <span class="dt">nrow =</span> <span class="dv">100</span>)</span>
+<span id="cb4-72"><a href="support-code.html#cb4-72"></a>}</span>
+<span id="cb4-73"><a href="support-code.html#cb4-73"></a></span>
+<span id="cb4-74"><a href="support-code.html#cb4-74"></a>D_genetic &lt;-<span class="st"> </span><span class="kw">cbind</span>(</span>
+<span id="cb4-75"><a href="support-code.html#cb4-75"></a>  <span class="kw">make_segment</span>(<span class="dv">5</span>, <span class="fl">0.9</span>),</span>
+<span id="cb4-76"><a href="support-code.html#cb4-76"></a>  <span class="kw">make_segment</span>(<span class="dv">10</span>, <span class="fl">0.1</span>),</span>
+<span id="cb4-77"><a href="support-code.html#cb4-77"></a>  <span class="kw">make_segment</span>(<span class="dv">5</span>, <span class="fl">0.9</span>)</span>
+<span id="cb4-78"><a href="support-code.html#cb4-78"></a>)</span>
+<span id="cb4-79"><a href="support-code.html#cb4-79"></a></span>
+<span id="cb4-80"><a href="support-code.html#cb4-80"></a><span class="kw">segment</span>(</span>
+<span id="cb4-81"><a href="support-code.html#cb4-81"></a>  D_genetic,</span>
+<span id="cb4-82"><a href="support-code.html#cb4-82"></a>  <span class="dt">cost =</span> penalized_heterogeneity_cost,</span>
+<span id="cb4-83"><a href="support-code.html#cb4-83"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hieralg&quot;</span></span>
+<span id="cb4-84"><a href="support-code.html#cb4-84"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb4-85"><a href="support-code.html#cb4-85"></a><span class="st">  </span><span class="kw">print_results_table</span>(</span>
+<span id="cb4-86"><a href="support-code.html#cb4-86"></a>    <span class="dt">caption=</span><span class="st">&quot;Results of segmentation by applying the</span></span>
+<span id="cb4-87"><a href="support-code.html#cb4-87"></a><span class="st">      cost function defined in</span></span>
+<span id="cb4-88"><a href="support-code.html#cb4-88"></a><span class="st">      <a href="simulations.html#eq:penalizedheterogeneitycost">(4.5)</a> to a sample of size</span></span>
+<span id="cb4-89"><a href="support-code.html#cb4-89"></a><span class="st">      10 of the model defined in <a href="simulations.html#eq:geneticexample">(4.6)</a>.</span></span>
+<span id="cb4-90"><a href="support-code.html#cb4-90"></a><span class="st">    &quot;</span>)</span>
+<span id="cb4-91"><a href="support-code.html#cb4-91"></a>expected_multivariate_example &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">11</span>)</span>
+<span id="cb4-92"><a href="support-code.html#cb4-92"></a></span>
+<span id="cb4-93"><a href="support-code.html#cb4-93"></a>deviation &lt;-<span class="st"> </span><span class="kw">partial</span>(</span>
+<span id="cb4-94"><a href="support-code.html#cb4-94"></a>  segment_distance,</span>
+<span id="cb4-95"><a href="support-code.html#cb4-95"></a>  <span class="dt">changepoints2=</span>expected_multivariate_example</span>
+<span id="cb4-96"><a href="support-code.html#cb4-96"></a>)</span>
+<span id="cb4-97"><a href="support-code.html#cb4-97"></a></span>
+<span id="cb4-98"><a href="support-code.html#cb4-98"></a>exact_multivariate_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-99"><a href="support-code.html#cb4-99"></a>  D_example,</span>
+<span id="cb4-100"><a href="support-code.html#cb4-100"></a>  <span class="dt">cost =</span> multivariate_cost,</span>
+<span id="cb4-101"><a href="support-code.html#cb4-101"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span></span>
+<span id="cb4-102"><a href="support-code.html#cb4-102"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-103"><a href="support-code.html#cb4-103"></a></span>
+<span id="cb4-104"><a href="support-code.html#cb4-104"></a>hieralg_multivariate_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-105"><a href="support-code.html#cb4-105"></a>  D_example,</span>
+<span id="cb4-106"><a href="support-code.html#cb4-106"></a>  <span class="dt">cost =</span> multivariate_cost,</span>
+<span id="cb4-107"><a href="support-code.html#cb4-107"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-108"><a href="support-code.html#cb4-108"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-109"><a href="support-code.html#cb4-109"></a></span>
+<span id="cb4-110"><a href="support-code.html#cb4-110"></a>hybrid_multivariate_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-111"><a href="support-code.html#cb4-111"></a>  D_example,</span>
+<span id="cb4-112"><a href="support-code.html#cb4-112"></a>  <span class="dt">cost =</span> multivariate_cost,</span>
+<span id="cb4-113"><a href="support-code.html#cb4-113"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hybrid&quot;</span></span>
+<span id="cb4-114"><a href="support-code.html#cb4-114"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-115"><a href="support-code.html#cb4-115"></a></span>
+<span id="cb4-116"><a href="support-code.html#cb4-116"></a>hybrid_multivariate_changepoints_threshold &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-117"><a href="support-code.html#cb4-117"></a>  D_example,</span>
+<span id="cb4-118"><a href="support-code.html#cb4-118"></a>  <span class="dt">cost =</span> multivariate_cost,</span>
+<span id="cb4-119"><a href="support-code.html#cb4-119"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hybrid&quot;</span>,</span>
+<span id="cb4-120"><a href="support-code.html#cb4-120"></a>  <span class="dt">threshold =</span> <span class="dv">4</span></span>
+<span id="cb4-121"><a href="support-code.html#cb4-121"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-122"><a href="support-code.html#cb4-122"></a></span>
+<span id="cb4-123"><a href="support-code.html#cb4-123"></a><span class="kw">tribble</span>(</span>
+<span id="cb4-124"><a href="support-code.html#cb4-124"></a>  <span class="op">~</span><span class="st">`</span><span class="dt">Description</span><span class="st">`</span>,</span>
+<span id="cb4-125"><a href="support-code.html#cb4-125"></a>    <span class="op">~</span><span class="st">`</span><span class="dt">Changepoints</span><span class="st">`</span>,</span>
+<span id="cb4-126"><a href="support-code.html#cb4-126"></a>      <span class="op">~</span><span class="st">`</span><span class="dt">Hausdorff Distance</span><span class="st">`</span>,</span>
+<span id="cb4-127"><a href="support-code.html#cb4-127"></a>  <span class="st">&quot;Expected solution&quot;</span>,</span>
+<span id="cb4-128"><a href="support-code.html#cb4-128"></a>    <span class="kw">comma_format</span>(expected_multivariate_example),</span>
+<span id="cb4-129"><a href="support-code.html#cb4-129"></a>      <span class="kw">deviation</span>(expected_multivariate_example),</span>
+<span id="cb4-130"><a href="support-code.html#cb4-130"></a>  <span class="st">&quot;Exact algorithm estimate&quot;</span>,</span>
+<span id="cb4-131"><a href="support-code.html#cb4-131"></a>    <span class="kw">comma_format</span>(exact_multivariate_changepoints),</span>
+<span id="cb4-132"><a href="support-code.html#cb4-132"></a>      <span class="kw">deviation</span>(exact_multivariate_changepoints),</span>
+<span id="cb4-133"><a href="support-code.html#cb4-133"></a>  <span class="st">&quot;Hierarchical algorithm estimate&quot;</span>,</span>
+<span id="cb4-134"><a href="support-code.html#cb4-134"></a>    <span class="kw">comma_format</span>(hieralg_multivariate_changepoints),</span>
+<span id="cb4-135"><a href="support-code.html#cb4-135"></a>      <span class="kw">deviation</span>(hieralg_multivariate_changepoints),</span>
+<span id="cb4-136"><a href="support-code.html#cb4-136"></a>  <span class="st">&quot;Hybrid algorithm estimate with threshold 50&quot;</span>,</span>
+<span id="cb4-137"><a href="support-code.html#cb4-137"></a>    <span class="kw">comma_format</span>(hybrid_multivariate_changepoints),</span>
+<span id="cb4-138"><a href="support-code.html#cb4-138"></a>      <span class="kw">deviation</span>(hybrid_multivariate_changepoints),</span>
+<span id="cb4-139"><a href="support-code.html#cb4-139"></a>  <span class="st">&quot;Hybrid algorithm estimate with threshold 4&quot;</span>,</span>
+<span id="cb4-140"><a href="support-code.html#cb4-140"></a>    <span class="kw">comma_format</span>(hybrid_multivariate_changepoints_threshold),</span>
+<span id="cb4-141"><a href="support-code.html#cb4-141"></a>      <span class="kw">deviation</span>(hybrid_multivariate_changepoints_threshold)</span>
+<span id="cb4-142"><a href="support-code.html#cb4-142"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb4-143"><a href="support-code.html#cb4-143"></a><span class="st">  </span><span class="kw">kable</span>(<span class="dt">caption=</span><span class="st">&quot;Comparison of solutions of different algorithms</span></span>
+<span id="cb4-144"><a href="support-code.html#cb4-144"></a><span class="st">to segment the data set described in <a href="simulations.html#eq:examplecolumns">(4.1)</a>,</span></span>
+<span id="cb4-145"><a href="support-code.html#cb4-145"></a><span class="st">measuring how far each solution is from the ideal</span></span>
+<span id="cb4-146"><a href="support-code.html#cb4-146"></a><span class="st">solution using the Hausdorff distance.&quot;</span>)</span>
+<span id="cb4-147"><a href="support-code.html#cb4-147"></a>expected_mean_example &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">16</span>)</span>
+<span id="cb4-148"><a href="support-code.html#cb4-148"></a></span>
+<span id="cb4-149"><a href="support-code.html#cb4-149"></a>deviation &lt;-<span class="st"> </span><span class="kw">partial</span>(</span>
+<span id="cb4-150"><a href="support-code.html#cb4-150"></a>  segment_distance,</span>
+<span id="cb4-151"><a href="support-code.html#cb4-151"></a>  <span class="dt">changepoints2=</span>expected_mean_example</span>
+<span id="cb4-152"><a href="support-code.html#cb4-152"></a>)</span>
+<span id="cb4-153"><a href="support-code.html#cb4-153"></a></span>
+<span id="cb4-154"><a href="support-code.html#cb4-154"></a>exact_mean_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-155"><a href="support-code.html#cb4-155"></a>  D_genetic,</span>
+<span id="cb4-156"><a href="support-code.html#cb4-156"></a>  <span class="dt">cost =</span> penalized_heterogeneity_cost,</span>
+<span id="cb4-157"><a href="support-code.html#cb4-157"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span></span>
+<span id="cb4-158"><a href="support-code.html#cb4-158"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-159"><a href="support-code.html#cb4-159"></a></span>
+<span id="cb4-160"><a href="support-code.html#cb4-160"></a>hieralg_mean_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-161"><a href="support-code.html#cb4-161"></a>  D_genetic,</span>
+<span id="cb4-162"><a href="support-code.html#cb4-162"></a>  <span class="dt">cost =</span> penalized_heterogeneity_cost,</span>
+<span id="cb4-163"><a href="support-code.html#cb4-163"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-164"><a href="support-code.html#cb4-164"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-165"><a href="support-code.html#cb4-165"></a></span>
+<span id="cb4-166"><a href="support-code.html#cb4-166"></a>hybrid_mean_changepoints &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-167"><a href="support-code.html#cb4-167"></a>  D_genetic,</span>
+<span id="cb4-168"><a href="support-code.html#cb4-168"></a>  <span class="dt">cost =</span> penalized_heterogeneity_cost,</span>
+<span id="cb4-169"><a href="support-code.html#cb4-169"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hybrid&quot;</span></span>
+<span id="cb4-170"><a href="support-code.html#cb4-170"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-171"><a href="support-code.html#cb4-171"></a></span>
+<span id="cb4-172"><a href="support-code.html#cb4-172"></a>hybrid_mean_changepoints_threshold &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-173"><a href="support-code.html#cb4-173"></a>  D_genetic,</span>
+<span id="cb4-174"><a href="support-code.html#cb4-174"></a>  <span class="dt">cost =</span> penalized_heterogeneity_cost,</span>
+<span id="cb4-175"><a href="support-code.html#cb4-175"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hybrid&quot;</span>,</span>
+<span id="cb4-176"><a href="support-code.html#cb4-176"></a>  <span class="dt">threshold =</span> <span class="dv">4</span></span>
+<span id="cb4-177"><a href="support-code.html#cb4-177"></a>)<span class="op">$</span>changepoints</span>
+<span id="cb4-178"><a href="support-code.html#cb4-178"></a></span>
+<span id="cb4-179"><a href="support-code.html#cb4-179"></a><span class="kw">tribble</span>(</span>
+<span id="cb4-180"><a href="support-code.html#cb4-180"></a>  <span class="op">~</span><span class="st">`</span><span class="dt">Description</span><span class="st">`</span>,</span>
+<span id="cb4-181"><a href="support-code.html#cb4-181"></a>    <span class="op">~</span><span class="st">`</span><span class="dt">Changepoints</span><span class="st">`</span>,</span>
+<span id="cb4-182"><a href="support-code.html#cb4-182"></a>      <span class="op">~</span><span class="st">`</span><span class="dt">Hausdorff Distance</span><span class="st">`</span>,</span>
+<span id="cb4-183"><a href="support-code.html#cb4-183"></a>  <span class="st">&quot;Expected solution&quot;</span>,</span>
+<span id="cb4-184"><a href="support-code.html#cb4-184"></a>    <span class="kw">comma_format</span>(expected_mean_example),</span>
+<span id="cb4-185"><a href="support-code.html#cb4-185"></a>      <span class="kw">deviation</span>(expected_mean_example),</span>
+<span id="cb4-186"><a href="support-code.html#cb4-186"></a>  <span class="st">&quot;Exact algorithm estimate&quot;</span>,</span>
+<span id="cb4-187"><a href="support-code.html#cb4-187"></a>    <span class="kw">comma_format</span>(exact_mean_changepoints),</span>
+<span id="cb4-188"><a href="support-code.html#cb4-188"></a>      <span class="kw">deviation</span>(exact_mean_changepoints),</span>
+<span id="cb4-189"><a href="support-code.html#cb4-189"></a>  <span class="st">&quot;Hierarchical algorithm estimate&quot;</span>,</span>
+<span id="cb4-190"><a href="support-code.html#cb4-190"></a>    <span class="kw">comma_format</span>(hieralg_mean_changepoints),</span>
+<span id="cb4-191"><a href="support-code.html#cb4-191"></a>      <span class="kw">deviation</span>(hieralg_mean_changepoints),</span>
+<span id="cb4-192"><a href="support-code.html#cb4-192"></a>  <span class="st">&quot;Hybrid algorithm estimate with threshold 50&quot;</span>,</span>
+<span id="cb4-193"><a href="support-code.html#cb4-193"></a>    <span class="kw">comma_format</span>(hybrid_mean_changepoints),</span>
+<span id="cb4-194"><a href="support-code.html#cb4-194"></a>      <span class="kw">deviation</span>(hybrid_mean_changepoints),</span>
+<span id="cb4-195"><a href="support-code.html#cb4-195"></a>  <span class="st">&quot;Hybrid algorithm estimate with threshold 4&quot;</span>,</span>
+<span id="cb4-196"><a href="support-code.html#cb4-196"></a>    <span class="kw">comma_format</span>(hybrid_mean_changepoints_threshold),</span>
+<span id="cb4-197"><a href="support-code.html#cb4-197"></a>      <span class="kw">deviation</span>(hybrid_mean_changepoints_threshold)</span>
+<span id="cb4-198"><a href="support-code.html#cb4-198"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb4-199"><a href="support-code.html#cb4-199"></a><span class="st">  </span><span class="kw">kable</span>(<span class="dt">caption=</span><span class="st">&quot;Comparison of solutions of different algorithms</span></span>
+<span id="cb4-200"><a href="support-code.html#cb4-200"></a><span class="st">to segment the data set described in <a href="simulations.html#eq:geneticexample">(4.6)</a>,</span></span>
+<span id="cb4-201"><a href="support-code.html#cb4-201"></a><span class="st">measuring how far each solution is from the ideal</span></span>
+<span id="cb4-202"><a href="support-code.html#cb4-202"></a><span class="st">solution using the Hausdorff distance.&quot;</span>)</span>
+<span id="cb4-203"><a href="support-code.html#cb4-203"></a><span class="kw">library</span>(segmentr)</span>
+<span id="cb4-204"><a href="support-code.html#cb4-204"></a><span class="kw">library</span>(tidyr)</span>
+<span id="cb4-205"><a href="support-code.html#cb4-205"></a><span class="kw">library</span>(tibble)</span>
+<span id="cb4-206"><a href="support-code.html#cb4-206"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb4-207"><a href="support-code.html#cb4-207"></a><span class="kw">library</span>(lubridate)</span>
+<span id="cb4-208"><a href="support-code.html#cb4-208"></a><span class="kw">library</span>(magrittr)</span>
+<span id="cb4-209"><a href="support-code.html#cb4-209"></a><span class="kw">library</span>(purrr)</span>
+<span id="cb4-210"><a href="support-code.html#cb4-210"></a><span class="kw">library</span>(knitr)</span>
+<span id="cb4-211"><a href="support-code.html#cb4-211"></a><span class="kw">library</span>(kableExtra)</span>
+<span id="cb4-212"><a href="support-code.html#cb4-212"></a><span class="kw">data</span>(berlin)</span>
+<span id="cb4-213"><a href="support-code.html#cb4-213"></a><span class="kw">as_tibble</span>(berlin, <span class="dt">rownames=</span><span class="st">&quot;station&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-214"><a href="support-code.html#cb4-214"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">..</span><span class="st">`</span>=<span class="st">&quot;..&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-215"><a href="support-code.html#cb4-215"></a><span class="st">  </span><span class="kw">select</span>(station, <span class="st">`</span><span class="dt">2010-01-01</span><span class="st">`</span><span class="op">:</span><span class="st">`</span><span class="dt">2010-01-03</span><span class="st">`</span>,</span>
+<span id="cb4-216"><a href="support-code.html#cb4-216"></a>         <span class="st">`</span><span class="dt">..</span><span class="st">`</span>, <span class="st">`</span><span class="dt">2011-12-29</span><span class="st">`</span><span class="op">:</span><span class="st">`</span><span class="dt">2011-12-31</span><span class="st">`</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-217"><a href="support-code.html#cb4-217"></a><span class="st">  </span><span class="kw">kable</span>(<span class="dt">caption=</span><span class="st">&quot;</span></span>
+<span id="cb4-218"><a href="support-code.html#cb4-218"></a><span class="st">    First and last columns of the `berlin` dataset</span></span>
+<span id="cb4-219"><a href="support-code.html#cb4-219"></a><span class="st">  &quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-220"><a href="support-code.html#cb4-220"></a><span class="st">  </span><span class="kw">column_spec</span>(<span class="dv">1</span>, <span class="dt">width=</span><span class="st">&quot;5em&quot;</span>)</span>
+<span id="cb4-221"><a href="support-code.html#cb4-221"></a>berlin <span class="op">%&gt;%</span></span>
+<span id="cb4-222"><a href="support-code.html#cb4-222"></a><span class="st">  </span><span class="kw">colMeans</span>() <span class="op">%&gt;%</span></span>
+<span id="cb4-223"><a href="support-code.html#cb4-223"></a><span class="st">  </span><span class="kw">enframe</span>(<span class="st">&quot;time&quot;</span>, <span class="st">&quot;temperature&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-224"><a href="support-code.html#cb4-224"></a><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(time), ymd) <span class="op">%&gt;%</span></span>
+<span id="cb4-225"><a href="support-code.html#cb4-225"></a><span class="st">  </span><span class="kw">with</span>(<span class="kw">plot</span>(time, temperature, <span class="dt">cex=</span><span class="fl">0.2</span>))</span>
+<span id="cb4-226"><a href="support-code.html#cb4-226"></a>expected_berlin &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb4-227"><a href="support-code.html#cb4-227"></a>  <span class="dt">changepoints=</span><span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">360</span>, <span class="dv">570</span>),</span>
+<span id="cb4-228"><a href="support-code.html#cb4-228"></a>  <span class="dt">segments=</span><span class="kw">list</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">199</span>, <span class="dv">360</span><span class="op">:</span><span class="dv">569</span>, <span class="dv">570</span><span class="op">:</span><span class="kw">ncol</span>(berlin))</span>
+<span id="cb4-229"><a href="support-code.html#cb4-229"></a>)</span>
+<span id="cb4-230"><a href="support-code.html#cb4-230"></a></span>
+<span id="cb4-231"><a href="support-code.html#cb4-231"></a><span class="kw">plot_results</span>(expected_berlin, berlin)</span>
+<span id="cb4-232"><a href="support-code.html#cb4-232"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-233"><a href="support-code.html#cb4-233"></a>  expected_berlin,</span>
+<span id="cb4-234"><a href="support-code.html#cb4-234"></a>  <span class="dt">caption=</span><span class="st">&quot;Expected values to be found when segmenting</span></span>
+<span id="cb4-235"><a href="support-code.html#cb4-235"></a><span class="st">           the Berlin dataset&quot;</span></span>
+<span id="cb4-236"><a href="support-code.html#cb4-236"></a>)</span>
+<span id="cb4-237"><a href="support-code.html#cb4-237"></a>residual_cost &lt;-<span class="st"> </span><span class="cf">function</span> (data) {</span>
+<span id="cb4-238"><a href="support-code.html#cb4-238"></a>  fit &lt;-<span class="st"> </span><span class="kw">t</span>(data) <span class="op">%&gt;%</span></span>
+<span id="cb4-239"><a href="support-code.html#cb4-239"></a><span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></span>
+<span id="cb4-240"><a href="support-code.html#cb4-240"></a><span class="st">    </span><span class="kw">rowid_to_column</span>() <span class="op">%&gt;%</span></span>
+<span id="cb4-241"><a href="support-code.html#cb4-241"></a><span class="st">    </span><span class="kw">gather</span>(station, temperature, <span class="op">-</span>rowid) <span class="op">%&gt;%</span></span>
+<span id="cb4-242"><a href="support-code.html#cb4-242"></a><span class="st">    </span><span class="kw">with</span>(<span class="kw">lm</span>(temperature <span class="op">~</span><span class="st"> </span>rowid))</span>
 <span id="cb4-243"><a href="support-code.html#cb4-243"></a></span>
-<span id="cb4-244"><a href="support-code.html#cb4-244"></a><span class="kw">tibble</span>(</span>
-<span id="cb4-245"><a href="support-code.html#cb4-245"></a>  <span class="st">`</span><span class="dt">Small Size</span><span class="st">`</span>=<span class="kw">residual_cost</span>(berlin[, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]),</span>
-<span id="cb4-246"><a href="support-code.html#cb4-246"></a>  <span class="st">`</span><span class="dt">Medium Size</span><span class="st">`</span>=<span class="kw">residual_cost</span>(berlin[, <span class="dv">1</span><span class="op">:</span><span class="dv">150</span>]),</span>
-<span id="cb4-247"><a href="support-code.html#cb4-247"></a>  <span class="st">`</span><span class="dt">Large Size</span><span class="st">`</span>=<span class="kw">residual_cost</span>(berlin)</span>
-<span id="cb4-248"><a href="support-code.html#cb4-248"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb4-249"><a href="support-code.html#cb4-249"></a><span class="st">  </span><span class="kw">kable</span>(</span>
-<span id="cb4-250"><a href="support-code.html#cb4-250"></a>    <span class="dt">caption=</span><span class="st">&quot;Sample values of the squared residual cost</span></span>
-<span id="cb4-251"><a href="support-code.html#cb4-251"></a><span class="st">    function for different sizes of segment</span></span>
-<span id="cb4-252"><a href="support-code.html#cb4-252"></a><span class="st">    candidates&quot;</span></span>
-<span id="cb4-253"><a href="support-code.html#cb4-253"></a>  )</span>
-<span id="cb4-254"><a href="support-code.html#cb4-254"></a>results_non_penalized &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-255"><a href="support-code.html#cb4-255"></a>  berlin,</span>
-<span id="cb4-256"><a href="support-code.html#cb4-256"></a>  <span class="dt">cost =</span> residual_cost,</span>
-<span id="cb4-257"><a href="support-code.html#cb4-257"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
-<span id="cb4-258"><a href="support-code.html#cb4-258"></a>)</span>
-<span id="cb4-259"><a href="support-code.html#cb4-259"></a></span>
-<span id="cb4-260"><a href="support-code.html#cb4-260"></a><span class="kw">print_results_table</span>(</span>
-<span id="cb4-261"><a href="support-code.html#cb4-261"></a>  results_non_penalized,</span>
-<span id="cb4-262"><a href="support-code.html#cb4-262"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
-<span id="cb4-263"><a href="support-code.html#cb4-263"></a><span class="st">  using a non-penalized cost function&quot;</span></span>
-<span id="cb4-264"><a href="support-code.html#cb4-264"></a>)</span>
-<span id="cb4-265"><a href="support-code.html#cb4-265"></a><span class="kw">plot_results</span>(results_non_penalized, berlin)</span>
-<span id="cb4-266"><a href="support-code.html#cb4-266"></a></span>
-<span id="cb4-267"><a href="support-code.html#cb4-267"></a><span class="kw">plot_curve</span>(<span class="op">~</span><span class="st"> </span><span class="kw">exp</span>(<span class="fl">0.3</span><span class="op">*</span>(. <span class="op">-</span><span class="st"> </span><span class="dv">50</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(<span class="fl">0.3</span> <span class="op">*</span><span class="st"> </span>(<span class="op">-</span>. <span class="op">+</span><span class="st"> </span><span class="dv">50</span>)),</span>
-<span id="cb4-268"><a href="support-code.html#cb4-268"></a>           <span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">100</span>, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span>
-<span id="cb4-269"><a href="support-code.html#cb4-269"></a>penalized_cost &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(berlin,</span>
-<span id="cb4-270"><a href="support-code.html#cb4-270"></a>                                <span class="dt">cost =</span> residual_cost)</span>
-<span id="cb4-271"><a href="support-code.html#cb4-271"></a>results_auto_penalized &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-272"><a href="support-code.html#cb4-272"></a>  berlin,</span>
-<span id="cb4-273"><a href="support-code.html#cb4-273"></a>  <span class="dt">cost =</span> residual_cost,</span>
-<span id="cb4-274"><a href="support-code.html#cb4-274"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
-<span id="cb4-275"><a href="support-code.html#cb4-275"></a>)</span>
-<span id="cb4-276"><a href="support-code.html#cb4-276"></a></span>
-<span id="cb4-277"><a href="support-code.html#cb4-277"></a><span class="kw">print_results_table</span>(</span>
-<span id="cb4-278"><a href="support-code.html#cb4-278"></a>  results_auto_penalized,</span>
-<span id="cb4-279"><a href="support-code.html#cb4-279"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
-<span id="cb4-280"><a href="support-code.html#cb4-280"></a><span class="st">  using an auto-penalized cost function&quot;</span></span>
-<span id="cb4-281"><a href="support-code.html#cb4-281"></a>)</span>
-<span id="cb4-282"><a href="support-code.html#cb4-282"></a><span class="kw">plot_results</span>(results_auto_penalized, berlin)</span>
-<span id="cb4-283"><a href="support-code.html#cb4-283"></a>penalized_cost &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
-<span id="cb4-284"><a href="support-code.html#cb4-284"></a>  berlin,</span>
-<span id="cb4-285"><a href="support-code.html#cb4-285"></a>  <span class="dt">cost =</span> residual_cost,</span>
-<span id="cb4-286"><a href="support-code.html#cb4-286"></a>  <span class="dt">big_segment_penalty =</span> <span class="dv">2</span></span>
-<span id="cb4-287"><a href="support-code.html#cb4-287"></a>)</span>
-<span id="cb4-288"><a href="support-code.html#cb4-288"></a>results_adjusted_penalized &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-289"><a href="support-code.html#cb4-289"></a>  berlin,</span>
-<span id="cb4-290"><a href="support-code.html#cb4-290"></a>  <span class="dt">cost =</span> penalized_cost,</span>
-<span id="cb4-291"><a href="support-code.html#cb4-291"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
-<span id="cb4-292"><a href="support-code.html#cb4-292"></a>)</span>
-<span id="cb4-293"><a href="support-code.html#cb4-293"></a><span class="kw">print_results_table</span>(</span>
-<span id="cb4-294"><a href="support-code.html#cb4-294"></a>  results_adjusted_penalized,</span>
-<span id="cb4-295"><a href="support-code.html#cb4-295"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
-<span id="cb4-296"><a href="support-code.html#cb4-296"></a><span class="st">  using an adjusted penalized cost function&quot;</span></span>
-<span id="cb4-297"><a href="support-code.html#cb4-297"></a>)</span>
-<span id="cb4-298"><a href="support-code.html#cb4-298"></a><span class="kw">plot_results</span>(results_adjusted_penalized, berlin)</span>
-<span id="cb4-299"><a href="support-code.html#cb4-299"></a>monthly_berlin &lt;-<span class="st"> </span>berlin <span class="op">%&gt;%</span></span>
-<span id="cb4-300"><a href="support-code.html#cb4-300"></a><span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames =</span> <span class="st">&quot;station&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb4-301"><a href="support-code.html#cb4-301"></a><span class="st">  </span><span class="kw">gather</span>(time, temperature, <span class="op">-</span>station) <span class="op">%&gt;%</span></span>
-<span id="cb4-302"><a href="support-code.html#cb4-302"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">month =</span> <span class="kw">floor_date</span>(<span class="kw">ymd</span>(time), <span class="st">&quot;month&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb4-303"><a href="support-code.html#cb4-303"></a><span class="st">  </span><span class="kw">group_by</span>(station, month) <span class="op">%&gt;%</span></span>
-<span id="cb4-304"><a href="support-code.html#cb4-304"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">temperature =</span> <span class="kw">mean</span>(temperature)) <span class="op">%&gt;%</span></span>
-<span id="cb4-305"><a href="support-code.html#cb4-305"></a><span class="st">  </span><span class="kw">spread</span>(month, temperature) <span class="op">%&gt;%</span><span class="st"> </span>{</span>
-<span id="cb4-306"><a href="support-code.html#cb4-306"></a>    stations &lt;-<span class="st"> </span>.<span class="op">$</span>station</span>
-<span id="cb4-307"><a href="support-code.html#cb4-307"></a>    result &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(.[, <span class="dv">-1</span>])</span>
-<span id="cb4-308"><a href="support-code.html#cb4-308"></a>    <span class="kw">rownames</span>(result) &lt;-<span class="st"> </span>stations</span>
-<span id="cb4-309"><a href="support-code.html#cb4-309"></a>    result</span>
-<span id="cb4-310"><a href="support-code.html#cb4-310"></a>  }</span>
-<span id="cb4-311"><a href="support-code.html#cb4-311"></a></span>
-<span id="cb4-312"><a href="support-code.html#cb4-312"></a>monthly_berlin <span class="op">%&gt;%</span></span>
-<span id="cb4-313"><a href="support-code.html#cb4-313"></a><span class="st">  </span><span class="kw">colMeans</span>() <span class="op">%&gt;%</span></span>
-<span id="cb4-314"><a href="support-code.html#cb4-314"></a><span class="st">  </span><span class="kw">enframe</span>(<span class="st">&quot;time&quot;</span>, <span class="st">&quot;temperature&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb4-315"><a href="support-code.html#cb4-315"></a><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(time), ymd) <span class="op">%&gt;%</span></span>
-<span id="cb4-316"><a href="support-code.html#cb4-316"></a><span class="st">  </span><span class="kw">with</span>(<span class="kw">plot</span>(time, temperature, <span class="dt">cex=</span><span class="fl">0.2</span>))</span>
-<span id="cb4-317"><a href="support-code.html#cb4-317"></a>penalized_cost &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
-<span id="cb4-318"><a href="support-code.html#cb4-318"></a>  monthly_berlin,</span>
-<span id="cb4-319"><a href="support-code.html#cb4-319"></a>  <span class="dt">cost =</span> residual_cost,</span>
-<span id="cb4-320"><a href="support-code.html#cb4-320"></a>  <span class="dt">small_segment_penalty =</span> <span class="dv">100</span></span>
-<span id="cb4-321"><a href="support-code.html#cb4-321"></a>)</span>
-<span id="cb4-322"><a href="support-code.html#cb4-322"></a></span>
-<span id="cb4-323"><a href="support-code.html#cb4-323"></a>results_downscaled &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-324"><a href="support-code.html#cb4-324"></a>  monthly_berlin,</span>
-<span id="cb4-325"><a href="support-code.html#cb4-325"></a>  <span class="dt">cost =</span> penalized_cost,</span>
-<span id="cb4-326"><a href="support-code.html#cb4-326"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span></span>
-<span id="cb4-327"><a href="support-code.html#cb4-327"></a>)</span>
-<span id="cb4-328"><a href="support-code.html#cb4-328"></a></span>
-<span id="cb4-329"><a href="support-code.html#cb4-329"></a><span class="kw">print_results_table</span>(</span>
-<span id="cb4-330"><a href="support-code.html#cb4-330"></a>  results_downscaled,</span>
-<span id="cb4-331"><a href="support-code.html#cb4-331"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
-<span id="cb4-332"><a href="support-code.html#cb4-332"></a><span class="st">    using an auto-penalized cost function over</span></span>
-<span id="cb4-333"><a href="support-code.html#cb4-333"></a><span class="st">    downsampled berlin data&quot;</span></span>
-<span id="cb4-334"><a href="support-code.html#cb4-334"></a>)</span>
-<span id="cb4-335"><a href="support-code.html#cb4-335"></a><span class="kw">plot_results</span>(results_downscaled, monthly_berlin)</span>
-<span id="cb4-336"><a href="support-code.html#cb4-336"></a>rescaled_changepoints &lt;-<span class="st"> </span><span class="kw">round</span>(</span>
-<span id="cb4-337"><a href="support-code.html#cb4-337"></a>  results_downscaled<span class="op">$</span>changepoints</span>
-<span id="cb4-338"><a href="support-code.html#cb4-338"></a>  <span class="op">*</span><span class="st"> </span><span class="kw">ncol</span>(berlin) <span class="op">/</span><span class="st"> </span><span class="kw">ncol</span>(monthly_berlin)</span>
-<span id="cb4-339"><a href="support-code.html#cb4-339"></a>)</span>
-<span id="cb4-340"><a href="support-code.html#cb4-340"></a></span>
-<span id="cb4-341"><a href="support-code.html#cb4-341"></a>results_rescaled &lt;-<span class="st"> </span><span class="kw">with_segments</span>(</span>
-<span id="cb4-342"><a href="support-code.html#cb4-342"></a>  <span class="dt">changepoints=</span>rescaled_changepoints,</span>
-<span id="cb4-343"><a href="support-code.html#cb4-343"></a>  <span class="dt">len=</span><span class="kw">ncol</span>(berlin)</span>
-<span id="cb4-344"><a href="support-code.html#cb4-344"></a>)</span>
-<span id="cb4-345"><a href="support-code.html#cb4-345"></a></span>
-<span id="cb4-346"><a href="support-code.html#cb4-346"></a><span class="kw">print_results_table</span>(</span>
-<span id="cb4-347"><a href="support-code.html#cb4-347"></a>  results_rescaled,</span>
-<span id="cb4-348"><a href="support-code.html#cb4-348"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
-<span id="cb4-349"><a href="support-code.html#cb4-349"></a><span class="st">    using an auto-penalized cost function over</span></span>
-<span id="cb4-350"><a href="support-code.html#cb4-350"></a><span class="st">    downsampled berlin data, but rescaled to fit the</span></span>
-<span id="cb4-351"><a href="support-code.html#cb4-351"></a><span class="st">    original data dimensions&quot;</span></span>
-<span id="cb4-352"><a href="support-code.html#cb4-352"></a>)</span>
-<span id="cb4-353"><a href="support-code.html#cb4-353"></a><span class="kw">plot_results</span>(results_rescaled, berlin)</span>
-<span id="cb4-354"><a href="support-code.html#cb4-354"></a>deviation &lt;-<span class="st"> </span><span class="kw">partial</span>(</span>
-<span id="cb4-355"><a href="support-code.html#cb4-355"></a>  segment_distance,</span>
-<span id="cb4-356"><a href="support-code.html#cb4-356"></a>  <span class="dt">changepoints2=</span>expected_berlin<span class="op">$</span>changepoints</span>
-<span id="cb4-357"><a href="support-code.html#cb4-357"></a>)</span>
-<span id="cb4-358"><a href="support-code.html#cb4-358"></a></span>
-<span id="cb4-359"><a href="support-code.html#cb4-359"></a><span class="kw">tribble</span>(</span>
-<span id="cb4-360"><a href="support-code.html#cb4-360"></a>  <span class="op">~</span><span class="st">`</span><span class="dt">Results referenced</span><span class="st">`</span>,</span>
-<span id="cb4-361"><a href="support-code.html#cb4-361"></a>    <span class="op">~</span><span class="st">`</span><span class="dt">Estimated Changepoints</span><span class="st">`</span>,</span>
-<span id="cb4-362"><a href="support-code.html#cb4-362"></a>      <span class="op">~</span><span class="st">`</span><span class="dt">Hausdorff Distance to Ideal</span><span class="st">`</span>,</span>
-<span id="cb4-363"><a href="support-code.html#cb4-363"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:berlinexpectedtable">5.2</a>&quot;</span>,</span>
-<span id="cb4-364"><a href="support-code.html#cb4-364"></a>    <span class="kw">comma_format</span>(expected_berlin<span class="op">$</span>changepoints),</span>
-<span id="cb4-365"><a href="support-code.html#cb4-365"></a>      <span class="kw">deviation</span>(expected_berlin<span class="op">$</span>changepoints),</span>
-<span id="cb4-366"><a href="support-code.html#cb4-366"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:resultsnonpenalized">5.4</a>&quot;</span>,</span>
-<span id="cb4-367"><a href="support-code.html#cb4-367"></a>    <span class="kw">comma_format</span>(results_non_penalized<span class="op">$</span>changepoints),</span>
-<span id="cb4-368"><a href="support-code.html#cb4-368"></a>      <span class="kw">deviation</span>(results_non_penalized<span class="op">$</span>changepoints),</span>
-<span id="cb4-369"><a href="support-code.html#cb4-369"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:resultsautopenalized">5.5</a>&quot;</span>,</span>
-<span id="cb4-370"><a href="support-code.html#cb4-370"></a>    <span class="kw">comma_format</span>(results_auto_penalized<span class="op">$</span>changepoints),</span>
-<span id="cb4-371"><a href="support-code.html#cb4-371"></a>      <span class="kw">deviation</span>(results_auto_penalized<span class="op">$</span>changepoints),</span>
-<span id="cb4-372"><a href="support-code.html#cb4-372"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:resultsadjustedpenalized">5.6</a>&quot;</span>,</span>
-<span id="cb4-373"><a href="support-code.html#cb4-373"></a>    <span class="kw">comma_format</span>(results_adjusted_penalized<span class="op">$</span>changepoints),</span>
-<span id="cb4-374"><a href="support-code.html#cb4-374"></a>      <span class="kw">deviation</span>(results_adjusted_penalized<span class="op">$</span>changepoints),</span>
-<span id="cb4-375"><a href="support-code.html#cb4-375"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:resultsrescaled">5.8</a>&quot;</span>,</span>
-<span id="cb4-376"><a href="support-code.html#cb4-376"></a>    <span class="kw">comma_format</span>(results_rescaled<span class="op">$</span>changepoints),</span>
-<span id="cb4-377"><a href="support-code.html#cb4-377"></a>      <span class="kw">deviation</span>(results_rescaled<span class="op">$</span>changepoints)</span>
-<span id="cb4-378"><a href="support-code.html#cb4-378"></a>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(</span>
-<span id="cb4-379"><a href="support-code.html#cb4-379"></a>  <span class="dt">caption=</span><span class="st">&quot;Hausdorff distance for different</span></span>
-<span id="cb4-380"><a href="support-code.html#cb4-380"></a><span class="st">  segmentation attepmts over the Berlin weather data set&quot;</span></span>
-<span id="cb4-381"><a href="support-code.html#cb4-381"></a>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">column_spec</span>(<span class="dv">2</span>, <span class="dt">width=</span><span class="st">&quot;15em&quot;</span>)</span>
-<span id="cb4-382"><a href="support-code.html#cb4-382"></a>rsquared_cost &lt;-<span class="st"> </span><span class="cf">function</span> (data) {</span>
-<span id="cb4-383"><a href="support-code.html#cb4-383"></a>  <span class="kw">as_tibble</span>(<span class="kw">t</span>(data)) <span class="op">%&gt;%</span></span>
-<span id="cb4-384"><a href="support-code.html#cb4-384"></a><span class="st">    </span><span class="kw">rowid_to_column</span>() <span class="op">%&gt;%</span></span>
-<span id="cb4-385"><a href="support-code.html#cb4-385"></a><span class="st">    </span><span class="kw">gather</span>(station, temperature, <span class="op">-</span>rowid) <span class="op">%&gt;%</span></span>
-<span id="cb4-386"><a href="support-code.html#cb4-386"></a><span class="st">    </span><span class="kw">with</span>(<span class="kw">lm</span>(temperature <span class="op">~</span><span class="st"> </span>rowid)) <span class="op">%&gt;%</span></span>
-<span id="cb4-387"><a href="support-code.html#cb4-387"></a><span class="st">    </span>summary <span class="op">%&gt;%</span></span>
-<span id="cb4-388"><a href="support-code.html#cb4-388"></a><span class="st">    </span>.<span class="op">$</span>adj.r.squared <span class="op">%&gt;%</span></span>
-<span id="cb4-389"><a href="support-code.html#cb4-389"></a><span class="st">    </span>{ <span class="op">-</span>. }</span>
-<span id="cb4-390"><a href="support-code.html#cb4-390"></a>}</span>
-<span id="cb4-391"><a href="support-code.html#cb4-391"></a></span>
-<span id="cb4-392"><a href="support-code.html#cb4-392"></a><span class="kw">tibble</span>(</span>
-<span id="cb4-393"><a href="support-code.html#cb4-393"></a>  <span class="st">`</span><span class="dt">Small Size</span><span class="st">`</span>=<span class="kw">rsquared_cost</span>(berlin[, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]),</span>
-<span id="cb4-394"><a href="support-code.html#cb4-394"></a>  <span class="st">`</span><span class="dt">Medium Size</span><span class="st">`</span>=<span class="kw">rsquared_cost</span>(berlin[, <span class="dv">1</span><span class="op">:</span><span class="dv">150</span>]),</span>
-<span id="cb4-395"><a href="support-code.html#cb4-395"></a>  <span class="st">`</span><span class="dt">Large Size</span><span class="st">`</span>=<span class="kw">rsquared_cost</span>(berlin)</span>
-<span id="cb4-396"><a href="support-code.html#cb4-396"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb4-397"><a href="support-code.html#cb4-397"></a><span class="st">  </span><span class="kw">kable</span>(</span>
-<span id="cb4-398"><a href="support-code.html#cb4-398"></a>    <span class="dt">caption=</span><span class="st">&quot;Sample values of the R-squared</span></span>
-<span id="cb4-399"><a href="support-code.html#cb4-399"></a><span class="st">    cost function for different sizes of segment</span></span>
-<span id="cb4-400"><a href="support-code.html#cb4-400"></a><span class="st">    candidates&quot;</span></span>
-<span id="cb4-401"><a href="support-code.html#cb4-401"></a>  )</span>
-<span id="cb4-402"><a href="support-code.html#cb4-402"></a>penalized_cost &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
-<span id="cb4-403"><a href="support-code.html#cb4-403"></a>  berlin,</span>
-<span id="cb4-404"><a href="support-code.html#cb4-404"></a>  <span class="dt">cost =</span> rsquared_cost</span>
-<span id="cb4-405"><a href="support-code.html#cb4-405"></a>)</span>
-<span id="cb4-406"><a href="support-code.html#cb4-406"></a>results &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-407"><a href="support-code.html#cb4-407"></a>  berlin,</span>
-<span id="cb4-408"><a href="support-code.html#cb4-408"></a>  <span class="dt">cost =</span> penalized_cost,</span>
-<span id="cb4-409"><a href="support-code.html#cb4-409"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
-<span id="cb4-410"><a href="support-code.html#cb4-410"></a>)</span>
-<span id="cb4-411"><a href="support-code.html#cb4-411"></a></span>
-<span id="cb4-412"><a href="support-code.html#cb4-412"></a><span class="kw">print_results_table</span>(</span>
-<span id="cb4-413"><a href="support-code.html#cb4-413"></a>  results,</span>
-<span id="cb4-414"><a href="support-code.html#cb4-414"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
-<span id="cb4-415"><a href="support-code.html#cb4-415"></a><span class="st">    using an auto-penalized R-squared cost function over</span></span>
-<span id="cb4-416"><a href="support-code.html#cb4-416"></a><span class="st">    Berlin data&quot;</span></span>
-<span id="cb4-417"><a href="support-code.html#cb4-417"></a>)</span>
-<span id="cb4-418"><a href="support-code.html#cb4-418"></a><span class="kw">plot_results</span>(results, berlin)</span>
-<span id="cb4-419"><a href="support-code.html#cb4-419"></a>penalized_cost &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
-<span id="cb4-420"><a href="support-code.html#cb4-420"></a>  berlin,</span>
-<span id="cb4-421"><a href="support-code.html#cb4-421"></a>  <span class="dt">cost =</span> rsquared_cost,</span>
-<span id="cb4-422"><a href="support-code.html#cb4-422"></a>  <span class="dt">small_segment_penalty =</span> <span class="fl">1.5</span></span>
-<span id="cb4-423"><a href="support-code.html#cb4-423"></a>)</span>
-<span id="cb4-424"><a href="support-code.html#cb4-424"></a>results &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-425"><a href="support-code.html#cb4-425"></a>  berlin,</span>
-<span id="cb4-426"><a href="support-code.html#cb4-426"></a>  <span class="dt">cost =</span> penalized_cost,</span>
-<span id="cb4-427"><a href="support-code.html#cb4-427"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
-<span id="cb4-428"><a href="support-code.html#cb4-428"></a>)</span>
-<span id="cb4-429"><a href="support-code.html#cb4-429"></a><span class="kw">print_results_table</span>(</span>
-<span id="cb4-430"><a href="support-code.html#cb4-430"></a>  results,</span>
-<span id="cb4-431"><a href="support-code.html#cb4-431"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
-<span id="cb4-432"><a href="support-code.html#cb4-432"></a><span class="st">    using an adjusted penalized R-squared cost</span></span>
-<span id="cb4-433"><a href="support-code.html#cb4-433"></a><span class="st">    function over Berlin data&quot;</span></span>
-<span id="cb4-434"><a href="support-code.html#cb4-434"></a>)</span>
-<span id="cb4-435"><a href="support-code.html#cb4-435"></a><span class="kw">plot_results</span>(results, berlin)</span>
-<span id="cb4-436"><a href="support-code.html#cb4-436"></a>sub_berlin &lt;-<span class="st"> </span>berlin[, <span class="dv">1</span><span class="op">:</span><span class="dv">547</span>]</span>
-<span id="cb4-437"><a href="support-code.html#cb4-437"></a>penalized_cost &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
-<span id="cb4-438"><a href="support-code.html#cb4-438"></a>  sub_berlin,</span>
-<span id="cb4-439"><a href="support-code.html#cb4-439"></a>  <span class="dt">cost =</span> rsquared_cost</span>
-<span id="cb4-440"><a href="support-code.html#cb4-440"></a>)</span>
-<span id="cb4-441"><a href="support-code.html#cb4-441"></a>results &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
-<span id="cb4-442"><a href="support-code.html#cb4-442"></a>  sub_berlin,</span>
-<span id="cb4-443"><a href="support-code.html#cb4-443"></a>  <span class="dt">cost =</span> penalized_cost,</span>
-<span id="cb4-444"><a href="support-code.html#cb4-444"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
-<span id="cb4-445"><a href="support-code.html#cb4-445"></a>)</span>
-<span id="cb4-446"><a href="support-code.html#cb4-446"></a><span class="kw">print_results_table</span>(</span>
-<span id="cb4-447"><a href="support-code.html#cb4-447"></a>  results,</span>
-<span id="cb4-448"><a href="support-code.html#cb4-448"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
-<span id="cb4-449"><a href="support-code.html#cb4-449"></a><span class="st">    using an auto-penalized R-squared cost</span></span>
-<span id="cb4-450"><a href="support-code.html#cb4-450"></a><span class="st">    function over a subset of Berlin data&quot;</span></span>
-<span id="cb4-451"><a href="support-code.html#cb4-451"></a>)</span>
-<span id="cb4-452"><a href="support-code.html#cb4-452"></a><span class="kw">plot_results</span>(results, sub_berlin)</span>
-<span id="cb4-453"><a href="support-code.html#cb4-453"></a><span class="kw">source</span>(<span class="st">&quot;helper.R&quot;</span>)</span>
-<span id="cb4-454"><a href="support-code.html#cb4-454"></a><span class="kw">library</span>(microbenchmark)</span>
-<span id="cb4-455"><a href="support-code.html#cb4-455"></a>data &lt;-<span class="st"> </span><span class="kw">makeRandom</span>(<span class="dv">20</span>, <span class="dv">100</span>)</span>
-<span id="cb4-456"><a href="support-code.html#cb4-456"></a></span>
-<span id="cb4-457"><a href="support-code.html#cb4-457"></a>bench &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</span>
-<span id="cb4-458"><a href="support-code.html#cb4-458"></a>  <span class="kw">segment</span>(data,</span>
-<span id="cb4-459"><a href="support-code.html#cb4-459"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
-<span id="cb4-460"><a href="support-code.html#cb4-460"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>),</span>
+<span id="cb4-244"><a href="support-code.html#cb4-244"></a>  <span class="kw">mean</span>(fit<span class="op">$</span>residuals <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</span>
+<span id="cb4-245"><a href="support-code.html#cb4-245"></a>}</span>
+<span id="cb4-246"><a href="support-code.html#cb4-246"></a></span>
+<span id="cb4-247"><a href="support-code.html#cb4-247"></a><span class="kw">tibble</span>(</span>
+<span id="cb4-248"><a href="support-code.html#cb4-248"></a>  <span class="st">`</span><span class="dt">Small Size</span><span class="st">`</span>=<span class="kw">residual_cost</span>(berlin[, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]),</span>
+<span id="cb4-249"><a href="support-code.html#cb4-249"></a>  <span class="st">`</span><span class="dt">Medium Size</span><span class="st">`</span>=<span class="kw">residual_cost</span>(berlin[, <span class="dv">1</span><span class="op">:</span><span class="dv">150</span>]),</span>
+<span id="cb4-250"><a href="support-code.html#cb4-250"></a>  <span class="st">`</span><span class="dt">Large Size</span><span class="st">`</span>=<span class="kw">residual_cost</span>(berlin)</span>
+<span id="cb4-251"><a href="support-code.html#cb4-251"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb4-252"><a href="support-code.html#cb4-252"></a><span class="st">  </span><span class="kw">kable</span>(</span>
+<span id="cb4-253"><a href="support-code.html#cb4-253"></a>    <span class="dt">caption=</span><span class="st">&quot;Sample values of the squared residual cost</span></span>
+<span id="cb4-254"><a href="support-code.html#cb4-254"></a><span class="st">    function for different sizes of segment</span></span>
+<span id="cb4-255"><a href="support-code.html#cb4-255"></a><span class="st">    candidates&quot;</span></span>
+<span id="cb4-256"><a href="support-code.html#cb4-256"></a>  )</span>
+<span id="cb4-257"><a href="support-code.html#cb4-257"></a>results_non_penalized &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-258"><a href="support-code.html#cb4-258"></a>  berlin,</span>
+<span id="cb4-259"><a href="support-code.html#cb4-259"></a>  <span class="dt">cost =</span> residual_cost,</span>
+<span id="cb4-260"><a href="support-code.html#cb4-260"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-261"><a href="support-code.html#cb4-261"></a>)</span>
+<span id="cb4-262"><a href="support-code.html#cb4-262"></a></span>
+<span id="cb4-263"><a href="support-code.html#cb4-263"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-264"><a href="support-code.html#cb4-264"></a>  results_non_penalized,</span>
+<span id="cb4-265"><a href="support-code.html#cb4-265"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-266"><a href="support-code.html#cb4-266"></a><span class="st">  using a non-penalized cost function&quot;</span></span>
+<span id="cb4-267"><a href="support-code.html#cb4-267"></a>)</span>
+<span id="cb4-268"><a href="support-code.html#cb4-268"></a><span class="kw">plot_results</span>(results_non_penalized, berlin)</span>
+<span id="cb4-269"><a href="support-code.html#cb4-269"></a></span>
+<span id="cb4-270"><a href="support-code.html#cb4-270"></a><span class="kw">plot_curve</span>(<span class="op">~</span><span class="st"> </span><span class="kw">exp</span>(<span class="fl">0.3</span><span class="op">*</span>(. <span class="op">-</span><span class="st"> </span><span class="dv">50</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(<span class="fl">0.3</span> <span class="op">*</span><span class="st"> </span>(<span class="op">-</span>. <span class="op">+</span><span class="st"> </span><span class="dv">50</span>)),</span>
+<span id="cb4-271"><a href="support-code.html#cb4-271"></a>           <span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">100</span>, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span>
+<span id="cb4-272"><a href="support-code.html#cb4-272"></a>penalized_cost &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(berlin,</span>
+<span id="cb4-273"><a href="support-code.html#cb4-273"></a>                                <span class="dt">cost =</span> residual_cost)</span>
+<span id="cb4-274"><a href="support-code.html#cb4-274"></a>results_auto_penalized &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-275"><a href="support-code.html#cb4-275"></a>  berlin,</span>
+<span id="cb4-276"><a href="support-code.html#cb4-276"></a>  <span class="dt">cost =</span> residual_cost,</span>
+<span id="cb4-277"><a href="support-code.html#cb4-277"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-278"><a href="support-code.html#cb4-278"></a>)</span>
+<span id="cb4-279"><a href="support-code.html#cb4-279"></a></span>
+<span id="cb4-280"><a href="support-code.html#cb4-280"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-281"><a href="support-code.html#cb4-281"></a>  results_auto_penalized,</span>
+<span id="cb4-282"><a href="support-code.html#cb4-282"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-283"><a href="support-code.html#cb4-283"></a><span class="st">  using an auto-penalized cost function&quot;</span></span>
+<span id="cb4-284"><a href="support-code.html#cb4-284"></a>)</span>
+<span id="cb4-285"><a href="support-code.html#cb4-285"></a><span class="kw">plot_results</span>(results_auto_penalized, berlin)</span>
+<span id="cb4-286"><a href="support-code.html#cb4-286"></a>penalized_cost &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
+<span id="cb4-287"><a href="support-code.html#cb4-287"></a>  berlin,</span>
+<span id="cb4-288"><a href="support-code.html#cb4-288"></a>  <span class="dt">cost =</span> residual_cost,</span>
+<span id="cb4-289"><a href="support-code.html#cb4-289"></a>  <span class="dt">big_segment_penalty =</span> <span class="dv">2</span></span>
+<span id="cb4-290"><a href="support-code.html#cb4-290"></a>)</span>
+<span id="cb4-291"><a href="support-code.html#cb4-291"></a>results_adjusted_penalized &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-292"><a href="support-code.html#cb4-292"></a>  berlin,</span>
+<span id="cb4-293"><a href="support-code.html#cb4-293"></a>  <span class="dt">cost =</span> penalized_cost,</span>
+<span id="cb4-294"><a href="support-code.html#cb4-294"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-295"><a href="support-code.html#cb4-295"></a>)</span>
+<span id="cb4-296"><a href="support-code.html#cb4-296"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-297"><a href="support-code.html#cb4-297"></a>  results_adjusted_penalized,</span>
+<span id="cb4-298"><a href="support-code.html#cb4-298"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-299"><a href="support-code.html#cb4-299"></a><span class="st">  using an adjusted penalized cost function&quot;</span></span>
+<span id="cb4-300"><a href="support-code.html#cb4-300"></a>)</span>
+<span id="cb4-301"><a href="support-code.html#cb4-301"></a><span class="kw">plot_results</span>(results_adjusted_penalized, berlin)</span>
+<span id="cb4-302"><a href="support-code.html#cb4-302"></a>monthly_berlin &lt;-<span class="st"> </span>berlin <span class="op">%&gt;%</span></span>
+<span id="cb4-303"><a href="support-code.html#cb4-303"></a><span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames =</span> <span class="st">&quot;station&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-304"><a href="support-code.html#cb4-304"></a><span class="st">  </span><span class="kw">gather</span>(time, temperature, <span class="op">-</span>station) <span class="op">%&gt;%</span></span>
+<span id="cb4-305"><a href="support-code.html#cb4-305"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">month =</span> <span class="kw">floor_date</span>(<span class="kw">ymd</span>(time), <span class="st">&quot;month&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb4-306"><a href="support-code.html#cb4-306"></a><span class="st">  </span><span class="kw">group_by</span>(station, month) <span class="op">%&gt;%</span></span>
+<span id="cb4-307"><a href="support-code.html#cb4-307"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">temperature =</span> <span class="kw">mean</span>(temperature)) <span class="op">%&gt;%</span></span>
+<span id="cb4-308"><a href="support-code.html#cb4-308"></a><span class="st">  </span><span class="kw">spread</span>(month, temperature) <span class="op">%&gt;%</span><span class="st"> </span>{</span>
+<span id="cb4-309"><a href="support-code.html#cb4-309"></a>    stations &lt;-<span class="st"> </span>.<span class="op">$</span>station</span>
+<span id="cb4-310"><a href="support-code.html#cb4-310"></a>    result &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(.[, <span class="dv">-1</span>])</span>
+<span id="cb4-311"><a href="support-code.html#cb4-311"></a>    <span class="kw">rownames</span>(result) &lt;-<span class="st"> </span>stations</span>
+<span id="cb4-312"><a href="support-code.html#cb4-312"></a>    result</span>
+<span id="cb4-313"><a href="support-code.html#cb4-313"></a>  }</span>
+<span id="cb4-314"><a href="support-code.html#cb4-314"></a></span>
+<span id="cb4-315"><a href="support-code.html#cb4-315"></a>monthly_berlin <span class="op">%&gt;%</span></span>
+<span id="cb4-316"><a href="support-code.html#cb4-316"></a><span class="st">  </span><span class="kw">colMeans</span>() <span class="op">%&gt;%</span></span>
+<span id="cb4-317"><a href="support-code.html#cb4-317"></a><span class="st">  </span><span class="kw">enframe</span>(<span class="st">&quot;time&quot;</span>, <span class="st">&quot;temperature&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-318"><a href="support-code.html#cb4-318"></a><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(time), ymd) <span class="op">%&gt;%</span></span>
+<span id="cb4-319"><a href="support-code.html#cb4-319"></a><span class="st">  </span><span class="kw">with</span>(<span class="kw">plot</span>(time, temperature, <span class="dt">cex=</span><span class="fl">0.2</span>))</span>
+<span id="cb4-320"><a href="support-code.html#cb4-320"></a>penalized_cost &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
+<span id="cb4-321"><a href="support-code.html#cb4-321"></a>  monthly_berlin,</span>
+<span id="cb4-322"><a href="support-code.html#cb4-322"></a>  <span class="dt">cost =</span> residual_cost,</span>
+<span id="cb4-323"><a href="support-code.html#cb4-323"></a>  <span class="dt">small_segment_penalty =</span> <span class="dv">100</span></span>
+<span id="cb4-324"><a href="support-code.html#cb4-324"></a>)</span>
+<span id="cb4-325"><a href="support-code.html#cb4-325"></a></span>
+<span id="cb4-326"><a href="support-code.html#cb4-326"></a>results_downscaled &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-327"><a href="support-code.html#cb4-327"></a>  monthly_berlin,</span>
+<span id="cb4-328"><a href="support-code.html#cb4-328"></a>  <span class="dt">cost =</span> penalized_cost,</span>
+<span id="cb4-329"><a href="support-code.html#cb4-329"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span></span>
+<span id="cb4-330"><a href="support-code.html#cb4-330"></a>)</span>
+<span id="cb4-331"><a href="support-code.html#cb4-331"></a></span>
+<span id="cb4-332"><a href="support-code.html#cb4-332"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-333"><a href="support-code.html#cb4-333"></a>  results_downscaled,</span>
+<span id="cb4-334"><a href="support-code.html#cb4-334"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-335"><a href="support-code.html#cb4-335"></a><span class="st">    using an auto-penalized cost function over</span></span>
+<span id="cb4-336"><a href="support-code.html#cb4-336"></a><span class="st">    downsampled berlin data&quot;</span></span>
+<span id="cb4-337"><a href="support-code.html#cb4-337"></a>)</span>
+<span id="cb4-338"><a href="support-code.html#cb4-338"></a><span class="kw">plot_results</span>(results_downscaled, monthly_berlin)</span>
+<span id="cb4-339"><a href="support-code.html#cb4-339"></a>rescaled_changepoints &lt;-<span class="st"> </span><span class="kw">round</span>(</span>
+<span id="cb4-340"><a href="support-code.html#cb4-340"></a>  results_downscaled<span class="op">$</span>changepoints</span>
+<span id="cb4-341"><a href="support-code.html#cb4-341"></a>  <span class="op">*</span><span class="st"> </span><span class="kw">ncol</span>(berlin) <span class="op">/</span><span class="st"> </span><span class="kw">ncol</span>(monthly_berlin)</span>
+<span id="cb4-342"><a href="support-code.html#cb4-342"></a>)</span>
+<span id="cb4-343"><a href="support-code.html#cb4-343"></a></span>
+<span id="cb4-344"><a href="support-code.html#cb4-344"></a>results_rescaled &lt;-<span class="st"> </span><span class="kw">with_segments</span>(</span>
+<span id="cb4-345"><a href="support-code.html#cb4-345"></a>  <span class="dt">changepoints=</span>rescaled_changepoints,</span>
+<span id="cb4-346"><a href="support-code.html#cb4-346"></a>  <span class="dt">len=</span><span class="kw">ncol</span>(berlin)</span>
+<span id="cb4-347"><a href="support-code.html#cb4-347"></a>)</span>
+<span id="cb4-348"><a href="support-code.html#cb4-348"></a></span>
+<span id="cb4-349"><a href="support-code.html#cb4-349"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-350"><a href="support-code.html#cb4-350"></a>  results_rescaled,</span>
+<span id="cb4-351"><a href="support-code.html#cb4-351"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-352"><a href="support-code.html#cb4-352"></a><span class="st">    using an auto-penalized cost function over</span></span>
+<span id="cb4-353"><a href="support-code.html#cb4-353"></a><span class="st">    downsampled berlin data, but rescaled to fit the</span></span>
+<span id="cb4-354"><a href="support-code.html#cb4-354"></a><span class="st">    original data dimensions&quot;</span></span>
+<span id="cb4-355"><a href="support-code.html#cb4-355"></a>)</span>
+<span id="cb4-356"><a href="support-code.html#cb4-356"></a><span class="kw">plot_results</span>(results_rescaled, berlin)</span>
+<span id="cb4-357"><a href="support-code.html#cb4-357"></a>deviation &lt;-<span class="st"> </span><span class="kw">partial</span>(</span>
+<span id="cb4-358"><a href="support-code.html#cb4-358"></a>  segment_distance,</span>
+<span id="cb4-359"><a href="support-code.html#cb4-359"></a>  <span class="dt">changepoints2=</span>expected_berlin<span class="op">$</span>changepoints</span>
+<span id="cb4-360"><a href="support-code.html#cb4-360"></a>)</span>
+<span id="cb4-361"><a href="support-code.html#cb4-361"></a></span>
+<span id="cb4-362"><a href="support-code.html#cb4-362"></a><span class="kw">tribble</span>(</span>
+<span id="cb4-363"><a href="support-code.html#cb4-363"></a>  <span class="op">~</span><span class="st">`</span><span class="dt">Results referenced</span><span class="st">`</span>,</span>
+<span id="cb4-364"><a href="support-code.html#cb4-364"></a>    <span class="op">~</span><span class="st">`</span><span class="dt">Estimated Changepoints</span><span class="st">`</span>,</span>
+<span id="cb4-365"><a href="support-code.html#cb4-365"></a>      <span class="op">~</span><span class="st">`</span><span class="dt">Hausdorff Distance to Ideal</span><span class="st">`</span>,</span>
+<span id="cb4-366"><a href="support-code.html#cb4-366"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:berlinexpectedtable">5.2</a>&quot;</span>,</span>
+<span id="cb4-367"><a href="support-code.html#cb4-367"></a>    <span class="kw">comma_format</span>(expected_berlin<span class="op">$</span>changepoints),</span>
+<span id="cb4-368"><a href="support-code.html#cb4-368"></a>      <span class="kw">deviation</span>(expected_berlin<span class="op">$</span>changepoints),</span>
+<span id="cb4-369"><a href="support-code.html#cb4-369"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:resultsnonpenalized">5.4</a>&quot;</span>,</span>
+<span id="cb4-370"><a href="support-code.html#cb4-370"></a>    <span class="kw">comma_format</span>(results_non_penalized<span class="op">$</span>changepoints),</span>
+<span id="cb4-371"><a href="support-code.html#cb4-371"></a>      <span class="kw">deviation</span>(results_non_penalized<span class="op">$</span>changepoints),</span>
+<span id="cb4-372"><a href="support-code.html#cb4-372"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:resultsautopenalized">5.5</a>&quot;</span>,</span>
+<span id="cb4-373"><a href="support-code.html#cb4-373"></a>    <span class="kw">comma_format</span>(results_auto_penalized<span class="op">$</span>changepoints),</span>
+<span id="cb4-374"><a href="support-code.html#cb4-374"></a>      <span class="kw">deviation</span>(results_auto_penalized<span class="op">$</span>changepoints),</span>
+<span id="cb4-375"><a href="support-code.html#cb4-375"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:resultsadjustedpenalized">5.6</a>&quot;</span>,</span>
+<span id="cb4-376"><a href="support-code.html#cb4-376"></a>    <span class="kw">comma_format</span>(results_adjusted_penalized<span class="op">$</span>changepoints),</span>
+<span id="cb4-377"><a href="support-code.html#cb4-377"></a>      <span class="kw">deviation</span>(results_adjusted_penalized<span class="op">$</span>changepoints),</span>
+<span id="cb4-378"><a href="support-code.html#cb4-378"></a>  <span class="st">&quot;Table <a href="real-data-examples.html#tab:resultsrescaled">5.8</a>&quot;</span>,</span>
+<span id="cb4-379"><a href="support-code.html#cb4-379"></a>    <span class="kw">comma_format</span>(results_rescaled<span class="op">$</span>changepoints),</span>
+<span id="cb4-380"><a href="support-code.html#cb4-380"></a>      <span class="kw">deviation</span>(results_rescaled<span class="op">$</span>changepoints)</span>
+<span id="cb4-381"><a href="support-code.html#cb4-381"></a>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(</span>
+<span id="cb4-382"><a href="support-code.html#cb4-382"></a>  <span class="dt">caption=</span><span class="st">&quot;Hausdorff distance for different</span></span>
+<span id="cb4-383"><a href="support-code.html#cb4-383"></a><span class="st">  segmentation attepmts over the Berlin weather data set&quot;</span></span>
+<span id="cb4-384"><a href="support-code.html#cb4-384"></a>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">column_spec</span>(<span class="dv">2</span>, <span class="dt">width=</span><span class="st">&quot;15em&quot;</span>)</span>
+<span id="cb4-385"><a href="support-code.html#cb4-385"></a>rsquared_cost &lt;-<span class="st"> </span><span class="cf">function</span> (data) {</span>
+<span id="cb4-386"><a href="support-code.html#cb4-386"></a>  <span class="kw">as_tibble</span>(<span class="kw">t</span>(data)) <span class="op">%&gt;%</span></span>
+<span id="cb4-387"><a href="support-code.html#cb4-387"></a><span class="st">    </span><span class="kw">rowid_to_column</span>() <span class="op">%&gt;%</span></span>
+<span id="cb4-388"><a href="support-code.html#cb4-388"></a><span class="st">    </span><span class="kw">gather</span>(station, temperature, <span class="op">-</span>rowid) <span class="op">%&gt;%</span></span>
+<span id="cb4-389"><a href="support-code.html#cb4-389"></a><span class="st">    </span><span class="kw">with</span>(<span class="kw">lm</span>(temperature <span class="op">~</span><span class="st"> </span>rowid)) <span class="op">%&gt;%</span></span>
+<span id="cb4-390"><a href="support-code.html#cb4-390"></a><span class="st">    </span>summary <span class="op">%&gt;%</span></span>
+<span id="cb4-391"><a href="support-code.html#cb4-391"></a><span class="st">    </span>.<span class="op">$</span>adj.r.squared <span class="op">%&gt;%</span></span>
+<span id="cb4-392"><a href="support-code.html#cb4-392"></a><span class="st">    </span>{ <span class="op">-</span>. }</span>
+<span id="cb4-393"><a href="support-code.html#cb4-393"></a>}</span>
+<span id="cb4-394"><a href="support-code.html#cb4-394"></a></span>
+<span id="cb4-395"><a href="support-code.html#cb4-395"></a><span class="kw">tibble</span>(</span>
+<span id="cb4-396"><a href="support-code.html#cb4-396"></a>  <span class="st">`</span><span class="dt">Small Size</span><span class="st">`</span>=<span class="kw">rsquared_cost</span>(berlin[, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]),</span>
+<span id="cb4-397"><a href="support-code.html#cb4-397"></a>  <span class="st">`</span><span class="dt">Medium Size</span><span class="st">`</span>=<span class="kw">rsquared_cost</span>(berlin[, <span class="dv">1</span><span class="op">:</span><span class="dv">150</span>]),</span>
+<span id="cb4-398"><a href="support-code.html#cb4-398"></a>  <span class="st">`</span><span class="dt">Large Size</span><span class="st">`</span>=<span class="kw">rsquared_cost</span>(berlin)</span>
+<span id="cb4-399"><a href="support-code.html#cb4-399"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb4-400"><a href="support-code.html#cb4-400"></a><span class="st">  </span><span class="kw">kable</span>(</span>
+<span id="cb4-401"><a href="support-code.html#cb4-401"></a>    <span class="dt">caption=</span><span class="st">&quot;Sample values of the R-squared</span></span>
+<span id="cb4-402"><a href="support-code.html#cb4-402"></a><span class="st">    cost function for different sizes of segment</span></span>
+<span id="cb4-403"><a href="support-code.html#cb4-403"></a><span class="st">    candidates&quot;</span></span>
+<span id="cb4-404"><a href="support-code.html#cb4-404"></a>  )</span>
+<span id="cb4-405"><a href="support-code.html#cb4-405"></a>penalized_cost &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
+<span id="cb4-406"><a href="support-code.html#cb4-406"></a>  berlin,</span>
+<span id="cb4-407"><a href="support-code.html#cb4-407"></a>  <span class="dt">cost =</span> rsquared_cost</span>
+<span id="cb4-408"><a href="support-code.html#cb4-408"></a>)</span>
+<span id="cb4-409"><a href="support-code.html#cb4-409"></a>results &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-410"><a href="support-code.html#cb4-410"></a>  berlin,</span>
+<span id="cb4-411"><a href="support-code.html#cb4-411"></a>  <span class="dt">cost =</span> penalized_cost,</span>
+<span id="cb4-412"><a href="support-code.html#cb4-412"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-413"><a href="support-code.html#cb4-413"></a>)</span>
+<span id="cb4-414"><a href="support-code.html#cb4-414"></a></span>
+<span id="cb4-415"><a href="support-code.html#cb4-415"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-416"><a href="support-code.html#cb4-416"></a>  results,</span>
+<span id="cb4-417"><a href="support-code.html#cb4-417"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-418"><a href="support-code.html#cb4-418"></a><span class="st">    using an auto-penalized R-squared cost function over</span></span>
+<span id="cb4-419"><a href="support-code.html#cb4-419"></a><span class="st">    Berlin data&quot;</span></span>
+<span id="cb4-420"><a href="support-code.html#cb4-420"></a>)</span>
+<span id="cb4-421"><a href="support-code.html#cb4-421"></a><span class="kw">plot_results</span>(results, berlin)</span>
+<span id="cb4-422"><a href="support-code.html#cb4-422"></a>penalized_cost &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
+<span id="cb4-423"><a href="support-code.html#cb4-423"></a>  berlin,</span>
+<span id="cb4-424"><a href="support-code.html#cb4-424"></a>  <span class="dt">cost =</span> rsquared_cost,</span>
+<span id="cb4-425"><a href="support-code.html#cb4-425"></a>  <span class="dt">small_segment_penalty =</span> <span class="fl">1.5</span></span>
+<span id="cb4-426"><a href="support-code.html#cb4-426"></a>)</span>
+<span id="cb4-427"><a href="support-code.html#cb4-427"></a>results &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-428"><a href="support-code.html#cb4-428"></a>  berlin,</span>
+<span id="cb4-429"><a href="support-code.html#cb4-429"></a>  <span class="dt">cost =</span> penalized_cost,</span>
+<span id="cb4-430"><a href="support-code.html#cb4-430"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-431"><a href="support-code.html#cb4-431"></a>)</span>
+<span id="cb4-432"><a href="support-code.html#cb4-432"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-433"><a href="support-code.html#cb4-433"></a>  results,</span>
+<span id="cb4-434"><a href="support-code.html#cb4-434"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-435"><a href="support-code.html#cb4-435"></a><span class="st">    using an adjusted penalized R-squared cost</span></span>
+<span id="cb4-436"><a href="support-code.html#cb4-436"></a><span class="st">    function over Berlin data&quot;</span></span>
+<span id="cb4-437"><a href="support-code.html#cb4-437"></a>)</span>
+<span id="cb4-438"><a href="support-code.html#cb4-438"></a><span class="kw">plot_results</span>(results, berlin)</span>
+<span id="cb4-439"><a href="support-code.html#cb4-439"></a>sub_berlin &lt;-<span class="st"> </span>berlin[, <span class="dv">1</span><span class="op">:</span><span class="dv">547</span>]</span>
+<span id="cb4-440"><a href="support-code.html#cb4-440"></a>penalized_cost &lt;-<span class="st"> </span><span class="kw">auto_penalize</span>(</span>
+<span id="cb4-441"><a href="support-code.html#cb4-441"></a>  sub_berlin,</span>
+<span id="cb4-442"><a href="support-code.html#cb4-442"></a>  <span class="dt">cost =</span> rsquared_cost</span>
+<span id="cb4-443"><a href="support-code.html#cb4-443"></a>)</span>
+<span id="cb4-444"><a href="support-code.html#cb4-444"></a>results &lt;-<span class="st"> </span><span class="kw">segment</span>(</span>
+<span id="cb4-445"><a href="support-code.html#cb4-445"></a>  sub_berlin,</span>
+<span id="cb4-446"><a href="support-code.html#cb4-446"></a>  <span class="dt">cost =</span> penalized_cost,</span>
+<span id="cb4-447"><a href="support-code.html#cb4-447"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span></span>
+<span id="cb4-448"><a href="support-code.html#cb4-448"></a>)</span>
+<span id="cb4-449"><a href="support-code.html#cb4-449"></a><span class="kw">print_results_table</span>(</span>
+<span id="cb4-450"><a href="support-code.html#cb4-450"></a>  results,</span>
+<span id="cb4-451"><a href="support-code.html#cb4-451"></a>  <span class="dt">caption=</span><span class="st">&quot;Results of the segmentation algorithm</span></span>
+<span id="cb4-452"><a href="support-code.html#cb4-452"></a><span class="st">    using an auto-penalized R-squared cost</span></span>
+<span id="cb4-453"><a href="support-code.html#cb4-453"></a><span class="st">    function over a subset of Berlin data&quot;</span></span>
+<span id="cb4-454"><a href="support-code.html#cb4-454"></a>)</span>
+<span id="cb4-455"><a href="support-code.html#cb4-455"></a><span class="kw">plot_results</span>(results, sub_berlin)</span>
+<span id="cb4-456"><a href="support-code.html#cb4-456"></a><span class="kw">source</span>(<span class="st">&quot;helper.R&quot;</span>)</span>
+<span id="cb4-457"><a href="support-code.html#cb4-457"></a><span class="kw">library</span>(microbenchmark)</span>
+<span id="cb4-458"><a href="support-code.html#cb4-458"></a>data &lt;-<span class="st"> </span><span class="kw">makeRandom</span>(<span class="dv">20</span>, <span class="dv">100</span>)</span>
+<span id="cb4-459"><a href="support-code.html#cb4-459"></a></span>
+<span id="cb4-460"><a href="support-code.html#cb4-460"></a>bench &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</span>
 <span id="cb4-461"><a href="support-code.html#cb4-461"></a>  <span class="kw">segment</span>(data,</span>
-<span id="cb4-462"><a href="support-code.html#cb4-462"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">r_multivariate</span>(x),</span>
+<span id="cb4-462"><a href="support-code.html#cb4-462"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
 <span id="cb4-463"><a href="support-code.html#cb4-463"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>),</span>
 <span id="cb4-464"><a href="support-code.html#cb4-464"></a>  <span class="kw">segment</span>(data,</span>
-<span id="cb4-465"><a href="support-code.html#cb4-465"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
-<span id="cb4-466"><a href="support-code.html#cb4-466"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>),</span>
+<span id="cb4-465"><a href="support-code.html#cb4-465"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">r_multivariate</span>(x),</span>
+<span id="cb4-466"><a href="support-code.html#cb4-466"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>),</span>
 <span id="cb4-467"><a href="support-code.html#cb4-467"></a>  <span class="kw">segment</span>(data,</span>
-<span id="cb4-468"><a href="support-code.html#cb4-468"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">r_multivariate</span>(x),</span>
+<span id="cb4-468"><a href="support-code.html#cb4-468"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
 <span id="cb4-469"><a href="support-code.html#cb4-469"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>),</span>
-<span id="cb4-470"><a href="support-code.html#cb4-470"></a>  <span class="dt">times =</span> <span class="dv">1</span></span>
-<span id="cb4-471"><a href="support-code.html#cb4-471"></a>)</span>
-<span id="cb4-472"><a href="support-code.html#cb4-472"></a></span>
-<span id="cb4-473"><a href="support-code.html#cb4-473"></a><span class="kw">print_benchmark</span>(</span>
-<span id="cb4-474"><a href="support-code.html#cb4-474"></a>  bench,</span>
-<span id="cb4-475"><a href="support-code.html#cb4-475"></a>  <span class="dt">caption=</span><span class="st">&quot;Execution time comparison</span></span>
-<span id="cb4-476"><a href="support-code.html#cb4-476"></a><span class="st">    between native C++ and interpreted R code&quot;</span></span>
-<span id="cb4-477"><a href="support-code.html#cb4-477"></a>)</span>
-<span id="cb4-478"><a href="support-code.html#cb4-478"></a>data &lt;-<span class="st"> </span><span class="kw">makeRandom</span>(<span class="dv">100</span>, <span class="dv">10</span>)</span>
-<span id="cb4-479"><a href="support-code.html#cb4-479"></a>doMC<span class="op">::</span><span class="kw">registerDoMC</span>(<span class="dv">4</span>)</span>
-<span id="cb4-480"><a href="support-code.html#cb4-480"></a>bench &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</span>
-<span id="cb4-481"><a href="support-code.html#cb4-481"></a>  <span class="kw">segment</span>(data,</span>
-<span id="cb4-482"><a href="support-code.html#cb4-482"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
-<span id="cb4-483"><a href="support-code.html#cb4-483"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
-<span id="cb4-484"><a href="support-code.html#cb4-484"></a>          <span class="dt">allow_parallel =</span> <span class="ot">FALSE</span>),</span>
-<span id="cb4-485"><a href="support-code.html#cb4-485"></a>  <span class="kw">segment</span>(data,</span>
-<span id="cb4-486"><a href="support-code.html#cb4-486"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
-<span id="cb4-487"><a href="support-code.html#cb4-487"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
-<span id="cb4-488"><a href="support-code.html#cb4-488"></a>          <span class="dt">allow_parallel =</span> <span class="ot">TRUE</span>),</span>
-<span id="cb4-489"><a href="support-code.html#cb4-489"></a>  <span class="kw">segment</span>(data,</span>
-<span id="cb4-490"><a href="support-code.html#cb4-490"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
-<span id="cb4-491"><a href="support-code.html#cb4-491"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>,</span>
-<span id="cb4-492"><a href="support-code.html#cb4-492"></a>          <span class="dt">allow_parallel =</span> <span class="ot">FALSE</span>),</span>
-<span id="cb4-493"><a href="support-code.html#cb4-493"></a>  <span class="kw">segment</span>(data,</span>
-<span id="cb4-494"><a href="support-code.html#cb4-494"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
-<span id="cb4-495"><a href="support-code.html#cb4-495"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>,</span>
-<span id="cb4-496"><a href="support-code.html#cb4-496"></a>          <span class="dt">allow_parallel =</span> <span class="ot">TRUE</span>),</span>
-<span id="cb4-497"><a href="support-code.html#cb4-497"></a>  <span class="dt">times =</span> <span class="dv">1</span></span>
-<span id="cb4-498"><a href="support-code.html#cb4-498"></a>)</span>
-<span id="cb4-499"><a href="support-code.html#cb4-499"></a><span class="kw">print_benchmark</span>(</span>
-<span id="cb4-500"><a href="support-code.html#cb4-500"></a>  bench,</span>
-<span id="cb4-501"><a href="support-code.html#cb4-501"></a>  <span class="dt">caption=</span><span class="st">&quot;Execution time comparison</span></span>
-<span id="cb4-502"><a href="support-code.html#cb4-502"></a><span class="st">    between parallel and single-threaded computation</span></span>
-<span id="cb4-503"><a href="support-code.html#cb4-503"></a><span class="st">    with a data set of 100 samples and 10 columns&quot;</span></span>
-<span id="cb4-504"><a href="support-code.html#cb4-504"></a>)</span>
-<span id="cb4-505"><a href="support-code.html#cb4-505"></a>data &lt;-<span class="st"> </span><span class="kw">makeRandom</span>(<span class="dv">5</span>, <span class="dv">100</span>)</span>
-<span id="cb4-506"><a href="support-code.html#cb4-506"></a>doMC<span class="op">::</span><span class="kw">registerDoMC</span>(<span class="dv">4</span>)</span>
-<span id="cb4-507"><a href="support-code.html#cb4-507"></a>bench &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</span>
-<span id="cb4-508"><a href="support-code.html#cb4-508"></a>  <span class="kw">segment</span>(data,</span>
-<span id="cb4-509"><a href="support-code.html#cb4-509"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
-<span id="cb4-510"><a href="support-code.html#cb4-510"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
-<span id="cb4-511"><a href="support-code.html#cb4-511"></a>          <span class="dt">allow_parallel =</span> <span class="ot">FALSE</span>),</span>
-<span id="cb4-512"><a href="support-code.html#cb4-512"></a>  <span class="kw">segment</span>(data,</span>
-<span id="cb4-513"><a href="support-code.html#cb4-513"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
-<span id="cb4-514"><a href="support-code.html#cb4-514"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
-<span id="cb4-515"><a href="support-code.html#cb4-515"></a>          <span class="dt">allow_parallel =</span> <span class="ot">TRUE</span>),</span>
-<span id="cb4-516"><a href="support-code.html#cb4-516"></a>  <span class="kw">segment</span>(data,</span>
-<span id="cb4-517"><a href="support-code.html#cb4-517"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
-<span id="cb4-518"><a href="support-code.html#cb4-518"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>,</span>
-<span id="cb4-519"><a href="support-code.html#cb4-519"></a>          <span class="dt">allow_parallel =</span> <span class="ot">FALSE</span>),</span>
-<span id="cb4-520"><a href="support-code.html#cb4-520"></a>  <span class="kw">segment</span>(data,</span>
-<span id="cb4-521"><a href="support-code.html#cb4-521"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
-<span id="cb4-522"><a href="support-code.html#cb4-522"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>,</span>
-<span id="cb4-523"><a href="support-code.html#cb4-523"></a>          <span class="dt">allow_parallel =</span> <span class="ot">TRUE</span>),</span>
-<span id="cb4-524"><a href="support-code.html#cb4-524"></a>  <span class="dt">times =</span> <span class="dv">1</span></span>
-<span id="cb4-525"><a href="support-code.html#cb4-525"></a>)</span>
-<span id="cb4-526"><a href="support-code.html#cb4-526"></a></span>
-<span id="cb4-527"><a href="support-code.html#cb4-527"></a><span class="kw">print_benchmark</span>(</span>
-<span id="cb4-528"><a href="support-code.html#cb4-528"></a>  bench,</span>
-<span id="cb4-529"><a href="support-code.html#cb4-529"></a>  <span class="dt">caption=</span><span class="st">&quot;Execution time comparison</span></span>
-<span id="cb4-530"><a href="support-code.html#cb4-530"></a><span class="st">    between parallel and single-threaded computation</span></span>
-<span id="cb4-531"><a href="support-code.html#cb4-531"></a><span class="st">    with a data set of 5 samples and 100 columns&quot;</span></span>
-<span id="cb4-532"><a href="support-code.html#cb4-532"></a>)</span>
-<span id="cb4-533"><a href="support-code.html#cb4-533"></a><span class="kw">install.packages</span>(<span class="st">&quot;segmentr&quot;</span>)</span>
-<span id="cb4-534"><a href="support-code.html#cb4-534"></a><span class="kw">library</span>(<span class="st">&quot;segmentr&quot;</span>)</span>
-<span id="cb4-535"><a href="support-code.html#cb4-535"></a></span>
-<span id="cb4-536"><a href="support-code.html#cb4-536"></a>data &lt;-<span class="st"> </span><span class="kw">rbind</span>(</span>
-<span id="cb4-537"><a href="support-code.html#cb4-537"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1023</span>, <span class="dv">134521</span>, <span class="dv">12324</span>),</span>
-<span id="cb4-538"><a href="support-code.html#cb4-538"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">-20941</span>, <span class="dv">1423</span>, <span class="dv">14334</span>),</span>
-<span id="cb4-539"><a href="support-code.html#cb4-539"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2398439</span>, <span class="dv">1254</span>, <span class="dv">146324</span>),</span>
-<span id="cb4-540"><a href="support-code.html#cb4-540"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">24134</span>, <span class="dv">1</span>, <span class="dv">15323</span>),</span>
-<span id="cb4-541"><a href="support-code.html#cb4-541"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">-231</span>, <span class="dv">1256</span>, <span class="dv">13445</span>),</span>
-<span id="cb4-542"><a href="support-code.html#cb4-542"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">10000</span>, <span class="dv">1121</span>, <span class="dv">331</span>)</span>
-<span id="cb4-543"><a href="support-code.html#cb4-543"></a>)</span>
-<span id="cb4-544"><a href="support-code.html#cb4-544"></a></span>
-<span id="cb4-545"><a href="support-code.html#cb4-545"></a><span class="kw">segment</span>(</span>
-<span id="cb4-546"><a href="support-code.html#cb4-546"></a>  data,</span>
-<span id="cb4-547"><a href="support-code.html#cb4-547"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
-<span id="cb4-548"><a href="support-code.html#cb4-548"></a>  <span class="dt">cost =</span> <span class="cf">function</span>(X) <span class="op">-</span><span class="kw">multivariate</span>(X) <span class="op">+</span><span class="st"> </span><span class="fl">0.01</span><span class="op">*</span><span class="kw">exp</span>(<span class="kw">ncol</span>(X))</span>
-<span id="cb4-549"><a href="support-code.html#cb4-549"></a>)</span>
-<span id="cb4-550"><a href="support-code.html#cb4-550"></a><span class="kw">vignette</span>(<span class="st">&quot;segmentr&quot;</span>)</span></code></pre></div>
+<span id="cb4-470"><a href="support-code.html#cb4-470"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-471"><a href="support-code.html#cb4-471"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">r_multivariate</span>(x),</span>
+<span id="cb4-472"><a href="support-code.html#cb4-472"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>),</span>
+<span id="cb4-473"><a href="support-code.html#cb4-473"></a>  <span class="dt">times =</span> <span class="dv">1</span></span>
+<span id="cb4-474"><a href="support-code.html#cb4-474"></a>)</span>
+<span id="cb4-475"><a href="support-code.html#cb4-475"></a></span>
+<span id="cb4-476"><a href="support-code.html#cb4-476"></a><span class="kw">print_benchmark</span>(</span>
+<span id="cb4-477"><a href="support-code.html#cb4-477"></a>  bench,</span>
+<span id="cb4-478"><a href="support-code.html#cb4-478"></a>  <span class="dt">caption=</span><span class="st">&quot;Execution time comparison</span></span>
+<span id="cb4-479"><a href="support-code.html#cb4-479"></a><span class="st">    between native C++ and interpreted R code&quot;</span></span>
+<span id="cb4-480"><a href="support-code.html#cb4-480"></a>)</span>
+<span id="cb4-481"><a href="support-code.html#cb4-481"></a>data &lt;-<span class="st"> </span><span class="kw">makeRandom</span>(<span class="dv">100</span>, <span class="dv">10</span>)</span>
+<span id="cb4-482"><a href="support-code.html#cb4-482"></a>doMC<span class="op">::</span><span class="kw">registerDoMC</span>(<span class="dv">4</span>)</span>
+<span id="cb4-483"><a href="support-code.html#cb4-483"></a>bench &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</span>
+<span id="cb4-484"><a href="support-code.html#cb4-484"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-485"><a href="support-code.html#cb4-485"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
+<span id="cb4-486"><a href="support-code.html#cb4-486"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
+<span id="cb4-487"><a href="support-code.html#cb4-487"></a>          <span class="dt">allow_parallel =</span> <span class="ot">FALSE</span>),</span>
+<span id="cb4-488"><a href="support-code.html#cb4-488"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-489"><a href="support-code.html#cb4-489"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
+<span id="cb4-490"><a href="support-code.html#cb4-490"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
+<span id="cb4-491"><a href="support-code.html#cb4-491"></a>          <span class="dt">allow_parallel =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb4-492"><a href="support-code.html#cb4-492"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-493"><a href="support-code.html#cb4-493"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
+<span id="cb4-494"><a href="support-code.html#cb4-494"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>,</span>
+<span id="cb4-495"><a href="support-code.html#cb4-495"></a>          <span class="dt">allow_parallel =</span> <span class="ot">FALSE</span>),</span>
+<span id="cb4-496"><a href="support-code.html#cb4-496"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-497"><a href="support-code.html#cb4-497"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
+<span id="cb4-498"><a href="support-code.html#cb4-498"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>,</span>
+<span id="cb4-499"><a href="support-code.html#cb4-499"></a>          <span class="dt">allow_parallel =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb4-500"><a href="support-code.html#cb4-500"></a>  <span class="dt">times =</span> <span class="dv">1</span></span>
+<span id="cb4-501"><a href="support-code.html#cb4-501"></a>)</span>
+<span id="cb4-502"><a href="support-code.html#cb4-502"></a><span class="kw">print_benchmark</span>(</span>
+<span id="cb4-503"><a href="support-code.html#cb4-503"></a>  bench,</span>
+<span id="cb4-504"><a href="support-code.html#cb4-504"></a>  <span class="dt">caption=</span><span class="st">&quot;Execution time comparison</span></span>
+<span id="cb4-505"><a href="support-code.html#cb4-505"></a><span class="st">    between parallel and single-threaded computation</span></span>
+<span id="cb4-506"><a href="support-code.html#cb4-506"></a><span class="st">    with a data set of 100 samples and 10 columns&quot;</span></span>
+<span id="cb4-507"><a href="support-code.html#cb4-507"></a>)</span>
+<span id="cb4-508"><a href="support-code.html#cb4-508"></a>data &lt;-<span class="st"> </span><span class="kw">makeRandom</span>(<span class="dv">5</span>, <span class="dv">100</span>)</span>
+<span id="cb4-509"><a href="support-code.html#cb4-509"></a>doMC<span class="op">::</span><span class="kw">registerDoMC</span>(<span class="dv">4</span>)</span>
+<span id="cb4-510"><a href="support-code.html#cb4-510"></a>bench &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</span>
+<span id="cb4-511"><a href="support-code.html#cb4-511"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-512"><a href="support-code.html#cb4-512"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
+<span id="cb4-513"><a href="support-code.html#cb4-513"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
+<span id="cb4-514"><a href="support-code.html#cb4-514"></a>          <span class="dt">allow_parallel =</span> <span class="ot">FALSE</span>),</span>
+<span id="cb4-515"><a href="support-code.html#cb4-515"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-516"><a href="support-code.html#cb4-516"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
+<span id="cb4-517"><a href="support-code.html#cb4-517"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
+<span id="cb4-518"><a href="support-code.html#cb4-518"></a>          <span class="dt">allow_parallel =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb4-519"><a href="support-code.html#cb4-519"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-520"><a href="support-code.html#cb4-520"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
+<span id="cb4-521"><a href="support-code.html#cb4-521"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>,</span>
+<span id="cb4-522"><a href="support-code.html#cb4-522"></a>          <span class="dt">allow_parallel =</span> <span class="ot">FALSE</span>),</span>
+<span id="cb4-523"><a href="support-code.html#cb4-523"></a>  <span class="kw">segment</span>(data,</span>
+<span id="cb4-524"><a href="support-code.html#cb4-524"></a>          <span class="dt">cost =</span> <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">multivariate</span>(x),</span>
+<span id="cb4-525"><a href="support-code.html#cb4-525"></a>          <span class="dt">algorithm =</span> <span class="st">&quot;hierarchical&quot;</span>,</span>
+<span id="cb4-526"><a href="support-code.html#cb4-526"></a>          <span class="dt">allow_parallel =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb4-527"><a href="support-code.html#cb4-527"></a>  <span class="dt">times =</span> <span class="dv">1</span></span>
+<span id="cb4-528"><a href="support-code.html#cb4-528"></a>)</span>
+<span id="cb4-529"><a href="support-code.html#cb4-529"></a></span>
+<span id="cb4-530"><a href="support-code.html#cb4-530"></a><span class="kw">print_benchmark</span>(</span>
+<span id="cb4-531"><a href="support-code.html#cb4-531"></a>  bench,</span>
+<span id="cb4-532"><a href="support-code.html#cb4-532"></a>  <span class="dt">caption=</span><span class="st">&quot;Execution time comparison</span></span>
+<span id="cb4-533"><a href="support-code.html#cb4-533"></a><span class="st">    between parallel and single-threaded computation</span></span>
+<span id="cb4-534"><a href="support-code.html#cb4-534"></a><span class="st">    with a data set of 5 samples and 100 columns&quot;</span></span>
+<span id="cb4-535"><a href="support-code.html#cb4-535"></a>)</span>
+<span id="cb4-536"><a href="support-code.html#cb4-536"></a><span class="kw">install.packages</span>(<span class="st">&quot;segmentr&quot;</span>)</span>
+<span id="cb4-537"><a href="support-code.html#cb4-537"></a><span class="kw">library</span>(<span class="st">&quot;segmentr&quot;</span>)</span>
+<span id="cb4-538"><a href="support-code.html#cb4-538"></a></span>
+<span id="cb4-539"><a href="support-code.html#cb4-539"></a>data &lt;-<span class="st"> </span><span class="kw">rbind</span>(</span>
+<span id="cb4-540"><a href="support-code.html#cb4-540"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1023</span>, <span class="dv">134521</span>, <span class="dv">12324</span>),</span>
+<span id="cb4-541"><a href="support-code.html#cb4-541"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">-20941</span>, <span class="dv">1423</span>, <span class="dv">14334</span>),</span>
+<span id="cb4-542"><a href="support-code.html#cb4-542"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2398439</span>, <span class="dv">1254</span>, <span class="dv">146324</span>),</span>
+<span id="cb4-543"><a href="support-code.html#cb4-543"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">24134</span>, <span class="dv">1</span>, <span class="dv">15323</span>),</span>
+<span id="cb4-544"><a href="support-code.html#cb4-544"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">-231</span>, <span class="dv">1256</span>, <span class="dv">13445</span>),</span>
+<span id="cb4-545"><a href="support-code.html#cb4-545"></a>  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">10000</span>, <span class="dv">1121</span>, <span class="dv">331</span>)</span>
+<span id="cb4-546"><a href="support-code.html#cb4-546"></a>)</span>
+<span id="cb4-547"><a href="support-code.html#cb4-547"></a></span>
+<span id="cb4-548"><a href="support-code.html#cb4-548"></a><span class="kw">segment</span>(</span>
+<span id="cb4-549"><a href="support-code.html#cb4-549"></a>  data,</span>
+<span id="cb4-550"><a href="support-code.html#cb4-550"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
+<span id="cb4-551"><a href="support-code.html#cb4-551"></a>  <span class="dt">cost =</span> <span class="cf">function</span>(X) <span class="op">-</span><span class="kw">multivariate</span>(X) <span class="op">+</span><span class="st"> </span><span class="fl">0.01</span><span class="op">*</span><span class="kw">exp</span>(<span class="kw">ncol</span>(X))</span>
+<span id="cb4-552"><a href="support-code.html#cb4-552"></a>)</span>
+<span id="cb4-553"><a href="support-code.html#cb4-553"></a><span class="kw">vignette</span>(<span class="st">&quot;segmentr&quot;</span>)</span></code></pre></div>
 
 <div id="refs" class="references">
 <div>
