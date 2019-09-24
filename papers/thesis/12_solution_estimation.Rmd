@@ -59,7 +59,7 @@ However, that doesn't hold for many situations, as it will be seen in more
 detail in the next chapters. So, the usage of this algorithm should be
 considered with care.
 
-## Hybrid algorithm
+## Hybrid Algorithm
 
 The hybrid algorithm is a modified version of the hierarchical algorithm, in
 which it will start searching the segments using the hierarchical algorithm,

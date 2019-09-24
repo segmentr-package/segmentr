@@ -1,4 +1,4 @@
-# Considerations on performance
+# Considerations on Performance
 
 ```{r}
 source("helper.R")
@@ -7,7 +7,7 @@ source("helper.R")
 This code shows a handful of attempts that were made in actually trying to execution
 time of the algorithms implemented by the package.
 
-## Benchmark the code
+## Benchmark the Code
 
 The package `microbenchmark` allows us to execute the code and compare different run-times.
 Therefore it's going to be used in this package to compare the performance of different

@@ -4,7 +4,7 @@ In this chapter, we explain the problem by providing definitions of concepts and
 build equations that gradually help us explain the problem and make the case
 for our solution.
 
-## A sequence of random variables and its segments
+## A Sequence of Random Variables and Its Segments
 
 As shown in defined in \@ref(eq:definerandomvector), let
 $X=(X_1, \dots , X_m)$, be a vector of random variables whose elements $X_j$ belong
@@ -45,7 +45,7 @@ S_k = X_{c_k}, \dots, X_{c_{k+1}-1}
 (\#eq:definesegments)
 \end{equation}
 
-## The segmentation problem
+## The Segmentation Problem
 
 As defined in \@ref(eq:definematrixd), let $D$ be a $n \times m$ matrix with
 elements $x_{i,j}$, with row and column indices $i$ and $j$, respectively. Each
@@ -117,7 +117,7 @@ well, e.g. segments with changes in the mean of columns, segments with
 different linear regression parameters. These cases are discussed in
 \@ref(simulations) and \@ref(real-data-examples).
 
-## The Hausdorff distance
+## The Hausdorff Distance
 
 As the solution estimated by the segmentation function is a set of points, a
 measure is made necessary to compare the estimations provided by the different

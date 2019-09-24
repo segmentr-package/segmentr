@@ -27,7 +27,7 @@ library(knitr)
 library(kableExtra)
 ```
 
-## Understanding the data
+## Understanding the Data
 
 The `berlin` data set, provided in this package, contains daily temperature measurements
 from `r nrow(berlin)` weather stations in Berlin for every day in the years 2010 and 2011,
@@ -87,7 +87,7 @@ print_results_table(
 )
 ```
 
-## Building the cost function
+## Building the Cost Function
 
 An adequate cost function should be able to rank a given set of possible segments and pick
 the best one given the evaluation criteria. Since the goal is to select segments with a good
@@ -170,7 +170,7 @@ short segments, as they usually have smaller residual error. So, to not get
 segments too short or too long, it's necessary to penalize the cost
 function for either extremely short or extremely long lengths.
 
-## Penalizing the cost function
+## Penalizing the Cost Function
 
 To penalize a cost function in the `segmentr` context is to increase the return value of the cost
 function whenever unwanted segments are provided as an input. Typically, this involves
@@ -297,7 +297,7 @@ is quite prohibitive to run the computation on the entire data set. So we can ma
 tolerable by reducing the granularity of the data, getting the monthly averages for each of the
 measurement stations.
 
-## Reducing granularity
+## Reducing Granularity
 
 The data set needs to be resampled to represent the monthly weather averages. It is done by
 computing the average temperature for each combination of the month and weather station. With the granularity reduction,
@@ -407,7 +407,7 @@ With the exact solution, made possible with the granularity reduction, we
 noticed the data set is segmented closer to what the ideal solution would be,
 as the algorithm as able to evaluate all of the possibilities.
 
-## Accuracy of estimates for the Berlin dataset
+## Accuracy of Estimates for the Berlin Data Set
 
 In this chapter, the data set of weather temperatures in
 Berlin was presented, and there was a walkthrough on different ways to use
@@ -471,7 +471,7 @@ the progress that can be observed in gradually in Figures
 \@ref(fig:berlin-non-penalized), \@ref(fig:berlin-auto-penalized),
 \@ref(fig:berlin-adjusted-penalized) and \@ref(fig:plot-results-rescaled).
 
-## A non-usual cost function
+## A Non-Usual Cost Function
 
 Notice the only requirement on the cost function is for it to be able to rank segments in
 a desired manner. Therefore, there's freedom to pick a non-conventional

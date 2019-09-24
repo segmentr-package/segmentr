@@ -133,7 +133,7 @@ segment(D_example,
       multivariate cost")
 ```
 
-## Segments with similar averages
+## Segments with Similar Averages
 
 [@homozygosity] describes a process on how to find windows of contiguous
 homozygosity, i.e. segments in the genetic data in which the alleles are of the
@@ -239,7 +239,7 @@ segment(
 ```
 
 
-## Accuracy of algorithms using different algorithms
+## Accuracy of Algorithms Using Different Algorithms
 
 Given different solutions obtained by the `segment` function, it's often
 necessary to compare them with each other. For that, the Hausdorff distance,

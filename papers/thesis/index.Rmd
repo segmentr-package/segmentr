@@ -41,12 +41,12 @@ abstract-text: |
   are exemplified in this work.
 
   This work also describes the search algorithms implemented by the
-  package (exact, hierarchical and mixed), each one having characteristics of
-  performance and quality of the results distinct from the others.
+  package (exact, hierarchical and mixed), each one having specific characteristics of
+  performance and quality of the results.
 
   Finally, we explore some use-cases for the package, as well as some
   attempts at performance optimization, exploring the implementation of
-  critical sections of code in low-level programming languages, as try to
+  critical sections of code in low-level programming languages, as well as try to
   make use of parallel computing.
 
   \noindent \textbf{Keywords:} segment, change-point, cost, R-package.
