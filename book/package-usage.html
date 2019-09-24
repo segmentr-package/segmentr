@@ -143,24 +143,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>4</b> Simulations</a><ul>
 <li class="chapter" data-level="4.1" data-path="simulations.html"><a href="simulations.html#segments-of-independent-variables"><i class="fa fa-check"></i><b>4.1</b> Segments of Independent Variables</a></li>
 <li class="chapter" data-level="4.2" data-path="simulations.html"><a href="simulations.html#segments-with-similar-averages"><i class="fa fa-check"></i><b>4.2</b> Segments with similar averages</a></li>
+<li class="chapter" data-level="4.3" data-path="simulations.html"><a href="simulations.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>4.3</b> Accuracy of algorithms using different algorithms</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="real-data-examples.html"><a href="real-data-examples.html"><i class="fa fa-check"></i><b>5</b> Real Data Examples</a><ul>
 <li class="chapter" data-level="5.1" data-path="real-data-examples.html"><a href="real-data-examples.html#understanding-the-data"><i class="fa fa-check"></i><b>5.1</b> Understanding the data</a></li>
-<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-likelihood"><i class="fa fa-check"></i><b>5.2</b> Building the likelihood</a></li>
-<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-likelihood-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the likelihood function</a></li>
+<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-cost-function"><i class="fa fa-check"></i><b>5.2</b> Building the cost function</a></li>
+<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-cost-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the cost function</a></li>
 <li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing granularity</a></li>
-<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-likelihood-function"><i class="fa fa-check"></i><b>5.5</b> A non-usual likelihood function</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>5.5</b> Accuracy of estimates for the Berlin dataset</a></li>
+<li class="chapter" data-level="5.6" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-cost-function"><i class="fa fa-check"></i><b>5.6</b> A non-usual cost function</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on performance</a><ul>
 <li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the code</a></li>
 <li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
 <li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html"><i class="fa fa-check"></i><b>7</b> Accuracy of algorithms</a><ul>
-<li class="chapter" data-level="7.1" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>7.1</b> Accuracy of estimates for the Berlin dataset</a></li>
-<li class="chapter" data-level="7.2" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>7.2</b> Accuracy of algorithms using different algorithms</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="package-usage.html"><a href="package-usage.html"><i class="fa fa-check"></i><b>A</b> Package Usage</a><ul>
 <li class="chapter" data-level="A.1" data-path="package-usage.html"><a href="package-usage.html#installation"><i class="fa fa-check"></i><b>A.1</b> Installation</a></li>
@@ -202,8 +200,8 @@ like shown below.</p>
 in which the rows represent different samples and the columns represent the comprehension of the data set
 we wish to segment. The function also accepts a <code>algorithm</code> argument, which can be <code>exact</code>, <code>hierarchical</code>
 or <code>hybrid</code>, that specifies the type of algorithm will be used when exploring the data set. Finally, it’s
-also necessary to specify a <code>likelihood</code> function as argument, as it is used to compare and pick segments
-that are better fit according to the given likelihood’s chosen criteria.</p>
+also necessary to specify a <code>cost</code> function as argument, as it is used to compare and pick segments
+that are better fit according to the given cost’s chosen criteria.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="package-usage.html#cb2-1"></a><span class="kw">library</span>(<span class="st">&quot;segmentr&quot;</span>)</span>
 <span id="cb2-2"><a href="package-usage.html#cb2-2"></a></span>
 <span id="cb2-3"><a href="package-usage.html#cb2-3"></a>data &lt;-<span class="st"> </span><span class="kw">rbind</span>(</span>
@@ -218,7 +216,7 @@ that are better fit according to the given likelihood’s chosen criteria.</p>
 <span id="cb2-12"><a href="package-usage.html#cb2-12"></a><span class="kw">segment</span>(</span>
 <span id="cb2-13"><a href="package-usage.html#cb2-13"></a>  data,</span>
 <span id="cb2-14"><a href="package-usage.html#cb2-14"></a>  <span class="dt">algorithm =</span> <span class="st">&quot;exact&quot;</span>,</span>
-<span id="cb2-15"><a href="package-usage.html#cb2-15"></a>  <span class="dt">likelihood =</span> <span class="cf">function</span>(X) <span class="kw">multivariate</span>(X) <span class="op">-</span><span class="st"> </span><span class="fl">0.01</span><span class="op">*</span><span class="kw">exp</span>(<span class="kw">ncol</span>(X))</span>
+<span id="cb2-15"><a href="package-usage.html#cb2-15"></a>  <span class="dt">cost =</span> <span class="cf">function</span>(X) <span class="op">-</span><span class="kw">multivariate</span>(X) <span class="op">+</span><span class="st"> </span><span class="fl">0.01</span><span class="op">*</span><span class="kw">exp</span>(<span class="kw">ncol</span>(X))</span>
 <span id="cb2-16"><a href="package-usage.html#cb2-16"></a>)</span></code></pre></div>
 <pre><code>## Segments (total of 6):
 ## 

@@ -143,24 +143,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>4</b> Simulations</a><ul>
 <li class="chapter" data-level="4.1" data-path="simulations.html"><a href="simulations.html#segments-of-independent-variables"><i class="fa fa-check"></i><b>4.1</b> Segments of Independent Variables</a></li>
 <li class="chapter" data-level="4.2" data-path="simulations.html"><a href="simulations.html#segments-with-similar-averages"><i class="fa fa-check"></i><b>4.2</b> Segments with similar averages</a></li>
+<li class="chapter" data-level="4.3" data-path="simulations.html"><a href="simulations.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>4.3</b> Accuracy of algorithms using different algorithms</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="real-data-examples.html"><a href="real-data-examples.html"><i class="fa fa-check"></i><b>5</b> Real Data Examples</a><ul>
 <li class="chapter" data-level="5.1" data-path="real-data-examples.html"><a href="real-data-examples.html#understanding-the-data"><i class="fa fa-check"></i><b>5.1</b> Understanding the data</a></li>
-<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-likelihood"><i class="fa fa-check"></i><b>5.2</b> Building the likelihood</a></li>
-<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-likelihood-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the likelihood function</a></li>
+<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-cost-function"><i class="fa fa-check"></i><b>5.2</b> Building the cost function</a></li>
+<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-cost-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the cost function</a></li>
 <li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing granularity</a></li>
-<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-likelihood-function"><i class="fa fa-check"></i><b>5.5</b> A non-usual likelihood function</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>5.5</b> Accuracy of estimates for the Berlin dataset</a></li>
+<li class="chapter" data-level="5.6" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-cost-function"><i class="fa fa-check"></i><b>5.6</b> A non-usual cost function</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on performance</a><ul>
 <li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the code</a></li>
 <li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
 <li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html"><i class="fa fa-check"></i><b>7</b> Accuracy of algorithms</a><ul>
-<li class="chapter" data-level="7.1" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>7.1</b> Accuracy of estimates for the Berlin dataset</a></li>
-<li class="chapter" data-level="7.2" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>7.2</b> Accuracy of algorithms using different algorithms</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="package-usage.html"><a href="package-usage.html"><i class="fa fa-check"></i><b>A</b> Package Usage</a><ul>
 <li class="chapter" data-level="A.1" data-path="package-usage.html"><a href="package-usage.html#installation"><i class="fa fa-check"></i><b>A.1</b> Installation</a></li>
@@ -186,18 +184,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="main-definition" class="section level1">
 <h1><span class="header-section-number">2</span> Main Definition</h1>
-<p>In this chapter we explain the problem by providing definitions of concepts and
+<p>In this chapter, we explain the problem by providing definitions of concepts and
 build equations that gradually help us explain the problem and make the case
 for our solution.</p>
 <div id="a-sequence-of-random-variables-and-its-segments" class="section level2">
 <h2><span class="header-section-number">2.1</span> A sequence of random variables and its segments</h2>
-<p>Let <span class="math inline">\(X\)</span> be a vector of random variables defined in
-<a href="main-definition.html#eq:definerandomvector">(2.1)</a>, in which each <span class="math inline">\(X_j\)</span> belong a set <span class="math inline">\(S\)</span>. The
-equation also shows all random variables <span class="math inline">\(X_j\)</span> have probability distribution
-<span class="math inline">\(F\)</span>, each with parameter <span class="math inline">\(\Theta_j\)</span>, such that <span class="math inline">\(X_j \sim F(\Theta_j)\)</span>. A
-segment is defined as a sequence of indices such that <span class="math inline">\(\Theta_a = \Theta_{a+1} = \dots = \Theta_b\)</span> such that <span class="math inline">\(1 \le a \le b \le m\)</span>, in which <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>
-represent the first and last indices of the segment, respectively. We also define
-a change point <span class="math inline">\(c\)</span> as being an index in which there is a change in the
+<p>As shown in defined in <a href="main-definition.html#eq:definerandomvector">(2.1)</a>, let
+<span class="math inline">\(X=(X_1, \dots , X_m)\)</span>, be a vector of random variables whose elements <span class="math inline">\(X_j\)</span> belong
+to a set <span class="math inline">\(S\)</span>. The equation also shows all random variables <span class="math inline">\(X_j\)</span> have probability
+distribution <span class="math inline">\(F\)</span>, each with parameter <span class="math inline">\(\Theta_j\)</span>, such that <span class="math inline">\(X_j \sim F(\Theta_j)\)</span>. A segment is defined as a sequence of indices for which
+<span class="math inline">\(\Theta_a = \Theta_{a+1} = \dots = \Theta_b\)</span> such that <span class="math inline">\(1 \le a \le b \le m\)</span>, for <span class="math inline">\(a\)</span> and
+<span class="math inline">\(b\)</span> as the first and last indices of the segment, respectively. We also define
+a change point <span class="math inline">\(c\)</span> as being an index for which there is a change in the
 probability distribution parameters, i.e. <span class="math inline">\(\Theta_{c-1} \ne \Theta_c\)</span>, for <span class="math inline">\(c \ge 2\)</span>.</p>
 <p><span class="math display" id="eq:definerandomvector">\[\begin{equation}
 \begin{gathered}
@@ -225,17 +223,18 @@ S_k = X_{c_k}, \dots, X_{c_{k+1}-1}
 </div>
 <div id="the-segmentation-problem" class="section level2">
 <h2><span class="header-section-number">2.2</span> The segmentation problem</h2>
-<p>Let <span class="math inline">\(D\)</span> be a <span class="math inline">\(n \times m\)</span> matrix defined in <a href="main-definition.html#eq:definematrixd">(2.3)</a>, with <span class="math inline">\(n\)</span>
-rows and <span class="math inline">\(m\)</span> columns. The matrix is comprised of <span class="math inline">\(n\)</span> samples of the vector of
-random variables <span class="math inline">\(X\)</span>, i.e. the column <span class="math inline">\(j\)</span> in the matrix has values
-corresponding to the random variable <span class="math inline">\(X_j\)</span>. Let <span class="math inline">\(C\)</span>, defined in
-<a href="main-definition.html#eq:definechangepointset">(2.4)</a>, be the set of change points in the data set.
-Since we have that all random variables within a segment have the same
-probability function parameter, let <span class="math inline">\(L\)</span> be the likelihood function whose
-maximizing argument, when given a segment <span class="math inline">\(S_k\)</span>, is the probability
-distribution parameter <span class="math inline">\(\Theta_k\)</span>, as shown in
-<a href="main-definition.html#eq:definesegmentlikelihood">(2.5)</a>. Therefore, the segmentation problem is
-defined as the process of estimating the set of change points <span class="math inline">\(C\)</span>.</p>
+<p>As defined in <a href="main-definition.html#eq:definematrixd">(2.3)</a>, let <span class="math inline">\(D\)</span> be a <span class="math inline">\(n \times m\)</span> matrix with
+elements <span class="math inline">\(x_{i,j}\)</span>, with row and column indices <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, respectively. Each
+of the <span class="math inline">\(n\)</span> rows in the data matrix <span class="math inline">\(D\)</span> is a sample of the vector of random
+variables <span class="math inline">\(X\)</span>, i.e. any row element with column index <span class="math inline">\(j\)</span> is a sample of the
+random variable <span class="math inline">\(X_j\)</span>. In <a href="main-definition.html#eq:definechangepointset">(2.4)</a>, let <span class="math inline">\(C\)</span> is the set of
+change points in the data set. Considering all random variables within a
+segment have the same probability function parameter, let <span class="math inline">\(K\)</span> be a cost
+function that calculates the cost value for a segment <span class="math inline">\(S_k\)</span> with estimated
+parameter <span class="math inline">\(\Theta_k\)</span>, i.e. the calculated cost is minimal when the estimated
+<span class="math inline">\(\Theta_k\)</span> is optimal for the segment <span class="math inline">\(S_k\)</span>. Therefore, a common definition for
+<span class="math inline">\(K\)</span> is the opposite of the maximum value of a log-likelihood function, illustrated
+in <a href="main-definition.html#eq:commoncostfunction">(2.5)</a>.</p>
 <p><span class="math display" id="eq:definematrixd">\[\begin{equation}
 D =
   \begin{bmatrix}
@@ -251,44 +250,38 @@ D =
 C = \{ c_1, \dots, c_t \}
 \tag{2.4}
 \end{equation}\]</span></p>
-<p><span class="math display" id="eq:definesegmentlikelihood">\[\begin{equation}
+<p><span class="math display" id="eq:commoncostfunction">\[\begin{equation}
 \Theta_k = arg\,max\left\{L(\Theta|S_k)\right\}
 \tag{2.5}
 \end{equation}\]</span></p>
-<p>One approach to find the change points set <span class="math inline">\(C\)</span> is to maximize a likelihood
-function over the data set <span class="math inline">\(D\)</span> as shown in <a href="main-definition.html#eq:definemaximization">(2.6)</a>.
-Considering the data set is compound by all the segments, and that each
-individual segment <span class="math inline">\(S_k\)</span> will maximize the likelihood <span class="math inline">\(L\)</span> for that portion of
-the data set, the likelihood of change points set <span class="math inline">\(C\)</span> can be defined as the sum
-of the likelihoods of all the segments as shown in
-<a href="main-definition.html#eq:definelikelihoodsum">(2.7)</a>.</p>
-<p>Notice that, in <a href="main-definition.html#eq:definemaximization">(2.6)</a> and in
-<a href="main-definition.html#eq:definelikelihoodsum">(2.7)</a>, the segment likelihood function <span class="math inline">\(L\)</span> and the data
-set <span class="math inline">\(X\)</span> are parameters to the segmentation problem, which will ultimately be
-used to search for the set of change points <span class="math inline">\(C\)</span> using dynamic programming. So,
-let <span class="math inline">\(s\)</span> be a segmentation function such that <span class="math inline">\(C = s(L, X)\)</span>, as defined in
-<a href="main-definition.html#eq:definesegmentation">(2.8)</a>. Segmentr provides a few implementations of
-segmentation function that can be used to solve the segmentation problem.</p>
-<p><span class="math display" id="eq:definemaximization">\[\begin{equation}
-C = arg\,max\left\{ \mathcal{L}\left(C | X = D\right)\right\}
+<p>Let the total cost of the segments <span class="math inline">\(T\)</span>, i.e. the sum of all segment costs, as
+illustrated in <a href="main-definition.html#eq:totalcost">(2.6)</a>. So, the segmentation problem is defined as
+estimating the optimal set of change points <span class="math inline">\(C\)</span> that minimize the total cost <span class="math inline">\(T\)</span>,
+as described in <a href="main-definition.html#eq:changepointsestimation">(2.7)</a>.</p>
+<p>Notice that, in <a href="main-definition.html#eq:totalcost">(2.6)</a> and in <a href="main-definition.html#eq:changepointsestimation">(2.7)</a>,
+the cost function <span class="math inline">\(K\)</span> and the data set <span class="math inline">\(D\)</span> are parameters to the segmentation
+problem, which will ultimately be used to search for the set of change points
+<span class="math inline">\(C\)</span> using dynamic programming. So, let <span class="math inline">\(s(K, D) = C\)</span> be the segmentation
+function whose output is the estimation of change points, as illustrated in
+<a href="main-definition.html#eq:changepointsestimation">(2.7)</a>. The <code>segmentr</code> package implements a few different
+segmentation function algorithms, which are described in this work.</p>
+<p><span class="math display" id="eq:totalcost">\[\begin{equation}
+T = \sum_{k=0}^t K(S_k)
 \tag{2.6}
 \end{equation}\]</span></p>
-<p><span class="math display" id="eq:definelikelihoodsum">\[\begin{equation}
-\mathcal{L}(C) = \sum_{k=0}^t L(S_k) = \sum_{k=0}^t L(\Theta | S_k)
+<p><span class="math display" id="eq:changepointsestimation">\[\begin{equation}
+C = arg\,min\left\{ T \right\} = arg\,min\left\{ \sum_{k=0}^t K(S_k) \right\}
 \tag{2.7}
 \end{equation}\]</span></p>
-<p><span class="math display" id="eq:definesegmentation">\[\begin{equation}
-C = s(L, X) = arg\,max \left\{ \sum_{k=0}^t L(\Theta | S_k) \right\}
-\tag{2.8}
-\end{equation}\]</span></p>
-<p>In summary, Segmentr is a generalization of the work described in
+<p>In summary, <code>segmentr</code> is a generalization of the work described in
 <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>, in which the random variables of <span class="math inline">\(X\)</span> are taken from finite
 alphabets and <span class="math inline">\(L\)</span> is the multivariate estimate of discrete variables. In this
-work, besides analyzing the same problem described in <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>, the fact
-<span class="math inline">\(L\)</span> is a parameter the segmentation function means it can be applied to many
-different scenarios in which <span class="math inline">\(X\)</span> can manifest itself, e.g. segments with changes
-in the mean of columns, segments with different linear regression parameters.
-These cases are discussed in <a href="simulations.html#simulations">4</a> and <a href="real-data-examples.html#real-data-examples">5</a>.</p>
+work, with the difference that we minimize a cost function rather than maximize
+a cost function, we solve the same problem proposed by <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>, with the
+difference the cost function concept can be applied to many other use cases as
+well, e.g. segments with changes in the mean of columns, segments with
+different linear regression parameters. These cases are discussed in
+<a href="simulations.html#simulations">4</a> and <a href="real-data-examples.html#real-data-examples">5</a>.</p>
 </div>
 <div id="the-hausdorff-distance" class="section level2">
 <h2><span class="header-section-number">2.3</span> The Hausdorff distance</h2>
@@ -297,17 +290,17 @@ measure is made necessary to compare the estimations provided by the different
 estimation algorithms that will be presented in Chapter
 <a href="solution-estimation.html#solution-estimation">3</a>. The Hausdorff distance is commonly used as a
 measure of distance between two distinct sets, and will be used to to compare
-change point sets with differing number of elements each.</p>
-<p><span class="citation">(Munkres <a href="#ref-topology" role="doc-biblioref">2000</a>)</span> defines the Haurdorff distance as measure of how far two subsets
+change point sets with differing numbers of elements each.</p>
+<p><span class="citation">(Munkres <a href="#ref-topology" role="doc-biblioref">2000</a>)</span> defines the Hausdorff distance as a measure of how far two subsets
 from a metric space are from one another. It’s defined as the biggest of all
 the distances from a point in one set to the closest point in the other set,
 which is expressed mathematically by the equation defined in
-<a href="main-definition.html#eq:hausdorffformula">(2.9)</a>, in which <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> represent sets given as inputs
+<a href="main-definition.html#eq:hausdorffformula">(2.8)</a>, in which <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> represent sets given as inputs
 to the function, <span class="math inline">\(d(x, y)\)</span> represents a distance function defined in the metric
 space <span class="math inline">\(S\)</span> such that <span class="math inline">\(x, y \in S\)</span>.</p>
 <p><span class="math display" id="eq:hausdorffformula">\[\begin{equation}
 d_H(X,Y) = \max\left\{\,\sup_{x \in X} \inf_{y \in Y} d(x,y)\, ,\, \sup_{y \in Y} \inf_{x \in X} d(x,y)\,\right\}
-\tag{2.9}
+\tag{2.8}
 \end{equation}\]</span></p>
 <p>Since a set of change points is a subset of the column indices in a data set,
 we define the distance <span class="math inline">\(d\)</span> as the absolute value of two given numbers for

@@ -143,24 +143,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>4</b> Simulations</a><ul>
 <li class="chapter" data-level="4.1" data-path="simulations.html"><a href="simulations.html#segments-of-independent-variables"><i class="fa fa-check"></i><b>4.1</b> Segments of Independent Variables</a></li>
 <li class="chapter" data-level="4.2" data-path="simulations.html"><a href="simulations.html#segments-with-similar-averages"><i class="fa fa-check"></i><b>4.2</b> Segments with similar averages</a></li>
+<li class="chapter" data-level="4.3" data-path="simulations.html"><a href="simulations.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>4.3</b> Accuracy of algorithms using different algorithms</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="real-data-examples.html"><a href="real-data-examples.html"><i class="fa fa-check"></i><b>5</b> Real Data Examples</a><ul>
 <li class="chapter" data-level="5.1" data-path="real-data-examples.html"><a href="real-data-examples.html#understanding-the-data"><i class="fa fa-check"></i><b>5.1</b> Understanding the data</a></li>
-<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-likelihood"><i class="fa fa-check"></i><b>5.2</b> Building the likelihood</a></li>
-<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-likelihood-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the likelihood function</a></li>
+<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-cost-function"><i class="fa fa-check"></i><b>5.2</b> Building the cost function</a></li>
+<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-cost-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the cost function</a></li>
 <li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing granularity</a></li>
-<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-likelihood-function"><i class="fa fa-check"></i><b>5.5</b> A non-usual likelihood function</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>5.5</b> Accuracy of estimates for the Berlin dataset</a></li>
+<li class="chapter" data-level="5.6" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-cost-function"><i class="fa fa-check"></i><b>5.6</b> A non-usual cost function</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on performance</a><ul>
 <li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the code</a></li>
 <li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
 <li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html"><i class="fa fa-check"></i><b>7</b> Accuracy of algorithms</a><ul>
-<li class="chapter" data-level="7.1" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>7.1</b> Accuracy of estimates for the Berlin dataset</a></li>
-<li class="chapter" data-level="7.2" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>7.2</b> Accuracy of algorithms using different algorithms</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="package-usage.html"><a href="package-usage.html"><i class="fa fa-check"></i><b>A</b> Package Usage</a><ul>
 <li class="chapter" data-level="A.1" data-path="package-usage.html"><a href="package-usage.html#installation"><i class="fa fa-check"></i><b>A.1</b> Installation</a></li>
@@ -186,81 +184,104 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="solution-estimation" class="section level1">
 <h1><span class="header-section-number">3</span> Solution Estimation</h1>
-<p>In this chapter, we discuss the process to solve <a href="main-definition.html#eq:definesegmentation">(2.8)</a>
-and explore an solution involving dynamic programming. Because the exact
+<p>In this chapter, we discuss the process to solve <a href="main-definition.html#eq:changepointsestimation">(2.7)</a>
+and explore a solution involving dynamic programming. Because the exact
 solution to this problem has quadratic complexity, we also discuss some
 alternatives that simplify the search path and provide an approximate solution.</p>
 <div id="exact-algorithm" class="section level2">
 <h2><span class="header-section-number">3.1</span> Exact Algorithm</h2>
-<p>The first attempt to try to solve the equation would be to actually search all the possible alternatives
-in order to find the correct minimal set of intervals that maximize the total likelihood of the system.
+<p>The first attempt to solve the equation would be to search all the possible alternatives
+to find the correct minimal set of intervals that minimize the total cost of the system.
 It’s done iteratively by:</p>
 <ul>
-<li>for each column index <span class="math inline">\(i \in \{1, \dots, p\}\)</span></li>
-<li>for each column index <span class="math inline">\(j \in \{i, \dots, p\}\)</span></li>
-<li>compute <span class="math inline">\(l_{i:j}=\text{lik}(X_{i:j})\)</span></li>
-<li>store the likelihood <span class="math inline">\(l_{i:j}\)</span> and the index <span class="math inline">\(j\)</span> for the highest value of <span class="math inline">\(l_{i:j}\)</span> for later comparison</li>
-</ul>
-<p>Finally, after computing all of the possible combinations of likelihood segments,
-the procedure to find the optimal solution would be as following:</p>
+<li>let <span class="math inline">\(D\)</span> be the current data set we want to segment</li>
+<li>for each column index <span class="math inline">\(i \in \{1, \dots, m\}\)</span>
 <ul>
-<li>let <span class="math inline">\(j = p\)</span></li>
-<li>while <span class="math inline">\(j &gt; 1\)</span>, repeat the steps below</li>
-<li>search the stored values for <span class="math inline">\(i = \underset{i}{\arg\max} (l_{i:j})\)</span></li>
+<li>for each column index <span class="math inline">\(j \in \{i, \dots, m\}\)</span>
+<ul>
+<li>compute <span class="math inline">\(K_{i:j}=K(D_{i:j})\)</span></li>
+<li>store the cost <span class="math inline">\(K_{i:j}\)</span> and the index <span class="math inline">\(j\)</span> for the lowest value of <span class="math inline">\(K_{i:j}\)</span> for later comparison</li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Finally, after computing all of the possible combinations of segment costs,
+the procedure to find the optimal solution is:</p>
+<ul>
+<li>let <span class="math inline">\(j = m\)</span></li>
+<li>while <span class="math inline">\(j &gt; 1\)</span>
+<ul>
+<li>search the stored values for <span class="math inline">\(i = \underset{i}{\arg\min} (K_{i:j})\)</span></li>
 <li>store <span class="math inline">\(i\)</span> in the set of change points <span class="math inline">\(C\)</span> if <span class="math inline">\(i \ne 1\)</span></li>
 <li>let <span class="math inline">\(j = i\)</span> and repeat until <span class="math inline">\(j = 1\)</span></li>
+</ul></li>
 </ul>
-<p>Given the indices in the change points set <span class="math inline">\(C\)</span>, let <span class="math inline">\(c_0 = 1\)</span>, <span class="math inline">\(c_{k+1}=p\)</span> and <span class="math inline">\(c_i\in C\)</span>
-be the sequence of sorted elements of <span class="math inline">\(C\)</span>, for <span class="math inline">\(i = 1, \dots, k\)</span>. The minimal set of
-intervals would be defined as <span class="math inline">\(S_0 = \{ c_{i-1}:c_i, \text{ for } i=1,\dots,k+1 \}\)</span>
-in which <span class="math inline">\(c_{i-1}:c_i=\{\text{contiguous sequence of number from } c_{i-1} \text{ to } c_i\}\)</span>.</p>
-<p>The described algorithm will provide the correct answer for the equation, precisely because it
-analyses all the possible combinations. However, that has a time complexity in Big-O notation of
-<span class="math inline">\(O(np^2)\)</span> in which <span class="math inline">\(n\)</span> is the number of samples in the data set and <span class="math inline">\(p\)</span> is the number of columns.
-Because a lot of use cases for data segmentation has usually a large number of columns and not
-many data samples, e.g. DNA data, computation time can be very prohibitive.</p>
+<p>With the execution of the procedure described above, the estimated set of
+change points is stored in <span class="math inline">\(C\)</span>. The solution will be exact precisely because it
+analyses all the possible combinations. However, that has a time complexity of
+<span class="math inline">\(O(m^2)\)</span> in the Big-O notation, for a number of column <span class="math inline">\(m\)</span> in the data set.
+Because the number of columns in a data segmentation problems can be very
+large, computation time can be very prohibitive. For those situations
+approximate solutions are described.</p>
 </div>
 <div id="hierarchical-algorithm" class="section level2">
 <h2><span class="header-section-number">3.2</span> Hierarchical Algorithm</h2>
-<p>In order to try to simplify the search path of the algorithm, <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span> also proposes a technique
-that relies on assuming the data to be hierarchical, i.e. it assumes the minimal solution set can
-me estimated by only searching the data for the optimal change point segmentation once. The algorithm
-is described below.</p>
+<p>To try to simplify the search path of the algorithm, <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span> also
+proposes a technique that relies on the assumption of the data hierarchical, i.e.
+a segment can be sub-divided by reapplying the segmentation function recursively.
+The algorithm is described as:</p>
 <ul>
-<li>let <span class="math inline">\(d\)</span> be the current data set we want to segment</li>
-<li>for each column <span class="math inline">\(i\)</span> in the data set</li>
-<li>compute the total likelihood <span class="math inline">\(l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})\)</span> if <span class="math inline">\(i \ne 1\)</span></li>
-<li>find <span class="math inline">\(i\)</span> for which <span class="math inline">\(l_i\)</span> is maximum</li>
-<li>if <span class="math inline">\(l_i &lt;\text{lik}(X_{1:p})\)</span> return empty set as result of current function call</li>
-<li>recursively find the set of change points <span class="math inline">\(C_L\)</span> by calling the algorithm on the left segment <span class="math inline">\(X_{1:i-1}\)</span></li>
-<li>recursively find the set of change points <span class="math inline">\(C_R\)</span> by calling the algorithm on the right segment <span class="math inline">\(X_{i:p}\)</span></li>
+<li>let <span class="math inline">\(D\)</span> be the current data set we want to segment</li>
+<li>for each column <span class="math inline">\(i\)</span> in the data set
+<ul>
+<li>compute the total cost <span class="math inline">\(K_i = K(D_{1:i-1})+K(D_{i:m})\)</span> if <span class="math inline">\(i \ne 1\)</span></li>
+</ul></li>
+<li>find <span class="math inline">\(i\)</span> for which <span class="math inline">\(K_i\)</span> is minimum</li>
+<li>if <span class="math inline">\(K_i &gt;K(D_{1:m})\)</span>
+<ul>
+<li>return the empty set as the result of current function call</li>
+</ul></li>
+<li>recursively find the set of change points <span class="math inline">\(C_L\)</span> by calling the algorithm on the left segment <span class="math inline">\(D_{1:i-1}\)</span></li>
+<li>recursively find the set of change points <span class="math inline">\(C_R\)</span> by calling the algorithm on the right segment <span class="math inline">\(D_{i:m}\)</span></li>
 <li>return <span class="math inline">\(C=C_L \cup C_R \cup \{i\}\)</span> as result of current function call</li>
 </ul>
-<p>Implementing the algorithm described above will allow for a time complexity of <span class="math inline">\(O(np\log(p))\)</span> where <span class="math inline">\(n\)</span> is
-the number of samples, <span class="math inline">\(p\)</span> is the number of columns. The reduction in time complexity is only possible
-because of the strong assumption the data set has a hierarchical likelihood behavior. However, that
-doesn’t hold true for many situations, as it will be seen in more detail in the next chapters,
-and the use of this algorithm should done with care.</p>
+<p>Implementing the algorithm described above will estimate the set of change
+points <span class="math inline">\(C\)</span> with time complexity of <span class="math inline">\(O(m\log(m))\)</span>, for a number of columns <span class="math inline">\(m\)</span>
+in the data set. The reduction in time complexity is only possible because of
+the strong assumption the data set has a hierarchical cost behavior.
+However, that doesn’t hold for many situations, as it will be seen in more
+detail in the next chapters. So, the usage of this algorithm should be
+considered with care.</p>
 </div>
 <div id="hybrid-algorithm" class="section level2">
 <h2><span class="header-section-number">3.3</span> Hybrid algorithm</h2>
-<p>The hybrid algorithm is a modified version of the hierarchical algorithm, in which it will start searching the
-combinations using the hierarchical approach, and if the segments become smaller than a certain threshold,
-it will try to find the exact segments with the exact algorithm. The procedure would be as follow:</p>
+<p>The hybrid algorithm is a modified version of the hierarchical algorithm, in
+which it will start searching the segments using the hierarchical algorithm,
+and if the segments become smaller than a certain number of columns threshold,
+it will switch to the exact algorithm. The procedure would be as follow:</p>
 <ul>
-<li>let <span class="math inline">\(d\)</span> be the current data set we want to segment</li>
-<li>if the number of columns of <span class="math inline">\(d\)</span> is <span class="math inline">\(p_d &lt;k\)</span>, in which <span class="math inline">\(k\)</span> is a predefined threshold, return the set of
-change points calculated by the exact algorithm.</li>
-<li>for each column <span class="math inline">\(i\)</span> in the data set</li>
-<li>compute the total likelihood <span class="math inline">\(l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})\)</span> if <span class="math inline">\(i \ne 1\)</span></li>
-<li>find <span class="math inline">\(i\)</span> for which <span class="math inline">\(l_i\)</span> is maximum</li>
-<li>if <span class="math inline">\(l_i &lt;\text{lik}(X_{1:p})\)</span> return empty set as result of current function call</li>
-<li>recursively find the set of change points <span class="math inline">\(C_L\)</span> by calling the algorithm on the left segment <span class="math inline">\(X_{1:i-1}\)</span></li>
-<li>recursively find the set of change points <span class="math inline">\(C_R\)</span> by calling the algorithm on the right segment <span class="math inline">\(X_{i:p}\)</span></li>
+<li>let <span class="math inline">\(D\)</span> be the current data set we want to segment</li>
+<li>if the number of columns of <span class="math inline">\(D\)</span> is <span class="math inline">\(m &lt;k\)</span>, in which <span class="math inline">\(k\)</span> is a predefined threshold
+<ul>
+<li>return the set of change points calculated by the exact algorithm.</li>
+</ul></li>
+<li>for each column <span class="math inline">\(i\)</span> in the data set
+<ul>
+<li>compute the total cost <span class="math inline">\(K_i = K(D_{1:i-1})+K(D_{i:m})\)</span> if <span class="math inline">\(i \ne 1\)</span></li>
+</ul></li>
+<li>find <span class="math inline">\(i\)</span> for which <span class="math inline">\(K_i\)</span> is minimum</li>
+<li>if <span class="math inline">\(K_i &lt;K(X_{1:p})\)</span>
+<ul>
+<li>return empty set as result of current function call</li>
+</ul></li>
+<li>recursively find the set of change points <span class="math inline">\(C_L\)</span> by calling the algorithm on the left segment <span class="math inline">\(K_{1:i-1}\)</span></li>
+<li>recursively find the set of change points <span class="math inline">\(C_R\)</span> by calling the algorithm on the right segment <span class="math inline">\(K_{i:m}\)</span></li>
 <li>return <span class="math inline">\(C=C_L \cup C_R \cup \{i\}\)</span> as result of current function call</li>
 </ul>
-<p>The only difference of this procedure and the hierarchical procedure is the presence of the conditional
-step in the beginning of the procedure that tests whether of not to use the hybrid algorithm.</p>
+<p>The only difference between this and the hierarchical procedure is the presence
+of the conditional step in the beginning of the procedure that tests whether or
+not to use the hybrid algorithm. As it will be shown in later chapters, the
+accuracy of this algorithm is shown not to be more advantageous than using the
+hierarchical or the exact algorithms directly, depending on the situation.</p>
 
 </div>
 </div>

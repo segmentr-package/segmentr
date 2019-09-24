@@ -143,24 +143,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>4</b> Simulations</a><ul>
 <li class="chapter" data-level="4.1" data-path="simulations.html"><a href="simulations.html#segments-of-independent-variables"><i class="fa fa-check"></i><b>4.1</b> Segments of Independent Variables</a></li>
 <li class="chapter" data-level="4.2" data-path="simulations.html"><a href="simulations.html#segments-with-similar-averages"><i class="fa fa-check"></i><b>4.2</b> Segments with similar averages</a></li>
+<li class="chapter" data-level="4.3" data-path="simulations.html"><a href="simulations.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>4.3</b> Accuracy of algorithms using different algorithms</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="real-data-examples.html"><a href="real-data-examples.html"><i class="fa fa-check"></i><b>5</b> Real Data Examples</a><ul>
 <li class="chapter" data-level="5.1" data-path="real-data-examples.html"><a href="real-data-examples.html#understanding-the-data"><i class="fa fa-check"></i><b>5.1</b> Understanding the data</a></li>
-<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-likelihood"><i class="fa fa-check"></i><b>5.2</b> Building the likelihood</a></li>
-<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-likelihood-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the likelihood function</a></li>
+<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-cost-function"><i class="fa fa-check"></i><b>5.2</b> Building the cost function</a></li>
+<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-cost-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the cost function</a></li>
 <li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing granularity</a></li>
-<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-likelihood-function"><i class="fa fa-check"></i><b>5.5</b> A non-usual likelihood function</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>5.5</b> Accuracy of estimates for the Berlin dataset</a></li>
+<li class="chapter" data-level="5.6" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-cost-function"><i class="fa fa-check"></i><b>5.6</b> A non-usual cost function</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on performance</a><ul>
 <li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the code</a></li>
 <li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
 <li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html"><i class="fa fa-check"></i><b>7</b> Accuracy of algorithms</a><ul>
-<li class="chapter" data-level="7.1" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>7.1</b> Accuracy of estimates for the Berlin dataset</a></li>
-<li class="chapter" data-level="7.2" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>7.2</b> Accuracy of algorithms using different algorithms</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="package-usage.html"><a href="package-usage.html"><i class="fa fa-check"></i><b>A</b> Package Usage</a><ul>
 <li class="chapter" data-level="A.1" data-path="package-usage.html"><a href="package-usage.html#installation"><i class="fa fa-check"></i><b>A.1</b> Installation</a></li>
@@ -186,51 +184,62 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="simulations" class="section level1">
 <h1><span class="header-section-number">4</span> Simulations</h1>
-<p>In order to exemplify the utility of this package, a handful of hypothetical
-data will be presented, together with a proposal of an appropriate likelihood
-function that is expected to segment the data in an expected manner.</p>
+<p>To exemplify the utility of this package, a handful of hypothetical
+data will be presented, together with a proposal of an appropriate cost
+function that is expected to segment the data.</p>
 <div id="segments-of-independent-variables" class="section level2">
 <h2><span class="header-section-number">4.1</span> Segments of Independent Variables</h2>
-<p>In order to show compatibility with the work presented in <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>, we analyze the
+<p>To show compatibility with the work presented in <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>, we analyze the
 same problem presented in their work.</p>
-<p>Let <span class="math inline">\(C_1\)</span>, <span class="math inline">\(C_2\)</span>, …, <span class="math inline">\(C_n\)</span> a sequence of <span class="math inline">\(n\)</span> vectors of data points, each with <span class="math inline">\(m\)</span>
-observations represented by <span class="math inline">\(C_k = \{c_{k1},\ c_{k2},\ ...,\ c_{km}\}\)</span>, with
-<span class="math inline">\(1 \le k \le n\)</span>. Assume that each <span class="math inline">\(C_k\)</span> is a function of an unknown set of independent
-random variables <span class="math inline">\(X\)</span>, such that <span class="math inline">\(C_k = f_k(X)\)</span>. When used together with a multivariate
-likelihood <span class="citation">(Park <a href="#ref-park2017fundamentals" role="doc-biblioref">2017</a>)</span>, for which an implementation is provided in
-the <code>segmentr</code> package as the <code>multivariate()</code> function, it’s possible to identify
-the set of <span class="math inline">\(N_b\)</span> change points
-<span class="math inline">\(b_1, ..., b_{N_b}\)</span>, with <span class="math inline">\(b_0 = 1\)</span> and <span class="math inline">\(b_{N_b + 1} = n + 1\)</span>, such that all <span class="math inline">\(f_k\)</span>, for
-<span class="math inline">\(b_i \le k \le b_{i+1}-1\)</span> is a function of the same set of independent random variables <span class="math inline">\(X\)</span>,
-or each <span class="math inline">\(1 \le i \le N_b\)</span>.</p>
-<p>Let <span class="math inline">\(X_1, ..., X_6\)</span> be independent random variables and <span class="math inline">\(C_1, ..., C_{15}\)</span> be
-defined as in <a href="simulations.html#eq:examplecolumns">(4.1)</a> . It’s possible to see the first segment <span class="math inline">\(C_1, ..., C_5\)</span>
-depend on <span class="math inline">\(X_1, X_2\)</span>, the second segment <span class="math inline">\(C_6, ..., C_{10}\)</span> depend on <span class="math inline">\(X_3, X_4\)</span> and the third
-and last segment <span class="math inline">\(C_{11}, ..., C_{15}\)</span> depend on <span class="math inline">\(X_4, X_5\)</span>. Therefore, the change points would
-be <span class="math inline">\(b_1 = 6\)</span> and <span class="math inline">\(b_2 = 11\)</span>.</p>
+<p>Let <span class="math inline">\(N = (N_1, \dots , N_6)\)</span> be a sequence of independent random variables with standard normal
+distributions and let <span class="math inline">\(X = (X_1, \dots , X_15)\)</span> be another sequence of random variables dependent
+on <span class="math inline">\(N\)</span>, with relationships described in <a href="simulations.html#eq:examplecolumns">(4.1)</a>. From the relationships, it’s
+possible to see the first segment <span class="math inline">\(X_1, ..., X_5\)</span> depend on <span class="math inline">\(N_1, N_2\)</span>, the second segment
+<span class="math inline">\(X_6, ..., X_{10}\)</span> depend on <span class="math inline">\(N_3, N_4\)</span> and the third and last segment <span class="math inline">\(X_{11}, ..., X_{15}\)</span>
+depend on <span class="math inline">\(X_4, X_5\)</span>. Therefore, the set of change points for <span class="math inline">\(X\)</span> is <span class="math inline">\(C = {6, 11}\)</span>.</p>
 <p><span class="math display" id="eq:examplecolumns">\[\begin{equation}
 \begin{aligned}
-C_1 &amp; = X_1 \\
-C_2 &amp; = X_1 - X_2 \\
-C_3 &amp; = X_2 \\
-C_4 &amp; = X_1 + X_2 \\
-C_5 &amp; = X_1 \\
-C_6 &amp; = X_3 \\
-C_7 &amp; = X_3 - X_4 \\
-C_8 &amp; = X_4 \\
-C_9 &amp; = X_3 + X_4 \\
-C_{10} &amp; = X_3 \\
-C_{11} &amp; = X_5 \\
-C_{12} &amp; = X_5 - X_6 \\
-C_{13} &amp; = X_6 \\
-C_{14} &amp; = X_5 + X_6 \\
-C_{15} &amp; = X_5
+X_1 &amp; = N_1 \\
+X_2 &amp; = N_1 - N_2 \\
+X_3 &amp; = N_2 \\
+X_4 &amp; = N_1 + N_2 \\
+X_5 &amp; = N_1 \\
+X_6 &amp; = N_3 \\
+X_7 &amp; = N_3 - N_4 \\
+X_8 &amp; = N_4 \\
+X_9 &amp; = N_3 + N_4 \\
+X_{10} &amp; = N_3 \\
+X_{11} &amp; = N_5 \\
+X_{12} &amp; = N_5 - N_6 \\
+X_{13} &amp; = N_6 \\
+X_{14} &amp; = N_5 + N_6 \\
+X_{15} &amp; = N_5
 \end{aligned}
 \tag{4.1}
 \end{equation}\]</span></p>
-<p>To illustrate, consider the following code, which defines <span class="math inline">\(X_1, ..., X_6\)</span> and
-<span class="math inline">\(C_1, ..., C_{15}\)</span> as specified in <a href="simulations.html#eq:examplecolumns">(4.1)</a>, and also consider
-the matrix <span class="math inline">\(D\)</span> as the column binding of the vectors <span class="math inline">\(C_1, ..., C_{15}\)</span>.</p>
+<p>Given <span class="math inline">\(D\)</span>, illustrated in <a href="simulations.html#tab:sample-columns">4.1</a>, a sample data set of the
+sequence of random variables <span class="math inline">\(X\)</span>, the multivariate likelihood function <span class="math inline">\(L\)</span>
+<span class="citation">(Park <a href="#ref-park2017fundamentals" role="doc-biblioref">2017</a>)</span> can be used to estimate the likelihood of a given
+segment in the discrete data set, as described in
+<a href="simulations.html#eq:multivariatelikelihood">(4.2)</a>. The <code>multivariate()</code> is a fast native-code
+implementation of that function that is available in the <code>segmentr</code> package. We
+then use that likelihood function to define a penalized cost <span class="math inline">\(K\)</span> in
+<a href="simulations.html#eq:costforexamplecolumns">(4.3)</a> with an extra term to penalize segments that
+are too large, based on the number of columns <span class="math inline">\(\text{ncol}(D)\)</span> of the segment.</p>
+<p><span class="math display" id="eq:multivariatelikelihood">\[\begin{equation}
+\log(L(X|D)) = \sum_{k=0}^t P(X_{c_k:c_{k+1}-1} = D_{c_k:c_{k+1}-1})
+\tag{4.2}
+\end{equation}\]</span></p>
+<p><span class="math display" id="eq:costforexamplecolumns">\[\begin{equation}
+K(D) = - \log(L(D)) + \text{ncol}(D)
+\tag{4.3}
+\end{equation}\]</span></p>
+<p>Therefore, the cost function <span class="math inline">\(K\)</span> applied over a sample <span class="math inline">\(D\)</span>, shown in of <span class="math inline">\(X\)</span>
+provides the same set of expected change points <span class="math inline">\(C\)</span>, as Table
+<a href="simulations.html#tab:results-multivariate-penalized">4.2</a> show. Notice it’s important to use a
+penalized cost function because the original likelihood function tends to favor
+bigger segments. An estimate of the segments using an unpenalized cost is shown
+in Table <a href="simulations.html#tab:results-multivariate-non-penalized">4.3</a>.</p>
 <p>(ref:sample-columns-caption) Sample values of the correlated random variables
 defined in <a href="simulations.html#eq:examplecolumns">(4.1)</a>.</p>
 <table>
@@ -241,55 +250,102 @@ variables defined in <a href="simulations.html#eq:examplecolumns">(4.1)</a>.
 <thead>
 <tr>
 <th style="text-align:right;">
-C1
+X1
 </th>
 <th style="text-align:right;">
-C2
+X2
 </th>
 <th style="text-align:right;">
-C3
+X3
 </th>
 <th style="text-align:right;">
-C4
+X4
 </th>
 <th style="text-align:right;">
-C5
+X5
 </th>
 <th style="text-align:right;">
-C6
+X6
 </th>
 <th style="text-align:right;">
-C7
+X7
 </th>
 <th style="text-align:right;">
-C8
+X8
 </th>
 <th style="text-align:right;">
-C9
+X9
 </th>
 <th style="text-align:right;">
-C10
+X10
 </th>
 <th style="text-align:right;">
-C11
+X11
 </th>
 <th style="text-align:right;">
-C12
+X12
 </th>
 <th style="text-align:right;">
-C13
+X13
 </th>
 <th style="text-align:right;">
-C14
+X14
 </th>
 <th style="text-align:right;">
-C15
+X15
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
 2
 </td>
 <td style="text-align:right;">
@@ -303,100 +359,6 @@ C15
 </td>
 <td style="text-align:right;">
 2
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
--1
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
--1
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
--1
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-1
 </td>
 <td style="text-align:right;">
 2
@@ -414,52 +376,22 @@ C15
 2
 </td>
 <td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
--1
-</td>
-<td style="text-align:right;">
-2
+1
 </td>
 <td style="text-align:right;">
 3
 </td>
 <td style="text-align:right;">
-1
+2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-2
-</td>
 <td style="text-align:right;">
 1
 </td>
@@ -475,8 +407,6 @@ C15
 <td style="text-align:right;">
 1
 </td>
-</tr>
-<tr>
 <td style="text-align:right;">
 2
 </td>
@@ -488,6 +418,38 @@ C15
 </td>
 <td style="text-align:right;">
 3
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4
 </td>
 <td style="text-align:right;">
 2
@@ -540,6 +502,21 @@ C15
 2
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 2
 </td>
 <td style="text-align:right;">
@@ -554,26 +531,56 @@ C15
 <td style="text-align:right;">
 2
 </td>
+</tr>
+<tr>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
--1
+0
+</td>
+<td style="text-align:right;">
+1
 </td>
 <td style="text-align:right;">
 2
 </td>
 <td style="text-align:right;">
-3
+1
+</td>
+<td style="text-align:right;">
+2
 </td>
 <td style="text-align:right;">
 1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 </tbody>
 </table>
-<p>It’s possible to identify the segments in the matrix <span class="math inline">\(D\)</span> with a penalized version of the
-<code>multivariate</code> function included in the package, as shown in Table <a href="simulations.html#tab:results-multivariate-penalized">4.2</a></p>
 
 <table>
 <caption>
@@ -629,15 +636,10 @@ Last index
 </tr>
 </tbody>
 </table>
-<p>Notice it’s important to use a penalized likelihood version of the
-<code>multivariate</code> function because the original function favors bigger segments.
-The answer provided by the <code>segment</code> package in that scenario would actually be
-all the columns in the <span class="math inline">\(D\)</span> matrix, as shown in Table
-<a href="simulations.html#tab:results-multivariate-non-penalized">4.3</a>.</p>
 <table>
 <caption>
 <span id="tab:results-multivariate-non-penalized">Table 4.3: </span>Results of segmentation usign a non-penalized
-multivariate likelihood
+multivariate cost
 </caption>
 <thead>
 <tr>
@@ -671,39 +673,35 @@ Last index
 <h2><span class="header-section-number">4.2</span> Segments with similar averages</h2>
 <p><span class="citation">(Ceballos et al. <a href="#ref-homozygosity" role="doc-biblioref">2018</a>)</span> describes a process on how to find windows of contiguous
 homozygosity, i.e. segments in the genetic data in which the alleles are of the
-same type. This is of interest for a researching investigating diseases.
-Considering this problems scenario, Segmentr can be used to segment random
-variables <span class="math inline">\(C_1, ..., C_n\)</span> that represent genetic data, encoded as zero for
-homozygosity and one for heterozygosity, i.e. zero when the alleles are of the
-same type and one when the alleles are different.</p>
-<p>So, in order to use Segmentr to solve this problem, it’s necessary
-to find a likelihood function that favors segments the homogeneity
-of a given segment. That problem is approached by proposing a
-“mean” likelihood function, i.e. a function that maximizes the
-likelihood of segments whose elements approximate the segment
-average. One such function is defined in
-<a href="simulations.html#eq:mean-likelihood">(4.2)</a>. Notice, however, the likelihood
-function proposed favors a single column segments, as it’s logically
-the entity whose elements most approximate the average of the
-entire window. In order to counter this undesirable behavior, we
-penalized the function by subtracting from it a single constant,
-as described in <a href="simulations.html#eq:penalizedmeanlikelihood">(4.3)</a>. The constant
-factor has the effect of adding up when too many segments are
-considered in the estimation process, making it so wider segments
-end being picked up in the estimation process.</p>
+same type. This is of interest to a researcher investigating diseases.
+Considering this problems scenario, <code>segmentr</code> can be used to segment random
+variables <span class="math inline">\(X_1, ..., X_m\)</span> that represent genetic data, encoded as zero for
+homozygosity and one for heterozygosity, i.e. <span class="math inline">\(0\)</span> when the alleles are the
+same and <span class="math inline">\(1\)</span> when different.</p>
+<p>So, to use <code>segmentr</code> to solve this problem, it’s necessary to find a cost
+function that favors segments the homogeneity of a given segment. That problem
+is approached by proposing a heterogeneity cost function, i.e. a function that
+penalized the segments whose elements are far from the segment average. One
+such function is defined in <a href="simulations.html#eq:heterogeneitycost">(4.4)</a>. Notice, however, the
+cost function proposed favors single column segments, as it’s the size
+for which all the elements approximate the segment average the most. To counter
+this undesirable behavior, we penalized the function by adding a constant to
+it, as described in <a href="simulations.html#eq:penalizedheterogeneitycost">(4.5)</a>. The constant factor
+has the effect of adding up when too many segments are considered in the
+estimation process, making it so wider segments end being picked up in the
+estimation process.</p>
 <p>In order to observe how the proposed function behaves, consider the simple
-example defined in <a href="simulations.html#eq:geneticexample">(4.4)</a>, in which <span class="math inline">\(X_i\)</span> for <span class="math inline">\(i \in \{1, \dots, 20\}\)</span> represent each a column indexed by <span class="math inline">\(i\)</span> of a data set <span class="math inline">\(D\)</span>, and
+example defined in <a href="simulations.html#eq:geneticexample">(4.6)</a>, in which <span class="math inline">\(X_i\)</span> for <span class="math inline">\(i \in \{1, \dots, 20\}\)</span> represent each a column indexed by <span class="math inline">\(i\)</span> of a data set <span class="math inline">\(D\)</span>, and
 <span class="math inline">\(\text{Bern(p)}\)</span> representing the Bernoulli distribution with probability <span class="math inline">\(p\)</span>.
-When segmenting the data set defined in <a href="simulations.html#eq:geneticexample">(4.4)</a> with the
-likelihood function defined in <a href="simulations.html#eq:penalizedmeanlikelihood">(4.3)</a>, we obtain the
-results displayed in Table <a href="simulations.html#tab:results-penalized-mean">4.4</a>.</p>
-<p><span class="math display" id="eq:mean-likelihood">\[\begin{equation}
-L_{\mu}(X)=-\sum_i(x_i-E[X])^2 \;\bigg|\; x_i \in X
-\tag{4.2}
+The result for applying <a href="simulations.html#eq:penalizedheterogeneitycost">(4.5)</a> over <a href="simulations.html#eq:geneticexample">(4.6)</a>
+is shown in Table <a href="simulations.html#tab:results-penalized-mean">4.4</a>.</p>
+<p><span class="math display" id="eq:heterogeneitycost">\[\begin{equation}
+K(D)=\sum_i(D_i-E[D])^2
+\tag{4.4}
 \end{equation}\]</span></p>
-<p><span class="math display" id="eq:penalizedmeanlikelihood">\[\begin{equation}
-P_{L_{\mu}}(X)=L_{\mu}(X)-1
-\tag{4.3}
+<p><span class="math display" id="eq:penalizedheterogeneitycost">\[\begin{equation}
+K_p(D)=K(D) + 1
+\tag{4.5}
 \end{equation}\]</span></p>
 <p><span class="math display" id="eq:geneticexample">\[\begin{equation}
 \begin{aligned}
@@ -728,17 +726,16 @@ X_{18} &amp; \sim \text{Bern}(0.9) \\
 X_{19} &amp; \sim \text{Bern}(0.9) \\
 X_{20} &amp; \sim \text{Bern}(0.9)
 \end{aligned}
-\tag{4.4}
+\tag{4.6}
 \end{equation}\]</span></p>
-
 
 
 <table>
 <caption>
-<span id="tab:results-penalized-mean">Table 4.4: </span>Results of segmentation by aplying the
-likelihood function defined in
-<a href="simulations.html#eq:penalizedmeanlikelihood">(4.3)</a> to a sample of size
-10 of the model defined in <a href="simulations.html#eq:geneticexample">(4.4)</a>.
+<span id="tab:results-penalized-mean">Table 4.4: </span>Results of segmentation by applying the
+cost function defined in
+<a href="simulations.html#eq:penalizedheterogeneitycost">(4.5)</a> to a sample of size
+10 of the model defined in <a href="simulations.html#eq:geneticexample">(4.6)</a>.
 </caption>
 <thead>
 <tr>
@@ -785,6 +782,188 @@ Last index
 </td>
 <td style="text-align:right;">
 20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="accuracy-of-algorithms-using-different-algorithms" class="section level2">
+<h2><span class="header-section-number">4.3</span> Accuracy of algorithms using different algorithms</h2>
+<p>Given different solutions obtained by the <code>segment</code> function, it’s often
+necessary to compare them with each other. For that, the Hausdorff distance,
+defined in Chapter <a href="main-definition.html#the-hausdorff-distance">2.3</a>, can be used to measure a
+distance between two sets of estimated change points.</p>
+<p>We want to measure how well the different algorithms provided in the <code>segmentr</code>
+package find the segments in the example correlated columns simulated data set
+described in <a href="simulations.html#eq:examplecolumns">(4.1)</a>. Since the simulation was arbitrarily
+built, we know what the exact solution to the segmentation problem is.</p>
+<table>
+<caption>
+<span id="tab:hausdorff-multivariate-comparison">Table 4.5: </span>Comparison of solutions of different algorithms
+to segment the data set described in <a href="simulations.html#eq:examplecolumns">(4.1)</a>,
+measuring how far each solution is from the ideal
+solution using the Hausdorff distance.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Description
+</th>
+<th style="text-align:left;">
+Changepoints
+</th>
+<th style="text-align:right;">
+Hausdorff Distance
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Expected solution
+</td>
+<td style="text-align:left;">
+6, 11
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Exact algorithm estimate
+</td>
+<td style="text-align:left;">
+6, 11
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hierarchical algorithm estimate
+</td>
+<td style="text-align:left;">
+6, 8, 11
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hybrid algorithm estimate with threshold 50
+</td>
+<td style="text-align:left;">
+6, 11
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hybrid algorithm estimate with threshold 4
+</td>
+<td style="text-align:left;">
+6, 8, 11
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>Therefore, in Table <a href="simulations.html#tab:hausdorff-multivariate-comparison">4.5</a> we can see the
+comparison of different algorithms with different parameters. We notice the
+“exact” algorithm manages to properly match the expected change points
+solution, whereas the “hierarchical” algorithm finds an extra segment, which
+causes the Hausdorff distance to be bigger than zero. The two “hybrid”
+algorithm cases are interesting in the sense it that it shows how to algorithm
+works by either adopting the exact or the hierarchical algorithm depending on
+the threshold and the size of the segment being analyzed. When the threshold
+argument is large, it applies the exact algorithm to the data set, whereas when
+the threshold is small, it applies the hierarchical algorithm instead.</p>
+<p>Consider now the simulated data set of segments with similar averages described
+in equation <a href="simulations.html#eq:geneticexample">(4.6)</a>. We do the same algorithm comparison with
+this data set in Table <a href="simulations.html#tab:hausdorff-mean-comparison">4.6</a>. In contrast with
+the previous experiment, all the algorithms manage to find the expected solution
+to the problem.</p>
+<table>
+<caption>
+<span id="tab:hausdorff-mean-comparison">Table 4.6: </span>Comparison of solutions of different algorithms
+to segment the data set described in <a href="simulations.html#eq:geneticexample">(4.6)</a>,
+measuring how far each solution is from the ideal
+solution using the Hausdorff distance.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Description
+</th>
+<th style="text-align:left;">
+Changepoints
+</th>
+<th style="text-align:right;">
+Hausdorff Distance
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Expected solution
+</td>
+<td style="text-align:left;">
+6, 16
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Exact algorithm estimate
+</td>
+<td style="text-align:left;">
+6, 16
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hierarchical algorithm estimate
+</td>
+<td style="text-align:left;">
+6, 16
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hybrid algorithm estimate with threshold 50
+</td>
+<td style="text-align:left;">
+6, 16
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hybrid algorithm estimate with threshold 4
+</td>
+<td style="text-align:left;">
+6, 16
+</td>
+<td style="text-align:right;">
+0
 </td>
 </tr>
 </tbody>

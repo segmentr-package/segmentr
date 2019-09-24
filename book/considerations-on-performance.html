@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="real-data-examples.html"/>
-<link rel="next" href="accuracy-of-algorithms.html"/>
+<link rel="next" href="conclusion.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -143,24 +143,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>4</b> Simulations</a><ul>
 <li class="chapter" data-level="4.1" data-path="simulations.html"><a href="simulations.html#segments-of-independent-variables"><i class="fa fa-check"></i><b>4.1</b> Segments of Independent Variables</a></li>
 <li class="chapter" data-level="4.2" data-path="simulations.html"><a href="simulations.html#segments-with-similar-averages"><i class="fa fa-check"></i><b>4.2</b> Segments with similar averages</a></li>
+<li class="chapter" data-level="4.3" data-path="simulations.html"><a href="simulations.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>4.3</b> Accuracy of algorithms using different algorithms</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="real-data-examples.html"><a href="real-data-examples.html"><i class="fa fa-check"></i><b>5</b> Real Data Examples</a><ul>
 <li class="chapter" data-level="5.1" data-path="real-data-examples.html"><a href="real-data-examples.html#understanding-the-data"><i class="fa fa-check"></i><b>5.1</b> Understanding the data</a></li>
-<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-likelihood"><i class="fa fa-check"></i><b>5.2</b> Building the likelihood</a></li>
-<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-likelihood-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the likelihood function</a></li>
+<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-cost-function"><i class="fa fa-check"></i><b>5.2</b> Building the cost function</a></li>
+<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-cost-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the cost function</a></li>
 <li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing granularity</a></li>
-<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-likelihood-function"><i class="fa fa-check"></i><b>5.5</b> A non-usual likelihood function</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>5.5</b> Accuracy of estimates for the Berlin dataset</a></li>
+<li class="chapter" data-level="5.6" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-cost-function"><i class="fa fa-check"></i><b>5.6</b> A non-usual cost function</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on performance</a><ul>
 <li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the code</a></li>
 <li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
 <li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html"><i class="fa fa-check"></i><b>7</b> Accuracy of algorithms</a><ul>
-<li class="chapter" data-level="7.1" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>7.1</b> Accuracy of estimates for the Berlin dataset</a></li>
-<li class="chapter" data-level="7.2" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>7.2</b> Accuracy of algorithms using different algorithms</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="package-usage.html"><a href="package-usage.html"><i class="fa fa-check"></i><b>A</b> Package Usage</a><ul>
 <li class="chapter" data-level="A.1" data-path="package-usage.html"><a href="package-usage.html#installation"><i class="fa fa-check"></i><b>A.1</b> Installation</a></li>
@@ -201,18 +199,19 @@ algorithms. In that scenario, the most relevant variable is the number of column
 in the data set, which dictates whether the computation of the exact algorithm will
 be prohibitive or not. However, the number of samples does influence the computation
 time linearly. Given the most performed operation in any of the algorithms described
-in the chapter is the likelihood function, it’s in essence the bottleneck of the
+in the chapter is the cost function, it’s, in essence, the bottleneck of the
 whole computation. Therefore, real performance gains can be obtained depending on
 the performance of the application.</p>
-<p>In R statistical programming, it’s common place to use the functions provided by the
+<p>In R statistical programming, it’s commonplace to use the functions provided by the
 programming environment, which are usually performant algorithms implemented in compiled
 programming languages such as C. However, there are times the programmer must implement
 a custom function in R, which in turn is a dynamically, and typically slower execution
 environment.</p>
-<p>Therefore, in a first attempt to make the code execution run faster, and compare different
-results, Segmentr implements the [multivariate()] likelihood function in compiled C++ programming language,
-as well as it implements [r_multivariate()] which implements the same algorithm in the R
-programming environment.</p>
+<p>Therefore, in a first attempt to make the code execution run faster, and
+compare different results, <code>segmentr</code> implements the [multivariate()]
+likelihood function (used to calculate the cost) in compiled C++ programming
+language, as well as it implements [r_multivariate()] which implements the same
+algorithm in the R programming environment.</p>
 <table>
 <caption>
 <span id="tab:benchmark-native">Table 6.1: </span>Execution time comparison
@@ -231,34 +230,34 @@ time (ms)
 <tbody>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, likelihood = multivariate, algorithm = “exact”)
+segment(data, cost = function(x) -r_multivariate(x), algorithm = “hierarchical”)
 </td>
 <td style="text-align:right;">
-6873.896
+104.103
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, likelihood = r_multivariate, algorithm = “exact”)
+segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”)
 </td>
 <td style="text-align:right;">
-49510.711
+31.353
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, likelihood = multivariate, algorithm = “hierarchical”)
+segment(data, cost = function(x) -r_multivariate(x), algorithm = “exact”)
 </td>
 <td style="text-align:right;">
-29.144
+58629.763
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, likelihood = r_multivariate, algorithm = “hierarchical”)
+segment(data, cost = function(x) -multivariate(x), algorithm = “exact”)
 </td>
 <td style="text-align:right;">
-101.869
+8919.367
 </td>
 </tr>
 </tbody>
@@ -266,8 +265,8 @@ segment(data, likelihood = r_multivariate, algorithm = “hierarchical”)
 <p>In the scenario above, we notice performance improvements in the native [multivariate()]
 function, with the biggest performance improvement taking place in the <code>exact</code> algorithm
 results. Therefore, whenever the resources are available, it’s recommended to implement
-the likelihood function directly in a native programming language such as C++. We recommend
-the RCpp package, which makes it easy to implement functions which interface easily with
+the cost function (or portions of it) directly in a native programming language such as C++. We recommend
+the RCpp package, which makes it easy to implement functions that interface easily with
 the R programming environment.</p>
 </div>
 <div id="parallelization" class="section level2">
@@ -287,7 +286,7 @@ the <code>allow_parallel</code> argument is true or false. With that in mind, a 
 <table>
 <caption>
 <span id="tab:benchmark-parallel-narrow">Table 6.2: </span>Execution time comparison
-between parralel and single-threaded computation
+between parallel and single-threaded computation
 with a data set of 100 samples and 10 columns
 </caption>
 <thead>
@@ -303,34 +302,34 @@ time (ms)
 <tbody>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, likelihood = multivariate, algorithm = “hierarchical”, allow_parallel = TRUE)
+segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = TRUE)
 </td>
 <td style="text-align:right;">
-54.587
+38.638
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel = TRUE)
+segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = TRUE)
 </td>
 <td style="text-align:right;">
-250.468
+287.124
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, likelihood = multivariate, algorithm = “hierarchical”, allow_parallel = FALSE)
+segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = FALSE)
 </td>
 <td style="text-align:right;">
-17.774
+155.071
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel = FALSE)
+segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = FALSE)
 </td>
 <td style="text-align:right;">
-122.209
+19.471
 </td>
 </tr>
 </tbody>
@@ -342,7 +341,7 @@ Consider the following case.</p>
 <table>
 <caption>
 <span id="tab:benchmark-parallel-wide">Table 6.3: </span>Execution time comparison
-between parralel and single-threaded computation
+between parallel and single-threaded computation
 with a data set of 5 samples and 100 columns
 </caption>
 <thead>
@@ -358,34 +357,34 @@ time (ms)
 <tbody>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, likelihood = multivariate, algorithm = “hierarchical”, allow_parallel = FALSE)
+segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = FALSE)
 </td>
 <td style="text-align:right;">
-39.936
+45.443
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, likelihood = multivariate, algorithm = “hierarchical”, allow_parallel = TRUE)
+segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = TRUE)
 </td>
 <td style="text-align:right;">
-45.299
+6962.734
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel = TRUE)
+segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = FALSE)
 </td>
 <td style="text-align:right;">
-5660.419
+6337.147
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel = FALSE)
+segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = TRUE)
 </td>
 <td style="text-align:right;">
-5903.643
+44.920
 </td>
 </tr>
 </tbody>
@@ -394,14 +393,14 @@ segment(data, likelihood = multivariate, algorithm = “exact”, allow_parallel
 computation slower, as there is now a lot of work done synchronizing necessary information
 between all the processes in the cluster. That takes more time than is saved by running
 the algorithm in parallel.</p>
-<p>Taking all of that in consideration, the decision of whether or not to use parallelization
+<p>Taking all of that into consideration, the decision of whether or not to use parallelization
 relies on the user after evaluating the nature of the data set. For data sets with few samples
 and many columns, parallelization is not recommended. In the case there are lots of samples,
 parallelization might give better computation times.</p>
 <p>An alternative not developed in this project would be to use a genetic algorithm approach to
-the minimal set estimation, which is a probabilistic process that converges to the result
-after enough computation time have passed. The main advantage of such method is that computations
-can be more easily parallelized. Such development might be explored in future developments of
+the optimal set estimation, which is a probabilistic process that converges to the result
+after enough computation time has passed. The main advantage of such a method is that computations
+can be more easily parallelized. Such development might be explored in future developments in
 this package.</p>
 
 </div>
@@ -412,7 +411,7 @@ this package.</p>
         </div>
       </div>
 <a href="real-data-examples.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="accuracy-of-algorithms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="conclusion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

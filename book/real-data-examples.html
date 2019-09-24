@@ -143,24 +143,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>4</b> Simulations</a><ul>
 <li class="chapter" data-level="4.1" data-path="simulations.html"><a href="simulations.html#segments-of-independent-variables"><i class="fa fa-check"></i><b>4.1</b> Segments of Independent Variables</a></li>
 <li class="chapter" data-level="4.2" data-path="simulations.html"><a href="simulations.html#segments-with-similar-averages"><i class="fa fa-check"></i><b>4.2</b> Segments with similar averages</a></li>
+<li class="chapter" data-level="4.3" data-path="simulations.html"><a href="simulations.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>4.3</b> Accuracy of algorithms using different algorithms</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="real-data-examples.html"><a href="real-data-examples.html"><i class="fa fa-check"></i><b>5</b> Real Data Examples</a><ul>
 <li class="chapter" data-level="5.1" data-path="real-data-examples.html"><a href="real-data-examples.html#understanding-the-data"><i class="fa fa-check"></i><b>5.1</b> Understanding the data</a></li>
-<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-likelihood"><i class="fa fa-check"></i><b>5.2</b> Building the likelihood</a></li>
-<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-likelihood-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the likelihood function</a></li>
+<li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-cost-function"><i class="fa fa-check"></i><b>5.2</b> Building the cost function</a></li>
+<li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-cost-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the cost function</a></li>
 <li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing granularity</a></li>
-<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-likelihood-function"><i class="fa fa-check"></i><b>5.5</b> A non-usual likelihood function</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>5.5</b> Accuracy of estimates for the Berlin dataset</a></li>
+<li class="chapter" data-level="5.6" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-cost-function"><i class="fa fa-check"></i><b>5.6</b> A non-usual cost function</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on performance</a><ul>
 <li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the code</a></li>
 <li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
 <li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html"><i class="fa fa-check"></i><b>7</b> Accuracy of algorithms</a><ul>
-<li class="chapter" data-level="7.1" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-estimates-for-the-berlin-dataset"><i class="fa fa-check"></i><b>7.1</b> Accuracy of estimates for the Berlin dataset</a></li>
-<li class="chapter" data-level="7.2" data-path="accuracy-of-algorithms.html"><a href="accuracy-of-algorithms.html#accuracy-of-algorithms-using-different-algorithms"><i class="fa fa-check"></i><b>7.2</b> Accuracy of algorithms using different algorithms</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="package-usage.html"><a href="package-usage.html"><i class="fa fa-check"></i><b>A</b> Package Usage</a><ul>
 <li class="chapter" data-level="A.1" data-path="package-usage.html"><a href="package-usage.html#installation"><i class="fa fa-check"></i><b>A.1</b> Installation</a></li>
@@ -186,15 +184,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="real-data-examples" class="section level1">
 <h1><span class="header-section-number">5</span> Real Data Examples</h1>
-<p>In order to exemplify how Segmentr is used in real situations, an example on weather
+<p>To exemplify how <code>segmentr</code> is used in real situations, an example of weather
 data is provided in this paper. The data was obtained using data found in <span class="citation">(Wetterdienst <a href="#ref-dwd" role="doc-biblioref">2019</a>)</span>.</p>
-<p>Segmentr is a package that implements a handful of algorithms to segment a given data set, by finding
-the change points that maximize the collective likelihood of the segments according to an arbitrary
-likelihood function. So, the user of this package has to find an adequate likelihood for
-the segmentation problem to be solved, possibly having to penalize it in order to avoid either an
-overparametrized or underparametrized model, i.e. one with too many or too few change points,
+<p><code>segmentr</code> is a package that implements a handful of algorithms to segment a given data set, by finding
+the change points that minimize the total cost of the segments according to an arbitrary
+cost function. So, the user of this package has to find an adequate cost for
+the segmentation problem to be solved, possibly having to penalize it to avoid either an
+over parametrized or under parameterized model, i.e. one with too many or too few change points,
 respectively. Also, it’s important to consider the computation time of each algorithm and its
-trade-offs. This example walks rough the main concepts regarding its usage, using historical
+trade-offs. This example walks through the main concepts regarding its usage, using historical
 temperature data from Berlin as an example.</p>
 <div id="understanding-the-data" class="section level2">
 <h2><span class="header-section-number">5.1</span> Understanding the data</h2>
@@ -423,10 +421,10 @@ Berlin-Tempelhof
 </tr>
 </tbody>
 </table>
-<p>In order to grasp the behavior of the weather data, in Figure
+<p>To grasp the behavior of the weather data, in Figure
 <a href="real-data-examples.html#fig:berlin-curve">5.1</a> the daily average temperature of all the weather
 stations, i.e., the mean value of each column in the data set as a time series
-graph in order to observe how the average temperature of Berlin behaves over
+graph to observe how the average temperature of Berlin behaves over
 time.</p>
 <div class="figure"><span id="fig:berlin-curve"></span>
 <img src="thesis_files/figure-html/berlin-curve-1.png" alt="Average daily temperature over time as measured by different stations in Berlin" width="672" />
@@ -436,9 +434,9 @@ Figure 5.1: Average daily temperature over time as measured by different station
 </div>
 <p>In the graph, the daily temperatures points alternate in upwards and downwards trends,
 which suggests it’s possible to fit linear regressions for each of the upwards or downwards
-trend segments. So, a “linear regression likelihood” function is proposed, which should
-return a higher value the better a linear regression fits in a given segment. By intuition,
-we expect the likelihood function to segment the dataset approximately to the way the vertical
+trend segments. So, a cost that optimizes for linear regressions function is proposed, which should
+minimize when a linear regression fits in a given segment. By intuition,
+we expect the cost function to segment the dataset approximately to the way the vertical
 lines are placed in Figure <a href="real-data-examples.html#fig:berlin-ideal">5.2</a>. The indices picked to represent each segment are available in Table <a href="real-data-examples.html#tab:berlinexpectedtable">5.2</a>.</p>
 <div class="figure"><span id="fig:berlin-ideal"></span>
 <img src="thesis_files/figure-html/berlin-ideal-1.png" alt="Manual segmentation of the weather data picked according to intuition" width="672" />
@@ -500,35 +498,32 @@ Last index
 </tbody>
 </table>
 </div>
-<div id="building-the-likelihood" class="section level2">
-<h2><span class="header-section-number">5.2</span> Building the likelihood</h2>
-<p>An adequate likelihood function should be able to rank a given set of possible segments and pick
+<div id="building-the-cost-function" class="section level2">
+<h2><span class="header-section-number">5.2</span> Building the cost function</h2>
+<p>An adequate cost function should be able to rank a given set of possible segments and pick
 the best one given the evaluation criteria. Since the goal is to select segments with a good
-linear regression fit, the method’s own standard log-likelihood function, i.e.
-the negative of the squared sum of residuals, is a good candidate for our segment likelihood function.
-However, the sum of
-residuals tend to increase with the amount of points in a segment. Instead, we pick the negative mean of the
-squared residuals, because it normalizes the likelihoods based on the length of the segment. So, in
-Equation <a href="real-data-examples.html#eq:linear-regression-likelihood">(5.1)</a>, <span class="math inline">\(L_{lm}\)</span> is the linear regression likelihood function, <span class="math inline">\(X\)</span> is the set of points
-that belong to the segment, <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> are the points that belong to <span class="math inline">\(X\)</span> for each index <span class="math inline">\(i\)</span>,
+linear regression fit, the standard log-likelihood function for linear regressions is the
+the negative of the squared sum of residuals, the squared sum of residuals is a good candidate for our segment cost function.
+So, the cost function <span class="math inline">\(K\)</span> is shown in <a href="real-data-examples.html#eq:squaredresidualcost">(5.1)</a>, with the set of points <span class="math inline">\(X\)</span>
+that belong to the segment, <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> as the points that belong to <span class="math inline">\(X\)</span> for each index <span class="math inline">\(i\)</span>,
 and <span class="math inline">\(f\)</span> is the best linear regression that fitted the <span class="math inline">\(X\)</span> segment.</p>
-<p><span class="math display" id="eq:linear-regression-likelihood">\[\begin{equation}
-L_{lm}(X)=-\sum_{i=1}^n\frac{1}{n}(y_i - f(x_i))^2
+<p><span class="math display" id="eq:squaredresidualcost">\[\begin{equation}
+K(X)=\sum_{i=1}^n\frac{1}{n}(y_i - f(x_i))^2
 \tag{5.1}
 \end{equation}\]</span></p>
-<p>A likelihood argument for a <code>segment()</code> call requires a function which accepts
+<p>A cost argument for a <code>segment()</code> call requires a function which accepts
 a candidate segment matrix, i.e. a subset of the columns in the data set, and
-returns the estimated likelihood for the candidate. Therefore, equation
-<a href="real-data-examples.html#eq:linear-regression-likelihood">(5.1)</a> is implemented as an R function called
-<code>lm_likelihood</code>, such that it obeys the argument contract by taking a matrix as
-argument and returning the negative mean of the squared residuals of a linear
-regression over the candidate segment. In order to get a sense of how the function
-behaves with the <code>berlin</code> data set, sample likelihoods a small, a medium,
-and a large segment are provided in <a href="real-data-examples.html#tab:likelihood-samples">5.3</a>.</p>
+returns the cost for the given segment. Therefore, equation
+<a href="real-data-examples.html#eq:squaredresidualcost">(5.1)</a> is implemented as an R function called
+<code>residual_cost</code>, such that it obeys the argument contract by taking a matrix as
+argument and returning the mean of the squared residuals of a linear
+regression over the candidate segment. To get a sense of how the function
+behaves with the <code>berlin</code> data set, sample costs for a small, a medium,
+and a large segment are provided in <a href="real-data-examples.html#tab:cost-samples">5.3</a>.</p>
 <table>
 <caption>
-<span id="tab:likelihood-samples">Table 5.3: </span>Sample values of the linear regression
-likelihood function for different sizes of segment
+<span id="tab:cost-samples">Table 5.3: </span>Sample values of the squared residual cost
+function for different sizes of segment
 candidates
 </caption>
 <thead>
@@ -547,33 +542,30 @@ Large Size
 <tbody>
 <tr>
 <td style="text-align:right;">
--0.0283673
+0.0283673
 </td>
 <td style="text-align:right;">
--12.18277
+12.18277
 </td>
 <td style="text-align:right;">
--68.85185
+68.85185
 </td>
 </tr>
 </tbody>
 </table>
-<p>With the likelihood function defined, it can now be applied to <code>segment()</code> in
-order to get the segments for the data set. Since the time complexity of the
+<p>With the cost function defined, it can now be applied to <code>segment()</code> to get the segments for the data set. Since the time complexity of the
 exact algorithm is <span class="math inline">\(O(n^2)\)</span> and the number of points in the data set is high,
 the execution time required for the computation is quite prohibitive. So, for
 demonstration purposes, we use the hierarchical algorithm, due to its
-<span class="math inline">\(O(n \log(n))\)</span>. We point the hierarchical algorithm, generally suitable for the
-multivariate likelihood, assumes the segments’ likelihoods to be structured in
-a hierarchical manner, with a combination of two neighboring segments having
-being selected as an intermediate step before evaluating the ideal change
+<span class="math inline">\(O(n \log(n))\)</span> complexity. We point the hierarchical algorithm (generally suitable for the cost function based on
+multivariate likelihood) assumes the segments to be structured hierarchically, with a combination of two neighboring segments being selected as an intermediate step before evaluating the ideal change
 points of the data set. The segmentation results can be seen in Table
 <a href="real-data-examples.html#tab:resultsnonpenalized">5.4</a>, and they are also plotted together with the
 weather data in Figure <a href="real-data-examples.html#fig:berlin-non-penalized">5.3</a>.</p>
 <table>
 <caption>
 <span id="tab:resultsnonpenalized">Table 5.4: </span>Results of the segmentation algorithm
-using a non-penalized likelihood function
+using a non-penalized cost function
 </caption>
 <thead>
 <tr>
@@ -801,33 +793,33 @@ Last index
 </tbody>
 </table>
 <div class="figure"><span id="fig:berlin-non-penalized"></span>
-<img src="thesis_files/figure-html/berlin-non-penalized-1.png" alt="Berlin weather data segmented using a non-penalized likelihood function" width="672" />
+<img src="thesis_files/figure-html/berlin-non-penalized-1.png" alt="Berlin weather data segmented using a non-penalized cost function" width="672" />
 <p class="caption">
-Figure 5.3: Berlin weather data segmented using a non-penalized likelihood function
+Figure 5.3: Berlin weather data segmented using a non-penalized cost function
 </p>
 </div>
-<p>In Figure <a href="real-data-examples.html#fig:berlin-non-penalized">5.3</a>, it’s possible see many very short
+<p>In Figure <a href="real-data-examples.html#fig:berlin-non-penalized">5.3</a>, it’s possible to see many very short
 segments, and a very large last segment. This is a result of the algorithm
-used, as well as the fact the <code>lm_likelihood</code> function tends to favor very
+used, as well as the fact the <code>residual_cost</code> function tends to favor very
 short segments, as they usually have smaller residual error. So, to not get
-segments too short or too long, it’s necessary to penalize the likelihood
+segments too short or too long, it’s necessary to penalize the cost
 function for either extremely short or extremely long lengths.</p>
 </div>
-<div id="penalizing-the-likelihood-function" class="section level2">
-<h2><span class="header-section-number">5.3</span> Penalizing the likelihood function</h2>
-<p>To penalize a likelihood function in the Segmentr context is to decrease the return value of the likelihood
+<div id="penalizing-the-cost-function" class="section level2">
+<h2><span class="header-section-number">5.3</span> Penalizing the cost function</h2>
+<p>To penalize a cost function in the <code>segmentr</code> context is to increase the return value of the cost
 function whenever unwanted segments are provided as an input. Typically, this involves
-penalizing the likelihood function whenever a very short or a very long segment is provided.</p>
-<p>One such method is to subtract the output of the likelihood function with a penalty function which
+penalizing the cost function whenever a very short or a very long segment is provided.</p>
+<p>One such method is to add the output of the cost function with a penalty function which
 is a function of the length of the segment. We propose a penalty function in <a href="real-data-examples.html#eq:penalty-function">(5.2)</a>.</p>
 <p><span class="math display" id="eq:penalty-function">\[\begin{equation}
 p(l) = C_1e^{s_1(l - \frac{L}{2})} + C_2e^{s_2(-l + \frac{L}{2})}
 \tag{5.2}
 \end{equation}\]</span></p>
 <p>In equation <a href="real-data-examples.html#eq:penalty-function">(5.2)</a>, the penalty <span class="math inline">\(p(l)\)</span> is a function of the
-segment’s length <span class="math inline">\(l\)</span>, has the property that, for parametrization values
+segment’s length <span class="math inline">\(l\)</span> and, for parametrization values
 <span class="math inline">\(C_1 &gt; 0\)</span>, <span class="math inline">\(s_1 &gt; 0\)</span>, <span class="math inline">\(C_2 &gt; 0\)</span> and <span class="math inline">\(s_2 &gt; 0\)</span>, the penalty is high for values of <span class="math inline">\(l\)</span>
-neighboring <span class="math inline">\(0\)</span>, as well as values of <span class="math inline">\(l\)</span> the total length <span class="math inline">\(L\)</span> of the data set.
+neighboring <span class="math inline">\(0\)</span>, as well as values of <span class="math inline">\(l\)</span> in the order of the total length <span class="math inline">\(L\)</span> of the data set.
 However, penalty is close to its minimum for values of <span class="math inline">\(l\)</span> neighboring
 <span class="math inline">\(\frac{L}{2}\)</span>. To visualize, consider a sample penalty function, with <span class="math inline">\(C_1 = C_2 = 1\)</span>, <span class="math inline">\(s_1 = s_2 = 0.3\)</span> and <span class="math inline">\(L = 100\)</span>, plotted in Figure <a href="real-data-examples.html#fig:penalty-curve">5.4</a>.</p>
 <div class="figure"><span id="fig:penalty-curve"></span>
@@ -837,17 +829,17 @@ Figure 5.4: Example curve of the penalty function for <span class="math inline">
 </p>
 </div>
 <p>Given the penalty function general formula, it’s necessary to adjust the
-parameters such the penalty function has a scale compatible with the likelihood
-function. The <code>auto_penalize()</code> function, provided in the Segmentr package,
-builds a penalized version of the likelihood function, by estimating
-parametrization values based on sample likelihood values for big and small
+parameters such the penalty function has a scale compatible with the cost
+function. The <code>auto_penalize()</code> function, provided in the <code>segmentr</code> package,
+builds a penalized version of the cost function, by estimating
+parametrization values based on sample cost values for big and small
 segments of the data set provided. The estimated parameters are tunable by
 adjusting the <code>small_segment_penalty</code> and the <code>big_segment_penalty</code> parameters, depending
 on how much small or big segments, respectively, should be penalized, i.e. the
 higher the parameter, the more penalized the related type of segment size is.</p>
 <p>Let <span class="math inline">\(P_s\)</span> be the <code>small_segment_penalty</code>, <span class="math inline">\(P_b\)</span> be the <code>big_segment_penalty</code>,
-<span class="math inline">\(\mu_s\)</span> be the average likelihood for the sampled small segments and <span class="math inline">\(\mu_b\)</span> be
-the average likelihood for the samples big segments. The relationship between
+<span class="math inline">\(\mu_s\)</span> be the average cost for the sampled small segments and <span class="math inline">\(\mu_b\)</span> be
+the average cost for the sample’s big segments. The relationship between
 the parameters, as defined by the <code>auto_penalize()</code> function, is defined in
 <a href="real-data-examples.html#eq:penalty-parametrization">(5.3)</a>.</p>
 <p><span class="math display" id="eq:penalty-parametrization">\[\begin{equation}
@@ -859,7 +851,7 @@ s_2 &amp; = \frac{4 \log(P_s)}{L}
 \end{aligned}
 \tag{5.3}
 \end{equation}\]</span></p>
-<p>So, a penalized likelihood version of the function is created with
+<p>So, a penalized cost version of the function is created with
 <code>auto_penalize()</code> and then used with <code>segment()</code>. The results of the
 segmentation can be seen in Table <a href="real-data-examples.html#tab:resultsautopenalized">5.5</a>, and it’s
 possible to the segments with the weather data in Figure
@@ -867,7 +859,7 @@ possible to the segments with the weather data in Figure
 <table>
 <caption>
 <span id="tab:resultsautopenalized">Table 5.5: </span>Results of the segmentation algorithm
-using an auto-penalized likelihood function
+using an auto-penalized cost function
 </caption>
 <thead>
 <tr>
@@ -891,7 +883,7 @@ Last index
 1
 </td>
 <td style="text-align:right;">
-203
+2
 </td>
 </tr>
 <tr>
@@ -899,10 +891,10 @@ Last index
 2
 </td>
 <td style="text-align:right;">
-204
+3
 </td>
 <td style="text-align:right;">
-268
+6
 </td>
 </tr>
 <tr>
@@ -910,10 +902,10 @@ Last index
 3
 </td>
 <td style="text-align:right;">
-269
+7
 </td>
 <td style="text-align:right;">
-327
+17
 </td>
 </tr>
 <tr>
@@ -921,10 +913,10 @@ Last index
 4
 </td>
 <td style="text-align:right;">
-328
+18
 </td>
 <td style="text-align:right;">
-559
+19
 </td>
 </tr>
 <tr>
@@ -932,10 +924,10 @@ Last index
 5
 </td>
 <td style="text-align:right;">
-560
+20
 </td>
 <td style="text-align:right;">
-644
+21
 </td>
 </tr>
 <tr>
@@ -943,7 +935,150 @@ Last index
 6
 </td>
 <td style="text-align:right;">
-645
+22
+</td>
+<td style="text-align:right;">
+23
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+24
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+26
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+28
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+29
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+33
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+37
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+38
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+41
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+42
+</td>
+<td style="text-align:right;">
+43
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+47
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+48
 </td>
 <td style="text-align:right;">
 730
@@ -952,24 +1087,24 @@ Last index
 </tbody>
 </table>
 <div class="figure"><span id="fig:berlin-auto-penalized"></span>
-<img src="thesis_files/figure-html/berlin-auto-penalized-1.png" alt="Berlin weather data segmented using an auto-penalized likelihood function" width="672" />
+<img src="thesis_files/figure-html/berlin-auto-penalized-1.png" alt="Berlin weather data segmented using an auto-penalized cost function" width="672" />
 <p class="caption">
-Figure 5.5: Berlin weather data segmented using an auto-penalized likelihood function
+Figure 5.5: Berlin weather data segmented using an auto-penalized cost function
 </p>
 </div>
 <p>We now get a reduced number of segments estimated by the new penalized
-likelihood function in Figure <a href="real-data-examples.html#fig:berlin-auto-penalized">5.5</a> found by the new
-penalized likelihood, though it’s also over segmenting some downward trends. It
+cost function in Figure <a href="real-data-examples.html#fig:berlin-auto-penalized">5.5</a> found by the new
+penalized cost, though it’s also over segmenting some downward trends. It
 suggests the <code>big_segment_penalty</code> argument needs to be decreased to allow for
 larger segments to be estimated by the solution. So, by decreasing it’s value,
 from the default of <span class="math inline">\(10\)</span>, down to <span class="math inline">\(2\)</span>, we run the results again with the
 <code>segment()</code> function. The results can be seen in
-<a href="real-data-examples.html#tab:resultsadjustedpenalized">5.6</a>, and it’s possible to the segments with the
+<a href="real-data-examples.html#tab:resultsadjustedpenalized">5.6</a>, and it’s possible for the segments with the
 weather data in Figure <a href="real-data-examples.html#fig:berlin-adjusted-penalized">5.6</a>.</p>
 <table>
 <caption>
 <span id="tab:resultsadjustedpenalized">Table 5.6: </span>Results of the segmentation algorithm
-using an adjusted penalized likelihood function
+using an adjusted penalized cost function
 </caption>
 <thead>
 <tr>
@@ -1021,28 +1156,28 @@ Last index
 </tbody>
 </table>
 <div class="figure"><span id="fig:berlin-adjusted-penalized"></span>
-<img src="thesis_files/figure-html/berlin-adjusted-penalized-1.png" alt="Berlin weather data segmented using an adjusted penalized likelihood function" width="672" />
+<img src="thesis_files/figure-html/berlin-adjusted-penalized-1.png" alt="Berlin weather data segmented using an adjusted penalized cost function" width="672" />
 <p class="caption">
-Figure 5.6: Berlin weather data segmented using an adjusted penalized likelihood function
+Figure 5.6: Berlin weather data segmented using an adjusted penalized cost function
 </p>
 </div>
 <p>Though we got a reduced number of segments in the new adjusted
-<code>penalized_likelihood</code>, the segments seen in Figure
+<code>penalized_cost</code>, the segments seen in Figure
 <a href="real-data-examples.html#fig:berlin-adjusted-penalized">5.6</a> still aren’t similar to what we are
 looking for as shown in Figure <a href="real-data-examples.html#fig:berlin-ideal">5.2</a>. The reason behind this,
 as discussed earlier, is due to the incorrect assumption the data is
-hierarchical. So, in order to segment the data ideally, it’s necessary to
+hierarchical. So, to segment the data ideally, it’s necessary to
 evaluate all of the possibilities.</p>
 <p>The exact algorithm does precisely compute all of the possibilities, but its <span class="math inline">\(O(n^2)\)</span> time complexity
-is quite prohibitive to run the computation on the entire data set. So we can actually make the computation
+is quite prohibitive to run the computation on the entire data set. So we can make the computation
 tolerable by reducing the granularity of the data, getting the monthly averages for each of the
 measurement stations.</p>
 </div>
 <div id="reducing-granularity" class="section level2">
 <h2><span class="header-section-number">5.4</span> Reducing granularity</h2>
-<p>The data set needs to be resampled in order to represent the monthly weather averages. It is done by
+<p>The data set needs to be resampled to represent the monthly weather averages. It is done by
 computing the average temperature for each combination of month and weather station. With the granularity reduction,
-the data set will have 24 columns, one for each month in the two years period comprehended.
+the data set will have 24 columns, one for each month in the two years comprehended.
 The plot of the monthly average temperature of the temperatures of all the data points is plotted in figure
 <a href="real-data-examples.html#fig:downsampled-curve">5.7</a></p>
 <div class="figure"><span id="fig:downsampled-curve"></span>
@@ -1051,14 +1186,14 @@ The plot of the monthly average temperature of the temperatures of all the data 
 Figure 5.7: Average monthly temperature over time as measured by different stations in Berlin
 </p>
 </div>
-<p>A new <code>penalized_function</code> is then built and applied to the monthly data set
+<p>A new <code>penalized_cost</code> function is then built and applied to the monthly data set
 using <code>segment()</code>, with the results being shown in Table
 <a href="real-data-examples.html#tab:downresautopenalized">5.7</a>, and with we also plot it with weather data
 in Figure <a href="real-data-examples.html#fig:downsampled-auto-penalized">5.8</a>.</p>
 <table>
 <caption>
 <span id="tab:downresautopenalized">Table 5.7: </span>Results of the segmentation algorithm
-using an auto-penalized likelihood function over
+using an auto-penalized cost function over
 downsampled berlin data
 </caption>
 <thead>
@@ -1122,12 +1257,12 @@ Last index
 </tbody>
 </table>
 <div class="figure"><span id="fig:downsampled-auto-penalized"></span>
-<img src="thesis_files/figure-html/downsampled-auto-penalized-1.png" alt="Downsampled Berlin monthly weather data segmented using an auto penalized likelihood function" width="672" />
+<img src="thesis_files/figure-html/downsampled-auto-penalized-1.png" alt="Downsampled Berlin monthly weather data segmented using an auto penalized cost function" width="672" />
 <p class="caption">
-Figure 5.8: Downsampled Berlin monthly weather data segmented using an auto penalized likelihood function
+Figure 5.8: Downsampled Berlin monthly weather data segmented using an auto penalized cost function
 </p>
 </div>
-<p>In order to make the solution comparison clearer, it’s possible to
+<p>To make the solution comparison clearer, it’s possible to
 rescale the <code>exact</code> solution to the monthly sampled dataset to the
 daily sampled dataset by applying a linear transformation of
 multiplying all the change points for the number of columns in the
@@ -1138,7 +1273,7 @@ the original change point <span class="math inline">\(c_i\)</span> as described 
 each change point estimated with the monthly data set, <span class="math inline">\(N_M\)</span>
 represents the number of columns in the monthly Berlin weather
 data set and <span class="math inline">\(N_B\)</span> represents the number of columns in the daily
-Berlin data set, in the original form provided by the Segmentr
+Berlin data set, in the original form provided by the <code>segmentr</code>
 package.</p>
 <p><span class="math display" id="eq:rescaled-change-points">\[\begin{equation}
 C_i = \left \lfloor{c_i \frac{N_B}{N_M}} \right \rfloor
@@ -1150,7 +1285,7 @@ the daily graph in Figure <a href="real-data-examples.html#fig:plot-results-resc
 <table>
 <caption>
 <span id="tab:resultsrescaled">Table 5.8: </span>Results of the segmentation algorithm
-using an auto-penalized likelihood function over
+using an auto-penalized cost function over
 downsampled berlin data, but rescaled to fit the
 original data dimensions
 </caption>
@@ -1215,33 +1350,135 @@ Last index
 </tbody>
 </table>
 <div class="figure"><span id="fig:plot-results-rescaled"></span>
-<img src="thesis_files/figure-html/plot-results-rescaled-1.png" alt="Rescaled segments estimated for a downsampled monthly weather data of the Berlin data set using an auto penalized likelihood function" width="672" />
+<img src="thesis_files/figure-html/plot-results-rescaled-1.png" alt="Rescaled segments estimated for a downsampled monthly weather data of the Berlin data set using an auto penalized cost function" width="672" />
 <p class="caption">
-Figure 5.9: Rescaled segments estimated for a downsampled monthly weather data of the Berlin data set using an auto penalized likelihood function
+Figure 5.9: Rescaled segments estimated for a downsampled monthly weather data of the Berlin data set using an auto penalized cost function
 </p>
 </div>
 <p>With the exact solution, made possible with the granularity reduction, we
 noticed the data set is segmented closer to what the ideal solution would be,
 as the algorithm as able to evaluate all of the possibilities.</p>
 </div>
-<div id="a-non-usual-likelihood-function" class="section level2">
-<h2><span class="header-section-number">5.5</span> A non-usual likelihood function</h2>
-<p>Take notice the picking of the likelihood just have be able to rank segments in
+<div id="accuracy-of-estimates-for-the-berlin-dataset" class="section level2">
+<h2><span class="header-section-number">5.5</span> Accuracy of estimates for the Berlin dataset</h2>
+<p>In this chapter, the data set of weather temperatures in
+Berlin was presented, and there was a walkthrough on different ways to use
+<code>segmentr</code> to find a good estimate set of segments for it. Table
+<a href="real-data-examples.html#tab:berlinexpectedtable">5.2</a> lists the considered solution considered ideal to the
+problem, at the same time as different solutions were
+found in Tables <a href="real-data-examples.html#tab:resultsnonpenalized">5.4</a>, <a href="real-data-examples.html#tab:resultsautopenalized">5.5</a>
+and <a href="real-data-examples.html#tab:downresautopenalized">5.7</a>. Considering this, the
+Hausdorff distance can be used to measure how far each estimate is from
+the ideal solution described in Table <a href="real-data-examples.html#tab:berlinexpectedtable">5.2</a>.
+In Table <a href="real-data-examples.html#tab:hausdorff-real-data-comparison">5.9</a> we can see the results
+of the comparison, in which we can see the distance of each estimate
+calculated.</p>
+
+
+
+
+
+<table>
+<caption>
+<span id="tab:hausdorff-real-data-comparison">Table 5.9: </span>Hausdorff distance for different
+segmentation attepmts over the Berlin weather data set
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Results referenced
+</th>
+<th style="text-align:left;">
+Estimated Changepoints
+</th>
+<th style="text-align:right;">
+Hausdorff Distance to Ideal
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Table <a href="real-data-examples.html#tab:berlinexpectedtable">5.2</a>
+</td>
+<td style="text-align:left;width: 15em; ">
+200, 360, 570
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Table <a href="real-data-examples.html#tab:resultsnonpenalized">5.4</a>
+</td>
+<td style="text-align:left;width: 15em; ">
+3, 7, 18, 20, 22, 24, 25, 27, 29, 30, 32, 34, 36, 38, 39, 42, 44, 48
+</td>
+<td style="text-align:right;">
+522
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Table <a href="real-data-examples.html#tab:resultsautopenalized">5.5</a>
+</td>
+<td style="text-align:left;width: 15em; ">
+3, 7, 18, 20, 22, 24, 25, 27, 29, 30, 32, 34, 36, 38, 39, 42, 44, 48
+</td>
+<td style="text-align:right;">
+522
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Table <a href="real-data-examples.html#tab:resultsadjustedpenalized">5.6</a>
+</td>
+<td style="text-align:left;width: 15em; ">
+238, 454
+</td>
+<td style="text-align:right;">
+116
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Table <a href="real-data-examples.html#tab:resultsrescaled">5.8</a>
+</td>
+<td style="text-align:left;width: 15em; ">
+213, 365, 578
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+</tbody>
+</table>
+<p>In Table <a href="real-data-examples.html#tab:hausdorff-real-data-comparison">5.9</a> we can see the distance to
+the ideal is gradually decreased more adequate parameters are used to compute
+the segment estimates for the segmentation estimate. This improvement reflects
+the progress that can be observed in gradually in Figures
+<a href="real-data-examples.html#fig:berlin-non-penalized">5.3</a>, <a href="real-data-examples.html#fig:berlin-auto-penalized">5.5</a>,
+<a href="real-data-examples.html#fig:berlin-adjusted-penalized">5.6</a> and <a href="real-data-examples.html#fig:plot-results-rescaled">5.9</a>.</p>
+</div>
+<div id="a-non-usual-cost-function" class="section level2">
+<h2><span class="header-section-number">5.6</span> A non-usual cost function</h2>
+<p>Notice the only requirement on the cost function is for it to be able to rank segments in
 a desired manner. Therefore, there’s freedom to pick a non-conventional
-likelihood function. For example, the R-squared statistic of the linear
+cost function. For example, the R-squared statistic of the linear
 regression in each segment is conventionally used to infer how well the linear
 model fits the points in the data. It ranges from zero to one and the closer it
 is to one, the better it predicts the points in the data. Therefore, we propose
-the implementation of a <code>rsquared_likelihood</code>, which fits a linear regression
-against the data set received as input in the function, and then returns the
-R-squared statistic as the “likelihood” value of the segment. The defined
+the implementation of a <code>rsquared_cost</code>, which fits a linear regression
+against the data set received as input in the function and then returns the
+opposite R-squared statistic as the “cost” value of the segment. The defined
 function is applied against different segment sizes of the <code>berlin</code> data set,
-analogous to Table <a href="real-data-examples.html#tab:likelihood-samples">5.3</a>, and the results are shown in
-<a href="real-data-examples.html#tab:rsquared-samples">5.9</a>.</p>
+analogous to Table <a href="real-data-examples.html#tab:cost-samples">5.3</a>, and the results are shown in
+<a href="real-data-examples.html#tab:rsquared-samples">5.10</a>.</p>
 <table>
 <caption>
-<span id="tab:rsquared-samples">Table 5.9: </span>Sample values of the R-squared
-likelihood function for different sizes of segment
+<span id="tab:rsquared-samples">Table 5.10: </span>Sample values of the R-squared
+cost function for different sizes of segment
 candidates
 </caption>
 <thead>
@@ -1260,27 +1497,27 @@ Large Size
 <tbody>
 <tr>
 <td style="text-align:right;">
-0.982116
+-0.982116
 </td>
 <td style="text-align:right;">
-0.7601494
+-0.7601494
 </td>
 <td style="text-align:right;">
-0.0328304
+-0.0328304
 </td>
 </tr>
 </tbody>
 </table>
-<p>From what is observed in Table <a href="real-data-examples.html#tab:rsquared-samples">5.9</a>, and similar to the
-previous case, the new <code>rsquared_likelihood</code> has the highest values for small
+<p>From what is observed in Table <a href="real-data-examples.html#tab:rsquared-samples">5.10</a>, and similar to the
+previous case, the new <code>rsquared_cost</code> has the lowest values for small
 segments. Therefore, it needs to be penalized with the <code>auto_penalize</code>
 function. We then go on and apply the results of the penalized function and show
-them in Table <a href="real-data-examples.html#tab:rsquaredres-auto-penalized">5.10</a>. The plot with the weather
+them in Table <a href="real-data-examples.html#tab:rsquaredres-auto-penalized">5.11</a>. The plot with the weather
 data can be seen in Figure <a href="real-data-examples.html#fig:rsquaredplot-auto-penalized">5.10</a>.</p>
 <table>
 <caption>
-<span id="tab:rsquaredres-auto-penalized">Table 5.10: </span>Results of the segmentation algorithm
-using an auto-penalized R-squared likelihood function over
+<span id="tab:rsquaredres-auto-penalized">Table 5.11: </span>Results of the segmentation algorithm
+using an auto-penalized R-squared cost function over
 Berlin data
 </caption>
 <thead>
@@ -1333,24 +1570,23 @@ Last index
 </tbody>
 </table>
 <div class="figure"><span id="fig:rsquaredplot-auto-penalized"></span>
-<img src="thesis_files/figure-html/rsquaredplot-auto-penalized-1.png" alt="Berlin daily weather data segmented using an auto-penalized R-squared likelihood function" width="672" />
+<img src="thesis_files/figure-html/rsquaredplot-auto-penalized-1.png" alt="Berlin daily weather data segmented using an auto-penalized R-squared cost function" width="672" />
 <p class="caption">
-Figure 5.10: Berlin daily weather data segmented using an auto-penalized R-squared likelihood function
+Figure 5.10: Berlin daily weather data segmented using an auto-penalized R-squared cost function
 </p>
 </div>
-<p>The default penalized <code>rsquared_likelihood</code> split the data set in three
-segments, roughly the same size each. Since the penalty model applied by
-<code>auto_penalize</code>, it applies the least penalty for values segments closer to
-about half the total length, so increasing the <code>big_penalty_segment</code> will have
-no effect. In fact, smaller segments are being over penalized. Because of this,
+<p>The default penalized <code>rsquared_cost</code> split the data set in three
+segments, roughly the same size each. It makes sense because the penalty applied by
+the default <code>auto_penalize</code> funtion has the lowest penalty for segments of sizes closer to
+about half the total length. So, increasing the <code>big_penalty_segment</code> argument will not affect solution estimation anymore. In contrast, smaller segments are being over penalized. Because of this,
 it’s necessary to reduce the <code>small_segment_penalty</code> segment, which we decrease
 to <span class="math inline">\(1.5\)</span>, from the default of <span class="math inline">\(10\)</span>. The results of the new segmentation can be
-seen in Table <a href="real-data-examples.html#tab:rsquaredres-adjusted-penalized">5.11</a>, and the plot in Figure
+seen in Table <a href="real-data-examples.html#tab:rsquaredres-adjusted-penalized">5.12</a>, and the plot in Figure
 <a href="real-data-examples.html#fig:rsquaredplot-adjusted-penalized">5.11</a>.</p>
 <table>
 <caption>
-<span id="tab:rsquaredres-adjusted-penalized">Table 5.11: </span>Results of the segmentation algorithm
-using an adjusted penalized R-squared likelihood
+<span id="tab:rsquaredres-adjusted-penalized">Table 5.12: </span>Results of the segmentation algorithm
+using an adjusted penalized R-squared cost
 function over Berlin data
 </caption>
 <thead>
@@ -1436,29 +1672,29 @@ Last index
 </tbody>
 </table>
 <div class="figure"><span id="fig:rsquaredplot-adjusted-penalized"></span>
-<img src="thesis_files/figure-html/rsquaredplot-adjusted-penalized-1.png" alt="Berlin daily weather data segmented using an adjusted penalized R-squared likelihood function" width="672" />
+<img src="thesis_files/figure-html/rsquaredplot-adjusted-penalized-1.png" alt="Berlin daily weather data segmented using an adjusted penalized R-squared cost function" width="672" />
 <p class="caption">
-Figure 5.11: Berlin daily weather data segmented using an adjusted penalized R-squared likelihood function
+Figure 5.11: Berlin daily weather data segmented using an adjusted penalized R-squared cost function
 </p>
 </div>
 <p>With the adjusted parameters, we see the <code>rsquared_penalized</code> was able to
 segment the data in Figure <a href="real-data-examples.html#fig:rsquaredplot-adjusted-penalized">5.11</a> in a
 seemingly accurate manner, despite the nature of the hierarchical algorithm. As
 discussed previously, we point the hierarchical algorithm is not adequate for
-the linear likelihood, as the grouping of neighboring segments under a
+the squared residual cost, as the grouping of neighboring segments under a
 macro-segment, an intermediate segment state under the hierarchical algorithm,
-has a unattractive likelihood, due to the presence of alternating trends.
+has an unattractive cost value, due to the presence of alternating trends.
 Because of this, the macro-segment is never picked by the algorithm during the
 computation process, and so the ideal change points are never picked at their
-ideal positions. In order to see it more clearly, take the first 547 data
+ideal positions. To see it more clearly, take the first 547 data
 points of the Berlin data set, roughly one year and a half. The results
 of the segmentation with that portion of the <code>berlin</code> data set can be seen in
-Table <a href="real-data-examples.html#tab:subberlinres-penalized">5.12</a>, and the plot can be seen in Figure
+Table <a href="real-data-examples.html#tab:subberlinres-penalized">5.13</a>, and the plot can be seen in Figure
 <a href="real-data-examples.html#fig:subberlinplot-penalized">5.12</a>.</p>
 <table>
 <caption>
-<span id="tab:subberlinres-penalized">Table 5.12: </span>Results of the segmentation algorithm
-using an auto-penalized R-squared likelihood
+<span id="tab:subberlinres-penalized">Table 5.13: </span>Results of the segmentation algorithm
+using an auto-penalized R-squared cost
 function over a subset of Berlin data
 </caption>
 <thead>
@@ -1511,12 +1747,12 @@ Last index
 </tbody>
 </table>
 <div class="figure"><span id="fig:subberlinplot-penalized"></span>
-<img src="thesis_files/figure-html/subberlinplot-penalized-1.png" alt="Subset of Berlin daily weather data segmented using an auto-penalized R-squared likelihood function" width="672" />
+<img src="thesis_files/figure-html/subberlinplot-penalized-1.png" alt="Subset of Berlin daily weather data segmented using an auto-penalized R-squared cost function" width="672" />
 <p class="caption">
-Figure 5.12: Subset of Berlin daily weather data segmented using an auto-penalized R-squared likelihood function
+Figure 5.12: Subset of Berlin daily weather data segmented using an auto-penalized R-squared cost function
 </p>
 </div>
-<p>In Figure <a href="real-data-examples.html#fig:subberlinplot-penalized">5.12</a>, we can clearly see the segments
+<p>In Figure <a href="real-data-examples.html#fig:subberlinplot-penalized">5.12</a>, we can see the segments
 do not match our expectations, as the algorithm is not able to bisect a
 macro-segment before finding the ideal segments in the next algorithm
 iteration.</p>
