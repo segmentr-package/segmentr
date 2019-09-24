@@ -12,7 +12,7 @@ with a real weather data set. Finally, performance considerations are taken into
 consideration when trying to have the code run faster.
 
 In summary, there are a lot of decisions involved in the problem of segmentation,
-such as picking the right likelihood function for the evaluation, which
+such as picking the right cost function for the evaluation, which
 algorithm to pick, and whether or not parallelization can help in running the computation
 faster. By providing a common set of tools, we hope to make the life of the researcher
 easier.

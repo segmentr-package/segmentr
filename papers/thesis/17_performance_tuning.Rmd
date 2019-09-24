@@ -24,7 +24,7 @@ algorithms. In that scenario, the most relevant variable is the number of column
 in the data set, which dictates whether the computation of the exact algorithm will
 be prohibitive or not. However, the number of samples does influence the computation
 time linearly. Given the most performed operation in any of the algorithms described
-in the chapter is the likelihood function, it's, in essence, the bottleneck of the
+in the chapter is the cost function, it's, in essence, the bottleneck of the
 whole computation. Therefore, real performance gains can be obtained depending on
 the performance of the application.
 
@@ -34,26 +34,27 @@ programming languages such as C. However, there are times the programmer must im
 a custom function in R, which in turn is a dynamically, and typically slower execution
 environment.
 
-Therefore, in a first attempt to make the code execution run faster, and compare different
-results, Segmentr implements the [multivariate()] likelihood function in compiled C++ programming language,
-as well as it implements [r_multivariate()] which implements the same algorithm in the R
-programming environment.
+Therefore, in a first attempt to make the code execution run faster, and
+compare different results, `segmentr` implements the [multivariate()]
+likelihood function (used to calculate the cost) in compiled C++ programming
+language, as well as it implements [r_multivariate()] which implements the same
+algorithm in the R programming environment.
 
 ```{r benchmark-native}
 data <- makeRandom(20, 100)
 
 bench <- microbenchmark(
   segment(data,
-          likelihood = multivariate,
+          cost = function(x) -multivariate(x),
           algorithm = "exact"),
   segment(data,
-          likelihood = r_multivariate,
+          cost = function(x) -r_multivariate(x),
           algorithm = "exact"),
   segment(data,
-          likelihood = multivariate,
+          cost = function(x) -multivariate(x),
           algorithm = "hierarchical"),
   segment(data,
-          likelihood = r_multivariate,
+          cost = function(x) -r_multivariate(x),
           algorithm = "hierarchical"),
   times = 1
 )
@@ -68,7 +69,7 @@ print_benchmark(
 In the scenario above, we notice performance improvements in the native [multivariate()]
 function, with the biggest performance improvement taking place in the `exact` algorithm
 results. Therefore, whenever the resources are available, it's recommended to implement
-the likelihood function directly in a native programming language such as C++. We recommend
+the cost function (or portions of it) directly in a native programming language such as C++. We recommend
 the RCpp package, which makes it easy to implement functions that interface easily with
 the R programming environment.
 
@@ -93,19 +94,19 @@ data <- makeRandom(100, 10)
 doMC::registerDoMC(4)
 bench <- microbenchmark(
   segment(data,
-          likelihood = multivariate,
+          cost = function(x) -multivariate(x),
           algorithm = "exact",
           allow_parallel = FALSE),
   segment(data,
-          likelihood = multivariate,
+          cost = function(x) -multivariate(x),
           algorithm = "exact",
           allow_parallel = TRUE),
   segment(data,
-          likelihood = multivariate,
+          cost = function(x) -multivariate(x),
           algorithm = "hierarchical",
           allow_parallel = FALSE),
   segment(data,
-          likelihood = multivariate,
+          cost = function(x) -multivariate(x),
           algorithm = "hierarchical",
           allow_parallel = TRUE),
   times = 1
@@ -128,19 +129,19 @@ data <- makeRandom(5, 100)
 doMC::registerDoMC(4)
 bench <- microbenchmark(
   segment(data,
-          likelihood = multivariate,
+          cost = function(x) -multivariate(x),
           algorithm = "exact",
           allow_parallel = FALSE),
   segment(data,
-          likelihood = multivariate,
+          cost = function(x) -multivariate(x),
           algorithm = "exact",
           allow_parallel = TRUE),
   segment(data,
-          likelihood = multivariate,
+          cost = function(x) -multivariate(x),
           algorithm = "hierarchical",
           allow_parallel = FALSE),
   segment(data,
-          likelihood = multivariate,
+          cost = function(x) -multivariate(x),
           algorithm = "hierarchical",
           allow_parallel = TRUE),
   times = 1
@@ -165,7 +166,7 @@ and many columns, parallelization is not recommended. In the case there are lots
 parallelization might give better computation times.
 
 An alternative not developed in this project would be to use a genetic algorithm approach to
-the minimal set estimation, which is a probabilistic process that converges to the result
+the optimal set estimation, which is a probabilistic process that converges to the result
 after enough computation time has passed. The main advantage of such a method is that computations
 can be more easily parallelized. Such development might be explored in future developments in
 this package.

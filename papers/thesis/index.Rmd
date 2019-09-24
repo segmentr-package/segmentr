@@ -7,12 +7,13 @@ author:
   - "Thales Mello"
   - "Florencia Leonardi"
 valuation-committee:
-  - "Professor 1"
-  - "Professor 2"
+  - "Profa. Dra. Florencia Leonardi"
+  - "Prof. Dr. André Fujita"
+  - "Prof. Dr. Jesús Enrique Garcia"
 masters-program: "Mestrado em Estatística"
 date: "São Paulo, 16 de Abril de 2019"
 site: bookdown::bookdown_site
-final-submission: false
+final-submission: true
 presentation-date: "23 de Abril de 2019"
 output: bookdown::gitbook
 documentclass: book
@@ -32,7 +33,7 @@ abstract-text: |
 
   This dissertation explores the development of a package for the R programming
   language that allows the user to detect change points in a given data set.
-  The change points are estimated using a segment likelihood function, which is
+  The change points are estimated using a segment cost function, which is
   chosen to suit the type of problem analyzed. The use cases mentioned in this
   work are (i) segments as blocks of independent discrete variables; and (ii)
   segments of random variables with a common regression parameter, for which a
@@ -48,7 +49,7 @@ abstract-text: |
   critical sections of code in low-level programming languages, as try to
   make use of parallel computing.
 
-  \noindent \textbf{Keywords:} segment, change-point, likelihood, R-package.
+  \noindent \textbf{Keywords:} segment, change-point, cost, R-package.
 
 resumo-text: |
   \chapter*{Resumo}
@@ -61,7 +62,7 @@ resumo-text: |
   Esta dissertação explora o desenvolvimento de um pacote da linguagem de
   programação R com o objetivo de detectar pontos de mudança em um conjunto
   de dados a ser analisado. Os pontos de mudança são estimados com base em
-  uma função de verossimilhança de segmentos, a qual é escolhida de acordo
+  uma função de custo de segmentos, a qual é escolhida de acordo
   com o tipo de problema que se deseja analisar. Os casos de uso abordados
   neste trabalho são (i) segmentos como blocos independentes de variáveis
   aleatória discretas e (ii) segmentos como blocos de variáveis aleatórias
@@ -77,7 +78,7 @@ resumo-text: |
   implementação de trechos críticos do código em linguagens de baixo
   nível, bem como se valendo também do uso de computação paralela.
 
-  \noindent \textbf{Palavras-chave:} segment, change-point, likelihood, R-package.
+  \noindent \textbf{Palavras-chave:} segment, change-point, cost, R-package.
 acknowledgements-text: |
   \chapter*{Acknowledgements}
 
@@ -95,6 +96,7 @@ library(kableExtra)
 library(segmentr)
 library(tibble)
 library(magrittr)
+library(purrr)
 knitr::opts_chunk$set(
   cache=TRUE,
   echo=FALSE

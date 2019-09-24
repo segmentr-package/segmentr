@@ -18,6 +18,20 @@ print_results_table <- function(results, caption) {
     kable(caption=caption)
 }
 
+hausdorff <- function(set_a, set_b) {
+  distance <- Vectorize(function(p1, p2) abs(p1 - p2))
+
+  distance_1_to_2 <- function(set_1, set_2) {
+    max(sapply(set_1, function(p1) min(distance(p1, set_2))))
+  }
+
+  max(distance_1_to_2(set_a, set_b), distance_1_to_2(set_b, set_a))
+}
+
+segment_distance <- function(changepoints1, changepoints2) {
+  hausdorff(c(1, changepoints1), c(1, changepoints2))
+}
+
 plot_results <- function(results, data) {
   dates <- colnames(data) %>% ymd()
 

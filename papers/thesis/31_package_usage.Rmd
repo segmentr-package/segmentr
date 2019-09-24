@@ -22,8 +22,8 @@ The package can be used with [segment()]. It takes a `data` argument containing 
 in which the rows represent different samples and the columns represent the comprehension of the data set
 we wish to segment. The function also accepts a `algorithm` argument, which can be `exact`, `hierarchical`
 or `hybrid`, that specifies the type of algorithm will be used when exploring the data set. Finally, it's
-also necessary to specify a `likelihood` function as argument, as it is used to compare and pick segments
-that are better fit according to the given likelihood's chosen criteria.
+also necessary to specify a `cost` function as argument, as it is used to compare and pick segments
+that are better fit according to the given cost's chosen criteria.
 
 ```{r, echo=TRUE}
 library("segmentr")
@@ -40,7 +40,7 @@ data <- rbind(
 segment(
   data,
   algorithm = "exact",
-  likelihood = function(X) multivariate(X) - 0.01*exp(ncol(X))
+  cost = function(X) -multivariate(X) + 0.01*exp(ncol(X))
 )
 ```
 

@@ -5,102 +5,115 @@ source("helper.R")
 ```
 
 To exemplify the utility of this package, a handful of hypothetical
-data will be presented, together with a proposal of an appropriate likelihood
-function that is expected to segment the data expectedly.
+data will be presented, together with a proposal of an appropriate cost
+function that is expected to segment the data.
 
 ## Segments of Independent Variables
 
 To show compatibility with the work presented in [@base-paper], we analyze the
 same problem presented in their work.
 
-Let $C_1$, $C_2$, ..., $C_n$ a sequence of $n$ vectors of data points, each with $m$
-observations represented by $C_k = \{c_{k1},\ c_{k2},\ ...,\ c_{km}\}$, with
-$1 \le k \le n$. Assume that each $C_k$ is a function of an unknown set of independent
-random variables $X$, such that $C_k = f_k(X)$. When used together with a multivariate
-likelihood [@park2017fundamentals], for which an implementation is provided in
-the `segmentr` package as the `multivariate()` function, it's possible to identify
-the set of $N_b$ change points
-$b_1, ..., b_{N_b}$, with $b_0 = 1$ and $b_{N_b + 1} = n + 1$, such that all $f_k$, for
-$b_i \le k \le b_{i+1}-1$ is a function of the same set of independent random variables $X$,
-or each $1 \le i \le N_b$.
-
-Let $X_1, ..., X_6$ be independent random variables and $C_1, ..., C_{15}$ be
-defined as in \@ref(eq:examplecolumns) . It's possible to see the first segment $C_1, ..., C_5$
-depend on $X_1, X_2$, the second segment $C_6, ..., C_{10}$ depend on $X_3, X_4$ and the third
-and last segment $C_{11}, ..., C_{15}$ depend on $X_4, X_5$. Therefore, the change points would
-be $b_1 = 6$ and $b_2 = 11$.
+Let $N = (N_1, \dots , N_6)$ be a sequence of independent random variables with standard normal
+distributions and let $X = (X_1, \dots , X_15)$ be another sequence of random variables dependent
+on $N$, with relationships described in \@ref(eq:examplecolumns). From the relationships, it's
+possible to see the first segment $X_1, ..., X_5$ depend on $N_1, N_2$, the second segment
+$X_6, ..., X_{10}$ depend on $N_3, N_4$ and the third and last segment $X_{11}, ..., X_{15}$
+depend on $X_4, X_5$. Therefore, the set of change points for $X$ is $C = {6, 11}$.
 
 \begin{equation}
 \begin{aligned}
-C_1 & = X_1 \\
-C_2 & = X_1 - X_2 \\
-C_3 & = X_2 \\
-C_4 & = X_1 + X_2 \\
-C_5 & = X_1 \\
-C_6 & = X_3 \\
-C_7 & = X_3 - X_4 \\
-C_8 & = X_4 \\
-C_9 & = X_3 + X_4 \\
-C_{10} & = X_3 \\
-C_{11} & = X_5 \\
-C_{12} & = X_5 - X_6 \\
-C_{13} & = X_6 \\
-C_{14} & = X_5 + X_6 \\
-C_{15} & = X_5
+X_1 & = N_1 \\
+X_2 & = N_1 - N_2 \\
+X_3 & = N_2 \\
+X_4 & = N_1 + N_2 \\
+X_5 & = N_1 \\
+X_6 & = N_3 \\
+X_7 & = N_3 - N_4 \\
+X_8 & = N_4 \\
+X_9 & = N_3 + N_4 \\
+X_{10} & = N_3 \\
+X_{11} & = N_5 \\
+X_{12} & = N_5 - N_6 \\
+X_{13} & = N_6 \\
+X_{14} & = N_5 + N_6 \\
+X_{15} & = N_5
 \end{aligned}
 (\#eq:examplecolumns)
 \end{equation}
 
-To illustrate, consider the following code, which defines $X_1, ..., X_6$ and
-$C_1, ..., C_{15}$ as specified in \@ref(eq:examplecolumns), and also consider
-the matrix $D$ as the column binding of the vectors $C_1, ..., C_{15}$.
+Given $D$, illustrated in \@ref(tab:sample-columns), a sample data set of the
+sequence of random variables $X$, the multivariate likelihood function $L$
+[@park2017fundamentals] can be used to estimate the likelihood of a given
+segment in the discrete data set, as described in
+\@ref(eq:multivariatelikelihood). The `multivariate()` is a fast native-code
+implementation of that function that is available in the `segmentr` package. We
+then use that likelihood function to define a penalized cost $K$ in
+\@ref(eq:costforexamplecolumns) with an extra term to penalize segments that
+are too large, based on the number of columns $\text{ncol}(D)$ of the segment.
+
+
+\begin{equation}
+\log(L(X|D)) = \sum_{k=0}^t P(X_{c_k:c_{k+1}-1} = D_{c_k:c_{k+1}-1})
+(\#eq:multivariatelikelihood)
+\end{equation}
+
+\begin{equation}
+K(D) = - \log(L(D)) + \text{ncol}(D)
+(\#eq:costforexamplecolumns)
+\end{equation}
+
+
+Therefore, the cost function $K$ applied over a sample $D$, shown in  of $X$
+provides the same set of expected change points $C$, as Table
+\@ref(tab:results-multivariate-penalized) show. Notice it's important to use a
+penalized cost function because the original likelihood function tends to favor
+bigger segments. An estimate of the segments using an unpenalized cost is shown
+in Table \@ref(tab:results-multivariate-non-penalized).
+
+
 
 (ref:sample-columns-caption) Sample values of the correlated random variables
 defined in \@ref(eq:examplecolumns).
 
 ```{r sample-columns}
 n <- 100
-X1 <- sample(1:2, n, replace = TRUE)
-X2 <- sample(1:2, n, replace = TRUE)
-X3 <- sample(1:2, n, replace = TRUE)
-X4 <- sample(1:2, n, replace = TRUE)
-X5 <- sample(1:2, n, replace = TRUE)
-X6 <- sample(1:2, n, replace = TRUE)
+N1 <- sample(1:2, n, replace = TRUE)
+N2 <- sample(1:2, n, replace = TRUE)
+N3 <- sample(1:2, n, replace = TRUE)
+N4 <- sample(1:2, n, replace = TRUE)
+N5 <- sample(1:2, n, replace = TRUE)
+N6 <- sample(1:2, n, replace = TRUE)
 
-C1 <- X1
-C2 <- X1 - X2
-C3 <- X2
-C4 <- X1 + X2
-C5 <- X1
-C6 <- X3
-C7 <- X3 - X4
-C8 <- X4
-C9 <- X3 + X4
-C10 <- X3
-C11 <- X5
-C12 <- X5 - X6
-C13 <- X6
-C14 <- X5 + X6
-C15 <- X5
-D_example <- cbind(C1, C2, C3, C4, C5, C6, C7, C8,
-           C9, C10, C11, C12, C13, C14, C15)
+X1 <- N1
+X2 <- N1 - N2
+X3 <- N2
+X4 <- N1 + N2
+X5 <- N1
+X6 <- N3
+X7 <- N3 - N4
+X8 <- N4
+X9 <- N3 + N4
+X10 <- N3
+X11 <- N5
+X12 <- N5 - N6
+X13 <- N6
+X14 <- N5 + N6
+X15 <- N5
+D_example <- cbind(X1, X2, X3, X4, X5, X6, X7, X8,
+                   X9, X10, X11, X12, X13, X14, X15)
 head(D_example) %>%
   kable(caption="Sample values of the correlated random
         variables defined in (ref:eq-examplecolumns).")
 ```
 
-It's possible to identify the segments in the matrix $D$ with a penalized version of the
-`multivariate` function included in the package, as shown in Table \@ref(tab:results-multivariate-penalized)
-
-
 (ref:eq-examplecolumns) \@ref(eq:examplecolumns)
 
 ```{r results-multivariate-penalized}
-penalized_multivariate = function(X) multivariate(X) - 2 ^ ncol(X)
+multivariate_cost = function(X) -multivariate(X) + 2 ^ ncol(X)
 
 results_multivariate_penalized <- segment(
   D_example,
-  likelihood = penalized_multivariate,
+  cost = multivariate_cost,
   algorithm = "exact"
 )
 
@@ -111,17 +124,11 @@ print_results_table(
 )
 ```
 
-Notice it's important to use a penalized likelihood version of the
-`multivariate` function because the original function favors bigger segments.
-The answer provided by the `segment` package in that scenario would be
-all the columns in the $D$ matrix, as shown in Table
-\@ref(tab:results-multivariate-non-penalized).
-
 ```{r results-multivariate-non-penalized}
-segment(D_example, likelihood = multivariate, algorithm = "exact") %>%
+segment(D_example, cost = function(X) -multivariate(X), algorithm = "exact") %>%
   print_results_table(
     caption="Results of segmentation usign a non-penalized
-      multivariate likelihood")
+      multivariate cost")
 ```
 
 ## Segments with similar averages
@@ -129,43 +136,39 @@ segment(D_example, likelihood = multivariate, algorithm = "exact") %>%
 [@homozygosity] describes a process on how to find windows of contiguous
 homozygosity, i.e. segments in the genetic data in which the alleles are of the
 same type. This is of interest to a researcher investigating diseases.
-Considering this problems scenario, Segmentr can be used to segment random
-variables $C_1, ..., C_n$ that represent genetic data, encoded as zero for
-homozygosity and one for heterozygosity, i.e. zero when the alleles are of the
-same type and one when the alleles are different.
+Considering this problems scenario, `segmentr` can be used to segment random
+variables $X_1, ..., X_m$ that represent genetic data, encoded as zero for
+homozygosity and one for heterozygosity, i.e. $0$ when the alleles are the
+same and $1$ when different.
 
-So, to use Segmentr to solve this problem, it's necessary
-to find a likelihood function that favors segments the homogeneity
-of a given segment. That problem is approached by proposing a
-"mean" likelihood function, i.e. a function that maximizes the
-likelihood of segments whose elements approximate the segment
-average. One such function is defined in
-\@ref(eq:mean-likelihood). Notice, however, the likelihood
-function proposed favors a single column segments, as it's logically
-the entity whose elements most approximate the average of the
-entire window. To counter this undesirable behavior, we
-penalized the function by subtracting from it a single constant,
-as described in \@ref(eq:penalizedmeanlikelihood). The constant
-factor has the effect of adding up when too many segments are
-considered in the estimation process, making it so wider segments
-end being picked up in the estimation process.
+So, to use `segmentr` to solve this problem, it's necessary to find a cost
+function that favors segments the homogeneity of a given segment. That problem
+is approached by proposing a heterogeneity cost function, i.e. a function that
+penalized the segments whose elements are far from the segment average. One
+such function is defined in \@ref(eq:heterogeneitycost). Notice, however, the
+cost function proposed favors single column segments, as it's the size
+for which all the elements approximate the segment average the most. To counter
+this undesirable behavior, we penalized the function by adding a constant to
+it, as described in \@ref(eq:penalizedheterogeneitycost). The constant factor
+has the effect of adding up when too many segments are considered in the
+estimation process, making it so wider segments end being picked up in the
+estimation process.
 
 In order to observe how the proposed function behaves, consider the simple
 example defined in \@ref(eq:geneticexample), in which $X_i$ for $i \in \{1,
 \dots, 20\}$ represent each a column indexed by $i$ of a data set $D$, and
 $\text{Bern(p)}$ representing the Bernoulli distribution with probability $p$.
-When segmenting the data set defined in \@ref(eq:geneticexample) with the
-likelihood function defined in \@ref(eq:penalizedmeanlikelihood), we obtain the
-results displayed in Table \@ref(tab:results-penalized-mean).
+The result for applying \@ref(eq:penalizedheterogeneitycost) over \@ref(eq:geneticexample)
+is shown in Table \@ref(tab:results-penalized-mean).
 
 \begin{equation}
-L_{\mu}(X)=-\sum_i(x_i-E[X])^2 \;\bigg|\; x_i \in X
-(\#eq:mean-likelihood)
+K(D)=\sum_i(D_i-E[D])^2
+(\#eq:heterogeneitycost)
 \end{equation}
 
 \begin{equation}
-P_{L_{\mu}}(X)=L_{\mu}(X)-1
-(\#eq:penalizedmeanlikelihood)
+K_p(D)=K(D) + 1
+(\#eq:penalizedheterogeneitycost)
 \end{equation}
 
 \begin{equation}
@@ -194,23 +197,21 @@ X_{20} & \sim \text{Bern}(0.9)
 (\#eq:geneticexample)
 \end{equation}
 
-(ref:results-penalized-mean-caption) Results of segmentation by applying the likelihood function defined in \@ref(eq:penalizedmeanlikelihood) to a sample of size 10 of the model defined in \@ref(eq:geneticexample).
-
-(ref:eq-penalizedmeanlikelihood) \@ref(eq:penalizedmeanlikelihood)
+(ref:eq-penalizedheterogeneitycost) \@ref(eq:penalizedheterogeneitycost)
 
 (ref:eq-geneticexample) \@ref(eq:geneticexample)
 
 ```{r results-penalized-mean}
-mean_likelihood <- function(X) {
+heterogeneity_cost <- function(X) {
   mean_value <- mean(X, na.rm = T)
   if (is.na(mean_value)) {
     0
   } else {
-    -sum((X - mean_value)^2)
+    sum((X - mean_value)^2)
   }
 }
 
-penalized_mean_likelihood <- function(X) mean_likelihood(X) - 1
+penalized_heterogeneity_cost <- function(X) heterogeneity_cost(X) + 1
 
 make_segment <- function(n, p) {
   matrix(rbinom(100 * n, 1, p), nrow = 100)
@@ -224,13 +225,162 @@ D_genetic <- cbind(
 
 segment(
   D_genetic,
-  likelihood = penalized_mean_likelihood,
+  cost = penalized_heterogeneity_cost,
   algorithm = "hieralg"
 ) %>%
   print_results_table(
     caption="Results of segmentation by applying the
-      likelihood function defined in
-      (ref:eq-penalizedmeanlikelihood) to a sample of size
+      cost function defined in
+      (ref:eq-penalizedheterogeneitycost) to a sample of size
       10 of the model defined in (ref:eq-geneticexample).
     ")
+```
+
+
+## Accuracy of algorithms using different algorithms
+
+Given different solutions obtained by the `segment` function, it's often
+necessary to compare them with each other. For that, the Hausdorff distance,
+defined in Chapter \@ref(the-hausdorff-distance), can be used to measure a
+distance between two sets of estimated change points.
+
+We want to measure how well the different algorithms provided in the `segmentr`
+package find the segments in the example correlated columns simulated data set
+described in \@ref(eq:examplecolumns). Since the simulation was arbitrarily
+built, we know what the exact solution to the segmentation problem is.
+
+
+```{r hausdorff-multivariate-comparison}
+expected_multivariate_example <- c(6, 11)
+
+deviation <- partial(
+  segment_distance,
+  changepoints2=expected_multivariate_example
+)
+
+exact_multivariate_changepoints <- segment(
+  D_example,
+  cost = multivariate_cost,
+  algorithm = "exact"
+)$changepoints
+
+hieralg_multivariate_changepoints <- segment(
+  D_example,
+  cost = multivariate_cost,
+  algorithm = "hierarchical"
+)$changepoints
+
+hybrid_multivariate_changepoints <- segment(
+  D_example,
+  cost = multivariate_cost,
+  algorithm = "hybrid"
+)$changepoints
+
+hybrid_multivariate_changepoints_threshold <- segment(
+  D_example,
+  cost = multivariate_cost,
+  algorithm = "hybrid",
+  threshold = 4
+)$changepoints
+
+tribble(
+  ~`Description`,
+    ~`Changepoints`,
+      ~`Hausdorff Distance`,
+  "Expected solution",
+    comma_format(expected_multivariate_example),
+      deviation(expected_multivariate_example),
+  "Exact algorithm estimate",
+    comma_format(exact_multivariate_changepoints),
+      deviation(exact_multivariate_changepoints),
+  "Hierarchical algorithm estimate",
+    comma_format(hieralg_multivariate_changepoints),
+      deviation(hieralg_multivariate_changepoints),
+  "Hybrid algorithm estimate with threshold 50",
+    comma_format(hybrid_multivariate_changepoints),
+      deviation(hybrid_multivariate_changepoints),
+  "Hybrid algorithm estimate with threshold 4",
+    comma_format(hybrid_multivariate_changepoints_threshold),
+      deviation(hybrid_multivariate_changepoints_threshold)
+) %>%
+  kable(caption="Comparison of solutions of different algorithms
+to segment the data set described in (ref:eq-examplecolumns),
+measuring how far each solution is from the ideal
+solution using the Hausdorff distance.")
+```
+
+Therefore, in Table \@ref(tab:hausdorff-multivariate-comparison) we can see the
+comparison of different algorithms with different parameters. We notice the
+"exact" algorithm manages to properly match the expected change points
+solution, whereas the "hierarchical" algorithm finds an extra segment, which
+causes the Hausdorff distance to be bigger than zero. The two "hybrid"
+algorithm cases are interesting in the sense it that it shows how to algorithm
+works by either adopting the exact or the hierarchical algorithm depending on
+the threshold and the size of the segment being analyzed. When the threshold
+argument is large, it applies the exact algorithm to the data set, whereas when
+the threshold is small, it applies the hierarchical algorithm instead.
+
+Consider now the simulated data set of segments with similar averages described
+in equation (ref:eq-geneticexample). We do the same algorithm comparison with
+this data set in Table \@ref(tab:hausdorff-mean-comparison). In contrast with
+the previous experiment, all the algorithms manage to find the expected solution
+to the problem.
+
+```{r hausdorff-mean-comparison}
+expected_mean_example <- c(6, 16)
+
+deviation <- partial(
+  segment_distance,
+  changepoints2=expected_mean_example
+)
+
+exact_mean_changepoints <- segment(
+  D_genetic,
+  cost = penalized_heterogeneity_cost,
+  algorithm = "exact"
+)$changepoints
+
+hieralg_mean_changepoints <- segment(
+  D_genetic,
+  cost = penalized_heterogeneity_cost,
+  algorithm = "hierarchical"
+)$changepoints
+
+hybrid_mean_changepoints <- segment(
+  D_genetic,
+  cost = penalized_heterogeneity_cost,
+  algorithm = "hybrid"
+)$changepoints
+
+hybrid_mean_changepoints_threshold <- segment(
+  D_genetic,
+  cost = penalized_heterogeneity_cost,
+  algorithm = "hybrid",
+  threshold = 4
+)$changepoints
+
+tribble(
+  ~`Description`,
+    ~`Changepoints`,
+      ~`Hausdorff Distance`,
+  "Expected solution",
+    comma_format(expected_mean_example),
+      deviation(expected_mean_example),
+  "Exact algorithm estimate",
+    comma_format(exact_mean_changepoints),
+      deviation(exact_mean_changepoints),
+  "Hierarchical algorithm estimate",
+    comma_format(hieralg_mean_changepoints),
+      deviation(hieralg_mean_changepoints),
+  "Hybrid algorithm estimate with threshold 50",
+    comma_format(hybrid_mean_changepoints),
+      deviation(hybrid_mean_changepoints),
+  "Hybrid algorithm estimate with threshold 4",
+    comma_format(hybrid_mean_changepoints_threshold),
+      deviation(hybrid_mean_changepoints_threshold)
+) %>%
+  kable(caption="Comparison of solutions of different algorithms
+to segment the data set described in (ref:eq-geneticexample),
+measuring how far each solution is from the ideal
+solution using the Hausdorff distance.")
 ```

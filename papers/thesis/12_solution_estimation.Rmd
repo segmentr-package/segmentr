@@ -1,6 +1,6 @@
 # Solution Estimation
 
-In this chapter, we discuss the process to solve \@ref(eq:definesegmentation)
+In this chapter, we discuss the process to solve \@ref(eq:changepointsestimation)
 and explore a solution involving dynamic programming. Because the exact
 solution to this problem has quadratic complexity, we also discuss some
 alternatives that simplify the search path and provide an approximate solution.
@@ -8,72 +8,78 @@ alternatives that simplify the search path and provide an approximate solution.
 ## Exact Algorithm
 
 The first attempt to solve the equation would be to search all the possible alternatives
-to find the correct minimal set of intervals that maximize the total likelihood of the system.
+to find the correct minimal set of intervals that minimize the total cost of the system.
 It's done iteratively by:
 
-- for each column index $i \in \{1, \dots, p\}$
-- for each column index $j \in \{i, \dots, p\}$
-- compute $l_{i:j}=\text{lik}(X_{i:j})$
-- store the likelihood $l_{i:j}$ and the index $j$ for the highest value of $l_{i:j}$ for later comparison
+- let $D$ be the current data set we want to segment
+- for each column index $i \in \{1, \dots, m\}$
+  - for each column index $j \in \{i, \dots, m\}$
+    - compute $K_{i:j}=K(D_{i:j})$
+    - store the cost $K_{i:j}$ and the index $j$ for the lowest value of $K_{i:j}$ for later comparison
 
-Finally, after computing all of the possible combinations of likelihood segments,
-the procedure to find the optimal solution would be as following:
+Finally, after computing all of the possible combinations of segment costs,
+the procedure to find the optimal solution is:
 
-- let $j = p$
-- while $j > 1$, repeat the steps below
-- search the stored values for $i = \underset{i}{\arg\max} (l_{i:j})$
-- store $i$ in the set of change points $C$ if $i \ne 1$
-- let $j = i$ and repeat until $j = 1$
+- let $j = m$
+- while $j > 1$
+  - search the stored values for $i = \underset{i}{\arg\min} (K_{i:j})$
+  - store $i$ in the set of change points $C$ if $i \ne 1$
+  - let $j = i$ and repeat until $j = 1$
 
-Given the indices in the change points set $C$, let $c_0 = 1$, $c_{k+1}=p$ and $c_i\in C$
-be the sequence of sorted elements of $C$, for $i = 1, \dots, k$. The minimal set of
-intervals would be defined as $S_0 = \{ c_{i-1}:c_i, \text{ for } i=1,\dots,k+1 \}$
-in which $c_{i-1}:c_i=\{\text{contiguous sequence of number from } c_{i-1} \text{ to } c_i\}$.
-
-The described algorithm will provide the correct answer for the equation, precisely because it
-analyses all the possible combinations. However, that has a time complexity in Big-O notation of
-$O(np^2)$ in which $n$ is the number of samples in the data set and $p$ is the number of columns.
-Because a lot of use cases for data segmentation has usually a large number of columns and not
-many data samples, e.g. DNA data, computation time can be very prohibitive.
+With the execution of the procedure described above, the estimated set of
+change points is stored in $C$. The solution will be exact precisely because it
+analyses all the possible combinations. However, that has a time complexity of
+$O(m^2)$ in the Big-O notation, for a number of column $m$ in the data set.
+Because the number of columns in a data segmentation problems can be very
+large, computation time can be very prohibitive. For those situations
+approximate solutions are described.
 
 ## Hierarchical Algorithm
 
-To try to simplify the search path of the algorithm, [@base-paper] also proposes a technique
-that relies on assuming the data to be hierarchical, i.e. it assumes the minimal solution set can
-be estimated by only searching the data for the optimal change-point segmentation once. The algorithm
-is described below.
+To try to simplify the search path of the algorithm, [@base-paper] also
+proposes a technique that relies on the assumption of the data hierarchical, i.e.
+a segment can be sub-divided by reapplying the segmentation function recursively.
+The algorithm is described as:
 
-- let $d$ be the current data set we want to segment
+- let $D$ be the current data set we want to segment
 - for each column $i$ in the data set
-- compute the total likelihood $l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})$ if $i \ne 1$
-- find $i$ for which $l_i$ is maximum
-- if $l_i \lt \text{lik}(X_{1:p})$ return empty set as result of current function call
-- recursively find the set of change points $C_L$ by calling the algorithm on the left segment $X_{1:i-1}$
-- recursively find the set of change points $C_R$ by calling the algorithm on the right segment $X_{i:p}$
+  - compute the total cost $K_i = K(D_{1:i-1})+K(D_{i:m})$ if $i \ne 1$
+- find $i$ for which $K_i$ is minimum
+- if $K_i \gt K(D_{1:m})$
+  - return the empty set as the result of current function call
+- recursively find the set of change points $C_L$ by calling the algorithm on the left segment $D_{1:i-1}$
+- recursively find the set of change points $C_R$ by calling the algorithm on the right segment $D_{i:m}$
 - return $C=C_L \cup C_R \cup \{i\}$ as result of current function call
 
-Implementing the algorithm described above will allow for a time complexity of $O(np\log(p))$ where $n$ is
-the number of samples, $p$ is the number of columns. The reduction in time complexity is only possible
-because of the strong assumption the data set has a hierarchical likelihood behavior. However, that
-doesn't hold for many situations, as it will be seen in more detail in the next chapters,
-so the solution estimated with this algorithm should be considered with care.
+Implementing the algorithm described above will estimate the set of change
+points $C$ with time complexity of $O(m\log(m))$, for a number of columns $m$
+in the data set. The reduction in time complexity is only possible because of
+the strong assumption the data set has a hierarchical cost behavior.
+However, that doesn't hold for many situations, as it will be seen in more
+detail in the next chapters. So, the usage of this algorithm should be
+considered with care.
 
 ## Hybrid algorithm
 
-The hybrid algorithm is a modified version of the hierarchical algorithm, in which it will start searching the
-combinations using the hierarchical approach, and if the segments become smaller than a certain threshold,
-it will try to find the exact segments with the exact algorithm. The procedure would be as follow:
+The hybrid algorithm is a modified version of the hierarchical algorithm, in
+which it will start searching the segments using the hierarchical algorithm,
+and if the segments become smaller than a certain number of columns threshold,
+it will switch to the exact algorithm. The procedure would be as follow:
 
-- let $d$ be the current data set we want to segment
-- if the number of columns of $d$ is $p_d \lt k$, in which $k$ is a predefined threshold, return the set of
-  change points calculated by the exact algorithm.
+- let $D$ be the current data set we want to segment
+- if the number of columns of $D$ is $m \lt k$, in which $k$ is a predefined threshold
+  - return the set of change points calculated by the exact algorithm.
 - for each column $i$ in the data set
-- compute the total likelihood $l_i = \text{lik}(X_{1:i-1})+\text{lik}(X_{i:p})$ if $i \ne 1$
-- find $i$ for which $l_i$ is maximum
-- if $l_i \lt \text{lik}(X_{1:p})$ return empty set as result of current function call
-- recursively find the set of change points $C_L$ by calling the algorithm on the left segment $X_{1:i-1}$
-- recursively find the set of change points $C_R$ by calling the algorithm on the right segment $X_{i:p}$
+  - compute the total cost $K_i = K(D_{1:i-1})+K(D_{i:m})$ if $i \ne 1$
+- find $i$ for which $K_i$ is minimum
+- if $K_i \lt K(X_{1:p})$
+  - return empty set as result of current function call
+- recursively find the set of change points $C_L$ by calling the algorithm on the left segment $K_{1:i-1}$
+- recursively find the set of change points $C_R$ by calling the algorithm on the right segment $K_{i:m}$
 - return $C=C_L \cup C_R \cup \{i\}$ as result of current function call
 
-The only difference between this and the hierarchical procedure is the presence of the conditional
-step in the beginning of the procedure that tests whether or not to use the hybrid algorithm.
+The only difference between this and the hierarchical procedure is the presence
+of the conditional step in the beginning of the procedure that tests whether or
+not to use the hybrid algorithm. As it will be shown in later chapters, the
+accuracy of this algorithm is shown not to be more advantageous than using the
+hierarchical or the exact algorithms directly, depending on the situation.

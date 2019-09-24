@@ -6,16 +6,15 @@ for our solution.
 
 ## A sequence of random variables and its segments
 
-Let $X$ be a vector of random variables defined in
-\@ref(eq:definerandomvector), in which each $X_j$ belong a set $S$. The
-equation also shows all random variables $X_j$ have probability distribution
-$F$, each with parameter $\Theta_j$, such that $X_j \sim F(\Theta_j)$. A
-segment is defined as a sequence of indices such that $\Theta_a = \Theta_{a+1}
-= \dots = \Theta_b$ such that $1 \le a \le b \le m$, in which $a$ and $b$
-represent the first and last indices of the segment, respectively. We also define
-a change point $c$ as being an index in which there is a change in the
-probability distribution parameters, i.e. $\Theta_{c-1} \ne \Theta_c$, for $c
-\ge 2$.
+As shown in defined in \@ref(eq:definerandomvector), let
+$X=(X_1, \dots , X_m)$, be a vector of random variables whose elements $X_j$ belong
+to a set $S$. The equation also shows all random variables $X_j$ have probability
+distribution $F$, each with parameter $\Theta_j$, such that $X_j \sim
+F(\Theta_j)$. A segment is defined as a sequence of indices for which
+$\Theta_a = \Theta_{a+1} = \dots = \Theta_b$ such that $1 \le a \le b \le m$, for $a$ and
+$b$ as the first and last indices of the segment, respectively. We also define
+a change point $c$ as being an index for which there is a change in the
+probability distribution parameters, i.e. $\Theta_{c-1} \ne \Theta_c$, for $c \ge 2$.
 
 \begin{equation}
 \begin{gathered}
@@ -48,17 +47,18 @@ S_k = X_{c_k}, \dots, X_{c_{k+1}-1}
 
 ## The segmentation problem
 
-Let $D$ be a $n \times m$ matrix defined in \@ref(eq:definematrixd), with $n$
-rows and $m$ columns. The matrix is comprised of $n$ samples of the vector of
-random variables $X$, i.e. the column $j$ in the matrix has values
-corresponding to the random variable $X_j$. Let $C$, defined in
-\@ref(eq:definechangepointset), be the set of change points in the data set.
-Since we have that all random variables within a segment have the same
-probability function parameter, let $L$ be the likelihood function whose
-maximizing argument, when given a segment $S_k$, is the probability
-distribution parameter $\Theta_k$, as shown in
-\@ref(eq:definesegmentlikelihood). Therefore, the segmentation problem is
-defined as the process of estimating the set of change points $C$.
+As defined in \@ref(eq:definematrixd), let $D$ be a $n \times m$ matrix with
+elements $x_{i,j}$, with row and column indices $i$ and $j$, respectively. Each
+of the $n$ rows in the data matrix $D$ is a sample of the vector of random
+variables $X$, i.e. any row element with column index $j$ is a sample of the
+random variable $X_j$. In \@ref(eq:definechangepointset), let $C$ is the set of
+change points in the data set. Considering all random variables within a
+segment have the same probability function parameter, let $K$ be a cost
+function that calculates the cost value for a segment $S_k$ with estimated
+parameter $\Theta_k$, i.e. the calculated cost is minimal when the estimated
+$\Theta_k$ is optimal for the segment $S_k$. Therefore, a common definition for
+$K$ is the opposite of the maximum value of a log-likelihood function, illustrated
+in \@ref(eq:commoncostfunction).
 
 \begin{equation}
 D =
@@ -80,51 +80,42 @@ C = \{ c_1, \dots, c_t \}
 
 \begin{equation}
 \Theta_k = arg\,max\left\{L(\Theta|S_k)\right\}
-(\#eq:definesegmentlikelihood)
+(\#eq:commoncostfunction)
 \end{equation}
 
+Let the total cost of the segments $T$, i.e. the sum of all segment costs, as
+illustrated in \@ref(eq:totalcost). So, the segmentation problem is defined as
+estimating the optimal set of change points $C$ that minimize the total cost $T$,
+as described in \@ref(eq:changepointsestimation).
 
-One approach to find the change points set $C$ is to maximize a likelihood
-function over the data set $D$ as shown in \@ref(eq:definemaximization).
-Considering the data set is compound by all the segments, and that each
-individual segment $S_k$ will maximize the likelihood function $L$ for that portion of
-the data set, the likelihood of change points set $C$ can be defined as the sum
-of the likelihoods of all the segments as shown in
-\@ref(eq:definelikelihoodsum).
-
-
-Notice that, in \@ref(eq:definemaximization) and in
-\@ref(eq:definelikelihoodsum), the segment likelihood function $L$ and the data
-set $X$ are parameters to the segmentation problem, which will ultimately be
-used to search for the set of change points $C$ using dynamic programming. So,
-let $s$ be a segmentation function such that $C = s(L, X)$, as defined in
-\@ref(eq:definesegmentation). Segmentr provides a few implementations of
-segmentation function that can be used to solve the segmentation problem.
+Notice that, in \@ref(eq:totalcost) and in \@ref(eq:changepointsestimation),
+the cost function $K$ and the data set $D$ are parameters to the segmentation
+problem, which will ultimately be used to search for the set of change points
+$C$ using dynamic programming. So, let $s(K, D) = C$ be the segmentation
+function whose output is the estimation of change points, as illustrated in
+\@ref(eq:changepointsestimation). The `segmentr` package implements a few different
+segmentation function algorithms, which are described in this work.
 
 \begin{equation}
-C = arg\,max\left\{ \lik \left(C | X = D\right)\right\}
-(\#eq:definemaximization)
+T = \sum_{k=0}^t K(S_k)
+(\#eq:totalcost)
 \end{equation}
 
 \begin{equation}
-\lik (C) = \sum_{k=0}^t L(S_k) = \sum_{k=0}^t L(\Theta | S_k)
-(\#eq:definelikelihoodsum)
-\end{equation}
-
-\begin{equation}
-C = s(L, X) = arg\,max \left\{ \sum_{k=0}^t L(\Theta | S_k) \right\}
-(\#eq:definesegmentation)
+C = arg\,min\left\{ T \right\} = arg\,min\left\{ \sum_{k=0}^t K(S_k) \right\}
+(\#eq:changepointsestimation)
 \end{equation}
 
 
-In summary, Segmentr is a generalization of the work described in
+In summary, `segmentr` is a generalization of the work described in
 [@base-paper], in which the random variables of $X$ are taken from finite
 alphabets and $L$ is the multivariate estimate of discrete variables. In this
-work, besides analyzing the same problem described in [@base-paper], the fact
-$L$ is a parameter the segmentation function means it can be applied to many
-different scenarios in which $X$ can manifest itself, e.g. segments with changes
-in the mean of columns, segments with different linear regression parameters.
-These cases are discussed in \@ref(simulations) and \@ref(real-data-examples).
+work, with the difference that we minimize a cost function rather than maximize
+a cost function, we solve the same problem proposed by [@base-paper], with the
+difference the cost function concept can be applied to many other use cases as
+well, e.g. segments with changes in the mean of columns, segments with
+different linear regression parameters. These cases are discussed in
+\@ref(simulations) and \@ref(real-data-examples).
 
 ## The Hausdorff distance
 

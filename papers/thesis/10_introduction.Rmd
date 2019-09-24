@@ -1,9 +1,10 @@
 # Introduction
 
 [@base-paper] describe a method of segmenting a data set of a finite alphabet
-into blocks of independent variables. This work expands on that by generalizing
-the likelihood function used in the solution, showing it can be used for other
-use-cases, e.g. segments with homogeneous values (see Chapter
+into blocks of independent variables. This work expands on that by minimizing a
+cost function rather than maximizing a likelihood function, such the cost is
+the opposite of the likelihood. We show this generalization can be used for
+other use-cases, e.g. segments with homogeneous values (see Chapter
 \@ref(segments-with-similar-averages)), segments that have the same linear
 regression trend \@ref(real-data-examples).
 
@@ -21,21 +22,17 @@ multivariate likelihood function is implemented in native code using Rcpp
 
 ## Related Work
 
-[@fpop] also talks about optimally segmenting a data set, given a *cost*
-function to be minimized for the segments the data set is going to be split
-into. That is analogous to the segment likelihood used in this work, with the
-difference that we look forward to maximizing the likelihood function in
-this paper rather than minimizing it.
-
-In their paper, they discuss search path algorithms different than the ones
-shown in this work. In their case, if the cost function satisfies certain
-conditions, the `fpop` and `snip` search algorithms can prune the search path in a mathematically optimal way. They claim the algorithms presented in
-their work provide better results than previous work.
+[@fpop] also talks about optimally segmenting a data set with the minimization
+of a given cost function. In their paper, they discuss search path algorithms
+different than the ones shown in this work. In their case, if the cost function
+satisfies certain conditions, the `fpop` and `snip` search algorithms can prune
+the search path in a mathematically optimal way. They claim the algorithms
+presented in their work provide better results than previous work.
 
 Notice that, because the approach used by [@fpop] is different than the one
 used by [@base-paper], the `fpop` and `snip` algorithms couldn't be
 investigated and validated in time to be implemented in the Segmentr package.
-However, if in future works those algorithms provide good results estimation
+However, if in future work those algorithms provide good results estimation
 and performance compared to the currently implemented algorithms, they can be
 included in the Segmentr package. That will allow users to use the newly
 implemented algorithms with minimal code modification, by changing a single
