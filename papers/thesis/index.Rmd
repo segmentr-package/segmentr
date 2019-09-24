@@ -27,9 +27,9 @@ abstract-text: |
   \chapter*{Abstract}
 
   \noindent Mello, Thales. \textbf{An R Package for Change Point Detection}.
-  2019. 61 f.
+  2019. 67 f.
   Dissertação (Mestrado) - Instituto de Matemática e Estatística,
-  Universidade de São Paulo, São Paulo, 2010.
+  Universidade de São Paulo, São Paulo, 2019.
 
   This dissertation explores the development of a package for the R programming
   language that allows the user to detect change points in a given data set.
@@ -55,9 +55,9 @@ resumo-text: |
   \chapter*{Resumo}
 
   \noindent Mello, Thales. \textbf{Um pacote R para detectar pontos de mudança}.
-  2019. 61 f.
+  2019. 67 f.
   Dissertação (Mestrado) - Instituto de Matemática e Estatística,
-  Universidade de São Paulo, São Paulo, 2010.
+  Universidade de São Paulo, São Paulo, 2019.
 
   Esta dissertação explora o desenvolvimento de um pacote da linguagem de
   programação R com o objetivo de detectar pontos de mudança em um conjunto
