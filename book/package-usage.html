@@ -184,23 +184,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="package-usage" class="section level1">
 <h1><span class="header-section-number">A</span> Package Usage</h1>
-<p>The purpose of this work is too have the <code>segmentr</code> to be as accessible as possible.
+<p>The purpose of this work is to have the <code>segmentr</code> to be as accessible as possible.
 Because of that, extra care was put into making it easy to install and use.</p>
 <div id="installation" class="section level2">
 <h2><span class="header-section-number">A.1</span> Installation</h2>
 <p>Given the algorithms and their applications discussed in <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>,
 the <code>segmentr</code> package for R is proposed to help researchers segment their
 data sets. Installation can be done using the default <code>install.packages</code> command,
-like shown below.</p>
+as shown below.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="package-usage.html#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;segmentr&quot;</span>)</span></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2><span class="header-section-number">A.2</span> Usage</h2>
 <p>The package can be used with [segment()]. It takes a <code>data</code> argument containing a bi-dimensional matrix
 in which the rows represent different samples and the columns represent the comprehension of the data set
-we wish to segment. The function also accepts a <code>algorithm</code> argument, which can be <code>exact</code>, <code>hierarchical</code>
+we wish to segment. The function also accepts an <code>algorithm</code> argument, which can be <code>exact</code>, <code>hierarchical</code>
 or <code>hybrid</code>, that specifies the type of algorithm will be used when exploring the data set. Finally, it’s
-also necessary to specify a <code>cost</code> function as argument, as it is used to compare and pick segments
+also necessary to specify a <code>cost</code> function as an argument, as it is used to compare and pick segments
 that are better fit according to the given cost’s chosen criteria.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="package-usage.html#cb2-1"></a><span class="kw">library</span>(<span class="st">&quot;segmentr&quot;</span>)</span>
 <span id="cb2-2"><a href="package-usage.html#cb2-2"></a></span>
@@ -227,7 +227,7 @@ that are better fit according to the given cost’s chosen criteria.</p>
 ## 5:5
 ## 6:8</code></pre>
 <p>Also, a vignette version of Chapter <a href="real-data-examples.html#real-data-examples">5</a> is provided, and the user of the package can
-open it directly in R with embedded code examples and follow along the analysis of the data set.</p>
+open it directly in R with embedded code examples and follow along with the analysis of the data set.</p>
 
 </div>
 </div>

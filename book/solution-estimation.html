@@ -190,7 +190,7 @@ solution to this problem has quadratic complexity, we also discuss some
 alternatives that simplify the search path and provide an approximate solution.</p>
 <div id="exact-algorithm" class="section level2">
 <h2><span class="header-section-number">3.1</span> Exact Algorithm</h2>
-<p>The first attempt to solve the equation would be to search all the possible alternatives
+<p>The first attempt to solve the equation would be to search for all the possible alternatives
 to find the correct minimal set of intervals that minimize the total cost of the system.
 It’s done iteratively by:</p>
 <ul>
@@ -218,9 +218,9 @@ the procedure to find the optimal solution is:</p>
 <p>With the execution of the procedure described above, the estimated set of
 change points is stored in <span class="math inline">\(C\)</span>. The solution will be exact precisely because it
 analyses all the possible combinations. However, that has a time complexity of
-<span class="math inline">\(O(m^2)\)</span> in the Big-O notation, for a number of column <span class="math inline">\(m\)</span> in the data set.
-Because the number of columns in a data segmentation problems can be very
-large, computation time can be very prohibitive. For those situations
+<span class="math inline">\(O(m^2)\)</span> in the Big-O notation, for the number of columns <span class="math inline">\(m\)</span> in the data set.
+Because the number of columns in data segmentation problems can be very
+large, computation time can be very prohibitive. For those situations,
 approximate solutions are described.</p>
 </div>
 <div id="hierarchical-algorithm" class="section level2">
@@ -238,14 +238,14 @@ The algorithm is described as:</p>
 <li>find <span class="math inline">\(i\)</span> for which <span class="math inline">\(K_i\)</span> is minimum</li>
 <li>if <span class="math inline">\(K_i &gt;K(D_{1:m})\)</span>
 <ul>
-<li>return the empty set as the result of current function call</li>
+<li>return the empty set as the result of the current function call</li>
 </ul></li>
 <li>recursively find the set of change points <span class="math inline">\(C_L\)</span> by calling the algorithm on the left segment <span class="math inline">\(D_{1:i-1}\)</span></li>
 <li>recursively find the set of change points <span class="math inline">\(C_R\)</span> by calling the algorithm on the right segment <span class="math inline">\(D_{i:m}\)</span></li>
 <li>return <span class="math inline">\(C=C_L \cup C_R \cup \{i\}\)</span> as result of current function call</li>
 </ul>
 <p>Implementing the algorithm described above will estimate the set of change
-points <span class="math inline">\(C\)</span> with time complexity of <span class="math inline">\(O(m\log(m))\)</span>, for a number of columns <span class="math inline">\(m\)</span>
+points <span class="math inline">\(C\)</span> with time complexity of <span class="math inline">\(O(m\log(m))\)</span>, for the number of columns <span class="math inline">\(m\)</span>
 in the data set. The reduction in time complexity is only possible because of
 the strong assumption the data set has a hierarchical cost behavior.
 However, that doesn’t hold for many situations, as it will be seen in more
@@ -271,15 +271,15 @@ it will switch to the exact algorithm. The procedure would be as follow:</p>
 <li>find <span class="math inline">\(i\)</span> for which <span class="math inline">\(K_i\)</span> is minimum</li>
 <li>if <span class="math inline">\(K_i &lt;K(X_{1:p})\)</span>
 <ul>
-<li>return empty set as result of current function call</li>
+<li>return empty set as the result of the current function call</li>
 </ul></li>
 <li>recursively find the set of change points <span class="math inline">\(C_L\)</span> by calling the algorithm on the left segment <span class="math inline">\(K_{1:i-1}\)</span></li>
 <li>recursively find the set of change points <span class="math inline">\(C_R\)</span> by calling the algorithm on the right segment <span class="math inline">\(K_{i:m}\)</span></li>
 <li>return <span class="math inline">\(C=C_L \cup C_R \cup \{i\}\)</span> as result of current function call</li>
 </ul>
 <p>The only difference between this and the hierarchical procedure is the presence
-of the conditional step in the beginning of the procedure that tests whether or
-not to use the hybrid algorithm. As it will be shown in later chapters, the
+of the conditional step is the beginning of the procedure that tests whether or
+not to use the hybrid algorithm. As will be shown in later chapters, the
 accuracy of this algorithm is shown not to be more advantageous than using the
 hierarchical or the exact algorithms directly, depending on the situation.</p>
 

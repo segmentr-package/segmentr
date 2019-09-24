@@ -11,10 +11,10 @@ valuation-committee:
   - "Prof. Dr. André Fujita"
   - "Prof. Dr. Jesús Enrique Garcia"
 masters-program: "Mestrado em Estatística"
-date: "São Paulo, 16 de Abril de 2019"
+date: "São Paulo, 24 de Setembro de 2019"
 site: bookdown::bookdown_site
 final-submission: true
-presentation-date: "23 de Abril de 2019"
+presentation-date: "30 de Agosto de 2019"
 output: bookdown::gitbook
 documentclass: book
 classoption: twoside

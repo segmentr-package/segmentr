@@ -123,7 +123,7 @@ As the solution estimated by the segmentation function is a set of points, a
 measure is made necessary to compare the estimations provided by the different
 estimation algorithms that will be presented in Chapter
 \@ref(solution-estimation). The Hausdorff distance is commonly used as a
-measure of distance between two distinct sets, and will be used to to compare
+measure of distance between two distinct sets, and will be used to compare
 change point sets with differing numbers of elements each.
 
 [@topology] defines the Hausdorff distance as a measure of how far two subsets
@@ -141,5 +141,4 @@ d_H(X,Y) = \max\left\{\,\sup_{x \in X} \inf_{y \in Y} d(x,y)\, ,\, \sup_{y \in Y
 
 Since a set of change points is a subset of the column indices in a data set,
 we define the distance $d$ as the absolute value of two given numbers for
-the use cases analyzed in this paper.
-
+the use-cases analyzed in this paper.

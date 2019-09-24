@@ -7,7 +7,7 @@ alternatives that simplify the search path and provide an approximate solution.
 
 ## Exact Algorithm
 
-The first attempt to solve the equation would be to search all the possible alternatives
+The first attempt to solve the equation would be to search for all the possible alternatives
 to find the correct minimal set of intervals that minimize the total cost of the system.
 It's done iteratively by:
 
@@ -29,9 +29,9 @@ the procedure to find the optimal solution is:
 With the execution of the procedure described above, the estimated set of
 change points is stored in $C$. The solution will be exact precisely because it
 analyses all the possible combinations. However, that has a time complexity of
-$O(m^2)$ in the Big-O notation, for a number of column $m$ in the data set.
-Because the number of columns in a data segmentation problems can be very
-large, computation time can be very prohibitive. For those situations
+$O(m^2)$ in the Big-O notation, for the number of columns $m$ in the data set.
+Because the number of columns in data segmentation problems can be very
+large, computation time can be very prohibitive. For those situations,
 approximate solutions are described.
 
 ## Hierarchical Algorithm
@@ -46,13 +46,13 @@ The algorithm is described as:
   - compute the total cost $K_i = K(D_{1:i-1})+K(D_{i:m})$ if $i \ne 1$
 - find $i$ for which $K_i$ is minimum
 - if $K_i \gt K(D_{1:m})$
-  - return the empty set as the result of current function call
+  - return the empty set as the result of the current function call
 - recursively find the set of change points $C_L$ by calling the algorithm on the left segment $D_{1:i-1}$
 - recursively find the set of change points $C_R$ by calling the algorithm on the right segment $D_{i:m}$
 - return $C=C_L \cup C_R \cup \{i\}$ as result of current function call
 
 Implementing the algorithm described above will estimate the set of change
-points $C$ with time complexity of $O(m\log(m))$, for a number of columns $m$
+points $C$ with time complexity of $O(m\log(m))$, for the number of columns $m$
 in the data set. The reduction in time complexity is only possible because of
 the strong assumption the data set has a hierarchical cost behavior.
 However, that doesn't hold for many situations, as it will be seen in more
@@ -73,13 +73,13 @@ it will switch to the exact algorithm. The procedure would be as follow:
   - compute the total cost $K_i = K(D_{1:i-1})+K(D_{i:m})$ if $i \ne 1$
 - find $i$ for which $K_i$ is minimum
 - if $K_i \lt K(X_{1:p})$
-  - return empty set as result of current function call
+  - return empty set as the result of the current function call
 - recursively find the set of change points $C_L$ by calling the algorithm on the left segment $K_{1:i-1}$
 - recursively find the set of change points $C_R$ by calling the algorithm on the right segment $K_{i:m}$
 - return $C=C_L \cup C_R \cup \{i\}$ as result of current function call
 
 The only difference between this and the hierarchical procedure is the presence
-of the conditional step in the beginning of the procedure that tests whether or
-not to use the hybrid algorithm. As it will be shown in later chapters, the
+of the conditional step is the beginning of the procedure that tests whether or
+not to use the hybrid algorithm. As will be shown in later chapters, the
 accuracy of this algorithm is shown not to be more advantageous than using the
 hierarchical or the exact algorithms directly, depending on the situation.

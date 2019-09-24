@@ -503,7 +503,7 @@ Last index
 <p>An adequate cost function should be able to rank a given set of possible segments and pick
 the best one given the evaluation criteria. Since the goal is to select segments with a good
 linear regression fit, the standard log-likelihood function for linear regressions is the
-the negative of the squared sum of residuals, the squared sum of residuals is a good candidate for our segment cost function.
+negative of the squared sum of residuals, the squared sum of residuals is a good candidate for our segment cost function.
 So, the cost function <span class="math inline">\(K\)</span> is shown in <a href="real-data-examples.html#eq:squaredresidualcost">(5.1)</a>, with the set of points <span class="math inline">\(X\)</span>
 that belong to the segment, <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> as the points that belong to <span class="math inline">\(X\)</span> for each index <span class="math inline">\(i\)</span>,
 and <span class="math inline">\(f\)</span> is the best linear regression that fitted the <span class="math inline">\(X\)</span> segment.</p>
@@ -829,7 +829,7 @@ Figure 5.4: Example curve of the penalty function for <span class="math inline">
 </p>
 </div>
 <p>Given the penalty function general formula, it’s necessary to adjust the
-parameters such the penalty function has a scale compatible with the cost
+parameters such as the penalty function has a scale compatible with the cost
 function. The <code>auto_penalize()</code> function, provided in the <code>segmentr</code> package,
 builds a penalized version of the cost function, by estimating
 parametrization values based on sample cost values for big and small
@@ -1176,7 +1176,7 @@ measurement stations.</p>
 <div id="reducing-granularity" class="section level2">
 <h2><span class="header-section-number">5.4</span> Reducing granularity</h2>
 <p>The data set needs to be resampled to represent the monthly weather averages. It is done by
-computing the average temperature for each combination of month and weather station. With the granularity reduction,
+computing the average temperature for each combination of the month and weather station. With the granularity reduction,
 the data set will have 24 columns, one for each month in the two years comprehended.
 The plot of the monthly average temperature of the temperatures of all the data points is plotted in figure
 <a href="real-data-examples.html#fig:downsampled-curve">5.7</a></p>
@@ -1577,7 +1577,7 @@ Figure 5.10: Berlin daily weather data segmented using an auto-penalized R-squar
 </div>
 <p>The default penalized <code>rsquared_cost</code> split the data set in three
 segments, roughly the same size each. It makes sense because the penalty applied by
-the default <code>auto_penalize</code> funtion has the lowest penalty for segments of sizes closer to
+the default <code>auto_penalize</code> function has the lowest penalty for segments of sizes closer to
 about half the total length. So, increasing the <code>big_penalty_segment</code> argument will not affect solution estimation anymore. In contrast, smaller segments are being over penalized. Because of this,
 it’s necessary to reduce the <code>small_segment_penalty</code> segment, which we decrease
 to <span class="math inline">\(1.5\)</span>, from the default of <span class="math inline">\(10\)</span>. The results of the new segmentation can be

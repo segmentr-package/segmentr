@@ -5,7 +5,7 @@ with the segmentation of data, and goes on to describe a few algorithms to try t
 estimate the set of points that optimally segment a given data set, explaining
 the differences between them.
 
-Then we proceed and describe the actually implementation of such algorithms
+Then we proceed and describe the actual implementation of such algorithms
 in an actual R package, in an attempt to make its use easier for researchers.
 We provide a few applications with simulated data, and also provide a real analysis
 with a real weather data set. Finally, performance considerations are taken into

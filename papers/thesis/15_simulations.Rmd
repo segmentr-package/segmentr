@@ -142,7 +142,7 @@ homozygosity and one for heterozygosity, i.e. $0$ when the alleles are the
 same and $1$ when different.
 
 So, to use `segmentr` to solve this problem, it's necessary to find a cost
-function that favors segments the homogeneity of a given segment. That problem
+function that favors the homogeneity of a given segment. That problem
 is approached by proposing a heterogeneity cost function, i.e. a function that
 penalized the segments whose elements are far from the segment average. One
 such function is defined in \@ref(eq:heterogeneitycost). Notice, however, the

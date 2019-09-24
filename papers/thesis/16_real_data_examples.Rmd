@@ -91,7 +91,7 @@ print_results_table(
 An adequate cost function should be able to rank a given set of possible segments and pick
 the best one given the evaluation criteria. Since the goal is to select segments with a good
 linear regression fit, the standard log-likelihood function for linear regressions is the
-the negative of the squared sum of residuals, the squared sum of residuals is a good candidate for our segment cost function.
+ negative of the squared sum of residuals, the squared sum of residuals is a good candidate for our segment cost function.
 So, the cost function $K$ is shown in \@ref(eq:squaredresidualcost), with the set of points $X$
 that belong to the segment, $x_i$ and $y_i$ as the points that belong to $X$ for each index $i$,
 and $f$ is the best linear regression that fitted the $X$ segment.
@@ -198,7 +198,7 @@ plot_curve(~ exp(0.3*(. - 50)) + exp(0.3 * (-. + 50)),
 ```
 
 Given the penalty function general formula, it's necessary to adjust the
-parameters such the penalty function has a scale compatible with the cost
+parameters such as the penalty function has a scale compatible with the cost
 function. The `auto_penalize()` function, provided in the `segmentr` package,
 builds a penalized version of the cost function, by estimating
 parametrization values based on sample cost values for big and small
@@ -299,7 +299,7 @@ measurement stations.
 ## Reducing granularity
 
 The data set needs to be resampled to represent the monthly weather averages. It is done by
-computing the average temperature for each combination of month and weather station. With the granularity reduction,
+computing the average temperature for each combination of the month and weather station. With the granularity reduction,
 the data set will have 24 columns, one for each month in the two years comprehended.
 The plot of the monthly average temperature of the temperatures of all the data points is plotted in figure
 \@ref(fig:downsampled-curve)
@@ -540,7 +540,7 @@ plot_results(results, berlin)
 
 The default penalized `rsquared_cost` split the data set in three
 segments, roughly the same size each. It makes sense because the penalty applied by
-the default `auto_penalize` funtion has the lowest penalty for segments of sizes closer to
+the default `auto_penalize` function has the lowest penalty for segments of sizes closer to
 about half the total length. So, increasing the `big_penalty_segment` argument will not affect solution estimation anymore. In contrast, smaller segments are being over penalized. Because of this,
 it's necessary to reduce the `small_segment_penalty` segment, which we decrease
 to $1.5$, from the default of $10$. The results of the new segmentation can be
