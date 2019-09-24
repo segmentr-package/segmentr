@@ -31,9 +31,9 @@ presented in their work provide better results than previous work.
 
 Notice that, because the approach used by [@fpop] is different than the one
 used by [@base-paper], the `fpop` and `snip` algorithms couldn't be
-investigated and validated in time to be implemented in the Segmentr package.
+investigated and validated in time to be implemented in the `segmentr` package.
 However, if in future work those algorithms provide good results estimation
 and performance compared to the currently implemented algorithms, they can be
-included in the Segmentr package. That will allow users to use the newly
+included in the `segmentr` package. That will allow users to use the newly
 implemented algorithms with minimal code modification, by changing a single
 parameter.

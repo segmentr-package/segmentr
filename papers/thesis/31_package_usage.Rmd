@@ -8,7 +8,7 @@ Because of that, extra care was put into making it easy to install and use.
 ## Installation
 
 Given the algorithms and their applications discussed in [@base-paper],
-the Segmentr package for R is proposed to help researchers segment their
+the `segmentr` package for R is proposed to help researchers segment their
 data sets. Installation can be done using the default `install.packages` command,
 like shown below.
 
