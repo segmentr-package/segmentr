@@ -150,13 +150,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-cost-function"><i class="fa fa-check"></i><b>5.2</b> Building the Cost Function</a></li>
 <li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-cost-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the Cost Function</a></li>
 <li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing Granularity</a></li>
-<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-data-set"><i class="fa fa-check"></i><b>5.5</b> Accuracy of Estimates for the Berlin Data Set</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-data-set"><i class="fa fa-check"></i><b>5.5</b> Accuracy of Estimates for the <code>berlin</code> Data Set</a></li>
 <li class="chapter" data-level="5.6" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-cost-function"><i class="fa fa-check"></i><b>5.6</b> A Non-Usual Cost Function</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on Performance</a><ul>
-<li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the Code</a></li>
-<li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
-<li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
+<li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.1</b> Native Code</a></li>
+<li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.2</b> Parallelization</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -196,17 +195,16 @@ cost function rather than maximizing a likelihood function, such the cost is
 the opposite of the likelihood. We show this generalization can be used for
 other use-cases, e.g. segments with homogeneous values (see Chapter
 <a href="simulations.html#segments-with-similar-averages">4.2</a>), segments that have the same linear
-regression trend <a href="real-data-examples.html#real-data-examples">5</a>.</p>
-<p>This work was developed as an R Programming Language <span class="citation">(R Core Team <a href="#ref-R-lang" role="doc-biblioref">2018</a>)</span> package. The
+regression trend (see Chapter )<a href="real-data-examples.html#real-data-examples">5</a>).</p>
+<p>This work produced an R Programming Language <span class="citation">(R Core Team <a href="#ref-R-lang" role="doc-biblioref">2018</a>)</span> package. The
 packaging of the code into redistributable software was based on instructions
-provided by <span class="citation">(Wickham <a href="#ref-r-package-tutorial" role="doc-biblioref">2015</a>)</span>, and the final code is made available as an R
-package <span class="citation">(Mello and Leonardi <a href="#ref-segmentr-cran" role="doc-biblioref">2019</a>)</span>. The goal was to make it as easy as
-possible for researchers and R programmers to use this software. The source code
-for the package is also available as an open-source software <span class="citation">Mello (<a href="#ref-segmentr-github" role="doc-biblioref">2019</a>)</span>.
-Finally, as a special implementation for the use case described by
-<span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span> of segmenting finite alphabets, a specialized version of the
-multivariate likelihood function is implemented in native code using Rcpp
-<span class="citation">(Eddelbuettel and François <a href="#ref-rcpp" role="doc-biblioref">2011</a>)</span>.</p>
+provided by <span class="citation">(Wickham <a href="#ref-r-package-tutorial" role="doc-biblioref">2015</a>)</span>, and can be installed through CRAN
+<span class="citation">(Mello and Leonardi <a href="#ref-segmentr-cran" role="doc-biblioref">2019</a>)</span>, with the goal of making it as easy as
+possible for researchers and R programmers to use this software. All the source code
+is open-source and available on GitHub <span class="citation">(Mello <a href="#ref-segmentr-github" role="doc-biblioref">2019</a>)</span>.
+Finally, a specialized version of the multivariate likelihood function is
+implemented in native code using Rcpp <span class="citation">(Eddelbuettel and François <a href="#ref-rcpp" role="doc-biblioref">2011</a>)</span>, which allows a faster execution
+for the use-case problem described in <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>.</p>
 <div id="related-work" class="section level2">
 <h2><span class="header-section-number">1.1</span> Related Work</h2>
 <p><span class="citation">(Maidstone et al. <a href="#ref-fpop" role="doc-biblioref">2017</a>)</span> also talks about optimally segmenting a data set with the minimization
@@ -219,7 +217,7 @@ presented in their work provide better results than previous work.</p>
 used by <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>, the <code>fpop</code> and <code>snip</code> algorithms couldn’t be
 investigated and validated in time to be implemented in the <code>segmentr</code> package.
 However, if in future work those algorithms provide good results estimation
-and performance compared to the currently implemented algorithms, they can be
+and performance compared to the current algorithms, they can be
 included in the <code>segmentr</code> package. That will allow users to use the newly
 implemented algorithms with minimal code modification, by changing a single
 parameter.</p>

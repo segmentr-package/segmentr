@@ -150,13 +150,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-cost-function"><i class="fa fa-check"></i><b>5.2</b> Building the Cost Function</a></li>
 <li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-cost-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the Cost Function</a></li>
 <li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing Granularity</a></li>
-<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-data-set"><i class="fa fa-check"></i><b>5.5</b> Accuracy of Estimates for the Berlin Data Set</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-data-set"><i class="fa fa-check"></i><b>5.5</b> Accuracy of Estimates for the <code>berlin</code> Data Set</a></li>
 <li class="chapter" data-level="5.6" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-cost-function"><i class="fa fa-check"></i><b>5.6</b> A Non-Usual Cost Function</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on Performance</a><ul>
-<li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the Code</a></li>
-<li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
-<li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
+<li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.1</b> Native Code</a></li>
+<li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.2</b> Parallelization</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -197,12 +196,12 @@ temperature data from Berlin as an example.</p>
 <div id="understanding-the-data" class="section level2">
 <h2><span class="header-section-number">5.1</span> Understanding the Data</h2>
 <p>The <code>berlin</code> data set, provided in this package, contains daily temperature measurements
-from 7 weather stations in Berlin for every day in the years 2010 and 2011,
+from seven weather stations in Berlin for every day in the years 2010 and 2011,
 i.e., a total of 730 days. Therefore, every element in the data set has a
 temperature data point with units in Celsius, such that each of the 730 columns corresponds
 to a date, and each of the 7 rows corresponds to the weather station the
 data point was measured at. In Table <a href="real-data-examples.html#tab:berlin-sample">5.1</a>, it’s possible to see the first three
-columns, as well as the last three columns, together with the respective stations.</p>
+and the last three columns, together with their respective stations.</p>
 <table>
 <caption>
 <span id="tab:berlin-sample">Table 5.1: </span>
@@ -421,9 +420,9 @@ Berlin-Tempelhof
 </tr>
 </tbody>
 </table>
-<p>To grasp the behavior of the weather data, in Figure
-<a href="real-data-examples.html#fig:berlin-curve">5.1</a> the daily average temperature of all the weather
-stations, i.e., the mean value of each column in the data set as a time series
+<p>To grasp the behavior of the weather data, Figure
+<a href="real-data-examples.html#fig:berlin-curve">5.1</a> shows the daily average temperature of all the weather
+stations, i.e. the mean value of each column in the data set as a time series
 graph to observe how the average temperature of Berlin behaves over
 time.</p>
 <div class="figure"><span id="fig:berlin-curve"></span>
@@ -432,12 +431,12 @@ time.</p>
 Figure 5.1: Average daily temperature over time as measured by different stations in Berlin
 </p>
 </div>
-<p>In the graph, the daily temperatures points alternate in upwards and downwards trends,
+<p>In the graph, the daily temperatures alternate in upwards and downwards trends,
 which suggests it’s possible to fit linear regressions for each of the upwards or downwards
 trend segments. So, a cost that optimizes for linear regressions function is proposed, which should
 minimize when a linear regression fits in a given segment. By intuition,
-we expect the cost function to segment the dataset approximately to the way the vertical
-lines are placed in Figure <a href="real-data-examples.html#fig:berlin-ideal">5.2</a>. The indices picked to represent each segment are available in Table <a href="real-data-examples.html#tab:berlinexpectedtable">5.2</a>.</p>
+we expect the cost function to segment the dataset approximately to the way the hand-picked vertical
+lines are placed in Figure <a href="real-data-examples.html#fig:berlin-ideal">5.2</a>, with indices described in Table <a href="real-data-examples.html#tab:berlinexpectedtable">5.2</a>.</p>
 <div class="figure"><span id="fig:berlin-ideal"></span>
 <img src="thesis_files/figure-html/berlin-ideal-1.png" alt="Manual segmentation of the weather data picked according to intuition" width="672" />
 <p class="caption">
@@ -503,8 +502,9 @@ Last index
 <h2><span class="header-section-number">5.2</span> Building the Cost Function</h2>
 <p>An adequate cost function should be able to rank a given set of possible segments and pick
 the best one given the evaluation criteria. Since the goal is to select segments with a good
-linear regression fit, the standard log-likelihood function for linear regressions is the
-negative of the squared sum of residuals, the squared sum of residuals is a good candidate for our segment cost function.
+linear regression fit, and given the standard log-likelihood function for linear regressions is the
+negative of the squared sum of residuals, the positive squared sum of residuals is therefore a good
+candidate for our segment cost function.
 So, the cost function <span class="math inline">\(K\)</span> is shown in <a href="real-data-examples.html#eq:squaredresidualcost">(5.1)</a>, with the set of points <span class="math inline">\(X\)</span>
 that belong to the segment, <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> as the points that belong to <span class="math inline">\(X\)</span> for each index <span class="math inline">\(i\)</span>,
 and <span class="math inline">\(f\)</span> is the best linear regression that fitted the <span class="math inline">\(X\)</span> segment.</p>
@@ -554,12 +554,15 @@ Large Size
 </tr>
 </tbody>
 </table>
-<p>With the cost function defined, it can now be applied to <code>segment()</code> to get the segments for the data set. Since the time complexity of the
+<p>With the cost function defined, it can now be applied to <code>segment()</code> to get the
+segments for the data set. Since the time complexity of the
 exact algorithm is <span class="math inline">\(O(n^2)\)</span> and the number of points in the data set is high,
 the execution time required for the computation is quite prohibitive. So, for
 demonstration purposes, we use the hierarchical algorithm, due to its
 <span class="math inline">\(O(n \log(n))\)</span> complexity. We point the hierarchical algorithm (generally suitable for the cost function based on
-multivariate likelihood) assumes the segments to be structured hierarchically, with a combination of two neighboring segments being selected as an intermediate step before evaluating the ideal change
+multivariate likelihood) assumes the segments to be structured hierarchically,
+with a combination of two neighboring segments being selected as an
+intermediate step before evaluating the ideal change
 points of the data set. The segmentation results can be seen in Table
 <a href="real-data-examples.html#tab:resultsnonpenalized">5.4</a>, and they are also plotted together with the
 weather data in Figure <a href="real-data-examples.html#fig:berlin-non-penalized">5.3</a>.</p>
@@ -854,9 +857,8 @@ s_2 &amp; = \frac{4 \log(P_s)}{L}
 \end{equation}\]</span></p>
 <p>So, a penalized cost version of the function is created with
 <code>auto_penalize()</code> and then used with <code>segment()</code>. The results of the
-segmentation can be seen in Table <a href="real-data-examples.html#tab:resultsautopenalized">5.5</a>, and it’s
-possible to the segments with the weather data in Figure
-<a href="real-data-examples.html#fig:berlin-auto-penalized">5.5</a>.</p>
+segmentation can be seen in Table <a href="real-data-examples.html#tab:resultsautopenalized">5.5</a> and
+Figure <a href="real-data-examples.html#fig:berlin-auto-penalized">5.5</a>.</p>
 <table>
 <caption>
 <span id="tab:resultsautopenalized">Table 5.5: </span>Results of the segmentation algorithm
@@ -1093,15 +1095,13 @@ Last index
 Figure 5.5: Berlin weather data segmented using an auto-penalized cost function
 </p>
 </div>
-<p>We now get a reduced number of segments estimated by the new penalized
-cost function in Figure <a href="real-data-examples.html#fig:berlin-auto-penalized">5.5</a> found by the new
-penalized cost, though it’s also over segmenting some downward trends. It
-suggests the <code>big_segment_penalty</code> argument needs to be decreased to allow for
-larger segments to be estimated by the solution. So, by decreasing it’s value,
-from the default of <span class="math inline">\(10\)</span>, down to <span class="math inline">\(2\)</span>, we run the results again with the
-<code>segment()</code> function. The results can be seen in
-<a href="real-data-examples.html#tab:resultsadjustedpenalized">5.6</a>, and it’s possible for the segments with the
-weather data in Figure <a href="real-data-examples.html#fig:berlin-adjusted-penalized">5.6</a>.</p>
+<p>We now get a reduced number of segments estimated by the new penalized cost
+function in Figure <a href="real-data-examples.html#fig:berlin-auto-penalized">5.5</a>, though it’s also over
+segmenting some downward trends. It seems the <code>big_segment_penalty</code> argument
+needs to be decreased to allow for larger segments to be estimated by the
+solution. So, by decreasing it’s value, from the default of <span class="math inline">\(10\)</span>, down to <span class="math inline">\(2\)</span>,
+we run the results again with the <code>segment()</code> function. The results can be seen
+in <a href="real-data-examples.html#tab:resultsadjustedpenalized">5.6</a> and Figure <a href="real-data-examples.html#fig:berlin-adjusted-penalized">5.6</a>.</p>
 <table>
 <caption>
 <span id="tab:resultsadjustedpenalized">Table 5.6: </span>Results of the segmentation algorithm
@@ -1162,10 +1162,10 @@ Last index
 Figure 5.6: Berlin weather data segmented using an adjusted penalized cost function
 </p>
 </div>
-<p>Though we got a reduced number of segments in the new adjusted
-<code>penalized_cost</code>, the segments seen in Figure
-<a href="real-data-examples.html#fig:berlin-adjusted-penalized">5.6</a> still aren’t similar to what we are
-looking for as shown in Figure <a href="real-data-examples.html#fig:berlin-ideal">5.2</a>. The reason behind this,
+<p>Though we got a reduced number of segments with the new adjusted
+<code>penalized_cost</code> in Figure <a href="real-data-examples.html#fig:berlin-adjusted-penalized">5.6</a>,
+the segments found are still far from the expected segments in
+Figure <a href="real-data-examples.html#fig:berlin-ideal">5.2</a>. The reason behind this,
 as discussed earlier, is due to the incorrect assumption the data is
 hierarchical. So, to segment the data ideally, it’s necessary to
 evaluate all of the possibilities.</p>
@@ -1179,8 +1179,7 @@ measurement stations.</p>
 <p>The data set needs to be resampled to represent the monthly weather averages. It is done by
 computing the average temperature for each combination of the month and weather station. With the granularity reduction,
 the data set will have 24 columns, one for each month in the two years comprehended.
-The plot of the monthly average temperature of the temperatures of all the data points is plotted in figure
-<a href="real-data-examples.html#fig:downsampled-curve">5.7</a></p>
+The monthly average temperatures is shown in Figure <a href="real-data-examples.html#fig:downsampled-curve">5.7</a>.</p>
 <div class="figure"><span id="fig:downsampled-curve"></span>
 <img src="thesis_files/figure-html/downsampled-curve-1.png" alt="Average monthly temperature over time as measured by different stations in Berlin" width="672" />
 <p class="caption">
@@ -1188,9 +1187,8 @@ Figure 5.7: Average monthly temperature over time as measured by different stati
 </p>
 </div>
 <p>A new <code>penalized_cost</code> function is then built and applied to the monthly data set
-using <code>segment()</code>, with the results being shown in Table
-<a href="real-data-examples.html#tab:downresautopenalized">5.7</a>, and with we also plot it with weather data
-in Figure <a href="real-data-examples.html#fig:downsampled-auto-penalized">5.8</a>.</p>
+using <code>segment()</code>, with the results being shown in Table <a href="real-data-examples.html#tab:downresautopenalized">5.7</a>
+and Figure <a href="real-data-examples.html#fig:downsampled-auto-penalized">5.8</a>.</p>
 <table>
 <caption>
 <span id="tab:downresautopenalized">Table 5.7: </span>Results of the segmentation algorithm
@@ -1264,17 +1262,16 @@ Figure 5.8: Downsampled Berlin monthly weather data segmented using an auto pena
 </p>
 </div>
 <p>To make the solution comparison clearer, it’s possible to
-rescale the <code>exact</code> solution to the monthly sampled dataset to the
-daily sampled dataset by applying a linear transformation of
-multiplying all the change points for the number of columns in the
-daily dataset and dividing it by the number of columns in the
+rescale the monthly sampled dataset solution back to the
+daily sampled dataset by multiplying all the change points for the number of
+columns in the daily dataset and dividing it by the number of columns in the
 monthly dataset, i.e. each rescaled change point <span class="math inline">\(C_i\)</span> relates to
 the original change point <span class="math inline">\(c_i\)</span> as described in equation
 <a href="real-data-examples.html#eq:rescaled-change-points">(5.4)</a>, in which <span class="math inline">\(i\)</span> is the index of
 each change point estimated with the monthly data set, <span class="math inline">\(N_M\)</span>
 represents the number of columns in the monthly Berlin weather
 data set and <span class="math inline">\(N_B\)</span> represents the number of columns in the daily
-Berlin data set, in the original form provided by the <code>segmentr</code>
+<code>berlin</code> data set, in the original form provided by the <code>segmentr</code>
 package.</p>
 <p><span class="math display" id="eq:rescaled-change-points">\[\begin{equation}
 C_i = \left \lfloor{c_i \frac{N_B}{N_M}} \right \rfloor
@@ -1357,11 +1354,11 @@ Figure 5.9: Rescaled segments estimated for a downsampled monthly weather data o
 </p>
 </div>
 <p>With the exact solution, made possible with the granularity reduction, we
-noticed the data set is segmented closer to what the ideal solution would be,
-as the algorithm as able to evaluate all of the possibilities.</p>
+noticed the data set is segmented closer to what we expect in Figure <a href="real-data-examples.html#fig:berlin-ideal">5.2</a>,
+as the algorithm was able to evaluate all the possibilities.</p>
 </div>
 <div id="accuracy-of-estimates-for-the-berlin-data-set" class="section level2">
-<h2><span class="header-section-number">5.5</span> Accuracy of Estimates for the Berlin Data Set</h2>
+<h2><span class="header-section-number">5.5</span> Accuracy of Estimates for the <code>berlin</code> Data Set</h2>
 <p>In this chapter, the data set of weather temperatures in
 Berlin was presented, and there was a walkthrough on different ways to use
 <code>segmentr</code> to find a good estimate set of segments for it. Table
@@ -1371,9 +1368,8 @@ found in Tables <a href="real-data-examples.html#tab:resultsnonpenalized">5.4</a
 and <a href="real-data-examples.html#tab:downresautopenalized">5.7</a>. Considering this, the
 Hausdorff distance can be used to measure how far each estimate is from
 the ideal solution described in Table <a href="real-data-examples.html#tab:berlinexpectedtable">5.2</a>.
-In Table <a href="real-data-examples.html#tab:hausdorff-real-data-comparison">5.9</a> we can see the results
-of the comparison, in which we can see the distance of each estimate
-calculated.</p>
+In Table <a href="real-data-examples.html#tab:hausdorff-real-data-comparison">5.9</a> we can see the
+comparison, each with the distance to the expected solution calculated.</p>
 
 
 
@@ -1456,9 +1452,9 @@ Table <a href="real-data-examples.html#tab:resultsrescaled">5.8</a>
 </tbody>
 </table>
 <p>In Table <a href="real-data-examples.html#tab:hausdorff-real-data-comparison">5.9</a> we can see the distance to
-the ideal is gradually decreased more adequate parameters are used to compute
-the segment estimates for the segmentation estimate. This improvement reflects
-the progress that can be observed in gradually in Figures
+the ideal is gradually decreased when more adequate approached and cost functions
+are used to compute the change point estimates. This improvement reflects
+the gradual progress that can be observed in Figures
 <a href="real-data-examples.html#fig:berlin-non-penalized">5.3</a>, <a href="real-data-examples.html#fig:berlin-auto-penalized">5.5</a>,
 <a href="real-data-examples.html#fig:berlin-adjusted-penalized">5.6</a> and <a href="real-data-examples.html#fig:plot-results-rescaled">5.9</a>.</p>
 </div>
@@ -1688,7 +1684,7 @@ has an unattractive cost value, due to the presence of alternating trends.
 Because of this, the macro-segment is never picked by the algorithm during the
 computation process, and so the ideal change points are never picked at their
 ideal positions. To see it more clearly, take the first 547 data
-points of the Berlin data set, roughly one year and a half. The results
+points of the <code>berlin</code> data set, roughly one year and a half. The results
 of the segmentation with that portion of the <code>berlin</code> data set can be seen in
 Table <a href="real-data-examples.html#tab:subberlinres-penalized">5.13</a>, and the plot can be seen in Figure
 <a href="real-data-examples.html#fig:subberlinplot-penalized">5.12</a>.</p>

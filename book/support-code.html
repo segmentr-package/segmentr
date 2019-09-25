@@ -150,13 +150,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-cost-function"><i class="fa fa-check"></i><b>5.2</b> Building the Cost Function</a></li>
 <li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-cost-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the Cost Function</a></li>
 <li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing Granularity</a></li>
-<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-data-set"><i class="fa fa-check"></i><b>5.5</b> Accuracy of Estimates for the Berlin Data Set</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-data-set"><i class="fa fa-check"></i><b>5.5</b> Accuracy of Estimates for the <code>berlin</code> Data Set</a></li>
 <li class="chapter" data-level="5.6" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-cost-function"><i class="fa fa-check"></i><b>5.6</b> A Non-Usual Cost Function</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on Performance</a><ul>
-<li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the Code</a></li>
-<li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
-<li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
+<li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.1</b> Native Code</a></li>
+<li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.2</b> Parallelization</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -196,28 +195,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-10"><a href="support-code.html#cb4-10"></a>)</span>
 <span id="cb4-11"><a href="support-code.html#cb4-11"></a><span class="kw">source</span>(<span class="st">&quot;helper.R&quot;</span>)</span>
 <span id="cb4-12"><a href="support-code.html#cb4-12"></a>n &lt;-<span class="st"> </span><span class="dv">100</span></span>
-<span id="cb4-13"><a href="support-code.html#cb4-13"></a>N1 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb4-14"><a href="support-code.html#cb4-14"></a>N2 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb4-15"><a href="support-code.html#cb4-15"></a>N3 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb4-16"><a href="support-code.html#cb4-16"></a>N4 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb4-17"><a href="support-code.html#cb4-17"></a>N5 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb4-18"><a href="support-code.html#cb4-18"></a>N6 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-13"><a href="support-code.html#cb4-13"></a>B1 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-14"><a href="support-code.html#cb4-14"></a>B2 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-15"><a href="support-code.html#cb4-15"></a>B3 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-16"><a href="support-code.html#cb4-16"></a>B4 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-17"><a href="support-code.html#cb4-17"></a>B5 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-18"><a href="support-code.html#cb4-18"></a>B6 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb4-19"><a href="support-code.html#cb4-19"></a></span>
-<span id="cb4-20"><a href="support-code.html#cb4-20"></a>X1 &lt;-<span class="st"> </span>N1</span>
-<span id="cb4-21"><a href="support-code.html#cb4-21"></a>X2 &lt;-<span class="st"> </span>N1 <span class="op">-</span><span class="st"> </span>N2</span>
-<span id="cb4-22"><a href="support-code.html#cb4-22"></a>X3 &lt;-<span class="st"> </span>N2</span>
-<span id="cb4-23"><a href="support-code.html#cb4-23"></a>X4 &lt;-<span class="st"> </span>N1 <span class="op">+</span><span class="st"> </span>N2</span>
-<span id="cb4-24"><a href="support-code.html#cb4-24"></a>X5 &lt;-<span class="st"> </span>N1</span>
-<span id="cb4-25"><a href="support-code.html#cb4-25"></a>X6 &lt;-<span class="st"> </span>N3</span>
-<span id="cb4-26"><a href="support-code.html#cb4-26"></a>X7 &lt;-<span class="st"> </span>N3 <span class="op">-</span><span class="st"> </span>N4</span>
-<span id="cb4-27"><a href="support-code.html#cb4-27"></a>X8 &lt;-<span class="st"> </span>N4</span>
-<span id="cb4-28"><a href="support-code.html#cb4-28"></a>X9 &lt;-<span class="st"> </span>N3 <span class="op">+</span><span class="st"> </span>N4</span>
-<span id="cb4-29"><a href="support-code.html#cb4-29"></a>X10 &lt;-<span class="st"> </span>N3</span>
-<span id="cb4-30"><a href="support-code.html#cb4-30"></a>X11 &lt;-<span class="st"> </span>N5</span>
-<span id="cb4-31"><a href="support-code.html#cb4-31"></a>X12 &lt;-<span class="st"> </span>N5 <span class="op">-</span><span class="st"> </span>N6</span>
-<span id="cb4-32"><a href="support-code.html#cb4-32"></a>X13 &lt;-<span class="st"> </span>N6</span>
-<span id="cb4-33"><a href="support-code.html#cb4-33"></a>X14 &lt;-<span class="st"> </span>N5 <span class="op">+</span><span class="st"> </span>N6</span>
-<span id="cb4-34"><a href="support-code.html#cb4-34"></a>X15 &lt;-<span class="st"> </span>N5</span>
+<span id="cb4-20"><a href="support-code.html#cb4-20"></a>X1 &lt;-<span class="st"> </span>B1</span>
+<span id="cb4-21"><a href="support-code.html#cb4-21"></a>X2 &lt;-<span class="st"> </span>B1 <span class="op">-</span><span class="st"> </span>B2</span>
+<span id="cb4-22"><a href="support-code.html#cb4-22"></a>X3 &lt;-<span class="st"> </span>B2</span>
+<span id="cb4-23"><a href="support-code.html#cb4-23"></a>X4 &lt;-<span class="st"> </span>B1 <span class="op">+</span><span class="st"> </span>B2</span>
+<span id="cb4-24"><a href="support-code.html#cb4-24"></a>X5 &lt;-<span class="st"> </span>B1</span>
+<span id="cb4-25"><a href="support-code.html#cb4-25"></a>X6 &lt;-<span class="st"> </span>B3</span>
+<span id="cb4-26"><a href="support-code.html#cb4-26"></a>X7 &lt;-<span class="st"> </span>B3 <span class="op">-</span><span class="st"> </span>B4</span>
+<span id="cb4-27"><a href="support-code.html#cb4-27"></a>X8 &lt;-<span class="st"> </span>B4</span>
+<span id="cb4-28"><a href="support-code.html#cb4-28"></a>X9 &lt;-<span class="st"> </span>B3 <span class="op">+</span><span class="st"> </span>B4</span>
+<span id="cb4-29"><a href="support-code.html#cb4-29"></a>X10 &lt;-<span class="st"> </span>B3</span>
+<span id="cb4-30"><a href="support-code.html#cb4-30"></a>X11 &lt;-<span class="st"> </span>B5</span>
+<span id="cb4-31"><a href="support-code.html#cb4-31"></a>X12 &lt;-<span class="st"> </span>B5 <span class="op">-</span><span class="st"> </span>B6</span>
+<span id="cb4-32"><a href="support-code.html#cb4-32"></a>X13 &lt;-<span class="st"> </span>B6</span>
+<span id="cb4-33"><a href="support-code.html#cb4-33"></a>X14 &lt;-<span class="st"> </span>B5 <span class="op">+</span><span class="st"> </span>B6</span>
+<span id="cb4-34"><a href="support-code.html#cb4-34"></a>X15 &lt;-<span class="st"> </span>B5</span>
 <span id="cb4-35"><a href="support-code.html#cb4-35"></a>D_example &lt;-<span class="st"> </span><span class="kw">cbind</span>(X1, X2, X3, X4, X5, X6, X7, X8,</span>
 <span id="cb4-36"><a href="support-code.html#cb4-36"></a>                   X9, X10, X11, X12, X13, X14, X15)</span>
 <span id="cb4-37"><a href="support-code.html#cb4-37"></a><span class="kw">head</span>(D_example) <span class="op">%&gt;%</span></span>

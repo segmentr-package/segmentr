@@ -150,13 +150,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2" data-path="real-data-examples.html"><a href="real-data-examples.html#building-the-cost-function"><i class="fa fa-check"></i><b>5.2</b> Building the Cost Function</a></li>
 <li class="chapter" data-level="5.3" data-path="real-data-examples.html"><a href="real-data-examples.html#penalizing-the-cost-function"><i class="fa fa-check"></i><b>5.3</b> Penalizing the Cost Function</a></li>
 <li class="chapter" data-level="5.4" data-path="real-data-examples.html"><a href="real-data-examples.html#reducing-granularity"><i class="fa fa-check"></i><b>5.4</b> Reducing Granularity</a></li>
-<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-data-set"><i class="fa fa-check"></i><b>5.5</b> Accuracy of Estimates for the Berlin Data Set</a></li>
+<li class="chapter" data-level="5.5" data-path="real-data-examples.html"><a href="real-data-examples.html#accuracy-of-estimates-for-the-berlin-data-set"><i class="fa fa-check"></i><b>5.5</b> Accuracy of Estimates for the <code>berlin</code> Data Set</a></li>
 <li class="chapter" data-level="5.6" data-path="real-data-examples.html"><a href="real-data-examples.html#a-non-usual-cost-function"><i class="fa fa-check"></i><b>5.6</b> A Non-Usual Cost Function</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html"><i class="fa fa-check"></i><b>6</b> Considerations on Performance</a><ul>
-<li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#benchmark-the-code"><i class="fa fa-check"></i><b>6.1</b> Benchmark the Code</a></li>
-<li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.2</b> Native Code</a></li>
-<li class="chapter" data-level="6.3" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.3</b> Parallelization</a></li>
+<li class="chapter" data-level="6.1" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#native-code"><i class="fa fa-check"></i><b>6.1</b> Native Code</a></li>
+<li class="chapter" data-level="6.2" data-path="considerations-on-performance.html"><a href="considerations-on-performance.html#parallelization"><i class="fa fa-check"></i><b>6.2</b> Parallelization</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -184,34 +183,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="considerations-on-performance" class="section level1">
 <h1><span class="header-section-number">6</span> Considerations on Performance</h1>
-<p>This code shows a handful of attempts that were made in actually trying to execution
-time of the algorithms implemented by the package.</p>
-<div id="benchmark-the-code" class="section level2">
-<h2><span class="header-section-number">6.1</span> Benchmark the Code</h2>
+<p>This chapter talks about various attempts that were made to make the code execution
+of the <code>segmentr</code> package faster, both with writing the cost function in native-code
+and experimenting with parallel code execution.</p>
 <p>The package <code>microbenchmark</code> allows us to execute the code and compare different run-times.
-Therefore it’s going to be used in this package to compare the performance of different
-code snippets.</p>
-</div>
+Therefore it’s used in this work to compare the performance of different code snippets.</p>
 <div id="native-code" class="section level2">
-<h2><span class="header-section-number">6.2</span> Native Code</h2>
+<h2><span class="header-section-number">6.1</span> Native Code</h2>
 <p>In the algorithms chapter, we discussed the time complexity of the different types of
 algorithms. In that scenario, the most relevant variable is the number of columns
 in the data set, which dictates whether the computation of the exact algorithm will
 be prohibitive or not. However, the number of samples does influence the computation
 time linearly. Given the most performed operation in any of the algorithms described
-in the chapter is the cost function, it’s, in essence, the bottleneck of the
+in the chapter is the cost function, in essence it’s the bottleneck of the
 whole computation. Therefore, real performance gains can be obtained depending on
 the performance of the application.</p>
 <p>In R statistical programming, it’s commonplace to use the functions provided by the
 programming environment, which are usually performant algorithms implemented in compiled
 programming languages such as C. However, there are times the programmer must implement
-a custom function in R, which in turn is a dynamically, and typically slower execution
-environment.</p>
+a custom function in R, which in turn is a dynamic and interpreted language, with
+typically slower execution times.</p>
 <p>Therefore, in a first attempt to make the code execution run faster, and
 compare different results, <code>segmentr</code> implements the [multivariate()]
-likelihood function (used to calculate the cost) in compiled C++ programming
-language, as well as it implements [r_multivariate()] which implements the same
-algorithm in the R programming environment.</p>
+likelihood function (used to calculate the cost) in the compiled C++ programming
+language, as well as it implements the equivalent [r_multivariate()] in the R programming environment.</p>
 <table>
 <caption>
 <span id="tab:benchmark-native">Table 6.1: </span>Execution time comparison
@@ -230,26 +225,18 @@ time (ms)
 <tbody>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, cost = function(x) -r_multivariate(x), algorithm = “hierarchical”)
-</td>
-<td style="text-align:right;">
-95.917
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 30em; ">
 segment(data, cost = function(x) -multivariate(x), algorithm = “exact”)
 </td>
 <td style="text-align:right;">
-6964.327
+6973.174
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”)
+segment(data, cost = function(x) -r_multivariate(x), algorithm = “hierarchical”)
 </td>
 <td style="text-align:right;">
-28.875
+105.693
 </td>
 </tr>
 <tr>
@@ -257,32 +244,40 @@ segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical�
 segment(data, cost = function(x) -r_multivariate(x), algorithm = “exact”)
 </td>
 <td style="text-align:right;">
-47227.872
+47601.012
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”)
+</td>
+<td style="text-align:right;">
+25.292
 </td>
 </tr>
 </tbody>
 </table>
-<p>In the scenario above, we notice performance improvements in the native [multivariate()]
+<p>In Table <a href="considerations-on-performance.html#tab:benchmark-native">6.1</a>, we notice performance improvements in the native [multivariate()]
 function, with the biggest performance improvement taking place in the <code>exact</code> algorithm
 results. Therefore, whenever the resources are available, it’s recommended to implement
 the cost function (or portions of it) directly in a native programming language such as C++. We recommend
-the RCpp package, which makes it easy to implement functions that interface easily with
+the <code>RCpp</code> package, which makes it easy to implement functions that interface easily with
 the R programming environment.</p>
 </div>
 <div id="parallelization" class="section level2">
-<h2><span class="header-section-number">6.3</span> Parallelization</h2>
+<h2><span class="header-section-number">6.2</span> Parallelization</h2>
 <p>Given the increasing trend of parallel programming in the past few years, it’s natural
 to try to take advantage of that by parallelizing the algorithm execution. In the
 algorithms implemented in this paper, parallelization is a bit complicated because
 a lot of the execution steps in the algorithm iterations depend on values computed
 in previous steps, and the golden rule of parallel computing is that faster results
 are generally obtained when computation steps are independent from one another, i.e.
-no dependency between the task, hence they can be performed in parallel. Yet, there are
+no dependency between the tasks. Though complicated to implement, there are still
 a few steps of the computation that can be performed in parallel, and its parallelization
 was implemented with the help of the <code>foreach</code> package.</p>
 <p>Therefore, whether or not the computation will be performed depends on whether there is
 a parallel cluster registered in the R session with packages such as <code>doMC</code>, and whether
-the <code>allow_parallel</code> argument is true or false. With that in mind, a few comparisons are evaluated.</p>
+the <code>allow_parallel</code> argument is set to <code>TRUE</code>. With that in mind, a few comparisons are evaluated.</p>
 <table>
 <caption>
 <span id="tab:benchmark-parallel-narrow">Table 6.2: </span>Execution time comparison
@@ -302,10 +297,10 @@ time (ms)
 <tbody>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = TRUE)
+segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = TRUE)
 </td>
 <td style="text-align:right;">
-270.114
+39.472
 </td>
 </tr>
 <tr>
@@ -313,7 +308,7 @@ segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allo
 segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = FALSE)
 </td>
 <td style="text-align:right;">
-19.172
+20.159
 </td>
 </tr>
 <tr>
@@ -321,20 +316,20 @@ segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical�
 segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = FALSE)
 </td>
 <td style="text-align:right;">
-110.847
+125.297
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = TRUE)
+segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = TRUE)
 </td>
 <td style="text-align:right;">
-23.924
+265.824
 </td>
 </tr>
 </tbody>
 </table>
-<p>Analyzing the results above, we notice good improvements, especially for the “exact” algorithm.
+<p>Analyzing Table <a href="considerations-on-performance.html#tab:benchmark-parallel-narrow">6.2</a>, we notice good improvements, especially for the “exact” algorithm.
 However, in a situation in which the number of rows isn’t very large in comparison with the
 number of columns, the results of the parallel computation are a lot more modest.
 Consider the following case.</p>
@@ -357,10 +352,10 @@ time (ms)
 <tbody>
 <tr>
 <td style="text-align:left;width: 30em; ">
-segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = TRUE)
+segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = FALSE)
 </td>
 <td style="text-align:right;">
-5819.846
+5186.289
 </td>
 </tr>
 <tr>
@@ -368,7 +363,15 @@ segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allo
 segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = FALSE)
 </td>
 <td style="text-align:right;">
-38.069
+31.816
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 30em; ">
+segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = TRUE)
+</td>
+<td style="text-align:right;">
+6872.263
 </td>
 </tr>
 <tr>
@@ -376,20 +379,12 @@ segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical�
 segment(data, cost = function(x) -multivariate(x), algorithm = “hierarchical”, allow_parallel = TRUE)
 </td>
 <td style="text-align:right;">
-34.965
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 30em; ">
-segment(data, cost = function(x) -multivariate(x), algorithm = “exact”, allow_parallel = FALSE)
-</td>
-<td style="text-align:right;">
-5114.566
+44.106
 </td>
 </tr>
 </tbody>
 </table>
-<p>In the result above, parallelization achieved the opposite effect, actually making the
+<p>In Table <a href="considerations-on-performance.html#tab:benchmark-parallel-wide">6.3</a>, parallelization achieved the opposite effect, actually making the
 computation slower, as there is now a lot of work done synchronizing necessary information
 between all the processes in the cluster. That takes more time than is saved by running
 the algorithm in parallel.</p>
