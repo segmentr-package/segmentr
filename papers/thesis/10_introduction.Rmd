@@ -6,18 +6,17 @@ cost function rather than maximizing a likelihood function, such the cost is
 the opposite of the likelihood. We show this generalization can be used for
 other use-cases, e.g. segments with homogeneous values (see Chapter
 \@ref(segments-with-similar-averages)), segments that have the same linear
-regression trend \@ref(real-data-examples).
+regression trend (see Chapter )\@ref(real-data-examples)).
 
-This work was developed as an R Programming Language [@R-lang] package. The
+This work produced an R Programming Language [@R-lang] package. The
 packaging of the code into redistributable software was based on instructions
-provided by [@r-package-tutorial], and the final code is made available as an R
-package [@segmentr-cran]. The goal was to make it as easy as
-possible for researchers and R programmers to use this software. The source code
-for the package is also available as an open-source software @segmentr-github.
-Finally, as a special implementation for the use case described by
-[@base-paper] of segmenting finite alphabets, a specialized version of the
-multivariate likelihood function is implemented in native code using Rcpp
-[@rcpp].
+provided by [@r-package-tutorial], and can be installed through CRAN
+[@segmentr-cran], with the goal of making it as easy as
+possible for researchers and R programmers to use this software. All the source code
+is open-source and available on GitHub [@segmentr-github].
+Finally, a specialized version of the multivariate likelihood function is
+implemented in native code using Rcpp [@rcpp], which allows a faster execution
+for the use-case problem described in [@base-paper].
 
 
 ## Related Work
@@ -33,7 +32,7 @@ Notice that, because the approach used by [@fpop] is different than the one
 used by [@base-paper], the `fpop` and `snip` algorithms couldn't be
 investigated and validated in time to be implemented in the `segmentr` package.
 However, if in future work those algorithms provide good results estimation
-and performance compared to the currently implemented algorithms, they can be
+and performance compared to the current algorithms, they can be
 included in the `segmentr` package. That will allow users to use the newly
 implemented algorithms with minimal code modification, by changing a single
 parameter.

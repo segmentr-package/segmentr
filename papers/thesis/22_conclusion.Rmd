@@ -8,11 +8,11 @@ the differences between them.
 Then we proceed and describe the actual implementation of such algorithms
 in an actual R package, in an attempt to make its use easier for researchers.
 We provide a few applications with simulated data, and also provide a real analysis
-with a real weather data set. Finally, performance considerations are taken into
-consideration when trying to have the code run faster.
+with Berlin weather data set. Finally, performance considerations are taken
+when trying to have the code run faster.
 
 In summary, there are a lot of decisions involved in the problem of segmentation,
 such as picking the right cost function for the evaluation, which
 algorithm to pick, and whether or not parallelization can help in running the computation
-faster. By providing a common set of tools, we hope to make the life of the researcher
-easier.
+faster. By providing a common set of tools, we hope to allow researchers to segment data
+more easily.

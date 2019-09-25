@@ -1,12 +1,11 @@
 # Main Definition
 
-In this chapter, we explain the problem by providing definitions of concepts and
-build equations that gradually help us explain the problem and make the case
-for our solution.
+In this chapter, we explain the problem by providing definitions and
+equations that gradually build the path to the proposed solution.
 
 ## A Sequence of Random Variables and Its Segments
 
-As shown in defined in \@ref(eq:definerandomvector), let
+As shown in \@ref(eq:definerandomvector), let
 $X=(X_1, \dots , X_m)$, be a vector of random variables whose elements $X_j$ belong
 to a set $S$. The equation also shows all random variables $X_j$ have probability
 distribution $F$, each with parameter $\Theta_j$, such that $X_j \sim
@@ -29,8 +28,7 @@ Putting it all together in \@ref(eq:definesegments), a data set $X$ with $t$
 change points has each segment represented by the sequence $S_k = X_{c_k},
 \dots, X_{c_{k+1}-1}$, with $c_k$ each representing a change point when $k \le
 1$. In order to simplify equations, let $c_0 = 1$ and $c_{t+1} = m + 1$, even
-though they are not change points. With it we say $S_{c_0} = S_1$ represents
-the first segment of the data set, even though $c_0$ is not a change point.
+though they are not change points.
 
 
 \begin{equation}
@@ -57,7 +55,7 @@ segment have the same probability function parameter, let $K$ be a cost
 function that calculates the cost value for a segment $S_k$ with estimated
 parameter $\Theta_k$, i.e. the calculated cost is minimal when the estimated
 $\Theta_k$ is optimal for the segment $S_k$. Therefore, a common definition for
-$K$ is the opposite of the maximum value of a log-likelihood function, illustrated
+$K$ is the opposite of the maximum value of a log-likelihood function $L$, illustrated
 in \@ref(eq:commoncostfunction).
 
 \begin{equation}
@@ -79,11 +77,11 @@ C = \{ c_1, \dots, c_t \}
 \end{equation}
 
 \begin{equation}
-\Theta_k = arg\,max\left\{L(\Theta|S_k)\right\}
+K(S_k) = -max\left\{L(\Theta|S_k)\right\}
 (\#eq:commoncostfunction)
 \end{equation}
 
-Let the total cost of the segments $T$, i.e. the sum of all segment costs, as
+Let $T$ be the total cost of the segments, i.e. the sum of all segment costs, as
 illustrated in \@ref(eq:totalcost). So, the segmentation problem is defined as
 estimating the optimal set of change points $C$ that minimize the total cost $T$,
 as described in \@ref(eq:changepointsestimation).
@@ -108,14 +106,14 @@ C = arg\,min\left\{ T \right\} = arg\,min\left\{ \sum_{k=0}^t K(S_k) \right\}
 
 
 In summary, `segmentr` is a generalization of the work described in
-[@base-paper], in which the random variables of $X$ are taken from finite
-alphabets and $L$ is the multivariate estimate of discrete variables. In this
+[@base-paper], in which the segments of finite alphabet letters are picked by
+maximizing the discrete multivariate likelihood function. In this
 work, with the difference that we minimize a cost function rather than maximize
-a cost function, we solve the same problem proposed by [@base-paper], with the
+a likelihood function, we solve the same problem proposed by [@base-paper], with the
 difference the cost function concept can be applied to many other use cases as
-well, e.g. segments with changes in the mean of columns, segments with
+well, e.g. segments with changes in the mean of columns, and segments with
 different linear regression parameters. These cases are discussed in
-\@ref(simulations) and \@ref(real-data-examples).
+Chapter \@ref(simulations) and Chapter \@ref(real-data-examples) respectively.
 
 ## The Hausdorff Distance
 
@@ -129,10 +127,9 @@ change point sets with differing numbers of elements each.
 [@topology] defines the Hausdorff distance as a measure of how far two subsets
 from a metric space are from one another. It's defined as the biggest of all
 the distances from a point in one set to the closest point in the other set,
-which is expressed mathematically by the equation defined in
-\@ref(eq:hausdorffformula), in which $X$ and $Y$ represent sets given as inputs
-to the function, $d(x, y)$ represents a distance function defined in the metric
-space $S$ such that $x, y \in S$.
+which is expressed mathematically in \@ref(eq:hausdorffformula),
+for sets $X$ and $Y$ given as input to the function and $d(x, y)$ a distance
+function defined in the metric space $S$ such that $x, y \in S$.
 
 \begin{equation}
 d_H(X,Y) = \max\left\{\,\sup_{x \in X} \inf_{y \in Y} d(x,y)\, ,\, \sup_{y \in Y} \inf_{x \in X} d(x,y)\,\right\}

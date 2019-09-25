@@ -30,12 +30,12 @@ library(kableExtra)
 ## Understanding the Data
 
 The `berlin` data set, provided in this package, contains daily temperature measurements
-from `r nrow(berlin)` weather stations in Berlin for every day in the years 2010 and 2011,
+from seven weather stations in Berlin for every day in the years 2010 and 2011,
 i.e., a total of `r ncol(berlin)` days. Therefore, every element in the data set has a
 temperature data point with units in Celsius, such that each of the `r ncol(berlin)` columns corresponds
 to a date, and each of the `r nrow(berlin)` rows corresponds to the weather station the
 data point was measured at. In Table \@ref(tab:berlin-sample), it's possible to see the first three
-columns, as well as the last three columns, together with the respective stations.
+and the last three columns, together with their respective stations.
 
 ```{r berlin-sample}
 data(berlin)
@@ -49,9 +49,9 @@ as_tibble(berlin, rownames="station") %>%
   column_spec(1, width="5em")
 ```
 
-To grasp the behavior of the weather data, in Figure
-\@ref(fig:berlin-curve) the daily average temperature of all the weather
-stations, i.e., the mean value of each column in the data set as a time series
+To grasp the behavior of the weather data, Figure
+\@ref(fig:berlin-curve) shows the daily average temperature of all the weather
+stations, i.e. the mean value of each column in the data set as a time series
 graph to observe how the average temperature of Berlin behaves over
 time.
 
@@ -63,12 +63,12 @@ berlin %>%
   with(plot(time, temperature, cex=0.2))
 ```
 
-In the graph, the daily temperatures points alternate in upwards and downwards trends,
+In the graph, the daily temperatures alternate in upwards and downwards trends,
 which suggests it's possible to fit linear regressions for each of the upwards or downwards
 trend segments. So, a cost that optimizes for linear regressions function is proposed, which should
 minimize when a linear regression fits in a given segment. By intuition,
-we expect the cost function to segment the dataset approximately to the way the vertical
-lines are placed in Figure \@ref(fig:berlin-ideal). The indices picked to represent each segment are available in Table \@ref(tab:berlinexpectedtable).
+we expect the cost function to segment the dataset approximately to the way the hand-picked vertical
+lines are placed in Figure \@ref(fig:berlin-ideal), with indices described in Table \@ref(tab:berlinexpectedtable).
 
 ```{r berlin-ideal, fig.cap = "Manual segmentation of the weather data picked according to intuition"}
 expected_berlin <- list(
@@ -91,8 +91,9 @@ print_results_table(
 
 An adequate cost function should be able to rank a given set of possible segments and pick
 the best one given the evaluation criteria. Since the goal is to select segments with a good
-linear regression fit, the standard log-likelihood function for linear regressions is the
- negative of the squared sum of residuals, the squared sum of residuals is a good candidate for our segment cost function.
+linear regression fit, and given the standard log-likelihood function for linear regressions is the
+ negative of the squared sum of residuals, the positive squared sum of residuals is therefore a good
+ candidate for our segment cost function.
 So, the cost function $K$ is shown in \@ref(eq:squaredresidualcost), with the set of points $X$
 that belong to the segment, $x_i$ and $y_i$ as the points that belong to $X$ for each index $i$,
 and $f$ is the best linear regression that fitted the $X$ segment.
@@ -135,12 +136,15 @@ tibble(
   )
 ```
 
-With the cost function defined, it can now be applied to `segment()` to get the segments for the data set. Since the time complexity of the
+With the cost function defined, it can now be applied to `segment()` to get the
+segments for the data set. Since the time complexity of the
 exact algorithm is $O(n^2)$ and the number of points in the data set is high,
 the execution time required for the computation is quite prohibitive. So, for
 demonstration purposes, we use the hierarchical algorithm, due to its
 $O(n \log(n))$ complexity. We point the hierarchical algorithm (generally suitable for the cost function based on
-multivariate likelihood) assumes the segments to be structured hierarchically, with a combination of two neighboring segments being selected as an intermediate step before evaluating the ideal change
+multivariate likelihood) assumes the segments to be structured hierarchically,
+with a combination of two neighboring segments being selected as an
+intermediate step before evaluating the ideal change
 points of the data set. The segmentation results can be seen in Table
 \@ref(tab:resultsnonpenalized), and they are also plotted together with the
 weather data in Figure \@ref(fig:berlin-non-penalized).
@@ -226,9 +230,8 @@ s_2 & = \frac{4 \log(P_s)}{L}
 
 So, a penalized cost version of the function is created with
 `auto_penalize()` and then used with `segment()`. The results of the
-segmentation can be seen in Table \@ref(tab:resultsautopenalized), and it's
-possible to the segments with the weather data in Figure
-\@ref(fig:berlin-auto-penalized).
+segmentation can be seen in Table \@ref(tab:resultsautopenalized) and
+Figure \@ref(fig:berlin-auto-penalized).
 
 ```{r resultsautopenalized}
 penalized_cost <- auto_penalize(berlin,
@@ -251,15 +254,13 @@ print_results_table(
 plot_results(results_auto_penalized, berlin)
 ```
 
-We now get a reduced number of segments estimated by the new penalized
-cost function in Figure \@ref(fig:berlin-auto-penalized) found by the new
-penalized cost, though it's also over segmenting some downward trends. It
-suggests the `big_segment_penalty` argument needs to be decreased to allow for
-larger segments to be estimated by the solution. So, by decreasing it's value,
-from the default of $10$, down to $2$, we run the results again with the
-`segment()` function. The results can be seen in
-\@ref(tab:resultsadjustedpenalized), and it's possible for the segments with the
-weather data in Figure \@ref(fig:berlin-adjusted-penalized).
+We now get a reduced number of segments estimated by the new penalized cost
+function in Figure \@ref(fig:berlin-auto-penalized), though it's also over
+segmenting some downward trends. It seems the `big_segment_penalty` argument
+needs to be decreased to allow for larger segments to be estimated by the
+solution. So, by decreasing it's value, from the default of $10$, down to $2$,
+we run the results again with the `segment()` function. The results can be seen
+in \@ref(tab:resultsadjustedpenalized) and Figure \@ref(fig:berlin-adjusted-penalized).
 
 ```{r resultsadjustedpenalized}
 penalized_cost <- auto_penalize(
@@ -284,10 +285,10 @@ plot_results(results_adjusted_penalized, berlin)
 ```
 
 
-Though we got a reduced number of segments in the new adjusted
-`penalized_cost`, the segments seen in Figure
-\@ref(fig:berlin-adjusted-penalized) still aren't similar to what we are
-looking for as shown in Figure \@ref(fig:berlin-ideal). The reason behind this,
+Though we got a reduced number of segments with the new adjusted
+`penalized_cost` in Figure \@ref(fig:berlin-adjusted-penalized),
+the segments found are still far from the expected segments in
+Figure \@ref(fig:berlin-ideal). The reason behind this,
 as discussed earlier, is due to the incorrect assumption the data is
 hierarchical. So, to segment the data ideally, it's necessary to
 evaluate all of the possibilities.
@@ -302,8 +303,7 @@ measurement stations.
 The data set needs to be resampled to represent the monthly weather averages. It is done by
 computing the average temperature for each combination of the month and weather station. With the granularity reduction,
 the data set will have 24 columns, one for each month in the two years comprehended.
-The plot of the monthly average temperature of the temperatures of all the data points is plotted in figure
-\@ref(fig:downsampled-curve)
+The monthly average temperatures is shown in Figure \@ref(fig:downsampled-curve).
 
 ```{r downsampled-curve, fig.cap="Average monthly temperature over time as measured by different stations in Berlin"}
 monthly_berlin <- berlin %>%
@@ -327,9 +327,8 @@ monthly_berlin %>%
 ```
 
 A new `penalized_cost` function is then built and applied to the monthly data set
-using `segment()`, with the results being shown in Table
-\@ref(tab:downresautopenalized), and with we also plot it with weather data
-in Figure \@ref(fig:downsampled-auto-penalized).
+using `segment()`, with the results being shown in Table \@ref(tab:downresautopenalized)
+and Figure \@ref(fig:downsampled-auto-penalized).
 
 ```{r downresautopenalized}
 penalized_cost <- auto_penalize(
@@ -357,17 +356,16 @@ plot_results(results_downscaled, monthly_berlin)
 ```
 
 To make the solution comparison clearer, it's possible to
-rescale the `exact` solution to the monthly sampled dataset to the
-daily sampled dataset by applying a linear transformation of
-multiplying all the change points for the number of columns in the
-daily dataset and dividing it by the number of columns in the
+rescale the monthly sampled dataset solution back to the
+daily sampled dataset by multiplying all the change points for the number of
+columns in the daily dataset and dividing it by the number of columns in the
 monthly dataset, i.e. each rescaled change point $C_i$ relates to
 the original change point $c_i$ as described in equation
 \@ref(eq:rescaled-change-points), in which $i$ is the index of
 each change point estimated with the monthly data set, $N_M$
 represents the number of columns in the monthly Berlin weather
 data set and $N_B$ represents the number of columns in the daily
-Berlin data set, in the original form provided by the `segmentr`
+`berlin` data set, in the original form provided by the `segmentr`
 package.
 
 \begin{equation}
@@ -404,10 +402,10 @@ plot_results(results_rescaled, berlin)
 ```
 
 With the exact solution, made possible with the granularity reduction, we
-noticed the data set is segmented closer to what the ideal solution would be,
-as the algorithm as able to evaluate all of the possibilities.
+noticed the data set is segmented closer to what we expect in Figure \@ref(fig:berlin-ideal),
+as the algorithm was able to evaluate all the possibilities.
 
-## Accuracy of Estimates for the Berlin Data Set
+## Accuracy of Estimates for the `berlin` Data Set
 
 In this chapter, the data set of weather temperatures in
 Berlin was presented, and there was a walkthrough on different ways to use
@@ -418,9 +416,8 @@ found in Tables \@ref(tab:resultsnonpenalized), \@ref(tab:resultsautopenalized)
 and \@ref(tab:downresautopenalized). Considering this, the
 Hausdorff distance can be used to measure how far each estimate is from
 the ideal solution described in Table \@ref(tab:berlinexpectedtable).
-In Table \@ref(tab:hausdorff-real-data-comparison) we can see the results
-of the comparison, in which we can see the distance of each estimate
-calculated.
+In Table \@ref(tab:hausdorff-real-data-comparison) we can see the
+comparison, each with the distance to the expected solution calculated.
 
 
 (ref:table-berlin-expected) \@ref(tab:berlinexpectedtable)
@@ -465,9 +462,9 @@ tribble(
 ```
 
 In Table \@ref(tab:hausdorff-real-data-comparison) we can see the distance to
-the ideal is gradually decreased more adequate parameters are used to compute
-the segment estimates for the segmentation estimate. This improvement reflects
-the progress that can be observed in gradually in Figures
+the ideal is gradually decreased when more adequate approached and cost functions
+are used to compute the change point estimates. This improvement reflects
+the gradual progress that can be observed in Figures
 \@ref(fig:berlin-non-penalized), \@ref(fig:berlin-auto-penalized),
 \@ref(fig:berlin-adjusted-penalized) and \@ref(fig:plot-results-rescaled).
 
@@ -581,7 +578,7 @@ has an unattractive cost value, due to the presence of alternating trends.
 Because of this, the macro-segment is never picked by the algorithm during the
 computation process, and so the ideal change points are never picked at their
 ideal positions. To see it more clearly, take the first 547 data
-points of the Berlin data set, roughly one year and a half. The results
+points of the `berlin` data set, roughly one year and a half. The results
 of the segmentation with that portion of the `berlin` data set can be seen in
 Table \@ref(tab:subberlinres-penalized), and the plot can be seen in Figure
 \@ref(fig:subberlinplot-penalized).

@@ -4,14 +4,12 @@
 source("helper.R")
 ```
 
-This code shows a handful of attempts that were made in actually trying to execution
-time of the algorithms implemented by the package.
-
-## Benchmark the Code
+This chapter talks about various attempts that were made to make the code execution
+of the `segmentr` package faster, both with writing the cost function in native-code
+and experimenting with parallel code execution.
 
 The package `microbenchmark` allows us to execute the code and compare different run-times.
-Therefore it's going to be used in this package to compare the performance of different
-code snippets.
+Therefore it's used in this work to compare the performance of different code snippets.
 
 ```{r, message=FALSE}
 library(microbenchmark)
@@ -24,21 +22,20 @@ algorithms. In that scenario, the most relevant variable is the number of column
 in the data set, which dictates whether the computation of the exact algorithm will
 be prohibitive or not. However, the number of samples does influence the computation
 time linearly. Given the most performed operation in any of the algorithms described
-in the chapter is the cost function, it's, in essence, the bottleneck of the
+in the chapter is the cost function, in essence it's the bottleneck of the
 whole computation. Therefore, real performance gains can be obtained depending on
 the performance of the application.
 
 In R statistical programming, it's commonplace to use the functions provided by the
 programming environment, which are usually performant algorithms implemented in compiled
 programming languages such as C. However, there are times the programmer must implement
-a custom function in R, which in turn is a dynamically, and typically slower execution
-environment.
+a custom function in R, which in turn is a dynamic and interpreted language, with
+typically slower execution times.
 
 Therefore, in a first attempt to make the code execution run faster, and
 compare different results, `segmentr` implements the [multivariate()]
-likelihood function (used to calculate the cost) in compiled C++ programming
-language, as well as it implements [r_multivariate()] which implements the same
-algorithm in the R programming environment.
+likelihood function (used to calculate the cost) in the compiled C++ programming
+language, as well as it implements the equivalent [r_multivariate()] in the R programming environment.
 
 ```{r benchmark-native}
 data <- makeRandom(20, 100)
@@ -66,11 +63,11 @@ print_benchmark(
 )
 ```
 
-In the scenario above, we notice performance improvements in the native [multivariate()]
+In Table \@ref(tab:benchmark-native), we notice performance improvements in the native [multivariate()]
 function, with the biggest performance improvement taking place in the `exact` algorithm
 results. Therefore, whenever the resources are available, it's recommended to implement
 the cost function (or portions of it) directly in a native programming language such as C++. We recommend
-the RCpp package, which makes it easy to implement functions that interface easily with
+the `RCpp` package, which makes it easy to implement functions that interface easily with
 the R programming environment.
 
 ## Parallelization
@@ -81,13 +78,13 @@ algorithms implemented in this paper, parallelization is a bit complicated becau
 a lot of the execution steps in the algorithm iterations depend on values computed
 in previous steps, and the golden rule of parallel computing is that faster results
 are generally obtained when computation steps are independent from one another, i.e.
-no dependency between the task, hence they can be performed in parallel. Yet, there are
+no dependency between the tasks. Though complicated to implement, there are still
 a few steps of the computation that can be performed in parallel, and its parallelization
 was implemented with the help of the `foreach` package.
 
 Therefore, whether or not the computation will be performed depends on whether there is
 a parallel cluster registered in the R session with packages such as `doMC`, and whether
-the `allow_parallel` argument is true or false. With that in mind, a few comparisons are evaluated.
+the `allow_parallel` argument is set to `TRUE`. With that in mind, a few comparisons are evaluated.
 
 ```{r benchmark-parallel-narrow}
 data <- makeRandom(100, 10)
@@ -119,7 +116,7 @@ print_benchmark(
 )
 ```
 
-Analyzing the results above, we notice good improvements, especially for the "exact" algorithm.
+Analyzing Table \@ref(tab:benchmark-parallel-narrow), we notice good improvements, especially for the "exact" algorithm.
 However, in a situation in which the number of rows isn't very large in comparison with the
 number of columns, the results of the parallel computation are a lot more modest.
 Consider the following case.
@@ -155,7 +152,7 @@ print_benchmark(
 )
 ```
 
-In the result above, parallelization achieved the opposite effect, actually making the
+In Table \@ref(tab:benchmark-parallel-wide), parallelization achieved the opposite effect, actually making the
 computation slower, as there is now a lot of work done synchronizing necessary information
 between all the processes in the cluster. That takes more time than is saved by running
 the algorithm in parallel.

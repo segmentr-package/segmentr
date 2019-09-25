@@ -13,30 +13,31 @@ function that is expected to segment the data.
 To show compatibility with the work presented in [@base-paper], we analyze the
 same problem presented in their work.
 
-Let $N = (N_1, \dots , N_6)$ be a sequence of independent random variables with standard normal
-distributions and let $X = (X_1, \dots , X_15)$ be another sequence of random variables dependent
-on $N$, with relationships described in \@ref(eq:examplecolumns). From the relationships, it's
-possible to see the first segment $X_1, ..., X_5$ depend on $N_1, N_2$, the second segment
-$X_6, ..., X_{10}$ depend on $N_3, N_4$ and the third and last segment $X_{11}, ..., X_{15}$
-depend on $X_4, X_5$. Therefore, the set of change points for $X$ is $C = {6, 11}$.
+Let $B = (B_1, \dots , B_6)$ be a sequence of independent random variables with Bernoulli
+distributions of probability $0.5$ and let $X = (X_1, \dots , X_15)$ be another
+sequence of random variables dependent
+on $B$, with relationships described in \@ref(eq:examplecolumns). From the relationships, it's
+possible to see the first segment $X_1, ..., X_5$ depend on $B_1, B_2$, the second segment
+$X_6, ..., X_{10}$ depend on $B_3, B_4$ and the third and last segment $X_{11}, ..., X_{15}$
+depend on $X_4, X_5$. Therefore, the set of change points for $X$ is $C = \{6, 11\}$.
 
 \begin{equation}
 \begin{aligned}
-X_1 & = N_1 \\
-X_2 & = N_1 - N_2 \\
-X_3 & = N_2 \\
-X_4 & = N_1 + N_2 \\
-X_5 & = N_1 \\
-X_6 & = N_3 \\
-X_7 & = N_3 - N_4 \\
-X_8 & = N_4 \\
-X_9 & = N_3 + N_4 \\
-X_{10} & = N_3 \\
-X_{11} & = N_5 \\
-X_{12} & = N_5 - N_6 \\
-X_{13} & = N_6 \\
-X_{14} & = N_5 + N_6 \\
-X_{15} & = N_5
+X_1 & = B_1 \\
+X_2 & = B_1 - B_2 \\
+X_3 & = B_2 \\
+X_4 & = B_1 + B_2 \\
+X_5 & = B_1 \\
+X_6 & = B_3 \\
+X_7 & = B_3 - B_4 \\
+X_8 & = B_4 \\
+X_9 & = B_3 + B_4 \\
+X_{10} & = B_3 \\
+X_{11} & = B_5 \\
+X_{12} & = B_5 - B_6 \\
+X_{13} & = B_6 \\
+X_{14} & = B_5 + B_6 \\
+X_{15} & = B_5
 \end{aligned}
 (\#eq:examplecolumns)
 \end{equation}
@@ -47,28 +48,28 @@ sequence of random variables $X$, the multivariate likelihood function $L$
 segment in the discrete data set, as described in
 \@ref(eq:multivariatelikelihood). The `multivariate()` is a fast native-code
 implementation of that function that is available in the `segmentr` package. We
-then use that likelihood function to define a penalized cost $K$ in
+then use that likelihood function to define a penalized cost function $K$ in
 \@ref(eq:costforexamplecolumns) with an extra term to penalize segments that
-are too large, based on the number of columns $\text{ncol}(D)$ of the segment.
+are too large, based on the number of columns $\text{ncol}(S_k)$ of the segment.
+Notice it's important to use a penalized cost function because the original
+likelihood function tends to favor bigger segments.
 
 
 \begin{equation}
-\log(L(X|D)) = \sum_{k=0}^t P(X_{c_k:c_{k+1}-1} = D_{c_k:c_{k+1}-1})
+\log(L(X|S_k)) = \sum_{k=0}^t P(X_{c_k:c_{k+1}-1} = D_{c_k:c_{k+1}-1})
 (\#eq:multivariatelikelihood)
 \end{equation}
 
 \begin{equation}
-K(D) = - \log(L(D)) + \text{ncol}(D)
+K(S_k) = - \log(L(S_k)) + \text{ncol}(S_k)
 (\#eq:costforexamplecolumns)
 \end{equation}
 
 
-Therefore, the cost function $K$ applied over a sample $D$, shown in  of $X$
-provides the same set of expected change points $C$, as Table
-\@ref(tab:results-multivariate-penalized) show. Notice it's important to use a
-penalized cost function because the original likelihood function tends to favor
-bigger segments. An estimate of the segments using an unpenalized cost is shown
-in Table \@ref(tab:results-multivariate-non-penalized).
+Therefore, the result of segmenting the data set $D$ with the cost function $K$
+is shown in Table \@ref(tab:results-multivariate-penalized), matching the expected
+set of change points $C$. For contrast, an estimate solution of the change points
+using an unpenalized cost is shown in Table \@ref(tab:results-multivariate-non-penalized).
 
 
 
@@ -77,28 +78,28 @@ defined in \@ref(eq:examplecolumns).
 
 ```{r sample-columns}
 n <- 100
-N1 <- sample(1:2, n, replace = TRUE)
-N2 <- sample(1:2, n, replace = TRUE)
-N3 <- sample(1:2, n, replace = TRUE)
-N4 <- sample(1:2, n, replace = TRUE)
-N5 <- sample(1:2, n, replace = TRUE)
-N6 <- sample(1:2, n, replace = TRUE)
+B1 <- sample(1:2, n, replace = TRUE)
+B2 <- sample(1:2, n, replace = TRUE)
+B3 <- sample(1:2, n, replace = TRUE)
+B4 <- sample(1:2, n, replace = TRUE)
+B5 <- sample(1:2, n, replace = TRUE)
+B6 <- sample(1:2, n, replace = TRUE)
 
-X1 <- N1
-X2 <- N1 - N2
-X3 <- N2
-X4 <- N1 + N2
-X5 <- N1
-X6 <- N3
-X7 <- N3 - N4
-X8 <- N4
-X9 <- N3 + N4
-X10 <- N3
-X11 <- N5
-X12 <- N5 - N6
-X13 <- N6
-X14 <- N5 + N6
-X15 <- N5
+X1 <- B1
+X2 <- B1 - B2
+X3 <- B2
+X4 <- B1 + B2
+X5 <- B1
+X6 <- B3
+X7 <- B3 - B4
+X8 <- B4
+X9 <- B3 + B4
+X10 <- B3
+X11 <- B5
+X12 <- B5 - B6
+X13 <- B6
+X14 <- B5 + B6
+X15 <- B5
 D_example <- cbind(X1, X2, X3, X4, X5, X6, X7, X8,
                    X9, X10, X11, X12, X13, X14, X15)
 head(D_example) %>%
@@ -138,7 +139,7 @@ segment(D_example,
 [@homozygosity] describes a process on how to find windows of contiguous
 homozygosity, i.e. segments in the genetic data in which the alleles are of the
 same type. This is of interest to a researcher investigating diseases.
-Considering this problems scenario, `segmentr` can be used to segment random
+In this scenario, `segmentr` can be used to segment random
 variables $X_1, ..., X_m$ that represent genetic data, encoded as zero for
 homozygosity and one for heterozygosity, i.e. $0$ when the alleles are the
 same and $1$ when different.
@@ -146,30 +147,31 @@ same and $1$ when different.
 So, to use `segmentr` to solve this problem, it's necessary to find a cost
 function that favors the homogeneity of a given segment. That problem
 is approached by proposing a heterogeneity cost function, i.e. a function that
-penalized the segments whose elements are far from the segment average. One
+penalizes segments whose elements are far from the segment average. One
 such function is defined in \@ref(eq:heterogeneitycost). Notice, however, the
 cost function proposed favors single column segments, as it's the size
 for which all the elements approximate the segment average the most. To counter
 this undesirable behavior, we penalized the function by adding a constant to
 it, as described in \@ref(eq:penalizedheterogeneitycost). The constant factor
 has the effect of adding up when too many segments are considered in the
-estimation process, making it so wider segments end being picked up in the
-estimation process.
+estimation process, making it so wider segments are picked up in the
+estimated solution.
 
-In order to observe how the proposed function behaves, consider the simple
+In order to observe how the proposed function behaves, consider the
 example defined in \@ref(eq:geneticexample), in which $X_i$ for $i \in \{1,
 \dots, 20\}$ represent each a column indexed by $i$ of a data set $D$, and
-$\text{Bern(p)}$ representing the Bernoulli distribution with probability $p$.
-The result for applying \@ref(eq:penalizedheterogeneitycost) over \@ref(eq:geneticexample)
+$\text{Bern(p)}$ represents the Bernoulli distribution with probability $p$.
+The result of segmenting a data set sampled from \@ref(eq:geneticexample)
+using the penalized heterogeneity cost described in \@ref(eq:penalizedheterogeneitycost)
 is shown in Table \@ref(tab:results-penalized-mean).
 
 \begin{equation}
-K(D)=\sum_i(D_i-E[D])^2
+K(S_k)=\sum_i(x_i-E[S_k])^2
 (\#eq:heterogeneitycost)
 \end{equation}
 
 \begin{equation}
-K_p(D)=K(D) + 1
+K_p(S_k)=K(S_k) + 1
 (\#eq:penalizedheterogeneitycost)
 \end{equation}
 
@@ -248,8 +250,8 @@ distance between two sets of estimated change points.
 
 We want to measure how well the different algorithms provided in the `segmentr`
 package find the segments in the example correlated columns simulated data set
-described in \@ref(eq:examplecolumns). Since the simulation was arbitrarily
-built, we know what the exact solution to the segmentation problem is.
+described in \@ref(eq:examplecolumns), for which we know what the exact solution
+to the simulation is.
 
 
 ```{r hausdorff-multivariate-comparison}

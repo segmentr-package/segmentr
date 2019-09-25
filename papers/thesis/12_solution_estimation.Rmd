@@ -27,7 +27,7 @@ the procedure to find the optimal solution is:
   - let $j = i$ and repeat until $j = 1$
 
 With the execution of the procedure described above, the estimated set of
-change points is stored in $C$. The solution will be exact precisely because it
+change points is stored in $C$. The solution will be exact because it
 analyses all the possible combinations. However, that has a time complexity of
 $O(m^2)$ in the Big-O notation, for the number of columns $m$ in the data set.
 Because the number of columns in data segmentation problems can be very
@@ -36,7 +36,7 @@ approximate solutions are described.
 
 ## Hierarchical Algorithm
 
-To try to simplify the search path of the algorithm, [@base-paper] also
+To simplify the search path of the algorithm, [@base-paper] also
 proposes a technique that relies on the assumption of the data hierarchical, i.e.
 a segment can be sub-divided by reapplying the segmentation function recursively.
 The algorithm is described as:
@@ -55,7 +55,7 @@ Implementing the algorithm described above will estimate the set of change
 points $C$ with time complexity of $O(m\log(m))$, for the number of columns $m$
 in the data set. The reduction in time complexity is only possible because of
 the strong assumption the data set has a hierarchical cost behavior.
-However, that doesn't hold for many situations, as it will be seen in more
+However, that is not true for all types of segmentation problems, as it will be seen in more
 detail in the next chapters. So, the usage of this algorithm should be
 considered with care.
 
