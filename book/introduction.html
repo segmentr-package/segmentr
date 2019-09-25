@@ -189,10 +189,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p><span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span> describe a method of segmenting a data set of a finite alphabet
+<p><span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span> describes a method of segmenting a data set of a finite alphabet
 into blocks of independent variables. This work expands on that by minimizing a
-cost function rather than maximizing a likelihood function, such the cost is
-the opposite of the likelihood. We show this generalization can be used for
+cost function rather than maximizing a likelihood function, the two being equivalend
+when the cost function output is the opposite of the likelihood function output.
+We show this generalization can be used for
 other use-cases, e.g. segments with homogeneous values (see Chapter
 <a href="simulations.html#segments-with-similar-averages">4.2</a>), segments that have the same linear
 regression trend (see Chapter )<a href="real-data-examples.html#real-data-examples">5</a>).</p>
@@ -203,8 +204,8 @@ provided by <span class="citation">(Wickham <a href="#ref-r-package-tutorial" ro
 possible for researchers and R programmers to use this software. All the source code
 is open-source and available on GitHub <span class="citation">(Mello <a href="#ref-segmentr-github" role="doc-biblioref">2019</a>)</span>.
 Finally, a specialized version of the multivariate likelihood function is
-implemented in native code using Rcpp <span class="citation">(Eddelbuettel and François <a href="#ref-rcpp" role="doc-biblioref">2011</a>)</span>, which allows a faster execution
-for the use-case problem described in <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>.</p>
+implemented in native code using the <code>Rcpp</code> package <span class="citation">(Eddelbuettel and François <a href="#ref-rcpp" role="doc-biblioref">2011</a>)</span>, which allows a faster execution
+for the use-case described in <span class="citation">(Castro et al. <a href="#ref-base-paper" role="doc-biblioref">2018</a>)</span>.</p>
 <div id="related-work" class="section level2">
 <h2><span class="header-section-number">1.1</span> Related Work</h2>
 <p><span class="citation">(Maidstone et al. <a href="#ref-fpop" role="doc-biblioref">2017</a>)</span> also talks about optimally segmenting a data set with the minimization

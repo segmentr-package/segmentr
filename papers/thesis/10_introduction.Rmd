@@ -1,9 +1,10 @@
 # Introduction
 
-[@base-paper] describe a method of segmenting a data set of a finite alphabet
+[@base-paper] describes a method of segmenting a data set of a finite alphabet
 into blocks of independent variables. This work expands on that by minimizing a
-cost function rather than maximizing a likelihood function, such the cost is
-the opposite of the likelihood. We show this generalization can be used for
+cost function rather than maximizing a likelihood function, the two being equivalend
+when the cost function output is the opposite of the likelihood function output.
+We show this generalization can be used for
 other use-cases, e.g. segments with homogeneous values (see Chapter
 \@ref(segments-with-similar-averages)), segments that have the same linear
 regression trend (see Chapter )\@ref(real-data-examples)).
@@ -15,8 +16,8 @@ provided by [@r-package-tutorial], and can be installed through CRAN
 possible for researchers and R programmers to use this software. All the source code
 is open-source and available on GitHub [@segmentr-github].
 Finally, a specialized version of the multivariate likelihood function is
-implemented in native code using Rcpp [@rcpp], which allows a faster execution
-for the use-case problem described in [@base-paper].
+implemented in native code using the `Rcpp` package [@rcpp], which allows a faster execution
+for the use-case described in [@base-paper].
 
 
 ## Related Work

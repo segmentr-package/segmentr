@@ -64,7 +64,7 @@ considered with care.
 The hybrid algorithm is a modified version of the hierarchical algorithm, in
 which it will start searching the segments using the hierarchical algorithm,
 and if the segments become smaller than a certain number of columns threshold,
-it will switch to the exact algorithm. The procedure would be as follow:
+it will switch to the exact algorithm. The procedure would be as follows:
 
 - let $D$ be the current data set we want to segment
 - if the number of columns of $D$ is $m \lt k$, in which $k$ is a predefined threshold
@@ -79,7 +79,7 @@ it will switch to the exact algorithm. The procedure would be as follow:
 - return $C=C_L \cup C_R \cup \{i\}$ as result of current function call
 
 The only difference between this and the hierarchical procedure is the presence
-of the conditional step is the beginning of the procedure that tests whether or
-not to use the hybrid algorithm. As will be shown in later chapters, the
+of the conditional step is the beginning, that tests whether it should switch
+over to the exact algorithm. As will be shown in later chapters, the
 accuracy of this algorithm is shown not to be more advantageous than using the
 hierarchical or the exact algorithms directly, depending on the situation.

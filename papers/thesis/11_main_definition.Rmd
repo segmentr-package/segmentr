@@ -113,7 +113,7 @@ a likelihood function, we solve the same problem proposed by [@base-paper], with
 difference the cost function concept can be applied to many other use cases as
 well, e.g. segments with changes in the mean of columns, and segments with
 different linear regression parameters. These cases are discussed in
-Chapter \@ref(simulations) and Chapter \@ref(real-data-examples) respectively.
+Chapters \@ref(simulations) and \@ref(real-data-examples) respectively.
 
 ## The Hausdorff Distance
 
