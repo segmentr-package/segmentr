@@ -47,7 +47,7 @@ For an in depth step-by-step, please check `vignette("segmentr")`.
 ## Dissertation
 
 The work behind this package is available as a [web
-book](https://thalesmello.github.io/segmentr/book/).
+book](https://segmentr-package.github.io/segmentr/book/).
 
 ## Acknowledgments
 
